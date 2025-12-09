@@ -46,11 +46,16 @@ model Reponse_Filiere {
 }
 
 model Candidat {
-  uid       String    @id @default(uuid())
-  firstname String?
-  lastname  String?
-  email     String?   @unique
-  dateBirth DateTime?
+  uid          String    @id @default(uuid())
+  codeCandidat Int       @unique @default(autoincrement())
+  firstname    String?
+  lastname     String?
+  email        String?   @unique
+  dateBirth    DateTime?
+  appointment  Boolean
+  consentement Boolean
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 
   Candidat_Filiere Candidat_Filiere[]
 
@@ -82,7 +87,7 @@ model Candidat_Score {
 
 model Atelier {
   uid            String   @id @default(uuid())
-  label          String
+  label          String   @unique
   date           DateTime
   dockerfilelink String
 

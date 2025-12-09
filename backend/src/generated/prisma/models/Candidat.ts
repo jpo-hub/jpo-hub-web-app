@@ -20,57 +20,105 @@ export type CandidatModel =
 
 export type AggregateCandidat = {
   _count: CandidatCountAggregateOutputType | null;
+  _avg: CandidatAvgAggregateOutputType | null;
+  _sum: CandidatSumAggregateOutputType | null;
   _min: CandidatMinAggregateOutputType | null;
   _max: CandidatMaxAggregateOutputType | null;
 };
 
+export type CandidatAvgAggregateOutputType = {
+  codeCandidat: number | null;
+};
+
+export type CandidatSumAggregateOutputType = {
+  codeCandidat: number | null;
+};
+
 export type CandidatMinAggregateOutputType = {
   uid: string | null;
+  codeCandidat: number | null;
   firstname: string | null;
   lastname: string | null;
   email: string | null;
   dateBirth: Date | null;
+  appointment: boolean | null;
+  consentement: boolean | null;
+  createdAt: Date | null;
+  updatedAt: Date | null;
 };
 
 export type CandidatMaxAggregateOutputType = {
   uid: string | null;
+  codeCandidat: number | null;
   firstname: string | null;
   lastname: string | null;
   email: string | null;
   dateBirth: Date | null;
+  appointment: boolean | null;
+  consentement: boolean | null;
+  createdAt: Date | null;
+  updatedAt: Date | null;
 };
 
 export type CandidatCountAggregateOutputType = {
   uid: number;
+  codeCandidat: number;
   firstname: number;
   lastname: number;
   email: number;
   dateBirth: number;
+  appointment: number;
+  consentement: number;
+  createdAt: number;
+  updatedAt: number;
   _all: number;
+};
+
+export type CandidatAvgAggregateInputType = {
+  codeCandidat?: true;
+};
+
+export type CandidatSumAggregateInputType = {
+  codeCandidat?: true;
 };
 
 export type CandidatMinAggregateInputType = {
   uid?: true;
+  codeCandidat?: true;
   firstname?: true;
   lastname?: true;
   email?: true;
   dateBirth?: true;
+  appointment?: true;
+  consentement?: true;
+  createdAt?: true;
+  updatedAt?: true;
 };
 
 export type CandidatMaxAggregateInputType = {
   uid?: true;
+  codeCandidat?: true;
   firstname?: true;
   lastname?: true;
   email?: true;
   dateBirth?: true;
+  appointment?: true;
+  consentement?: true;
+  createdAt?: true;
+  updatedAt?: true;
 };
 
 export type CandidatCountAggregateInputType = {
   uid?: true;
+  codeCandidat?: true;
   firstname?: true;
   lastname?: true;
   email?: true;
   dateBirth?: true;
+  appointment?: true;
+  consentement?: true;
+  createdAt?: true;
+  updatedAt?: true;
   _all?: true;
 };
 
@@ -117,6 +165,18 @@ export type CandidatAggregateArgs<
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    *
+   * Select which fields to average
+   **/
+  _avg?: CandidatAvgAggregateInputType;
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   *
+   * Select which fields to sum
+   **/
+  _sum?: CandidatSumAggregateInputType;
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   *
    * Select which fields to find the minimum value
    **/
   _min?: CandidatMinAggregateInputType;
@@ -149,17 +209,26 @@ export type CandidatGroupByArgs<
   take?: number;
   skip?: number;
   _count?: CandidatCountAggregateInputType | true;
+  _avg?: CandidatAvgAggregateInputType;
+  _sum?: CandidatSumAggregateInputType;
   _min?: CandidatMinAggregateInputType;
   _max?: CandidatMaxAggregateInputType;
 };
 
 export type CandidatGroupByOutputType = {
   uid: string;
+  codeCandidat: number;
   firstname: string | null;
   lastname: string | null;
   email: string | null;
   dateBirth: Date | null;
+  appointment: boolean;
+  consentement: boolean;
+  createdAt: Date;
+  updatedAt: Date;
   _count: CandidatCountAggregateOutputType | null;
+  _avg: CandidatAvgAggregateOutputType | null;
+  _sum: CandidatSumAggregateOutputType | null;
   _min: CandidatMinAggregateOutputType | null;
   _max: CandidatMaxAggregateOutputType | null;
 };
@@ -182,10 +251,15 @@ export type CandidatWhereInput = {
   OR?: Prisma.CandidatWhereInput[];
   NOT?: Prisma.CandidatWhereInput | Prisma.CandidatWhereInput[];
   uid?: Prisma.StringFilter<'Candidat'> | string;
+  codeCandidat?: Prisma.IntFilter<'Candidat'> | number;
   firstname?: Prisma.StringNullableFilter<'Candidat'> | string | null;
   lastname?: Prisma.StringNullableFilter<'Candidat'> | string | null;
   email?: Prisma.StringNullableFilter<'Candidat'> | string | null;
   dateBirth?: Prisma.DateTimeNullableFilter<'Candidat'> | Date | string | null;
+  appointment?: Prisma.BoolFilter<'Candidat'> | boolean;
+  consentement?: Prisma.BoolFilter<'Candidat'> | boolean;
+  createdAt?: Prisma.DateTimeFilter<'Candidat'> | Date | string;
+  updatedAt?: Prisma.DateTimeFilter<'Candidat'> | Date | string;
   Candidat_Filiere?: Prisma.Candidat_FiliereListRelationFilter;
   Atelier_Candidat?: Prisma.Atelier_CandidatListRelationFilter;
   Candidat_Score?: Prisma.Candidat_ScoreListRelationFilter;
@@ -193,10 +267,15 @@ export type CandidatWhereInput = {
 
 export type CandidatOrderByWithRelationInput = {
   uid?: Prisma.SortOrder;
+  codeCandidat?: Prisma.SortOrder;
   firstname?: Prisma.SortOrderInput | Prisma.SortOrder;
   lastname?: Prisma.SortOrderInput | Prisma.SortOrder;
   email?: Prisma.SortOrderInput | Prisma.SortOrder;
   dateBirth?: Prisma.SortOrderInput | Prisma.SortOrder;
+  appointment?: Prisma.SortOrder;
+  consentement?: Prisma.SortOrder;
+  createdAt?: Prisma.SortOrder;
+  updatedAt?: Prisma.SortOrder;
   Candidat_Filiere?: Prisma.Candidat_FiliereOrderByRelationAggregateInput;
   Atelier_Candidat?: Prisma.Atelier_CandidatOrderByRelationAggregateInput;
   Candidat_Score?: Prisma.Candidat_ScoreOrderByRelationAggregateInput;
@@ -205,6 +284,7 @@ export type CandidatOrderByWithRelationInput = {
 export type CandidatWhereUniqueInput = Prisma.AtLeast<
   {
     uid?: string;
+    codeCandidat?: number;
     email?: string;
     AND?: Prisma.CandidatWhereInput | Prisma.CandidatWhereInput[];
     OR?: Prisma.CandidatWhereInput[];
@@ -216,22 +296,33 @@ export type CandidatWhereUniqueInput = Prisma.AtLeast<
       | Date
       | string
       | null;
+    appointment?: Prisma.BoolFilter<'Candidat'> | boolean;
+    consentement?: Prisma.BoolFilter<'Candidat'> | boolean;
+    createdAt?: Prisma.DateTimeFilter<'Candidat'> | Date | string;
+    updatedAt?: Prisma.DateTimeFilter<'Candidat'> | Date | string;
     Candidat_Filiere?: Prisma.Candidat_FiliereListRelationFilter;
     Atelier_Candidat?: Prisma.Atelier_CandidatListRelationFilter;
     Candidat_Score?: Prisma.Candidat_ScoreListRelationFilter;
   },
-  'uid' | 'email'
+  'uid' | 'codeCandidat' | 'email'
 >;
 
 export type CandidatOrderByWithAggregationInput = {
   uid?: Prisma.SortOrder;
+  codeCandidat?: Prisma.SortOrder;
   firstname?: Prisma.SortOrderInput | Prisma.SortOrder;
   lastname?: Prisma.SortOrderInput | Prisma.SortOrder;
   email?: Prisma.SortOrderInput | Prisma.SortOrder;
   dateBirth?: Prisma.SortOrderInput | Prisma.SortOrder;
+  appointment?: Prisma.SortOrder;
+  consentement?: Prisma.SortOrder;
+  createdAt?: Prisma.SortOrder;
+  updatedAt?: Prisma.SortOrder;
   _count?: Prisma.CandidatCountOrderByAggregateInput;
+  _avg?: Prisma.CandidatAvgOrderByAggregateInput;
   _max?: Prisma.CandidatMaxOrderByAggregateInput;
   _min?: Prisma.CandidatMinOrderByAggregateInput;
+  _sum?: Prisma.CandidatSumOrderByAggregateInput;
 };
 
 export type CandidatScalarWhereWithAggregatesInput = {
@@ -243,6 +334,7 @@ export type CandidatScalarWhereWithAggregatesInput = {
     | Prisma.CandidatScalarWhereWithAggregatesInput
     | Prisma.CandidatScalarWhereWithAggregatesInput[];
   uid?: Prisma.StringWithAggregatesFilter<'Candidat'> | string;
+  codeCandidat?: Prisma.IntWithAggregatesFilter<'Candidat'> | number;
   firstname?:
     | Prisma.StringNullableWithAggregatesFilter<'Candidat'>
     | string
@@ -257,14 +349,23 @@ export type CandidatScalarWhereWithAggregatesInput = {
     | Date
     | string
     | null;
+  appointment?: Prisma.BoolWithAggregatesFilter<'Candidat'> | boolean;
+  consentement?: Prisma.BoolWithAggregatesFilter<'Candidat'> | boolean;
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<'Candidat'> | Date | string;
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<'Candidat'> | Date | string;
 };
 
 export type CandidatCreateInput = {
   uid?: string;
+  codeCandidat?: number;
   firstname?: string | null;
   lastname?: string | null;
   email?: string | null;
   dateBirth?: Date | string | null;
+  appointment: boolean;
+  consentement: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
   Candidat_Filiere?: Prisma.Candidat_FiliereCreateNestedManyWithoutCandidatInput;
   Atelier_Candidat?: Prisma.Atelier_CandidatCreateNestedManyWithoutCandidatInput;
   Candidat_Score?: Prisma.Candidat_ScoreCreateNestedManyWithoutCandidatInput;
@@ -272,10 +373,15 @@ export type CandidatCreateInput = {
 
 export type CandidatUncheckedCreateInput = {
   uid?: string;
+  codeCandidat?: number;
   firstname?: string | null;
   lastname?: string | null;
   email?: string | null;
   dateBirth?: Date | string | null;
+  appointment: boolean;
+  consentement: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
   Candidat_Filiere?: Prisma.Candidat_FiliereUncheckedCreateNestedManyWithoutCandidatInput;
   Atelier_Candidat?: Prisma.Atelier_CandidatUncheckedCreateNestedManyWithoutCandidatInput;
   Candidat_Score?: Prisma.Candidat_ScoreUncheckedCreateNestedManyWithoutCandidatInput;
@@ -291,6 +397,10 @@ export type CandidatUpdateInput = {
     | Date
     | string
     | null;
+  appointment?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  consentement?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   Candidat_Filiere?: Prisma.Candidat_FiliereUpdateManyWithoutCandidatNestedInput;
   Atelier_Candidat?: Prisma.Atelier_CandidatUpdateManyWithoutCandidatNestedInput;
   Candidat_Score?: Prisma.Candidat_ScoreUpdateManyWithoutCandidatNestedInput;
@@ -298,6 +408,7 @@ export type CandidatUpdateInput = {
 
 export type CandidatUncheckedUpdateInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string;
+  codeCandidat?: Prisma.IntFieldUpdateOperationsInput | number;
   firstname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   lastname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
@@ -306,6 +417,10 @@ export type CandidatUncheckedUpdateInput = {
     | Date
     | string
     | null;
+  appointment?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  consentement?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   Candidat_Filiere?: Prisma.Candidat_FiliereUncheckedUpdateManyWithoutCandidatNestedInput;
   Atelier_Candidat?: Prisma.Atelier_CandidatUncheckedUpdateManyWithoutCandidatNestedInput;
   Candidat_Score?: Prisma.Candidat_ScoreUncheckedUpdateManyWithoutCandidatNestedInput;
@@ -313,10 +428,15 @@ export type CandidatUncheckedUpdateInput = {
 
 export type CandidatCreateManyInput = {
   uid?: string;
+  codeCandidat?: number;
   firstname?: string | null;
   lastname?: string | null;
   email?: string | null;
   dateBirth?: Date | string | null;
+  appointment: boolean;
+  consentement: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
 };
 
 export type CandidatUpdateManyMutationInput = {
@@ -329,10 +449,15 @@ export type CandidatUpdateManyMutationInput = {
     | Date
     | string
     | null;
+  appointment?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  consentement?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 
 export type CandidatUncheckedUpdateManyInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string;
+  codeCandidat?: Prisma.IntFieldUpdateOperationsInput | number;
   firstname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   lastname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
@@ -341,30 +466,57 @@ export type CandidatUncheckedUpdateManyInput = {
     | Date
     | string
     | null;
+  appointment?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  consentement?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 
 export type CandidatCountOrderByAggregateInput = {
   uid?: Prisma.SortOrder;
+  codeCandidat?: Prisma.SortOrder;
   firstname?: Prisma.SortOrder;
   lastname?: Prisma.SortOrder;
   email?: Prisma.SortOrder;
   dateBirth?: Prisma.SortOrder;
+  appointment?: Prisma.SortOrder;
+  consentement?: Prisma.SortOrder;
+  createdAt?: Prisma.SortOrder;
+  updatedAt?: Prisma.SortOrder;
+};
+
+export type CandidatAvgOrderByAggregateInput = {
+  codeCandidat?: Prisma.SortOrder;
 };
 
 export type CandidatMaxOrderByAggregateInput = {
   uid?: Prisma.SortOrder;
+  codeCandidat?: Prisma.SortOrder;
   firstname?: Prisma.SortOrder;
   lastname?: Prisma.SortOrder;
   email?: Prisma.SortOrder;
   dateBirth?: Prisma.SortOrder;
+  appointment?: Prisma.SortOrder;
+  consentement?: Prisma.SortOrder;
+  createdAt?: Prisma.SortOrder;
+  updatedAt?: Prisma.SortOrder;
 };
 
 export type CandidatMinOrderByAggregateInput = {
   uid?: Prisma.SortOrder;
+  codeCandidat?: Prisma.SortOrder;
   firstname?: Prisma.SortOrder;
   lastname?: Prisma.SortOrder;
   email?: Prisma.SortOrder;
   dateBirth?: Prisma.SortOrder;
+  appointment?: Prisma.SortOrder;
+  consentement?: Prisma.SortOrder;
+  createdAt?: Prisma.SortOrder;
+  updatedAt?: Prisma.SortOrder;
+};
+
+export type CandidatSumOrderByAggregateInput = {
+  codeCandidat?: Prisma.SortOrder;
 };
 
 export type CandidatScalarRelationFilter = {
@@ -378,6 +530,14 @@ export type NullableStringFieldUpdateOperationsInput = {
 
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null;
+};
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean;
+};
+
+export type DateTimeFieldUpdateOperationsInput = {
+  set?: Date | string;
 };
 
 export type CandidatCreateNestedOneWithoutCandidat_FiliereInput = {
@@ -460,20 +620,30 @@ export type CandidatUpdateOneRequiredWithoutAtelier_CandidatNestedInput = {
 
 export type CandidatCreateWithoutCandidat_FiliereInput = {
   uid?: string;
+  codeCandidat?: number;
   firstname?: string | null;
   lastname?: string | null;
   email?: string | null;
   dateBirth?: Date | string | null;
+  appointment: boolean;
+  consentement: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
   Atelier_Candidat?: Prisma.Atelier_CandidatCreateNestedManyWithoutCandidatInput;
   Candidat_Score?: Prisma.Candidat_ScoreCreateNestedManyWithoutCandidatInput;
 };
 
 export type CandidatUncheckedCreateWithoutCandidat_FiliereInput = {
   uid?: string;
+  codeCandidat?: number;
   firstname?: string | null;
   lastname?: string | null;
   email?: string | null;
   dateBirth?: Date | string | null;
+  appointment: boolean;
+  consentement: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
   Atelier_Candidat?: Prisma.Atelier_CandidatUncheckedCreateNestedManyWithoutCandidatInput;
   Candidat_Score?: Prisma.Candidat_ScoreUncheckedCreateNestedManyWithoutCandidatInput;
 };
@@ -516,12 +686,17 @@ export type CandidatUpdateWithoutCandidat_FiliereInput = {
     | Date
     | string
     | null;
+  appointment?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  consentement?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   Atelier_Candidat?: Prisma.Atelier_CandidatUpdateManyWithoutCandidatNestedInput;
   Candidat_Score?: Prisma.Candidat_ScoreUpdateManyWithoutCandidatNestedInput;
 };
 
 export type CandidatUncheckedUpdateWithoutCandidat_FiliereInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string;
+  codeCandidat?: Prisma.IntFieldUpdateOperationsInput | number;
   firstname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   lastname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
@@ -530,26 +705,40 @@ export type CandidatUncheckedUpdateWithoutCandidat_FiliereInput = {
     | Date
     | string
     | null;
+  appointment?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  consentement?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   Atelier_Candidat?: Prisma.Atelier_CandidatUncheckedUpdateManyWithoutCandidatNestedInput;
   Candidat_Score?: Prisma.Candidat_ScoreUncheckedUpdateManyWithoutCandidatNestedInput;
 };
 
 export type CandidatCreateWithoutCandidat_ScoreInput = {
   uid?: string;
+  codeCandidat?: number;
   firstname?: string | null;
   lastname?: string | null;
   email?: string | null;
   dateBirth?: Date | string | null;
+  appointment: boolean;
+  consentement: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
   Candidat_Filiere?: Prisma.Candidat_FiliereCreateNestedManyWithoutCandidatInput;
   Atelier_Candidat?: Prisma.Atelier_CandidatCreateNestedManyWithoutCandidatInput;
 };
 
 export type CandidatUncheckedCreateWithoutCandidat_ScoreInput = {
   uid?: string;
+  codeCandidat?: number;
   firstname?: string | null;
   lastname?: string | null;
   email?: string | null;
   dateBirth?: Date | string | null;
+  appointment: boolean;
+  consentement: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
   Candidat_Filiere?: Prisma.Candidat_FiliereUncheckedCreateNestedManyWithoutCandidatInput;
   Atelier_Candidat?: Prisma.Atelier_CandidatUncheckedCreateNestedManyWithoutCandidatInput;
 };
@@ -592,12 +781,17 @@ export type CandidatUpdateWithoutCandidat_ScoreInput = {
     | Date
     | string
     | null;
+  appointment?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  consentement?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   Candidat_Filiere?: Prisma.Candidat_FiliereUpdateManyWithoutCandidatNestedInput;
   Atelier_Candidat?: Prisma.Atelier_CandidatUpdateManyWithoutCandidatNestedInput;
 };
 
 export type CandidatUncheckedUpdateWithoutCandidat_ScoreInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string;
+  codeCandidat?: Prisma.IntFieldUpdateOperationsInput | number;
   firstname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   lastname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
@@ -606,26 +800,40 @@ export type CandidatUncheckedUpdateWithoutCandidat_ScoreInput = {
     | Date
     | string
     | null;
+  appointment?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  consentement?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   Candidat_Filiere?: Prisma.Candidat_FiliereUncheckedUpdateManyWithoutCandidatNestedInput;
   Atelier_Candidat?: Prisma.Atelier_CandidatUncheckedUpdateManyWithoutCandidatNestedInput;
 };
 
 export type CandidatCreateWithoutAtelier_CandidatInput = {
   uid?: string;
+  codeCandidat?: number;
   firstname?: string | null;
   lastname?: string | null;
   email?: string | null;
   dateBirth?: Date | string | null;
+  appointment: boolean;
+  consentement: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
   Candidat_Filiere?: Prisma.Candidat_FiliereCreateNestedManyWithoutCandidatInput;
   Candidat_Score?: Prisma.Candidat_ScoreCreateNestedManyWithoutCandidatInput;
 };
 
 export type CandidatUncheckedCreateWithoutAtelier_CandidatInput = {
   uid?: string;
+  codeCandidat?: number;
   firstname?: string | null;
   lastname?: string | null;
   email?: string | null;
   dateBirth?: Date | string | null;
+  appointment: boolean;
+  consentement: boolean;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
   Candidat_Filiere?: Prisma.Candidat_FiliereUncheckedCreateNestedManyWithoutCandidatInput;
   Candidat_Score?: Prisma.Candidat_ScoreUncheckedCreateNestedManyWithoutCandidatInput;
 };
@@ -668,12 +876,17 @@ export type CandidatUpdateWithoutAtelier_CandidatInput = {
     | Date
     | string
     | null;
+  appointment?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  consentement?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   Candidat_Filiere?: Prisma.Candidat_FiliereUpdateManyWithoutCandidatNestedInput;
   Candidat_Score?: Prisma.Candidat_ScoreUpdateManyWithoutCandidatNestedInput;
 };
 
 export type CandidatUncheckedUpdateWithoutAtelier_CandidatInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string;
+  codeCandidat?: Prisma.IntFieldUpdateOperationsInput | number;
   firstname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   lastname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
@@ -682,6 +895,10 @@ export type CandidatUncheckedUpdateWithoutAtelier_CandidatInput = {
     | Date
     | string
     | null;
+  appointment?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  consentement?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   Candidat_Filiere?: Prisma.Candidat_FiliereUncheckedUpdateManyWithoutCandidatNestedInput;
   Candidat_Score?: Prisma.Candidat_ScoreUncheckedUpdateManyWithoutCandidatNestedInput;
 };
@@ -754,10 +971,15 @@ export type CandidatSelect<
 > = runtime.Types.Extensions.GetSelect<
   {
     uid?: boolean;
+    codeCandidat?: boolean;
     firstname?: boolean;
     lastname?: boolean;
     email?: boolean;
     dateBirth?: boolean;
+    appointment?: boolean;
+    consentement?: boolean;
+    createdAt?: boolean;
+    updatedAt?: boolean;
     Candidat_Filiere?: boolean | Prisma.Candidat$Candidat_FiliereArgs<ExtArgs>;
     Atelier_Candidat?: boolean | Prisma.Candidat$Atelier_CandidatArgs<ExtArgs>;
     Candidat_Score?: boolean | Prisma.Candidat$Candidat_ScoreArgs<ExtArgs>;
@@ -772,10 +994,15 @@ export type CandidatSelectCreateManyAndReturn<
 > = runtime.Types.Extensions.GetSelect<
   {
     uid?: boolean;
+    codeCandidat?: boolean;
     firstname?: boolean;
     lastname?: boolean;
     email?: boolean;
     dateBirth?: boolean;
+    appointment?: boolean;
+    consentement?: boolean;
+    createdAt?: boolean;
+    updatedAt?: boolean;
   },
   ExtArgs['result']['candidat']
 >;
@@ -786,27 +1013,46 @@ export type CandidatSelectUpdateManyAndReturn<
 > = runtime.Types.Extensions.GetSelect<
   {
     uid?: boolean;
+    codeCandidat?: boolean;
     firstname?: boolean;
     lastname?: boolean;
     email?: boolean;
     dateBirth?: boolean;
+    appointment?: boolean;
+    consentement?: boolean;
+    createdAt?: boolean;
+    updatedAt?: boolean;
   },
   ExtArgs['result']['candidat']
 >;
 
 export type CandidatSelectScalar = {
   uid?: boolean;
+  codeCandidat?: boolean;
   firstname?: boolean;
   lastname?: boolean;
   email?: boolean;
   dateBirth?: boolean;
+  appointment?: boolean;
+  consentement?: boolean;
+  createdAt?: boolean;
+  updatedAt?: boolean;
 };
 
 export type CandidatOmit<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetOmit<
-  'uid' | 'firstname' | 'lastname' | 'email' | 'dateBirth',
+  | 'uid'
+  | 'codeCandidat'
+  | 'firstname'
+  | 'lastname'
+  | 'email'
+  | 'dateBirth'
+  | 'appointment'
+  | 'consentement'
+  | 'createdAt'
+  | 'updatedAt',
   ExtArgs['result']['candidat']
 >;
 export type CandidatInclude<
@@ -840,10 +1086,15 @@ export type $CandidatPayload<
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
       uid: string;
+      codeCandidat: number;
       firstname: string | null;
       lastname: string | null;
       email: string | null;
       dateBirth: Date | null;
+      appointment: boolean;
+      consentement: boolean;
+      createdAt: Date;
+      updatedAt: Date;
     },
     ExtArgs['result']['candidat']
   >;
@@ -1474,10 +1725,15 @@ export interface Prisma__CandidatClient<
  */
 export interface CandidatFieldRefs {
   readonly uid: Prisma.FieldRef<'Candidat', 'String'>;
+  readonly codeCandidat: Prisma.FieldRef<'Candidat', 'Int'>;
   readonly firstname: Prisma.FieldRef<'Candidat', 'String'>;
   readonly lastname: Prisma.FieldRef<'Candidat', 'String'>;
   readonly email: Prisma.FieldRef<'Candidat', 'String'>;
   readonly dateBirth: Prisma.FieldRef<'Candidat', 'DateTime'>;
+  readonly appointment: Prisma.FieldRef<'Candidat', 'Boolean'>;
+  readonly consentement: Prisma.FieldRef<'Candidat', 'Boolean'>;
+  readonly createdAt: Prisma.FieldRef<'Candidat', 'DateTime'>;
+  readonly updatedAt: Prisma.FieldRef<'Candidat', 'DateTime'>;
 }
 
 // Custom InputTypes
@@ -1719,7 +1975,7 @@ export type CandidatCreateArgs<
   /**
    * The data needed to create a Candidat.
    */
-  data?: Prisma.XOR<
+  data: Prisma.XOR<
     Prisma.CandidatCreateInput,
     Prisma.CandidatUncheckedCreateInput
   >;

@@ -33,10 +33,15 @@ CREATE TABLE "Reponse_Filiere" (
 -- CreateTable
 CREATE TABLE "Candidat" (
     "uid" TEXT NOT NULL,
+    "codeCandidat" SERIAL NOT NULL,
     "firstname" TEXT,
     "lastname" TEXT,
     "email" TEXT,
     "dateBirth" TIMESTAMP(3),
+    "appointment" BOOLEAN NOT NULL,
+    "consentement" BOOLEAN NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Candidat_pkey" PRIMARY KEY ("uid")
 );
@@ -88,6 +93,9 @@ CREATE UNIQUE INDEX "Filiere_label_key" ON "Filiere"("label");
 CREATE UNIQUE INDEX "Reponse_Filiere_reponseId_filiereId_key" ON "Reponse_Filiere"("reponseId", "filiereId");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Candidat_codeCandidat_key" ON "Candidat"("codeCandidat");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Candidat_email_key" ON "Candidat"("email");
 
 -- CreateIndex
@@ -95,6 +103,9 @@ CREATE UNIQUE INDEX "Candidat_Filiere_candidatId_filiereId_key" ON "Candidat_Fil
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Candidat_Score_candidatId_key" ON "Candidat_Score"("candidatId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Atelier_label_key" ON "Atelier"("label");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Atelier_Candidat_atelierId_candidatId_key" ON "Atelier_Candidat"("atelierId", "candidatId");

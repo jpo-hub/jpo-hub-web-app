@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { CandidatsService } from './candidats.service';
 import { CreateCandidatDto } from './dto/create-candidat.dto';
@@ -24,8 +25,15 @@ export class CandidatsController {
   }
 
   @Get()
-  async findAll(): Promise<CandidatModel[]> {
-    return this.candidatsService.candidats({});
+  findAll(@Query('page') page?: string, @Query('limit') limit?: string) {
+    const pageNum = page ? parseInt(page, 10) : 1;
+    const limitNum = limit ? parseInt(limit, 10) : 10;
+    const skip = (pageNum - 1) * limitNum;
+
+    return this.candidatsService.candidats({
+      skip,
+      take: limitNum,
+    });
   }
 
   @Get(':uid')

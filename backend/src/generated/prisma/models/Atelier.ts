@@ -187,14 +187,14 @@ export type AtelierOrderByWithRelationInput = {
 
 export type AtelierWhereUniqueInput = Prisma.AtLeast<{
   uid?: string
+  label?: string
   AND?: Prisma.AtelierWhereInput | Prisma.AtelierWhereInput[]
   OR?: Prisma.AtelierWhereInput[]
   NOT?: Prisma.AtelierWhereInput | Prisma.AtelierWhereInput[]
-  label?: Prisma.StringFilter<"Atelier"> | string
   date?: Prisma.DateTimeFilter<"Atelier"> | Date | string
   dockerfilelink?: Prisma.StringFilter<"Atelier"> | string
   Atelier_Candidat?: Prisma.Atelier_CandidatListRelationFilter
-}, "uid">
+}, "uid" | "label">
 
 export type AtelierOrderByWithAggregationInput = {
   uid?: Prisma.SortOrder
@@ -293,10 +293,6 @@ export type AtelierMinOrderByAggregateInput = {
 export type AtelierScalarRelationFilter = {
   is?: Prisma.AtelierWhereInput
   isNot?: Prisma.AtelierWhereInput
-}
-
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
 }
 
 export type AtelierCreateNestedOneWithoutAtelier_CandidatInput = {
