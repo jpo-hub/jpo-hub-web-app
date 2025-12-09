@@ -1,8 +1,108 @@
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+}
+
+model Filiere {
+  uid   String @id @default(uuid())
+  label String @unique
+
+  Candidat_Filiere Candidat_Filiere[]
+
+  Reponse_Filiere Reponse_Filiere[]
+
+  Candidat_Score Candidat_Score[]
+}
+
+model Response {
+  uid        String @id @default(uuid())
+  label      String
+  questionId String
+
+  question Question @relation(fields: [questionId], references: [uid])
+
+  Reponse_Filiere Reponse_Filiere[]
+}
+
+model Question {
+  uid      String     @id @default(uuid())
+  label    String
+  Response Response[]
+}
+
+model Reponse_Filiere {
+  reponseId String
+  filiereId String
+  valeur    Int
+
+  response Response @relation(fields: [reponseId], references: [uid])
+  filiere  Filiere  @relation(fields: [filiereId], references: [uid])
+
+  @@unique([reponseId, filiereId])
+}
+
+model Candidat {
+  uid       String    @id @default(uuid())
+  firstname String?
+  lastname  String?
+  email     String?   @unique
+  dateBirth DateTime?
+
+  Candidat_Filiere Candidat_Filiere[]
+
+  Atelier_Candidat Atelier_Candidat[]
+
+  Candidat_Score Candidat_Score[]
+}
+
+model Candidat_Filiere {
+  candidatId String
+  filiereId  String
+
+  candidat Candidat @relation(fields: [candidatId], references: [uid])
+  filiere  Filiere  @relation(fields: [filiereId], references: [uid])
+
+  @@unique([candidatId, filiereId])
+}
+
+model Candidat_Score {
+  candidatId String
+  filiereId  String
+  score      Int    @default(0)
+
+  candidat Candidat @relation(fields: [candidatId], references: [uid])
+  filiere  Filiere  @relation(fields: [filiereId], references: [uid])
+
+  @@unique([candidatId])
+}
+
+model Atelier {
+  uid            String   @id @default(uuid())
+  label          String
+  date           DateTime
+  dockerfilelink String
+
+  Atelier_Candidat Atelier_Candidat[]
+}
+
+model Atelier_Candidat {
+  atelierId  String
+  candidatId String
+
+  atelier  Atelier  @relation(fields: [atelierId], references: [uid])
+  candidat Candidat @relation(fields: [candidatId], references: [uid])
+
+  @@unique([atelierId, candidatId])
+}
+
+model Admin {
+  uid       String @id @default(uuid())
+  fristname String
+  lastname  String
+  role      String
+  email     String @unique
 }
