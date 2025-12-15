@@ -88,6 +88,7 @@ model Candidat_Score {
 model Atelier {
   uid            String   @id @default(uuid())
   label          String   @unique
+  imageUrl       String
   description    String
   draft          Boolean  @default(true)
   createAt       DateTime @default(now())

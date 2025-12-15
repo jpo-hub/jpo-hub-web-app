@@ -63,6 +63,7 @@ CREATE TABLE "Candidat_Score" (
 CREATE TABLE "Atelier" (
     "uid" TEXT NOT NULL,
     "label" TEXT NOT NULL,
+    "imageUrl" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "draft" BOOLEAN NOT NULL DEFAULT true,
     "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

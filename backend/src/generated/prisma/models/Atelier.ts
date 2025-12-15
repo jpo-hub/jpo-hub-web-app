@@ -27,6 +27,7 @@ export type AggregateAtelier = {
 export type AtelierMinAggregateOutputType = {
   uid: string | null
   label: string | null
+  imageUrl: string | null
   description: string | null
   draft: boolean | null
   createAt: Date | null
@@ -37,6 +38,7 @@ export type AtelierMinAggregateOutputType = {
 export type AtelierMaxAggregateOutputType = {
   uid: string | null
   label: string | null
+  imageUrl: string | null
   description: string | null
   draft: boolean | null
   createAt: Date | null
@@ -47,6 +49,7 @@ export type AtelierMaxAggregateOutputType = {
 export type AtelierCountAggregateOutputType = {
   uid: number
   label: number
+  imageUrl: number
   description: number
   draft: number
   createAt: number
@@ -59,6 +62,7 @@ export type AtelierCountAggregateOutputType = {
 export type AtelierMinAggregateInputType = {
   uid?: true
   label?: true
+  imageUrl?: true
   description?: true
   draft?: true
   createAt?: true
@@ -69,6 +73,7 @@ export type AtelierMinAggregateInputType = {
 export type AtelierMaxAggregateInputType = {
   uid?: true
   label?: true
+  imageUrl?: true
   description?: true
   draft?: true
   createAt?: true
@@ -79,6 +84,7 @@ export type AtelierMaxAggregateInputType = {
 export type AtelierCountAggregateInputType = {
   uid?: true
   label?: true
+  imageUrl?: true
   description?: true
   draft?: true
   createAt?: true
@@ -162,6 +168,7 @@ export type AtelierGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 export type AtelierGroupByOutputType = {
   uid: string
   label: string
+  imageUrl: string
   description: string
   draft: boolean
   createAt: Date
@@ -193,6 +200,7 @@ export type AtelierWhereInput = {
   NOT?: Prisma.AtelierWhereInput | Prisma.AtelierWhereInput[]
   uid?: Prisma.StringFilter<"Atelier"> | string
   label?: Prisma.StringFilter<"Atelier"> | string
+  imageUrl?: Prisma.StringFilter<"Atelier"> | string
   description?: Prisma.StringFilter<"Atelier"> | string
   draft?: Prisma.BoolFilter<"Atelier"> | boolean
   createAt?: Prisma.DateTimeFilter<"Atelier"> | Date | string
@@ -204,6 +212,7 @@ export type AtelierWhereInput = {
 export type AtelierOrderByWithRelationInput = {
   uid?: Prisma.SortOrder
   label?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   description?: Prisma.SortOrder
   draft?: Prisma.SortOrder
   createAt?: Prisma.SortOrder
@@ -218,6 +227,7 @@ export type AtelierWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.AtelierWhereInput | Prisma.AtelierWhereInput[]
   OR?: Prisma.AtelierWhereInput[]
   NOT?: Prisma.AtelierWhereInput | Prisma.AtelierWhereInput[]
+  imageUrl?: Prisma.StringFilter<"Atelier"> | string
   description?: Prisma.StringFilter<"Atelier"> | string
   draft?: Prisma.BoolFilter<"Atelier"> | boolean
   createAt?: Prisma.DateTimeFilter<"Atelier"> | Date | string
@@ -229,6 +239,7 @@ export type AtelierWhereUniqueInput = Prisma.AtLeast<{
 export type AtelierOrderByWithAggregationInput = {
   uid?: Prisma.SortOrder
   label?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   description?: Prisma.SortOrder
   draft?: Prisma.SortOrder
   createAt?: Prisma.SortOrder
@@ -245,6 +256,7 @@ export type AtelierScalarWhereWithAggregatesInput = {
   NOT?: Prisma.AtelierScalarWhereWithAggregatesInput | Prisma.AtelierScalarWhereWithAggregatesInput[]
   uid?: Prisma.StringWithAggregatesFilter<"Atelier"> | string
   label?: Prisma.StringWithAggregatesFilter<"Atelier"> | string
+  imageUrl?: Prisma.StringWithAggregatesFilter<"Atelier"> | string
   description?: Prisma.StringWithAggregatesFilter<"Atelier"> | string
   draft?: Prisma.BoolWithAggregatesFilter<"Atelier"> | boolean
   createAt?: Prisma.DateTimeWithAggregatesFilter<"Atelier"> | Date | string
@@ -255,6 +267,7 @@ export type AtelierScalarWhereWithAggregatesInput = {
 export type AtelierCreateInput = {
   uid?: string
   label: string
+  imageUrl: string
   description: string
   draft?: boolean
   createAt?: Date | string
@@ -266,6 +279,7 @@ export type AtelierCreateInput = {
 export type AtelierUncheckedCreateInput = {
   uid?: string
   label: string
+  imageUrl: string
   description: string
   draft?: boolean
   createAt?: Date | string
@@ -277,6 +291,7 @@ export type AtelierUncheckedCreateInput = {
 export type AtelierUpdateInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string
   label?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   draft?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -288,6 +303,7 @@ export type AtelierUpdateInput = {
 export type AtelierUncheckedUpdateInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string
   label?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   draft?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -299,6 +315,7 @@ export type AtelierUncheckedUpdateInput = {
 export type AtelierCreateManyInput = {
   uid?: string
   label: string
+  imageUrl: string
   description: string
   draft?: boolean
   createAt?: Date | string
@@ -309,6 +326,7 @@ export type AtelierCreateManyInput = {
 export type AtelierUpdateManyMutationInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string
   label?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   draft?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -319,6 +337,7 @@ export type AtelierUpdateManyMutationInput = {
 export type AtelierUncheckedUpdateManyInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string
   label?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   draft?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -329,6 +348,7 @@ export type AtelierUncheckedUpdateManyInput = {
 export type AtelierCountOrderByAggregateInput = {
   uid?: Prisma.SortOrder
   label?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   description?: Prisma.SortOrder
   draft?: Prisma.SortOrder
   createAt?: Prisma.SortOrder
@@ -339,6 +359,7 @@ export type AtelierCountOrderByAggregateInput = {
 export type AtelierMaxOrderByAggregateInput = {
   uid?: Prisma.SortOrder
   label?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   description?: Prisma.SortOrder
   draft?: Prisma.SortOrder
   createAt?: Prisma.SortOrder
@@ -349,6 +370,7 @@ export type AtelierMaxOrderByAggregateInput = {
 export type AtelierMinOrderByAggregateInput = {
   uid?: Prisma.SortOrder
   label?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   description?: Prisma.SortOrder
   draft?: Prisma.SortOrder
   createAt?: Prisma.SortOrder
@@ -378,6 +400,7 @@ export type AtelierUpdateOneRequiredWithoutAtelier_CandidatNestedInput = {
 export type AtelierCreateWithoutAtelier_CandidatInput = {
   uid?: string
   label: string
+  imageUrl: string
   description: string
   draft?: boolean
   createAt?: Date | string
@@ -388,6 +411,7 @@ export type AtelierCreateWithoutAtelier_CandidatInput = {
 export type AtelierUncheckedCreateWithoutAtelier_CandidatInput = {
   uid?: string
   label: string
+  imageUrl: string
   description: string
   draft?: boolean
   createAt?: Date | string
@@ -414,6 +438,7 @@ export type AtelierUpdateToOneWithWhereWithoutAtelier_CandidatInput = {
 export type AtelierUpdateWithoutAtelier_CandidatInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string
   label?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   draft?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -424,6 +449,7 @@ export type AtelierUpdateWithoutAtelier_CandidatInput = {
 export type AtelierUncheckedUpdateWithoutAtelier_CandidatInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string
   label?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   draft?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -465,6 +491,7 @@ export type AtelierCountOutputTypeCountAtelier_CandidatArgs<ExtArgs extends runt
 export type AtelierSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   uid?: boolean
   label?: boolean
+  imageUrl?: boolean
   description?: boolean
   draft?: boolean
   createAt?: boolean
@@ -477,6 +504,7 @@ export type AtelierSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type AtelierSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   uid?: boolean
   label?: boolean
+  imageUrl?: boolean
   description?: boolean
   draft?: boolean
   createAt?: boolean
@@ -487,6 +515,7 @@ export type AtelierSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type AtelierSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   uid?: boolean
   label?: boolean
+  imageUrl?: boolean
   description?: boolean
   draft?: boolean
   createAt?: boolean
@@ -497,6 +526,7 @@ export type AtelierSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type AtelierSelectScalar = {
   uid?: boolean
   label?: boolean
+  imageUrl?: boolean
   description?: boolean
   draft?: boolean
   createAt?: boolean
@@ -504,7 +534,7 @@ export type AtelierSelectScalar = {
   dockerfilelink?: boolean
 }
 
-export type AtelierOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"uid" | "label" | "description" | "draft" | "createAt" | "updateAt" | "dockerfilelink", ExtArgs["result"]["atelier"]>
+export type AtelierOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"uid" | "label" | "imageUrl" | "description" | "draft" | "createAt" | "updateAt" | "dockerfilelink", ExtArgs["result"]["atelier"]>
 export type AtelierInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   Atelier_Candidat?: boolean | Prisma.Atelier$Atelier_CandidatArgs<ExtArgs>
   _count?: boolean | Prisma.AtelierCountOutputTypeDefaultArgs<ExtArgs>
@@ -520,6 +550,7 @@ export type $AtelierPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     uid: string
     label: string
+    imageUrl: string
     description: string
     draft: boolean
     createAt: Date
@@ -951,6 +982,7 @@ export interface Prisma__AtelierClient<T, Null = never, ExtArgs extends runtime.
 export interface AtelierFieldRefs {
   readonly uid: Prisma.FieldRef<"Atelier", 'String'>
   readonly label: Prisma.FieldRef<"Atelier", 'String'>
+  readonly imageUrl: Prisma.FieldRef<"Atelier", 'String'>
   readonly description: Prisma.FieldRef<"Atelier", 'String'>
   readonly draft: Prisma.FieldRef<"Atelier", 'Boolean'>
   readonly createAt: Prisma.FieldRef<"Atelier", 'DateTime'>

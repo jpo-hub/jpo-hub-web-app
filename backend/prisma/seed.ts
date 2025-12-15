@@ -36,6 +36,7 @@ async function main() {
     create: {
       label: 'Introduction à Docker',
       description: "cool le description de l'atelier 1 :D",
+      imageUrl: 'https://example.com/docker-intro.png',
       draft: false,
       dockerfilelink: 'https://github.com/example/docker-intro',
     },
@@ -47,6 +48,7 @@ async function main() {
     create: {
       label: 'DevOps avancé',
       description: "cool le description de l'atelier 2 :D",
+      imageUrl: 'https://example.com/devops-advanced.png',
       draft: false,
       dockerfilelink: 'https://github.com/example/devops-advanced',
     },
@@ -58,6 +60,7 @@ async function main() {
     create: {
       label: 'Machine Learning avec Python',
       description: "cool le description de l'atelier 3 :D",
+      imageUrl: 'https://example.com/ml-python.png',
       draft: false,
       dockerfilelink: 'https://github.com/example/ml-python',
     },
@@ -69,6 +72,7 @@ async function main() {
     create: {
       label: 'Sécurité Web OWASP',
       description: "cool le description de l'atelier 4 :D",
+      imageUrl: 'https://example.com/owasp-security.png',
       draft: false,
       dockerfilelink: 'https://github.com/example/owasp-security',
     },
