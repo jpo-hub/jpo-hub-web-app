@@ -23,13 +23,7 @@ export class AteliersService {
     const bucket = this.configService.getOrThrow<string>('AWS_S3_BUCKET');
     const region = this.configService.getOrThrow<string>('AWS_S3_REGION');
 
-    const safeLabel = (createAtelierDto.label ?? 'atelier')
-      .trim()
-      .toLowerCase()
-      .replace(/[^a-z0-9-_]+/g, '-')
-      .replace(/-+/g, '-');
-
-    const s3Key = `ateliers/${Date.now()}-${safeLabel}-${file.originalname}`;
+    const s3Key = `ateliers/${Date.now()}-${file.originalname}`;
 
     await this.s3Client.send(
       new PutObjectCommand({
