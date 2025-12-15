@@ -72,8 +72,6 @@ export class CandidatsService {
       const ateliersFormatted = ateliers.map((ac) => ({
         uid: ac.atelier.uid,
         label: ac.atelier.label,
-        date: ac.atelier.date,
-        dockerfilelink: ac.atelier.dockerfilelink,
       }));
 
       return {
@@ -162,8 +160,6 @@ export class CandidatsService {
           const ateliersFormatted = ateliers.map((ac) => ({
             uid: ac.atelier.uid,
             label: ac.atelier.label,
-            date: ac.atelier.date,
-            dockerfilelink: ac.atelier.dockerfilelink,
           }));
 
           return {
