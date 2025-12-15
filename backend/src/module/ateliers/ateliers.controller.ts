@@ -25,18 +25,21 @@ export class AteliersController {
     return this.ateliersService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.ateliersService.findOne(+id);
+  @Get(':uid')
+  findOne(@Param('uid') id: string) {
+    return this.ateliersService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAtelierDto: UpdateAtelierDto) {
-    return this.ateliersService.update(+id, updateAtelierDto);
+  @Patch(':uid')
+  update(
+    @Param('uid') uid: string,
+    @Body() updateAtelierDto: UpdateAtelierDto,
+  ) {
+    return this.ateliersService.update(uid, updateAtelierDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.ateliersService.remove(+id);
+  @Delete(':uid')
+  remove(@Param('uid') uid: string) {
+    return this.ateliersService.remove(uid);
   }
 }

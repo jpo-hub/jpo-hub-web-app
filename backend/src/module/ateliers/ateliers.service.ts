@@ -12,15 +12,15 @@ export class AteliersService {
     return `This action returns all ateliers`;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} atelier`;
   }
 
-  update(id: number, updateAtelierDto: UpdateAtelierDto) {
+  update(id: string, updateAtelierDto: UpdateAtelierDto) {
     return `This action updates a #${id} atelier`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} atelier`;
   }
 }
