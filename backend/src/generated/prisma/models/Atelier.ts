@@ -27,21 +27,30 @@ export type AggregateAtelier = {
 export type AtelierMinAggregateOutputType = {
   uid: string | null
   label: string | null
-  date: Date | null
+  description: string | null
+  draft: boolean | null
+  createAt: Date | null
+  updateAt: Date | null
   dockerfilelink: string | null
 }
 
 export type AtelierMaxAggregateOutputType = {
   uid: string | null
   label: string | null
-  date: Date | null
+  description: string | null
+  draft: boolean | null
+  createAt: Date | null
+  updateAt: Date | null
   dockerfilelink: string | null
 }
 
 export type AtelierCountAggregateOutputType = {
   uid: number
   label: number
-  date: number
+  description: number
+  draft: number
+  createAt: number
+  updateAt: number
   dockerfilelink: number
   _all: number
 }
@@ -50,21 +59,30 @@ export type AtelierCountAggregateOutputType = {
 export type AtelierMinAggregateInputType = {
   uid?: true
   label?: true
-  date?: true
+  description?: true
+  draft?: true
+  createAt?: true
+  updateAt?: true
   dockerfilelink?: true
 }
 
 export type AtelierMaxAggregateInputType = {
   uid?: true
   label?: true
-  date?: true
+  description?: true
+  draft?: true
+  createAt?: true
+  updateAt?: true
   dockerfilelink?: true
 }
 
 export type AtelierCountAggregateInputType = {
   uid?: true
   label?: true
-  date?: true
+  description?: true
+  draft?: true
+  createAt?: true
+  updateAt?: true
   dockerfilelink?: true
   _all?: true
 }
@@ -144,7 +162,10 @@ export type AtelierGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 export type AtelierGroupByOutputType = {
   uid: string
   label: string
-  date: Date
+  description: string
+  draft: boolean
+  createAt: Date
+  updateAt: Date
   dockerfilelink: string
   _count: AtelierCountAggregateOutputType | null
   _min: AtelierMinAggregateOutputType | null
@@ -172,7 +193,10 @@ export type AtelierWhereInput = {
   NOT?: Prisma.AtelierWhereInput | Prisma.AtelierWhereInput[]
   uid?: Prisma.StringFilter<"Atelier"> | string
   label?: Prisma.StringFilter<"Atelier"> | string
-  date?: Prisma.DateTimeFilter<"Atelier"> | Date | string
+  description?: Prisma.StringFilter<"Atelier"> | string
+  draft?: Prisma.BoolFilter<"Atelier"> | boolean
+  createAt?: Prisma.DateTimeFilter<"Atelier"> | Date | string
+  updateAt?: Prisma.DateTimeFilter<"Atelier"> | Date | string
   dockerfilelink?: Prisma.StringFilter<"Atelier"> | string
   Atelier_Candidat?: Prisma.Atelier_CandidatListRelationFilter
 }
@@ -180,7 +204,10 @@ export type AtelierWhereInput = {
 export type AtelierOrderByWithRelationInput = {
   uid?: Prisma.SortOrder
   label?: Prisma.SortOrder
-  date?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  draft?: Prisma.SortOrder
+  createAt?: Prisma.SortOrder
+  updateAt?: Prisma.SortOrder
   dockerfilelink?: Prisma.SortOrder
   Atelier_Candidat?: Prisma.Atelier_CandidatOrderByRelationAggregateInput
 }
@@ -191,7 +218,10 @@ export type AtelierWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.AtelierWhereInput | Prisma.AtelierWhereInput[]
   OR?: Prisma.AtelierWhereInput[]
   NOT?: Prisma.AtelierWhereInput | Prisma.AtelierWhereInput[]
-  date?: Prisma.DateTimeFilter<"Atelier"> | Date | string
+  description?: Prisma.StringFilter<"Atelier"> | string
+  draft?: Prisma.BoolFilter<"Atelier"> | boolean
+  createAt?: Prisma.DateTimeFilter<"Atelier"> | Date | string
+  updateAt?: Prisma.DateTimeFilter<"Atelier"> | Date | string
   dockerfilelink?: Prisma.StringFilter<"Atelier"> | string
   Atelier_Candidat?: Prisma.Atelier_CandidatListRelationFilter
 }, "uid" | "label">
@@ -199,7 +229,10 @@ export type AtelierWhereUniqueInput = Prisma.AtLeast<{
 export type AtelierOrderByWithAggregationInput = {
   uid?: Prisma.SortOrder
   label?: Prisma.SortOrder
-  date?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  draft?: Prisma.SortOrder
+  createAt?: Prisma.SortOrder
+  updateAt?: Prisma.SortOrder
   dockerfilelink?: Prisma.SortOrder
   _count?: Prisma.AtelierCountOrderByAggregateInput
   _max?: Prisma.AtelierMaxOrderByAggregateInput
@@ -212,14 +245,20 @@ export type AtelierScalarWhereWithAggregatesInput = {
   NOT?: Prisma.AtelierScalarWhereWithAggregatesInput | Prisma.AtelierScalarWhereWithAggregatesInput[]
   uid?: Prisma.StringWithAggregatesFilter<"Atelier"> | string
   label?: Prisma.StringWithAggregatesFilter<"Atelier"> | string
-  date?: Prisma.DateTimeWithAggregatesFilter<"Atelier"> | Date | string
+  description?: Prisma.StringWithAggregatesFilter<"Atelier"> | string
+  draft?: Prisma.BoolWithAggregatesFilter<"Atelier"> | boolean
+  createAt?: Prisma.DateTimeWithAggregatesFilter<"Atelier"> | Date | string
+  updateAt?: Prisma.DateTimeWithAggregatesFilter<"Atelier"> | Date | string
   dockerfilelink?: Prisma.StringWithAggregatesFilter<"Atelier"> | string
 }
 
 export type AtelierCreateInput = {
   uid?: string
   label: string
-  date: Date | string
+  description: string
+  draft?: boolean
+  createAt?: Date | string
+  updateAt?: Date | string
   dockerfilelink: string
   Atelier_Candidat?: Prisma.Atelier_CandidatCreateNestedManyWithoutAtelierInput
 }
@@ -227,7 +266,10 @@ export type AtelierCreateInput = {
 export type AtelierUncheckedCreateInput = {
   uid?: string
   label: string
-  date: Date | string
+  description: string
+  draft?: boolean
+  createAt?: Date | string
+  updateAt?: Date | string
   dockerfilelink: string
   Atelier_Candidat?: Prisma.Atelier_CandidatUncheckedCreateNestedManyWithoutAtelierInput
 }
@@ -235,7 +277,10 @@ export type AtelierUncheckedCreateInput = {
 export type AtelierUpdateInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string
   label?: Prisma.StringFieldUpdateOperationsInput | string
-  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  draft?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updateAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dockerfilelink?: Prisma.StringFieldUpdateOperationsInput | string
   Atelier_Candidat?: Prisma.Atelier_CandidatUpdateManyWithoutAtelierNestedInput
 }
@@ -243,7 +288,10 @@ export type AtelierUpdateInput = {
 export type AtelierUncheckedUpdateInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string
   label?: Prisma.StringFieldUpdateOperationsInput | string
-  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  draft?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updateAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dockerfilelink?: Prisma.StringFieldUpdateOperationsInput | string
   Atelier_Candidat?: Prisma.Atelier_CandidatUncheckedUpdateManyWithoutAtelierNestedInput
 }
@@ -251,42 +299,60 @@ export type AtelierUncheckedUpdateInput = {
 export type AtelierCreateManyInput = {
   uid?: string
   label: string
-  date: Date | string
+  description: string
+  draft?: boolean
+  createAt?: Date | string
+  updateAt?: Date | string
   dockerfilelink: string
 }
 
 export type AtelierUpdateManyMutationInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string
   label?: Prisma.StringFieldUpdateOperationsInput | string
-  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  draft?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updateAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dockerfilelink?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type AtelierUncheckedUpdateManyInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string
   label?: Prisma.StringFieldUpdateOperationsInput | string
-  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  draft?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updateAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dockerfilelink?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type AtelierCountOrderByAggregateInput = {
   uid?: Prisma.SortOrder
   label?: Prisma.SortOrder
-  date?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  draft?: Prisma.SortOrder
+  createAt?: Prisma.SortOrder
+  updateAt?: Prisma.SortOrder
   dockerfilelink?: Prisma.SortOrder
 }
 
 export type AtelierMaxOrderByAggregateInput = {
   uid?: Prisma.SortOrder
   label?: Prisma.SortOrder
-  date?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  draft?: Prisma.SortOrder
+  createAt?: Prisma.SortOrder
+  updateAt?: Prisma.SortOrder
   dockerfilelink?: Prisma.SortOrder
 }
 
 export type AtelierMinOrderByAggregateInput = {
   uid?: Prisma.SortOrder
   label?: Prisma.SortOrder
-  date?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  draft?: Prisma.SortOrder
+  createAt?: Prisma.SortOrder
+  updateAt?: Prisma.SortOrder
   dockerfilelink?: Prisma.SortOrder
 }
 
@@ -312,14 +378,20 @@ export type AtelierUpdateOneRequiredWithoutAtelier_CandidatNestedInput = {
 export type AtelierCreateWithoutAtelier_CandidatInput = {
   uid?: string
   label: string
-  date: Date | string
+  description: string
+  draft?: boolean
+  createAt?: Date | string
+  updateAt?: Date | string
   dockerfilelink: string
 }
 
 export type AtelierUncheckedCreateWithoutAtelier_CandidatInput = {
   uid?: string
   label: string
-  date: Date | string
+  description: string
+  draft?: boolean
+  createAt?: Date | string
+  updateAt?: Date | string
   dockerfilelink: string
 }
 
@@ -342,14 +414,20 @@ export type AtelierUpdateToOneWithWhereWithoutAtelier_CandidatInput = {
 export type AtelierUpdateWithoutAtelier_CandidatInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string
   label?: Prisma.StringFieldUpdateOperationsInput | string
-  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  draft?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updateAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dockerfilelink?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type AtelierUncheckedUpdateWithoutAtelier_CandidatInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string
   label?: Prisma.StringFieldUpdateOperationsInput | string
-  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  draft?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updateAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dockerfilelink?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -387,7 +465,10 @@ export type AtelierCountOutputTypeCountAtelier_CandidatArgs<ExtArgs extends runt
 export type AtelierSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   uid?: boolean
   label?: boolean
-  date?: boolean
+  description?: boolean
+  draft?: boolean
+  createAt?: boolean
+  updateAt?: boolean
   dockerfilelink?: boolean
   Atelier_Candidat?: boolean | Prisma.Atelier$Atelier_CandidatArgs<ExtArgs>
   _count?: boolean | Prisma.AtelierCountOutputTypeDefaultArgs<ExtArgs>
@@ -396,25 +477,34 @@ export type AtelierSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type AtelierSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   uid?: boolean
   label?: boolean
-  date?: boolean
+  description?: boolean
+  draft?: boolean
+  createAt?: boolean
+  updateAt?: boolean
   dockerfilelink?: boolean
 }, ExtArgs["result"]["atelier"]>
 
 export type AtelierSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   uid?: boolean
   label?: boolean
-  date?: boolean
+  description?: boolean
+  draft?: boolean
+  createAt?: boolean
+  updateAt?: boolean
   dockerfilelink?: boolean
 }, ExtArgs["result"]["atelier"]>
 
 export type AtelierSelectScalar = {
   uid?: boolean
   label?: boolean
-  date?: boolean
+  description?: boolean
+  draft?: boolean
+  createAt?: boolean
+  updateAt?: boolean
   dockerfilelink?: boolean
 }
 
-export type AtelierOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"uid" | "label" | "date" | "dockerfilelink", ExtArgs["result"]["atelier"]>
+export type AtelierOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"uid" | "label" | "description" | "draft" | "createAt" | "updateAt" | "dockerfilelink", ExtArgs["result"]["atelier"]>
 export type AtelierInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   Atelier_Candidat?: boolean | Prisma.Atelier$Atelier_CandidatArgs<ExtArgs>
   _count?: boolean | Prisma.AtelierCountOutputTypeDefaultArgs<ExtArgs>
@@ -430,7 +520,10 @@ export type $AtelierPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     uid: string
     label: string
-    date: Date
+    description: string
+    draft: boolean
+    createAt: Date
+    updateAt: Date
     dockerfilelink: string
   }, ExtArgs["result"]["atelier"]>
   composites: {}
@@ -858,7 +951,10 @@ export interface Prisma__AtelierClient<T, Null = never, ExtArgs extends runtime.
 export interface AtelierFieldRefs {
   readonly uid: Prisma.FieldRef<"Atelier", 'String'>
   readonly label: Prisma.FieldRef<"Atelier", 'String'>
-  readonly date: Prisma.FieldRef<"Atelier", 'DateTime'>
+  readonly description: Prisma.FieldRef<"Atelier", 'String'>
+  readonly draft: Prisma.FieldRef<"Atelier", 'Boolean'>
+  readonly createAt: Prisma.FieldRef<"Atelier", 'DateTime'>
+  readonly updateAt: Prisma.FieldRef<"Atelier", 'DateTime'>
   readonly dockerfilelink: Prisma.FieldRef<"Atelier", 'String'>
 }
     

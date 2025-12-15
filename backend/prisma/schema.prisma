@@ -88,7 +88,10 @@ model Candidat_Score {
 model Atelier {
   uid            String   @id @default(uuid())
   label          String   @unique
-  date           DateTime
+  description    String
+  draft          Boolean  @default(true)
+  createAt       DateTime @default(now())
+  updateAt       DateTime @updatedAt
   dockerfilelink String
 
   Atelier_Candidat Atelier_Candidat[]
