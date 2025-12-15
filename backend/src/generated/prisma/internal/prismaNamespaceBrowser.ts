@@ -115,10 +115,15 @@ export type Reponse_FiliereScalarFieldEnum = (typeof Reponse_FiliereScalarFieldE
 
 export const CandidatScalarFieldEnum = {
   uid: 'uid',
+  codeCandidat: 'codeCandidat',
   firstname: 'firstname',
   lastname: 'lastname',
   email: 'email',
-  dateBirth: 'dateBirth'
+  dateBirth: 'dateBirth',
+  appointment: 'appointment',
+  consentement: 'consentement',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type CandidatScalarFieldEnum = (typeof CandidatScalarFieldEnum)[keyof typeof CandidatScalarFieldEnum]

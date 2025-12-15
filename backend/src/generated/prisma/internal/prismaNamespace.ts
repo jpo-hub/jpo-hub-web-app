@@ -1228,10 +1228,15 @@ export type Reponse_FiliereScalarFieldEnum = (typeof Reponse_FiliereScalarFieldE
 
 export const CandidatScalarFieldEnum = {
   uid: 'uid',
+  codeCandidat: 'codeCandidat',
   firstname: 'firstname',
   lastname: 'lastname',
   email: 'email',
-  dateBirth: 'dateBirth'
+  dateBirth: 'dateBirth',
+  appointment: 'appointment',
+  consentement: 'consentement',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type CandidatScalarFieldEnum = (typeof CandidatScalarFieldEnum)[keyof typeof CandidatScalarFieldEnum]
@@ -1352,6 +1357,13 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
