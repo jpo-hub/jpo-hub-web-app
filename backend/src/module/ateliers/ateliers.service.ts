@@ -94,8 +94,26 @@ export class AteliersService {
     return ateliersEnrichis;
   }
 
-  findOne(id: string) {
-    return this.prisma.atelier.findUniqueOrThrow({ where: { uid: id } });
+  async findOne(id: string) {
+    const atelier = await this.prisma.atelier.findUniqueOrThrow({
+      where: { uid: id },
+    });
+
+    const liens = await this.prisma.atelier_Candidat.findMany({
+      where: { atelierId: atelier.uid },
+      select: {
+        candidat: {
+          select: {
+            uid: true,
+          },
+        },
+      },
+    });
+
+    return {
+      ...atelier,
+      candidats: liens.map((lien) => lien.candidat.uid),
+    };
   }
 
   async update(
