@@ -54,11 +54,23 @@ export class AteliersController {
   }
 
   @Patch(':uid')
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('imageUrl', { storage: memoryStorage() }))
   async update(
     @Param('uid') uid: string,
     @Body() updateAtelierDto: UpdateAtelierDto,
-  ): Promise<AtelierModel> {
-    return await this.ateliersService.update(uid, updateAtelierDto);
+    @UploadedFile(
+      new ParseFilePipe({
+        fileIsRequired: false,
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 5_000_000 }),
+          new FileTypeValidator({ fileType: 'image/(jpeg|png)' }),
+        ],
+      }),
+    )
+    file?: Express.Multer.File,
+  ) {
+    return this.ateliersService.update(uid, updateAtelierDto, file);
   }
 
   @Delete(':uid')
