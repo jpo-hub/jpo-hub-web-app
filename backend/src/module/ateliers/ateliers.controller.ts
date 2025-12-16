@@ -19,6 +19,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiConsumes } from '@nestjs/swagger';
 import type { Express } from 'express';
 import { memoryStorage } from 'multer';
+import { AtelierModel } from '../../generated/prisma/models/Atelier';
 
 @Controller('ateliers')
 export class AteliersController {
@@ -38,30 +39,30 @@ export class AteliersController {
       }),
     )
     file: Express.Multer.File,
-  ) {
+  ): Promise<AtelierModel> {
     return this.ateliersService.create(createAtelierDto, file);
   }
 
   @Get()
-  findAll() {
-    return this.ateliersService.findAll();
+  async findAll(): Promise<AtelierModel[]> {
+    return await this.ateliersService.findAll({});
   }
 
   @Get(':uid')
-  findOne(@Param('uid') id: string) {
-    return this.ateliersService.findOne(id);
+  findOne(@Param('uid') uid: string): Promise<AtelierModel> {
+    return this.ateliersService.findOne(uid);
   }
 
   @Patch(':uid')
-  update(
+  async update(
     @Param('uid') uid: string,
     @Body() updateAtelierDto: UpdateAtelierDto,
-  ) {
-    return this.ateliersService.update(uid, updateAtelierDto);
+  ): Promise<AtelierModel> {
+    return await this.ateliersService.update(uid, updateAtelierDto);
   }
 
   @Delete(':uid')
-  remove(@Param('uid') uid: string) {
-    return this.ateliersService.remove(uid);
+  async remove(@Param('uid') uid: string): Promise<AtelierModel> {
+    return await this.ateliersService.remove(uid);
   }
 }

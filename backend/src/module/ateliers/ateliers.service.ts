@@ -3,38 +3,43 @@ import { CreateAtelierDto } from './dto/create-atelier.dto';
 import { UpdateAtelierDto } from './dto/update-atelier.dto';
 import { ConfigService } from '@nestjs/config';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
-import type { Express } from 'express';
 import { PrismaService } from '../../prisma/prisma.service';
+import { Atelier, Prisma } from '../../generated/prisma/client';
 
 @Injectable()
 export class AteliersService {
   private readonly s3Client: S3Client;
+  private readonly bucket: string;
+  private readonly region: string;
 
   constructor(
     private readonly configService: ConfigService,
     private readonly prisma: PrismaService,
   ) {
+    this.bucket = this.configService.getOrThrow<string>('AWS_S3_BUCKET');
+    this.region = this.configService.getOrThrow<string>('AWS_S3_REGION');
+
     this.s3Client = new S3Client({
-      region: this.configService.getOrThrow('AWS_S3_REGION'),
+      region: this.region,
     });
   }
 
-  async create(createAtelierDto: CreateAtelierDto, file: Express.Multer.File) {
-    const bucket = this.configService.getOrThrow<string>('AWS_S3_BUCKET');
-    const region = this.configService.getOrThrow<string>('AWS_S3_REGION');
-
+  async create(
+    createAtelierDto: CreateAtelierDto,
+    file: Express.Multer.File,
+  ): Promise<Atelier> {
     const s3Key = `ateliers/${Date.now()}-${file.originalname}`;
 
     await this.s3Client.send(
       new PutObjectCommand({
-        Bucket: bucket,
+        Bucket: this.bucket,
         Key: s3Key,
         Body: file.buffer,
         ContentType: file.mimetype,
       }),
     );
 
-    const publicUrl = `https://${bucket}.s3.${region}.amazonaws.com/${s3Key}`;
+    const publicUrl = `https://${this.bucket}.s3.${this.region}.amazonaws.com/${s3Key}`;
 
     return this.prisma.atelier.create({
       data: {
@@ -47,19 +52,63 @@ export class AteliersService {
     });
   }
 
-  findAll() {
-    return this.prisma.atelier.findMany();
+  async findAll(
+    params: {
+      skip?: number;
+      take?: number;
+      cursor?: Prisma.AtelierWhereUniqueInput;
+      where?: Prisma.AtelierWhereInput;
+      orderBy?: Prisma.AtelierOrderByWithRelationInput;
+    } = {},
+  ) {
+    const { skip, take, cursor, where, orderBy } = params;
+
+    const ateliers = await this.prisma.atelier.findMany({
+      skip,
+      take,
+      cursor,
+      where,
+      orderBy,
+    });
+
+    const ateliersEnrichis = await Promise.all(
+      ateliers.map(async (atelier) => {
+        const liens = await this.prisma.atelier_Candidat.findMany({
+          where: { atelierId: atelier.uid },
+          select: {
+            candidat: {
+              select: {
+                uid: true,
+              },
+            },
+          },
+        });
+
+        return {
+          ...atelier,
+          candidats: liens.map((lien) => lien.candidat.uid),
+        };
+      }),
+    );
+
+    return ateliersEnrichis;
   }
 
   findOne(id: string) {
     return this.prisma.atelier.findUniqueOrThrow({ where: { uid: id } });
   }
 
-  update(id: string, updateAtelierDto: UpdateAtelierDto) {
-    return `This action updates a #${id} atelier`;
+  async update(
+    uid: string,
+    updateAtelierDto: UpdateAtelierDto,
+  ): Promise<Atelier> {
+    return this.prisma.atelier.update({
+      data: updateAtelierDto,
+      where: { uid: uid },
+    });
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} atelier`;
+  async remove(id: string): Promise<Atelier> {
+    return this.prisma.atelier.delete({ where: { uid: id } });
   }
 }
