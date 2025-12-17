@@ -9,6 +9,9 @@ const adapter = new PrismaPg({
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
+  // ----------------------------
+  // Filieres
+  // ----------------------------
   const informatique = await prisma.filiere.upsert({
     where: { label: 'Informatique' },
     update: {},
@@ -27,12 +30,23 @@ async function main() {
     create: { label: 'Cybersécurité' },
   });
 
-  console.log('✅ Filieres:', { informatique, iaData, cybersecurite });
+  console.log('✅ Filieres:', {
+    informatique: informatique.uid,
+    iaData: iaData.uid,
+    cybersecurite: cybersecurite.uid,
+  });
 
-  // Créer les ateliers
+  // ----------------------------
+  // Ateliers + scores par filiere (Atelier_Filiere)
+  // ----------------------------
   const atelier1 = await prisma.atelier.upsert({
     where: { label: 'Introduction à Docker' },
-    update: {},
+    update: {
+      description: "cool le description de l'atelier 1 :D",
+      imageUrl: 'https://example.com/docker-intro.png',
+      draft: false,
+      dockerfilelink: 'https://github.com/example/docker-intro',
+    },
     create: {
       label: 'Introduction à Docker',
       description: "cool le description de l'atelier 1 :D",
@@ -44,7 +58,12 @@ async function main() {
 
   const atelier2 = await prisma.atelier.upsert({
     where: { label: 'DevOps avancé' },
-    update: {},
+    update: {
+      description: "cool le description de l'atelier 2 :D",
+      imageUrl: 'https://example.com/devops-advanced.png',
+      draft: false,
+      dockerfilelink: 'https://github.com/example/devops-advanced',
+    },
     create: {
       label: 'DevOps avancé',
       description: "cool le description de l'atelier 2 :D",
@@ -56,7 +75,12 @@ async function main() {
 
   const atelier3 = await prisma.atelier.upsert({
     where: { label: 'Machine Learning avec Python' },
-    update: {},
+    update: {
+      description: "cool le description de l'atelier 3 :D",
+      imageUrl: 'https://example.com/ml-python.png',
+      draft: false,
+      dockerfilelink: 'https://github.com/example/ml-python',
+    },
     create: {
       label: 'Machine Learning avec Python',
       description: "cool le description de l'atelier 3 :D",
@@ -68,7 +92,12 @@ async function main() {
 
   const atelier4 = await prisma.atelier.upsert({
     where: { label: 'Sécurité Web OWASP' },
-    update: {},
+    update: {
+      description: "cool le description de l'atelier 4 :D",
+      imageUrl: 'https://example.com/owasp-security.png',
+      draft: false,
+      dockerfilelink: 'https://github.com/example/owasp-security',
+    },
     create: {
       label: 'Sécurité Web OWASP',
       description: "cool le description de l'atelier 4 :D",
@@ -78,13 +107,105 @@ async function main() {
     },
   });
 
-  console.log('✅ Ateliers:', { atelier1, atelier2, atelier3, atelier4 });
+  console.log('✅ Ateliers:', {
+    atelier1: atelier1.uid,
+    atelier2: atelier2.uid,
+    atelier3: atelier3.uid,
+    atelier4: atelier4.uid,
+  });
 
+  // Helper: upsert du lien Atelier_Filiere (avec score)
+  async function upsertAtelierFiliere(params: {
+    atelierId: string;
+    filiereId: string;
+    score: number;
+  }) {
+    const { atelierId, filiereId, score } = params;
+    return prisma.atelier_Filiere.upsert({
+      where: { atelierId_filiereId: { atelierId, filiereId } },
+      update: { score },
+      create: { atelierId, filiereId, score },
+    });
+  }
+
+  // Atelier 1 : Docker
+  await upsertAtelierFiliere({
+    atelierId: atelier1.uid,
+    filiereId: informatique.uid,
+    score: 8,
+  });
+  await upsertAtelierFiliere({
+    atelierId: atelier1.uid,
+    filiereId: iaData.uid,
+    score: 3,
+  });
+  await upsertAtelierFiliere({
+    atelierId: atelier1.uid,
+    filiereId: cybersecurite.uid,
+    score: 4,
+  });
+
+  // Atelier 2 : DevOps
+  await upsertAtelierFiliere({
+    atelierId: atelier2.uid,
+    filiereId: informatique.uid,
+    score: 6,
+  });
+  await upsertAtelierFiliere({
+    atelierId: atelier2.uid,
+    filiereId: iaData.uid,
+    score: 2,
+  });
+  await upsertAtelierFiliere({
+    atelierId: atelier2.uid,
+    filiereId: cybersecurite.uid,
+    score: 5,
+  });
+
+  // Atelier 3 : ML Python
+  await upsertAtelierFiliere({
+    atelierId: atelier3.uid,
+    filiereId: informatique.uid,
+    score: 4,
+  });
+  await upsertAtelierFiliere({
+    atelierId: atelier3.uid,
+    filiereId: iaData.uid,
+    score: 10,
+  });
+  await upsertAtelierFiliere({
+    atelierId: atelier3.uid,
+    filiereId: cybersecurite.uid,
+    score: 1,
+  });
+
+  // Atelier 4 : OWASP
+  await upsertAtelierFiliere({
+    atelierId: atelier4.uid,
+    filiereId: informatique.uid,
+    score: 3,
+  });
+  await upsertAtelierFiliere({
+    atelierId: atelier4.uid,
+    filiereId: iaData.uid,
+    score: 1,
+  });
+  await upsertAtelierFiliere({
+    atelierId: atelier4.uid,
+    filiereId: cybersecurite.uid,
+    score: 10,
+  });
+
+  console.log('✅ Atelier_Filiere: scores seeded');
+
+  // ----------------------------
+  // Candidat + liaisons (optionnel, comme ton seed)
+  // ----------------------------
   const candidat = await prisma.candidat.upsert({
-    where: { email: 'kantin.fagn@gmail.com' },
+    where: { email: '<EMAIL_PLACEHOLDER>' },
     update: {},
     create: {
-      email: 'kantin.fagn@gmail.com',
+      email: '<EMAIL_PLACEHOLDER>',
       firstname: 'Kantin',
       appointment: false,
       consentement: true,
@@ -93,9 +214,7 @@ async function main() {
     },
   });
 
-  console.log('✅ Candidat:', candidat);
-
-  const candidatFiliere = await prisma.candidat_Filiere.upsert({
+  await prisma.candidat_Filiere.upsert({
     where: {
       candidatId_filiereId: {
         candidatId: candidat.uid,
@@ -109,10 +228,7 @@ async function main() {
     },
   });
 
-  console.log('✅ Candidat-Filière:', candidatFiliere);
-
-  // Lier le candidat aux ateliers
-  const atelierCandidat1 = await prisma.atelier_Candidat.upsert({
+  await prisma.atelier_Candidat.upsert({
     where: {
       atelierId_candidatId: {
         atelierId: atelier1.uid,
@@ -120,13 +236,10 @@ async function main() {
       },
     },
     update: {},
-    create: {
-      atelierId: atelier1.uid,
-      candidatId: candidat.uid,
-    },
+    create: { atelierId: atelier1.uid, candidatId: candidat.uid },
   });
 
-  const atelierCandidat2 = await prisma.atelier_Candidat.upsert({
+  await prisma.atelier_Candidat.upsert({
     where: {
       atelierId_candidatId: {
         atelierId: atelier2.uid,
@@ -134,13 +247,10 @@ async function main() {
       },
     },
     update: {},
-    create: {
-      atelierId: atelier2.uid,
-      candidatId: candidat.uid,
-    },
+    create: { atelierId: atelier2.uid, candidatId: candidat.uid },
   });
 
-  const atelierCandidat3 = await prisma.atelier_Candidat.upsert({
+  await prisma.atelier_Candidat.upsert({
     where: {
       atelierId_candidatId: {
         atelierId: atelier3.uid,
@@ -148,17 +258,10 @@ async function main() {
       },
     },
     update: {},
-    create: {
-      atelierId: atelier3.uid,
-      candidatId: candidat.uid,
-    },
+    create: { atelierId: atelier3.uid, candidatId: candidat.uid },
   });
 
-  console.log('✅ Candidat-Ateliers:', {
-    atelierCandidat1,
-    atelierCandidat2,
-    atelierCandidat3,
-  });
+  console.log('✅ Candidat + liens seeded');
 }
 
 main()

@@ -59,6 +59,7 @@ export const ModelName = {
   Candidat_Filiere: 'Candidat_Filiere',
   Candidat_Score: 'Candidat_Score',
   Atelier: 'Atelier',
+  Atelier_Filiere: 'Atelier_Filiere',
   Atelier_Candidat: 'Atelier_Candidat',
   Admin: 'Admin'
 } as const
@@ -158,6 +159,15 @@ export const AtelierScalarFieldEnum = {
 } as const
 
 export type AtelierScalarFieldEnum = (typeof AtelierScalarFieldEnum)[keyof typeof AtelierScalarFieldEnum]
+
+
+export const Atelier_FiliereScalarFieldEnum = {
+  atelierId: 'atelierId',
+  filiereId: 'filiereId',
+  score: 'score'
+} as const
+
+export type Atelier_FiliereScalarFieldEnum = (typeof Atelier_FiliereScalarFieldEnum)[keyof typeof Atelier_FiliereScalarFieldEnum]
 
 
 export const Atelier_CandidatScalarFieldEnum = {

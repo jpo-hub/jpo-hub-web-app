@@ -14,12 +14,14 @@ import {
 } from '@nestjs/common';
 import { AteliersService } from './ateliers.service';
 import { CreateAtelierDto } from './dto/create-atelier.dto';
+import { AtelierResponseDto } from './dto/atelier-response.dto';
 import { UpdateAtelierDto } from './dto/update-atelier.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiConsumes } from '@nestjs/swagger';
+import { ApiConsumes, ApiOkResponse } from '@nestjs/swagger';
 import type { Express } from 'express';
 import { memoryStorage } from 'multer';
 import { AtelierModel } from '../../generated/prisma/models/Atelier';
+import type { AtelierApi } from './ateliers.service';
 
 @Controller('ateliers')
 export class AteliersController {
@@ -39,17 +41,19 @@ export class AteliersController {
       }),
     )
     file: Express.Multer.File,
-  ): Promise<AtelierModel> {
+  ): Promise<AtelierApi> {
     return this.ateliersService.create(createAtelierDto, file);
   }
 
   @Get()
-  async findAll(): Promise<AtelierModel[]> {
+  @ApiOkResponse({ type: AtelierResponseDto, isArray: true })
+  async findAll(): Promise<AtelierApi[]> {
     return await this.ateliersService.findAll({});
   }
 
   @Get(':uid')
-  findOne(@Param('uid') uid: string): Promise<AtelierModel> {
+  @ApiOkResponse({ type: AtelierResponseDto })
+  findOne(@Param('uid') uid: string): Promise<AtelierApi> {
     return this.ateliersService.findOne(uid);
   }
 

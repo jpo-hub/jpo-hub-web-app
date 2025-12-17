@@ -161,6 +161,7 @@ export type FiliereWhereInput = {
   Candidat_Filiere?: Prisma.Candidat_FiliereListRelationFilter
   Reponse_Filiere?: Prisma.Reponse_FiliereListRelationFilter
   Candidat_Score?: Prisma.Candidat_ScoreListRelationFilter
+  Atelier_Filiere?: Prisma.Atelier_FiliereListRelationFilter
 }
 
 export type FiliereOrderByWithRelationInput = {
@@ -169,6 +170,7 @@ export type FiliereOrderByWithRelationInput = {
   Candidat_Filiere?: Prisma.Candidat_FiliereOrderByRelationAggregateInput
   Reponse_Filiere?: Prisma.Reponse_FiliereOrderByRelationAggregateInput
   Candidat_Score?: Prisma.Candidat_ScoreOrderByRelationAggregateInput
+  Atelier_Filiere?: Prisma.Atelier_FiliereOrderByRelationAggregateInput
 }
 
 export type FiliereWhereUniqueInput = Prisma.AtLeast<{
@@ -180,6 +182,7 @@ export type FiliereWhereUniqueInput = Prisma.AtLeast<{
   Candidat_Filiere?: Prisma.Candidat_FiliereListRelationFilter
   Reponse_Filiere?: Prisma.Reponse_FiliereListRelationFilter
   Candidat_Score?: Prisma.Candidat_ScoreListRelationFilter
+  Atelier_Filiere?: Prisma.Atelier_FiliereListRelationFilter
 }, "uid" | "label">
 
 export type FiliereOrderByWithAggregationInput = {
@@ -204,6 +207,7 @@ export type FiliereCreateInput = {
   Candidat_Filiere?: Prisma.Candidat_FiliereCreateNestedManyWithoutFiliereInput
   Reponse_Filiere?: Prisma.Reponse_FiliereCreateNestedManyWithoutFiliereInput
   Candidat_Score?: Prisma.Candidat_ScoreCreateNestedManyWithoutFiliereInput
+  Atelier_Filiere?: Prisma.Atelier_FiliereCreateNestedManyWithoutFiliereInput
 }
 
 export type FiliereUncheckedCreateInput = {
@@ -212,6 +216,7 @@ export type FiliereUncheckedCreateInput = {
   Candidat_Filiere?: Prisma.Candidat_FiliereUncheckedCreateNestedManyWithoutFiliereInput
   Reponse_Filiere?: Prisma.Reponse_FiliereUncheckedCreateNestedManyWithoutFiliereInput
   Candidat_Score?: Prisma.Candidat_ScoreUncheckedCreateNestedManyWithoutFiliereInput
+  Atelier_Filiere?: Prisma.Atelier_FiliereUncheckedCreateNestedManyWithoutFiliereInput
 }
 
 export type FiliereUpdateInput = {
@@ -220,6 +225,7 @@ export type FiliereUpdateInput = {
   Candidat_Filiere?: Prisma.Candidat_FiliereUpdateManyWithoutFiliereNestedInput
   Reponse_Filiere?: Prisma.Reponse_FiliereUpdateManyWithoutFiliereNestedInput
   Candidat_Score?: Prisma.Candidat_ScoreUpdateManyWithoutFiliereNestedInput
+  Atelier_Filiere?: Prisma.Atelier_FiliereUpdateManyWithoutFiliereNestedInput
 }
 
 export type FiliereUncheckedUpdateInput = {
@@ -228,6 +234,7 @@ export type FiliereUncheckedUpdateInput = {
   Candidat_Filiere?: Prisma.Candidat_FiliereUncheckedUpdateManyWithoutFiliereNestedInput
   Reponse_Filiere?: Prisma.Reponse_FiliereUncheckedUpdateManyWithoutFiliereNestedInput
   Candidat_Score?: Prisma.Candidat_ScoreUncheckedUpdateManyWithoutFiliereNestedInput
+  Atelier_Filiere?: Prisma.Atelier_FiliereUncheckedUpdateManyWithoutFiliereNestedInput
 }
 
 export type FiliereCreateManyInput = {
@@ -311,11 +318,26 @@ export type FiliereUpdateOneRequiredWithoutCandidat_ScoreNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.FiliereUpdateToOneWithWhereWithoutCandidat_ScoreInput, Prisma.FiliereUpdateWithoutCandidat_ScoreInput>, Prisma.FiliereUncheckedUpdateWithoutCandidat_ScoreInput>
 }
 
+export type FiliereCreateNestedOneWithoutAtelier_FiliereInput = {
+  create?: Prisma.XOR<Prisma.FiliereCreateWithoutAtelier_FiliereInput, Prisma.FiliereUncheckedCreateWithoutAtelier_FiliereInput>
+  connectOrCreate?: Prisma.FiliereCreateOrConnectWithoutAtelier_FiliereInput
+  connect?: Prisma.FiliereWhereUniqueInput
+}
+
+export type FiliereUpdateOneRequiredWithoutAtelier_FiliereNestedInput = {
+  create?: Prisma.XOR<Prisma.FiliereCreateWithoutAtelier_FiliereInput, Prisma.FiliereUncheckedCreateWithoutAtelier_FiliereInput>
+  connectOrCreate?: Prisma.FiliereCreateOrConnectWithoutAtelier_FiliereInput
+  upsert?: Prisma.FiliereUpsertWithoutAtelier_FiliereInput
+  connect?: Prisma.FiliereWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FiliereUpdateToOneWithWhereWithoutAtelier_FiliereInput, Prisma.FiliereUpdateWithoutAtelier_FiliereInput>, Prisma.FiliereUncheckedUpdateWithoutAtelier_FiliereInput>
+}
+
 export type FiliereCreateWithoutReponse_FiliereInput = {
   uid?: string
   label: string
   Candidat_Filiere?: Prisma.Candidat_FiliereCreateNestedManyWithoutFiliereInput
   Candidat_Score?: Prisma.Candidat_ScoreCreateNestedManyWithoutFiliereInput
+  Atelier_Filiere?: Prisma.Atelier_FiliereCreateNestedManyWithoutFiliereInput
 }
 
 export type FiliereUncheckedCreateWithoutReponse_FiliereInput = {
@@ -323,6 +345,7 @@ export type FiliereUncheckedCreateWithoutReponse_FiliereInput = {
   label: string
   Candidat_Filiere?: Prisma.Candidat_FiliereUncheckedCreateNestedManyWithoutFiliereInput
   Candidat_Score?: Prisma.Candidat_ScoreUncheckedCreateNestedManyWithoutFiliereInput
+  Atelier_Filiere?: Prisma.Atelier_FiliereUncheckedCreateNestedManyWithoutFiliereInput
 }
 
 export type FiliereCreateOrConnectWithoutReponse_FiliereInput = {
@@ -346,6 +369,7 @@ export type FiliereUpdateWithoutReponse_FiliereInput = {
   label?: Prisma.StringFieldUpdateOperationsInput | string
   Candidat_Filiere?: Prisma.Candidat_FiliereUpdateManyWithoutFiliereNestedInput
   Candidat_Score?: Prisma.Candidat_ScoreUpdateManyWithoutFiliereNestedInput
+  Atelier_Filiere?: Prisma.Atelier_FiliereUpdateManyWithoutFiliereNestedInput
 }
 
 export type FiliereUncheckedUpdateWithoutReponse_FiliereInput = {
@@ -353,6 +377,7 @@ export type FiliereUncheckedUpdateWithoutReponse_FiliereInput = {
   label?: Prisma.StringFieldUpdateOperationsInput | string
   Candidat_Filiere?: Prisma.Candidat_FiliereUncheckedUpdateManyWithoutFiliereNestedInput
   Candidat_Score?: Prisma.Candidat_ScoreUncheckedUpdateManyWithoutFiliereNestedInput
+  Atelier_Filiere?: Prisma.Atelier_FiliereUncheckedUpdateManyWithoutFiliereNestedInput
 }
 
 export type FiliereCreateWithoutCandidat_FiliereInput = {
@@ -360,6 +385,7 @@ export type FiliereCreateWithoutCandidat_FiliereInput = {
   label: string
   Reponse_Filiere?: Prisma.Reponse_FiliereCreateNestedManyWithoutFiliereInput
   Candidat_Score?: Prisma.Candidat_ScoreCreateNestedManyWithoutFiliereInput
+  Atelier_Filiere?: Prisma.Atelier_FiliereCreateNestedManyWithoutFiliereInput
 }
 
 export type FiliereUncheckedCreateWithoutCandidat_FiliereInput = {
@@ -367,6 +393,7 @@ export type FiliereUncheckedCreateWithoutCandidat_FiliereInput = {
   label: string
   Reponse_Filiere?: Prisma.Reponse_FiliereUncheckedCreateNestedManyWithoutFiliereInput
   Candidat_Score?: Prisma.Candidat_ScoreUncheckedCreateNestedManyWithoutFiliereInput
+  Atelier_Filiere?: Prisma.Atelier_FiliereUncheckedCreateNestedManyWithoutFiliereInput
 }
 
 export type FiliereCreateOrConnectWithoutCandidat_FiliereInput = {
@@ -390,6 +417,7 @@ export type FiliereUpdateWithoutCandidat_FiliereInput = {
   label?: Prisma.StringFieldUpdateOperationsInput | string
   Reponse_Filiere?: Prisma.Reponse_FiliereUpdateManyWithoutFiliereNestedInput
   Candidat_Score?: Prisma.Candidat_ScoreUpdateManyWithoutFiliereNestedInput
+  Atelier_Filiere?: Prisma.Atelier_FiliereUpdateManyWithoutFiliereNestedInput
 }
 
 export type FiliereUncheckedUpdateWithoutCandidat_FiliereInput = {
@@ -397,6 +425,7 @@ export type FiliereUncheckedUpdateWithoutCandidat_FiliereInput = {
   label?: Prisma.StringFieldUpdateOperationsInput | string
   Reponse_Filiere?: Prisma.Reponse_FiliereUncheckedUpdateManyWithoutFiliereNestedInput
   Candidat_Score?: Prisma.Candidat_ScoreUncheckedUpdateManyWithoutFiliereNestedInput
+  Atelier_Filiere?: Prisma.Atelier_FiliereUncheckedUpdateManyWithoutFiliereNestedInput
 }
 
 export type FiliereCreateWithoutCandidat_ScoreInput = {
@@ -404,6 +433,7 @@ export type FiliereCreateWithoutCandidat_ScoreInput = {
   label: string
   Candidat_Filiere?: Prisma.Candidat_FiliereCreateNestedManyWithoutFiliereInput
   Reponse_Filiere?: Prisma.Reponse_FiliereCreateNestedManyWithoutFiliereInput
+  Atelier_Filiere?: Prisma.Atelier_FiliereCreateNestedManyWithoutFiliereInput
 }
 
 export type FiliereUncheckedCreateWithoutCandidat_ScoreInput = {
@@ -411,6 +441,7 @@ export type FiliereUncheckedCreateWithoutCandidat_ScoreInput = {
   label: string
   Candidat_Filiere?: Prisma.Candidat_FiliereUncheckedCreateNestedManyWithoutFiliereInput
   Reponse_Filiere?: Prisma.Reponse_FiliereUncheckedCreateNestedManyWithoutFiliereInput
+  Atelier_Filiere?: Prisma.Atelier_FiliereUncheckedCreateNestedManyWithoutFiliereInput
 }
 
 export type FiliereCreateOrConnectWithoutCandidat_ScoreInput = {
@@ -434,6 +465,7 @@ export type FiliereUpdateWithoutCandidat_ScoreInput = {
   label?: Prisma.StringFieldUpdateOperationsInput | string
   Candidat_Filiere?: Prisma.Candidat_FiliereUpdateManyWithoutFiliereNestedInput
   Reponse_Filiere?: Prisma.Reponse_FiliereUpdateManyWithoutFiliereNestedInput
+  Atelier_Filiere?: Prisma.Atelier_FiliereUpdateManyWithoutFiliereNestedInput
 }
 
 export type FiliereUncheckedUpdateWithoutCandidat_ScoreInput = {
@@ -441,6 +473,55 @@ export type FiliereUncheckedUpdateWithoutCandidat_ScoreInput = {
   label?: Prisma.StringFieldUpdateOperationsInput | string
   Candidat_Filiere?: Prisma.Candidat_FiliereUncheckedUpdateManyWithoutFiliereNestedInput
   Reponse_Filiere?: Prisma.Reponse_FiliereUncheckedUpdateManyWithoutFiliereNestedInput
+  Atelier_Filiere?: Prisma.Atelier_FiliereUncheckedUpdateManyWithoutFiliereNestedInput
+}
+
+export type FiliereCreateWithoutAtelier_FiliereInput = {
+  uid?: string
+  label: string
+  Candidat_Filiere?: Prisma.Candidat_FiliereCreateNestedManyWithoutFiliereInput
+  Reponse_Filiere?: Prisma.Reponse_FiliereCreateNestedManyWithoutFiliereInput
+  Candidat_Score?: Prisma.Candidat_ScoreCreateNestedManyWithoutFiliereInput
+}
+
+export type FiliereUncheckedCreateWithoutAtelier_FiliereInput = {
+  uid?: string
+  label: string
+  Candidat_Filiere?: Prisma.Candidat_FiliereUncheckedCreateNestedManyWithoutFiliereInput
+  Reponse_Filiere?: Prisma.Reponse_FiliereUncheckedCreateNestedManyWithoutFiliereInput
+  Candidat_Score?: Prisma.Candidat_ScoreUncheckedCreateNestedManyWithoutFiliereInput
+}
+
+export type FiliereCreateOrConnectWithoutAtelier_FiliereInput = {
+  where: Prisma.FiliereWhereUniqueInput
+  create: Prisma.XOR<Prisma.FiliereCreateWithoutAtelier_FiliereInput, Prisma.FiliereUncheckedCreateWithoutAtelier_FiliereInput>
+}
+
+export type FiliereUpsertWithoutAtelier_FiliereInput = {
+  update: Prisma.XOR<Prisma.FiliereUpdateWithoutAtelier_FiliereInput, Prisma.FiliereUncheckedUpdateWithoutAtelier_FiliereInput>
+  create: Prisma.XOR<Prisma.FiliereCreateWithoutAtelier_FiliereInput, Prisma.FiliereUncheckedCreateWithoutAtelier_FiliereInput>
+  where?: Prisma.FiliereWhereInput
+}
+
+export type FiliereUpdateToOneWithWhereWithoutAtelier_FiliereInput = {
+  where?: Prisma.FiliereWhereInput
+  data: Prisma.XOR<Prisma.FiliereUpdateWithoutAtelier_FiliereInput, Prisma.FiliereUncheckedUpdateWithoutAtelier_FiliereInput>
+}
+
+export type FiliereUpdateWithoutAtelier_FiliereInput = {
+  uid?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.StringFieldUpdateOperationsInput | string
+  Candidat_Filiere?: Prisma.Candidat_FiliereUpdateManyWithoutFiliereNestedInput
+  Reponse_Filiere?: Prisma.Reponse_FiliereUpdateManyWithoutFiliereNestedInput
+  Candidat_Score?: Prisma.Candidat_ScoreUpdateManyWithoutFiliereNestedInput
+}
+
+export type FiliereUncheckedUpdateWithoutAtelier_FiliereInput = {
+  uid?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.StringFieldUpdateOperationsInput | string
+  Candidat_Filiere?: Prisma.Candidat_FiliereUncheckedUpdateManyWithoutFiliereNestedInput
+  Reponse_Filiere?: Prisma.Reponse_FiliereUncheckedUpdateManyWithoutFiliereNestedInput
+  Candidat_Score?: Prisma.Candidat_ScoreUncheckedUpdateManyWithoutFiliereNestedInput
 }
 
 
@@ -452,12 +533,14 @@ export type FiliereCountOutputType = {
   Candidat_Filiere: number
   Reponse_Filiere: number
   Candidat_Score: number
+  Atelier_Filiere: number
 }
 
 export type FiliereCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   Candidat_Filiere?: boolean | FiliereCountOutputTypeCountCandidat_FiliereArgs
   Reponse_Filiere?: boolean | FiliereCountOutputTypeCountReponse_FiliereArgs
   Candidat_Score?: boolean | FiliereCountOutputTypeCountCandidat_ScoreArgs
+  Atelier_Filiere?: boolean | FiliereCountOutputTypeCountAtelier_FiliereArgs
 }
 
 /**
@@ -491,6 +574,13 @@ export type FiliereCountOutputTypeCountCandidat_ScoreArgs<ExtArgs extends runtim
   where?: Prisma.Candidat_ScoreWhereInput
 }
 
+/**
+ * FiliereCountOutputType without action
+ */
+export type FiliereCountOutputTypeCountAtelier_FiliereArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.Atelier_FiliereWhereInput
+}
+
 
 export type FiliereSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   uid?: boolean
@@ -498,6 +588,7 @@ export type FiliereSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   Candidat_Filiere?: boolean | Prisma.Filiere$Candidat_FiliereArgs<ExtArgs>
   Reponse_Filiere?: boolean | Prisma.Filiere$Reponse_FiliereArgs<ExtArgs>
   Candidat_Score?: boolean | Prisma.Filiere$Candidat_ScoreArgs<ExtArgs>
+  Atelier_Filiere?: boolean | Prisma.Filiere$Atelier_FiliereArgs<ExtArgs>
   _count?: boolean | Prisma.FiliereCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["filiere"]>
 
@@ -521,6 +612,7 @@ export type FiliereInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   Candidat_Filiere?: boolean | Prisma.Filiere$Candidat_FiliereArgs<ExtArgs>
   Reponse_Filiere?: boolean | Prisma.Filiere$Reponse_FiliereArgs<ExtArgs>
   Candidat_Score?: boolean | Prisma.Filiere$Candidat_ScoreArgs<ExtArgs>
+  Atelier_Filiere?: boolean | Prisma.Filiere$Atelier_FiliereArgs<ExtArgs>
   _count?: boolean | Prisma.FiliereCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type FiliereIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -532,6 +624,7 @@ export type $FilierePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     Candidat_Filiere: Prisma.$Candidat_FilierePayload<ExtArgs>[]
     Reponse_Filiere: Prisma.$Reponse_FilierePayload<ExtArgs>[]
     Candidat_Score: Prisma.$Candidat_ScorePayload<ExtArgs>[]
+    Atelier_Filiere: Prisma.$Atelier_FilierePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     uid: string
@@ -933,6 +1026,7 @@ export interface Prisma__FiliereClient<T, Null = never, ExtArgs extends runtime.
   Candidat_Filiere<T extends Prisma.Filiere$Candidat_FiliereArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Filiere$Candidat_FiliereArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$Candidat_FilierePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   Reponse_Filiere<T extends Prisma.Filiere$Reponse_FiliereArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Filiere$Reponse_FiliereArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$Reponse_FilierePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   Candidat_Score<T extends Prisma.Filiere$Candidat_ScoreArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Filiere$Candidat_ScoreArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$Candidat_ScorePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  Atelier_Filiere<T extends Prisma.Filiere$Atelier_FiliereArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Filiere$Atelier_FiliereArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$Atelier_FilierePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1421,6 +1515,30 @@ export type Filiere$Candidat_ScoreArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   distinct?: Prisma.Candidat_ScoreScalarFieldEnum | Prisma.Candidat_ScoreScalarFieldEnum[]
+}
+
+/**
+ * Filiere.Atelier_Filiere
+ */
+export type Filiere$Atelier_FiliereArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Atelier_Filiere
+   */
+  select?: Prisma.Atelier_FiliereSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Atelier_Filiere
+   */
+  omit?: Prisma.Atelier_FiliereOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.Atelier_FiliereInclude<ExtArgs> | null
+  where?: Prisma.Atelier_FiliereWhereInput
+  orderBy?: Prisma.Atelier_FiliereOrderByWithRelationInput | Prisma.Atelier_FiliereOrderByWithRelationInput[]
+  cursor?: Prisma.Atelier_FiliereWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Atelier_FiliereScalarFieldEnum | Prisma.Atelier_FiliereScalarFieldEnum[]
 }
 
 /**
