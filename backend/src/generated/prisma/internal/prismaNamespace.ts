@@ -392,6 +392,7 @@ export const ModelName = {
   Candidat_Filiere: 'Candidat_Filiere',
   Candidat_Score: 'Candidat_Score',
   Atelier: 'Atelier',
+  Atelier_Filiere: 'Atelier_Filiere',
   Atelier_Candidat: 'Atelier_Candidat',
   Admin: 'Admin'
 } as const
@@ -409,7 +410,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "filiere" | "response" | "question" | "reponse_Filiere" | "candidat" | "candidat_Filiere" | "candidat_Score" | "atelier" | "atelier_Candidat" | "admin"
+    modelProps: "filiere" | "response" | "question" | "reponse_Filiere" | "candidat" | "candidat_Filiere" | "candidat_Score" | "atelier" | "atelier_Filiere" | "atelier_Candidat" | "admin"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1005,6 +1006,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Atelier_Filiere: {
+      payload: Prisma.$Atelier_FilierePayload<ExtArgs>
+      fields: Prisma.Atelier_FiliereFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.Atelier_FiliereFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Atelier_FilierePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.Atelier_FiliereFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Atelier_FilierePayload>
+        }
+        findFirst: {
+          args: Prisma.Atelier_FiliereFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Atelier_FilierePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.Atelier_FiliereFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Atelier_FilierePayload>
+        }
+        findMany: {
+          args: Prisma.Atelier_FiliereFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Atelier_FilierePayload>[]
+        }
+        create: {
+          args: Prisma.Atelier_FiliereCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Atelier_FilierePayload>
+        }
+        createMany: {
+          args: Prisma.Atelier_FiliereCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.Atelier_FiliereCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Atelier_FilierePayload>[]
+        }
+        delete: {
+          args: Prisma.Atelier_FiliereDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Atelier_FilierePayload>
+        }
+        update: {
+          args: Prisma.Atelier_FiliereUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Atelier_FilierePayload>
+        }
+        deleteMany: {
+          args: Prisma.Atelier_FiliereDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.Atelier_FiliereUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.Atelier_FiliereUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Atelier_FilierePayload>[]
+        }
+        upsert: {
+          args: Prisma.Atelier_FiliereUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$Atelier_FilierePayload>
+        }
+        aggregate: {
+          args: Prisma.Atelier_FiliereAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAtelier_Filiere>
+        }
+        groupBy: {
+          args: Prisma.Atelier_FiliereGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Atelier_FiliereGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.Atelier_FiliereCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Atelier_FiliereCountAggregateOutputType> | number
+        }
+      }
+    }
     Atelier_Candidat: {
       payload: Prisma.$Atelier_CandidatPayload<ExtArgs>
       fields: Prisma.Atelier_CandidatFieldRefs
@@ -1273,6 +1348,15 @@ export const AtelierScalarFieldEnum = {
 export type AtelierScalarFieldEnum = (typeof AtelierScalarFieldEnum)[keyof typeof AtelierScalarFieldEnum]
 
 
+export const Atelier_FiliereScalarFieldEnum = {
+  atelierId: 'atelierId',
+  filiereId: 'filiereId',
+  score: 'score'
+} as const
+
+export type Atelier_FiliereScalarFieldEnum = (typeof Atelier_FiliereScalarFieldEnum)[keyof typeof Atelier_FiliereScalarFieldEnum]
+
+
 export const Atelier_CandidatScalarFieldEnum = {
   atelierId: 'atelierId',
   candidatId: 'candidatId'
@@ -1487,6 +1571,7 @@ export type GlobalOmitConfig = {
   candidat_Filiere?: Prisma.Candidat_FiliereOmit
   candidat_Score?: Prisma.Candidat_ScoreOmit
   atelier?: Prisma.AtelierOmit
+  atelier_Filiere?: Prisma.Atelier_FiliereOmit
   atelier_Candidat?: Prisma.Atelier_CandidatOmit
   admin?: Prisma.AdminOmit
 }

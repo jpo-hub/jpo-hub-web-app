@@ -74,6 +74,13 @@ CREATE TABLE "Atelier" (
 );
 
 -- CreateTable
+CREATE TABLE "Atelier_Filiere" (
+    "atelierId" TEXT NOT NULL,
+    "filiereId" TEXT NOT NULL,
+    "score" INTEGER NOT NULL DEFAULT 0
+);
+
+-- CreateTable
 CREATE TABLE "Atelier_Candidat" (
     "atelierId" TEXT NOT NULL,
     "candidatId" TEXT NOT NULL
@@ -112,6 +119,9 @@ CREATE UNIQUE INDEX "Candidat_Score_candidatId_key" ON "Candidat_Score"("candida
 CREATE UNIQUE INDEX "Atelier_label_key" ON "Atelier"("label");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Atelier_Filiere_atelierId_filiereId_key" ON "Atelier_Filiere"("atelierId", "filiereId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Atelier_Candidat_atelierId_candidatId_key" ON "Atelier_Candidat"("atelierId", "candidatId");
 
 -- CreateIndex
@@ -137,6 +147,12 @@ ALTER TABLE "Candidat_Score" ADD CONSTRAINT "Candidat_Score_candidatId_fkey" FOR
 
 -- AddForeignKey
 ALTER TABLE "Candidat_Score" ADD CONSTRAINT "Candidat_Score_filiereId_fkey" FOREIGN KEY ("filiereId") REFERENCES "Filiere"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Atelier_Filiere" ADD CONSTRAINT "Atelier_Filiere_atelierId_fkey" FOREIGN KEY ("atelierId") REFERENCES "Atelier"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Atelier_Filiere" ADD CONSTRAINT "Atelier_Filiere_filiereId_fkey" FOREIGN KEY ("filiereId") REFERENCES "Filiere"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Atelier_Candidat" ADD CONSTRAINT "Atelier_Candidat_atelierId_fkey" FOREIGN KEY ("atelierId") REFERENCES "Atelier"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
