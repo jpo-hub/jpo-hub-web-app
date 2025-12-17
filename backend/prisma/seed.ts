@@ -35,7 +35,9 @@ async function main() {
     update: {},
     create: {
       label: 'Introduction à Docker',
-      date: new Date('2024-01-15T10:00:00'),
+      description: "cool le description de l'atelier 1 :D",
+      imageUrl: 'https://example.com/docker-intro.png',
+      draft: false,
       dockerfilelink: 'https://github.com/example/docker-intro',
     },
   });
@@ -45,7 +47,9 @@ async function main() {
     update: {},
     create: {
       label: 'DevOps avancé',
-      date: new Date('2024-01-20T14:00:00'),
+      description: "cool le description de l'atelier 2 :D",
+      imageUrl: 'https://example.com/devops-advanced.png',
+      draft: false,
       dockerfilelink: 'https://github.com/example/devops-advanced',
     },
   });
@@ -55,7 +59,9 @@ async function main() {
     update: {},
     create: {
       label: 'Machine Learning avec Python',
-      date: new Date('2024-01-25T09:30:00'),
+      description: "cool le description de l'atelier 3 :D",
+      imageUrl: 'https://example.com/ml-python.png',
+      draft: false,
       dockerfilelink: 'https://github.com/example/ml-python',
     },
   });
@@ -65,7 +71,9 @@ async function main() {
     update: {},
     create: {
       label: 'Sécurité Web OWASP',
-      date: new Date('2024-02-01T13:00:00'),
+      description: "cool le description de l'atelier 4 :D",
+      imageUrl: 'https://example.com/owasp-security.png',
+      draft: false,
       dockerfilelink: 'https://github.com/example/owasp-security',
     },
   });

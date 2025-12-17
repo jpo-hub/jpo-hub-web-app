@@ -63,7 +63,11 @@ CREATE TABLE "Candidat_Score" (
 CREATE TABLE "Atelier" (
     "uid" TEXT NOT NULL,
     "label" TEXT NOT NULL,
-    "date" TIMESTAMP(3) NOT NULL,
+    "imageUrl" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "draft" BOOLEAN NOT NULL DEFAULT true,
+    "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updateAt" TIMESTAMP(3) NOT NULL,
     "dockerfilelink" TEXT NOT NULL,
 
     CONSTRAINT "Atelier_pkey" PRIMARY KEY ("uid")

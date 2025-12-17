@@ -149,7 +149,11 @@ export type Candidat_ScoreScalarFieldEnum = (typeof Candidat_ScoreScalarFieldEnu
 export const AtelierScalarFieldEnum = {
   uid: 'uid',
   label: 'label',
-  date: 'date',
+  imageUrl: 'imageUrl',
+  description: 'description',
+  draft: 'draft',
+  createAt: 'createAt',
+  updateAt: 'updateAt',
   dockerfilelink: 'dockerfilelink'
 } as const
 
