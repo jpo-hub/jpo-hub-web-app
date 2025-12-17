@@ -101,7 +101,22 @@ async function main() {
     },
   });
 
+  const candidatFiliereCyber = await prisma.candidat_Filiere.upsert({
+    where: {
+      candidatId_filiereId: {
+        candidatId: candidat.uid,
+        filiereId: cybersecurite.uid,
+      },
+    },
+    update: {},
+    create: {
+      candidatId: candidat.uid,
+      filiereId: cybersecurite.uid,
+    },
+  });
+
   console.log('✅ Candidat-Filière:', candidatFiliere);
+  console.log('✅ Candidat-Filière:', candidatFiliereCyber);
 
   // Lier le candidat aux ateliers
   const atelierCandidat1 = await prisma.atelier_Candidat.upsert({

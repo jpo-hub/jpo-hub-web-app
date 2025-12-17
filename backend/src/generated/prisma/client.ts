@@ -68,11 +68,6 @@ export type Candidat = Prisma.CandidatModel
  */
 export type Candidat_Filiere = Prisma.Candidat_FiliereModel
 /**
- * Model Candidat_Score
- * 
- */
-export type Candidat_Score = Prisma.Candidat_ScoreModel
-/**
  * Model Atelier
  * 
  */

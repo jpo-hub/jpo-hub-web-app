@@ -27,57 +27,57 @@ export type AggregateReponse_Filiere = {
 }
 
 export type Reponse_FiliereAvgAggregateOutputType = {
-  valeur: number | null
+  score: number | null
 }
 
 export type Reponse_FiliereSumAggregateOutputType = {
-  valeur: number | null
+  score: number | null
 }
 
 export type Reponse_FiliereMinAggregateOutputType = {
   reponseId: string | null
   filiereId: string | null
-  valeur: number | null
+  score: number | null
 }
 
 export type Reponse_FiliereMaxAggregateOutputType = {
   reponseId: string | null
   filiereId: string | null
-  valeur: number | null
+  score: number | null
 }
 
 export type Reponse_FiliereCountAggregateOutputType = {
   reponseId: number
   filiereId: number
-  valeur: number
+  score: number
   _all: number
 }
 
 
 export type Reponse_FiliereAvgAggregateInputType = {
-  valeur?: true
+  score?: true
 }
 
 export type Reponse_FiliereSumAggregateInputType = {
-  valeur?: true
+  score?: true
 }
 
 export type Reponse_FiliereMinAggregateInputType = {
   reponseId?: true
   filiereId?: true
-  valeur?: true
+  score?: true
 }
 
 export type Reponse_FiliereMaxAggregateInputType = {
   reponseId?: true
   filiereId?: true
-  valeur?: true
+  score?: true
 }
 
 export type Reponse_FiliereCountAggregateInputType = {
   reponseId?: true
   filiereId?: true
-  valeur?: true
+  score?: true
   _all?: true
 }
 
@@ -170,7 +170,7 @@ export type Reponse_FiliereGroupByArgs<ExtArgs extends runtime.Types.Extensions.
 export type Reponse_FiliereGroupByOutputType = {
   reponseId: string
   filiereId: string
-  valeur: number
+  score: number
   _count: Reponse_FiliereCountAggregateOutputType | null
   _avg: Reponse_FiliereAvgAggregateOutputType | null
   _sum: Reponse_FiliereSumAggregateOutputType | null
@@ -199,7 +199,7 @@ export type Reponse_FiliereWhereInput = {
   NOT?: Prisma.Reponse_FiliereWhereInput | Prisma.Reponse_FiliereWhereInput[]
   reponseId?: Prisma.StringFilter<"Reponse_Filiere"> | string
   filiereId?: Prisma.StringFilter<"Reponse_Filiere"> | string
-  valeur?: Prisma.IntFilter<"Reponse_Filiere"> | number
+  score?: Prisma.IntFilter<"Reponse_Filiere"> | number
   response?: Prisma.XOR<Prisma.ResponseScalarRelationFilter, Prisma.ResponseWhereInput>
   filiere?: Prisma.XOR<Prisma.FiliereScalarRelationFilter, Prisma.FiliereWhereInput>
 }
@@ -207,7 +207,7 @@ export type Reponse_FiliereWhereInput = {
 export type Reponse_FiliereOrderByWithRelationInput = {
   reponseId?: Prisma.SortOrder
   filiereId?: Prisma.SortOrder
-  valeur?: Prisma.SortOrder
+  score?: Prisma.SortOrder
   response?: Prisma.ResponseOrderByWithRelationInput
   filiere?: Prisma.FiliereOrderByWithRelationInput
 }
@@ -219,7 +219,7 @@ export type Reponse_FiliereWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.Reponse_FiliereWhereInput | Prisma.Reponse_FiliereWhereInput[]
   reponseId?: Prisma.StringFilter<"Reponse_Filiere"> | string
   filiereId?: Prisma.StringFilter<"Reponse_Filiere"> | string
-  valeur?: Prisma.IntFilter<"Reponse_Filiere"> | number
+  score?: Prisma.IntFilter<"Reponse_Filiere"> | number
   response?: Prisma.XOR<Prisma.ResponseScalarRelationFilter, Prisma.ResponseWhereInput>
   filiere?: Prisma.XOR<Prisma.FiliereScalarRelationFilter, Prisma.FiliereWhereInput>
 }, "reponseId_filiereId">
@@ -227,7 +227,7 @@ export type Reponse_FiliereWhereUniqueInput = Prisma.AtLeast<{
 export type Reponse_FiliereOrderByWithAggregationInput = {
   reponseId?: Prisma.SortOrder
   filiereId?: Prisma.SortOrder
-  valeur?: Prisma.SortOrder
+  score?: Prisma.SortOrder
   _count?: Prisma.Reponse_FiliereCountOrderByAggregateInput
   _avg?: Prisma.Reponse_FiliereAvgOrderByAggregateInput
   _max?: Prisma.Reponse_FiliereMaxOrderByAggregateInput
@@ -241,11 +241,11 @@ export type Reponse_FiliereScalarWhereWithAggregatesInput = {
   NOT?: Prisma.Reponse_FiliereScalarWhereWithAggregatesInput | Prisma.Reponse_FiliereScalarWhereWithAggregatesInput[]
   reponseId?: Prisma.StringWithAggregatesFilter<"Reponse_Filiere"> | string
   filiereId?: Prisma.StringWithAggregatesFilter<"Reponse_Filiere"> | string
-  valeur?: Prisma.IntWithAggregatesFilter<"Reponse_Filiere"> | number
+  score?: Prisma.IntWithAggregatesFilter<"Reponse_Filiere"> | number
 }
 
 export type Reponse_FiliereCreateInput = {
-  valeur: number
+  score?: number
   response: Prisma.ResponseCreateNestedOneWithoutReponse_FiliereInput
   filiere: Prisma.FiliereCreateNestedOneWithoutReponse_FiliereInput
 }
@@ -253,11 +253,11 @@ export type Reponse_FiliereCreateInput = {
 export type Reponse_FiliereUncheckedCreateInput = {
   reponseId: string
   filiereId: string
-  valeur: number
+  score?: number
 }
 
 export type Reponse_FiliereUpdateInput = {
-  valeur?: Prisma.IntFieldUpdateOperationsInput | number
+  score?: Prisma.IntFieldUpdateOperationsInput | number
   response?: Prisma.ResponseUpdateOneRequiredWithoutReponse_FiliereNestedInput
   filiere?: Prisma.FiliereUpdateOneRequiredWithoutReponse_FiliereNestedInput
 }
@@ -265,23 +265,23 @@ export type Reponse_FiliereUpdateInput = {
 export type Reponse_FiliereUncheckedUpdateInput = {
   reponseId?: Prisma.StringFieldUpdateOperationsInput | string
   filiereId?: Prisma.StringFieldUpdateOperationsInput | string
-  valeur?: Prisma.IntFieldUpdateOperationsInput | number
+  score?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type Reponse_FiliereCreateManyInput = {
   reponseId: string
   filiereId: string
-  valeur: number
+  score?: number
 }
 
 export type Reponse_FiliereUpdateManyMutationInput = {
-  valeur?: Prisma.IntFieldUpdateOperationsInput | number
+  score?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type Reponse_FiliereUncheckedUpdateManyInput = {
   reponseId?: Prisma.StringFieldUpdateOperationsInput | string
   filiereId?: Prisma.StringFieldUpdateOperationsInput | string
-  valeur?: Prisma.IntFieldUpdateOperationsInput | number
+  score?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type Reponse_FiliereListRelationFilter = {
@@ -302,27 +302,27 @@ export type Reponse_FiliereReponseIdFiliereIdCompoundUniqueInput = {
 export type Reponse_FiliereCountOrderByAggregateInput = {
   reponseId?: Prisma.SortOrder
   filiereId?: Prisma.SortOrder
-  valeur?: Prisma.SortOrder
+  score?: Prisma.SortOrder
 }
 
 export type Reponse_FiliereAvgOrderByAggregateInput = {
-  valeur?: Prisma.SortOrder
+  score?: Prisma.SortOrder
 }
 
 export type Reponse_FiliereMaxOrderByAggregateInput = {
   reponseId?: Prisma.SortOrder
   filiereId?: Prisma.SortOrder
-  valeur?: Prisma.SortOrder
+  score?: Prisma.SortOrder
 }
 
 export type Reponse_FiliereMinOrderByAggregateInput = {
   reponseId?: Prisma.SortOrder
   filiereId?: Prisma.SortOrder
-  valeur?: Prisma.SortOrder
+  score?: Prisma.SortOrder
 }
 
 export type Reponse_FiliereSumOrderByAggregateInput = {
-  valeur?: Prisma.SortOrder
+  score?: Prisma.SortOrder
 }
 
 export type Reponse_FiliereCreateNestedManyWithoutFiliereInput = {
@@ -418,13 +418,13 @@ export type IntFieldUpdateOperationsInput = {
 }
 
 export type Reponse_FiliereCreateWithoutFiliereInput = {
-  valeur: number
+  score?: number
   response: Prisma.ResponseCreateNestedOneWithoutReponse_FiliereInput
 }
 
 export type Reponse_FiliereUncheckedCreateWithoutFiliereInput = {
   reponseId: string
-  valeur: number
+  score?: number
 }
 
 export type Reponse_FiliereCreateOrConnectWithoutFiliereInput = {
@@ -459,17 +459,17 @@ export type Reponse_FiliereScalarWhereInput = {
   NOT?: Prisma.Reponse_FiliereScalarWhereInput | Prisma.Reponse_FiliereScalarWhereInput[]
   reponseId?: Prisma.StringFilter<"Reponse_Filiere"> | string
   filiereId?: Prisma.StringFilter<"Reponse_Filiere"> | string
-  valeur?: Prisma.IntFilter<"Reponse_Filiere"> | number
+  score?: Prisma.IntFilter<"Reponse_Filiere"> | number
 }
 
 export type Reponse_FiliereCreateWithoutResponseInput = {
-  valeur: number
+  score?: number
   filiere: Prisma.FiliereCreateNestedOneWithoutReponse_FiliereInput
 }
 
 export type Reponse_FiliereUncheckedCreateWithoutResponseInput = {
   filiereId: string
-  valeur: number
+  score?: number
 }
 
 export type Reponse_FiliereCreateOrConnectWithoutResponseInput = {
@@ -500,42 +500,42 @@ export type Reponse_FiliereUpdateManyWithWhereWithoutResponseInput = {
 
 export type Reponse_FiliereCreateManyFiliereInput = {
   reponseId: string
-  valeur: number
+  score?: number
 }
 
 export type Reponse_FiliereUpdateWithoutFiliereInput = {
-  valeur?: Prisma.IntFieldUpdateOperationsInput | number
+  score?: Prisma.IntFieldUpdateOperationsInput | number
   response?: Prisma.ResponseUpdateOneRequiredWithoutReponse_FiliereNestedInput
 }
 
 export type Reponse_FiliereUncheckedUpdateWithoutFiliereInput = {
   reponseId?: Prisma.StringFieldUpdateOperationsInput | string
-  valeur?: Prisma.IntFieldUpdateOperationsInput | number
+  score?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type Reponse_FiliereUncheckedUpdateManyWithoutFiliereInput = {
   reponseId?: Prisma.StringFieldUpdateOperationsInput | string
-  valeur?: Prisma.IntFieldUpdateOperationsInput | number
+  score?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type Reponse_FiliereCreateManyResponseInput = {
   filiereId: string
-  valeur: number
+  score?: number
 }
 
 export type Reponse_FiliereUpdateWithoutResponseInput = {
-  valeur?: Prisma.IntFieldUpdateOperationsInput | number
+  score?: Prisma.IntFieldUpdateOperationsInput | number
   filiere?: Prisma.FiliereUpdateOneRequiredWithoutReponse_FiliereNestedInput
 }
 
 export type Reponse_FiliereUncheckedUpdateWithoutResponseInput = {
   filiereId?: Prisma.StringFieldUpdateOperationsInput | string
-  valeur?: Prisma.IntFieldUpdateOperationsInput | number
+  score?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type Reponse_FiliereUncheckedUpdateManyWithoutResponseInput = {
   filiereId?: Prisma.StringFieldUpdateOperationsInput | string
-  valeur?: Prisma.IntFieldUpdateOperationsInput | number
+  score?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 
@@ -543,7 +543,7 @@ export type Reponse_FiliereUncheckedUpdateManyWithoutResponseInput = {
 export type Reponse_FiliereSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   reponseId?: boolean
   filiereId?: boolean
-  valeur?: boolean
+  score?: boolean
   response?: boolean | Prisma.ResponseDefaultArgs<ExtArgs>
   filiere?: boolean | Prisma.FiliereDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["reponse_Filiere"]>
@@ -551,7 +551,7 @@ export type Reponse_FiliereSelect<ExtArgs extends runtime.Types.Extensions.Inter
 export type Reponse_FiliereSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   reponseId?: boolean
   filiereId?: boolean
-  valeur?: boolean
+  score?: boolean
   response?: boolean | Prisma.ResponseDefaultArgs<ExtArgs>
   filiere?: boolean | Prisma.FiliereDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["reponse_Filiere"]>
@@ -559,7 +559,7 @@ export type Reponse_FiliereSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
 export type Reponse_FiliereSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   reponseId?: boolean
   filiereId?: boolean
-  valeur?: boolean
+  score?: boolean
   response?: boolean | Prisma.ResponseDefaultArgs<ExtArgs>
   filiere?: boolean | Prisma.FiliereDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["reponse_Filiere"]>
@@ -567,10 +567,10 @@ export type Reponse_FiliereSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
 export type Reponse_FiliereSelectScalar = {
   reponseId?: boolean
   filiereId?: boolean
-  valeur?: boolean
+  score?: boolean
 }
 
-export type Reponse_FiliereOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"reponseId" | "filiereId" | "valeur", ExtArgs["result"]["reponse_Filiere"]>
+export type Reponse_FiliereOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"reponseId" | "filiereId" | "score", ExtArgs["result"]["reponse_Filiere"]>
 export type Reponse_FiliereInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   response?: boolean | Prisma.ResponseDefaultArgs<ExtArgs>
   filiere?: boolean | Prisma.FiliereDefaultArgs<ExtArgs>
@@ -593,7 +593,7 @@ export type $Reponse_FilierePayload<ExtArgs extends runtime.Types.Extensions.Int
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     reponseId: string
     filiereId: string
-    valeur: number
+    score: number
   }, ExtArgs["result"]["reponse_Filiere"]>
   composites: {}
 }
@@ -1021,7 +1021,7 @@ export interface Prisma__Reponse_FiliereClient<T, Null = never, ExtArgs extends 
 export interface Reponse_FiliereFieldRefs {
   readonly reponseId: Prisma.FieldRef<"Reponse_Filiere", 'String'>
   readonly filiereId: Prisma.FieldRef<"Reponse_Filiere", 'String'>
-  readonly valeur: Prisma.FieldRef<"Reponse_Filiere", 'Int'>
+  readonly score: Prisma.FieldRef<"Reponse_Filiere", 'Int'>
 }
     
 

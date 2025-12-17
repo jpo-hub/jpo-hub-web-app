@@ -57,7 +57,6 @@ export const ModelName = {
   Reponse_Filiere: 'Reponse_Filiere',
   Candidat: 'Candidat',
   Candidat_Filiere: 'Candidat_Filiere',
-  Candidat_Score: 'Candidat_Score',
   Atelier: 'Atelier',
   Atelier_Candidat: 'Atelier_Candidat',
   Admin: 'Admin'
@@ -107,7 +106,7 @@ export type QuestionScalarFieldEnum = (typeof QuestionScalarFieldEnum)[keyof typ
 export const Reponse_FiliereScalarFieldEnum = {
   reponseId: 'reponseId',
   filiereId: 'filiereId',
-  valeur: 'valeur'
+  score: 'score'
 } as const
 
 export type Reponse_FiliereScalarFieldEnum = (typeof Reponse_FiliereScalarFieldEnum)[keyof typeof Reponse_FiliereScalarFieldEnum]
@@ -131,19 +130,11 @@ export type CandidatScalarFieldEnum = (typeof CandidatScalarFieldEnum)[keyof typ
 
 export const Candidat_FiliereScalarFieldEnum = {
   candidatId: 'candidatId',
-  filiereId: 'filiereId'
-} as const
-
-export type Candidat_FiliereScalarFieldEnum = (typeof Candidat_FiliereScalarFieldEnum)[keyof typeof Candidat_FiliereScalarFieldEnum]
-
-
-export const Candidat_ScoreScalarFieldEnum = {
-  candidatId: 'candidatId',
   filiereId: 'filiereId',
   score: 'score'
 } as const
 
-export type Candidat_ScoreScalarFieldEnum = (typeof Candidat_ScoreScalarFieldEnum)[keyof typeof Candidat_ScoreScalarFieldEnum]
+export type Candidat_FiliereScalarFieldEnum = (typeof Candidat_FiliereScalarFieldEnum)[keyof typeof Candidat_FiliereScalarFieldEnum]
 
 
 export const AtelierScalarFieldEnum = {
@@ -189,12 +180,4 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
-
-
-export const NullsOrder = {
-  first: 'first',
-  last: 'last'
-} as const
-
-export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
