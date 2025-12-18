@@ -14,6 +14,9 @@ model Filiere {
   Candidat_Filiere Candidat_Filiere[]
 
   Reponse_Filiere Reponse_Filiere[]
+
+  Candidat_Score  Candidat_Score[]
+  Atelier_Filiere Atelier_Filiere[]
 }
 
 model Response {
@@ -74,10 +77,26 @@ model Candidat_Filiere {
 model Atelier {
   uid            String   @id @default(uuid())
   label          String   @unique
-  date           DateTime
+  imageUrl       String
+  description    String
+  draft          Boolean  @default(true)
+  createAt       DateTime @default(now())
+  updateAt       DateTime @updatedAt
   dockerfilelink String
 
   Atelier_Candidat Atelier_Candidat[]
+  Atelier_Filiere  Atelier_Filiere[]
+}
+
+model Atelier_Filiere {
+  atelierId String
+  filiereId String
+  score     Int    @default(0)
+
+  atelier Atelier @relation(fields: [atelierId], references: [uid])
+  filiere Filiere @relation(fields: [filiereId], references: [uid])
+
+  @@unique([atelierId, filiereId])
 }
 
 model Atelier_Candidat {

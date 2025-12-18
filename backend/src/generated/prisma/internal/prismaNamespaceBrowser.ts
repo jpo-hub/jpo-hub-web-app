@@ -58,6 +58,7 @@ export const ModelName = {
   Candidat: 'Candidat',
   Candidat_Filiere: 'Candidat_Filiere',
   Atelier: 'Atelier',
+  Atelier_Filiere: 'Atelier_Filiere',
   Atelier_Candidat: 'Atelier_Candidat',
   Admin: 'Admin'
 } as const
@@ -140,11 +141,24 @@ export type Candidat_FiliereScalarFieldEnum = (typeof Candidat_FiliereScalarFiel
 export const AtelierScalarFieldEnum = {
   uid: 'uid',
   label: 'label',
-  date: 'date',
+  imageUrl: 'imageUrl',
+  description: 'description',
+  draft: 'draft',
+  createAt: 'createAt',
+  updateAt: 'updateAt',
   dockerfilelink: 'dockerfilelink'
 } as const
 
 export type AtelierScalarFieldEnum = (typeof AtelierScalarFieldEnum)[keyof typeof AtelierScalarFieldEnum]
+
+
+export const Atelier_FiliereScalarFieldEnum = {
+  atelierId: 'atelierId',
+  filiereId: 'filiereId',
+  score: 'score'
+} as const
+
+export type Atelier_FiliereScalarFieldEnum = (typeof Atelier_FiliereScalarFieldEnum)[keyof typeof Atelier_FiliereScalarFieldEnum]
 
 
 export const Atelier_CandidatScalarFieldEnum = {

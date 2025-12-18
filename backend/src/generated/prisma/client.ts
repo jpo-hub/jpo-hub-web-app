@@ -73,6 +73,11 @@ export type Candidat_Filiere = Prisma.Candidat_FiliereModel
  */
 export type Atelier = Prisma.AtelierModel
 /**
+ * Model Atelier_Filiere
+ * 
+ */
+export type Atelier_Filiere = Prisma.Atelier_FiliereModel
+/**
  * Model Atelier_Candidat
  * 
  */
