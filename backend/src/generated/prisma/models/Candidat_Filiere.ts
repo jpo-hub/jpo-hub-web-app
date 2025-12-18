@@ -20,40 +20,64 @@ export type Candidat_FiliereModel = runtime.Types.Result.DefaultSelection<Prisma
 
 export type AggregateCandidat_Filiere = {
   _count: Candidat_FiliereCountAggregateOutputType | null
+  _avg: Candidat_FiliereAvgAggregateOutputType | null
+  _sum: Candidat_FiliereSumAggregateOutputType | null
   _min: Candidat_FiliereMinAggregateOutputType | null
   _max: Candidat_FiliereMaxAggregateOutputType | null
+}
+
+export type Candidat_FiliereAvgAggregateOutputType = {
+  score: number | null
+}
+
+export type Candidat_FiliereSumAggregateOutputType = {
+  score: number | null
 }
 
 export type Candidat_FiliereMinAggregateOutputType = {
   candidatId: string | null
   filiereId: string | null
+  score: number | null
 }
 
 export type Candidat_FiliereMaxAggregateOutputType = {
   candidatId: string | null
   filiereId: string | null
+  score: number | null
 }
 
 export type Candidat_FiliereCountAggregateOutputType = {
   candidatId: number
   filiereId: number
+  score: number
   _all: number
 }
 
 
+export type Candidat_FiliereAvgAggregateInputType = {
+  score?: true
+}
+
+export type Candidat_FiliereSumAggregateInputType = {
+  score?: true
+}
+
 export type Candidat_FiliereMinAggregateInputType = {
   candidatId?: true
   filiereId?: true
+  score?: true
 }
 
 export type Candidat_FiliereMaxAggregateInputType = {
   candidatId?: true
   filiereId?: true
+  score?: true
 }
 
 export type Candidat_FiliereCountAggregateInputType = {
   candidatId?: true
   filiereId?: true
+  score?: true
   _all?: true
 }
 
@@ -95,6 +119,18 @@ export type Candidat_FiliereAggregateArgs<ExtArgs extends runtime.Types.Extensio
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: Candidat_FiliereAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: Candidat_FiliereSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: Candidat_FiliereMinAggregateInputType
@@ -125,6 +161,8 @@ export type Candidat_FiliereGroupByArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   _count?: Candidat_FiliereCountAggregateInputType | true
+  _avg?: Candidat_FiliereAvgAggregateInputType
+  _sum?: Candidat_FiliereSumAggregateInputType
   _min?: Candidat_FiliereMinAggregateInputType
   _max?: Candidat_FiliereMaxAggregateInputType
 }
@@ -132,7 +170,10 @@ export type Candidat_FiliereGroupByArgs<ExtArgs extends runtime.Types.Extensions
 export type Candidat_FiliereGroupByOutputType = {
   candidatId: string
   filiereId: string
+  score: number
   _count: Candidat_FiliereCountAggregateOutputType | null
+  _avg: Candidat_FiliereAvgAggregateOutputType | null
+  _sum: Candidat_FiliereSumAggregateOutputType | null
   _min: Candidat_FiliereMinAggregateOutputType | null
   _max: Candidat_FiliereMaxAggregateOutputType | null
 }
@@ -158,6 +199,7 @@ export type Candidat_FiliereWhereInput = {
   NOT?: Prisma.Candidat_FiliereWhereInput | Prisma.Candidat_FiliereWhereInput[]
   candidatId?: Prisma.StringFilter<"Candidat_Filiere"> | string
   filiereId?: Prisma.StringFilter<"Candidat_Filiere"> | string
+  score?: Prisma.IntFilter<"Candidat_Filiere"> | number
   candidat?: Prisma.XOR<Prisma.CandidatScalarRelationFilter, Prisma.CandidatWhereInput>
   filiere?: Prisma.XOR<Prisma.FiliereScalarRelationFilter, Prisma.FiliereWhereInput>
 }
@@ -165,6 +207,7 @@ export type Candidat_FiliereWhereInput = {
 export type Candidat_FiliereOrderByWithRelationInput = {
   candidatId?: Prisma.SortOrder
   filiereId?: Prisma.SortOrder
+  score?: Prisma.SortOrder
   candidat?: Prisma.CandidatOrderByWithRelationInput
   filiere?: Prisma.FiliereOrderByWithRelationInput
 }
@@ -176,6 +219,7 @@ export type Candidat_FiliereWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.Candidat_FiliereWhereInput | Prisma.Candidat_FiliereWhereInput[]
   candidatId?: Prisma.StringFilter<"Candidat_Filiere"> | string
   filiereId?: Prisma.StringFilter<"Candidat_Filiere"> | string
+  score?: Prisma.IntFilter<"Candidat_Filiere"> | number
   candidat?: Prisma.XOR<Prisma.CandidatScalarRelationFilter, Prisma.CandidatWhereInput>
   filiere?: Prisma.XOR<Prisma.FiliereScalarRelationFilter, Prisma.FiliereWhereInput>
 }, "candidatId_filiereId">
@@ -183,9 +227,12 @@ export type Candidat_FiliereWhereUniqueInput = Prisma.AtLeast<{
 export type Candidat_FiliereOrderByWithAggregationInput = {
   candidatId?: Prisma.SortOrder
   filiereId?: Prisma.SortOrder
+  score?: Prisma.SortOrder
   _count?: Prisma.Candidat_FiliereCountOrderByAggregateInput
+  _avg?: Prisma.Candidat_FiliereAvgOrderByAggregateInput
   _max?: Prisma.Candidat_FiliereMaxOrderByAggregateInput
   _min?: Prisma.Candidat_FiliereMinOrderByAggregateInput
+  _sum?: Prisma.Candidat_FiliereSumOrderByAggregateInput
 }
 
 export type Candidat_FiliereScalarWhereWithAggregatesInput = {
@@ -194,9 +241,11 @@ export type Candidat_FiliereScalarWhereWithAggregatesInput = {
   NOT?: Prisma.Candidat_FiliereScalarWhereWithAggregatesInput | Prisma.Candidat_FiliereScalarWhereWithAggregatesInput[]
   candidatId?: Prisma.StringWithAggregatesFilter<"Candidat_Filiere"> | string
   filiereId?: Prisma.StringWithAggregatesFilter<"Candidat_Filiere"> | string
+  score?: Prisma.IntWithAggregatesFilter<"Candidat_Filiere"> | number
 }
 
 export type Candidat_FiliereCreateInput = {
+  score?: number
   candidat: Prisma.CandidatCreateNestedOneWithoutCandidat_FiliereInput
   filiere: Prisma.FiliereCreateNestedOneWithoutCandidat_FiliereInput
 }
@@ -204,9 +253,11 @@ export type Candidat_FiliereCreateInput = {
 export type Candidat_FiliereUncheckedCreateInput = {
   candidatId: string
   filiereId: string
+  score?: number
 }
 
 export type Candidat_FiliereUpdateInput = {
+  score?: Prisma.IntFieldUpdateOperationsInput | number
   candidat?: Prisma.CandidatUpdateOneRequiredWithoutCandidat_FiliereNestedInput
   filiere?: Prisma.FiliereUpdateOneRequiredWithoutCandidat_FiliereNestedInput
 }
@@ -214,20 +265,23 @@ export type Candidat_FiliereUpdateInput = {
 export type Candidat_FiliereUncheckedUpdateInput = {
   candidatId?: Prisma.StringFieldUpdateOperationsInput | string
   filiereId?: Prisma.StringFieldUpdateOperationsInput | string
+  score?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type Candidat_FiliereCreateManyInput = {
   candidatId: string
   filiereId: string
+  score?: number
 }
 
 export type Candidat_FiliereUpdateManyMutationInput = {
-
+  score?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type Candidat_FiliereUncheckedUpdateManyInput = {
   candidatId?: Prisma.StringFieldUpdateOperationsInput | string
   filiereId?: Prisma.StringFieldUpdateOperationsInput | string
+  score?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type Candidat_FiliereListRelationFilter = {
@@ -248,16 +302,27 @@ export type Candidat_FiliereCandidatIdFiliereIdCompoundUniqueInput = {
 export type Candidat_FiliereCountOrderByAggregateInput = {
   candidatId?: Prisma.SortOrder
   filiereId?: Prisma.SortOrder
+  score?: Prisma.SortOrder
+}
+
+export type Candidat_FiliereAvgOrderByAggregateInput = {
+  score?: Prisma.SortOrder
 }
 
 export type Candidat_FiliereMaxOrderByAggregateInput = {
   candidatId?: Prisma.SortOrder
   filiereId?: Prisma.SortOrder
+  score?: Prisma.SortOrder
 }
 
 export type Candidat_FiliereMinOrderByAggregateInput = {
   candidatId?: Prisma.SortOrder
   filiereId?: Prisma.SortOrder
+  score?: Prisma.SortOrder
+}
+
+export type Candidat_FiliereSumOrderByAggregateInput = {
+  score?: Prisma.SortOrder
 }
 
 export type Candidat_FiliereCreateNestedManyWithoutFiliereInput = {
@@ -345,11 +410,13 @@ export type Candidat_FiliereUncheckedUpdateManyWithoutCandidatNestedInput = {
 }
 
 export type Candidat_FiliereCreateWithoutFiliereInput = {
+  score?: number
   candidat: Prisma.CandidatCreateNestedOneWithoutCandidat_FiliereInput
 }
 
 export type Candidat_FiliereUncheckedCreateWithoutFiliereInput = {
   candidatId: string
+  score?: number
 }
 
 export type Candidat_FiliereCreateOrConnectWithoutFiliereInput = {
@@ -384,14 +451,17 @@ export type Candidat_FiliereScalarWhereInput = {
   NOT?: Prisma.Candidat_FiliereScalarWhereInput | Prisma.Candidat_FiliereScalarWhereInput[]
   candidatId?: Prisma.StringFilter<"Candidat_Filiere"> | string
   filiereId?: Prisma.StringFilter<"Candidat_Filiere"> | string
+  score?: Prisma.IntFilter<"Candidat_Filiere"> | number
 }
 
 export type Candidat_FiliereCreateWithoutCandidatInput = {
+  score?: number
   filiere: Prisma.FiliereCreateNestedOneWithoutCandidat_FiliereInput
 }
 
 export type Candidat_FiliereUncheckedCreateWithoutCandidatInput = {
   filiereId: string
+  score?: number
 }
 
 export type Candidat_FiliereCreateOrConnectWithoutCandidatInput = {
@@ -422,34 +492,42 @@ export type Candidat_FiliereUpdateManyWithWhereWithoutCandidatInput = {
 
 export type Candidat_FiliereCreateManyFiliereInput = {
   candidatId: string
+  score?: number
 }
 
 export type Candidat_FiliereUpdateWithoutFiliereInput = {
+  score?: Prisma.IntFieldUpdateOperationsInput | number
   candidat?: Prisma.CandidatUpdateOneRequiredWithoutCandidat_FiliereNestedInput
 }
 
 export type Candidat_FiliereUncheckedUpdateWithoutFiliereInput = {
   candidatId?: Prisma.StringFieldUpdateOperationsInput | string
+  score?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type Candidat_FiliereUncheckedUpdateManyWithoutFiliereInput = {
   candidatId?: Prisma.StringFieldUpdateOperationsInput | string
+  score?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type Candidat_FiliereCreateManyCandidatInput = {
   filiereId: string
+  score?: number
 }
 
 export type Candidat_FiliereUpdateWithoutCandidatInput = {
+  score?: Prisma.IntFieldUpdateOperationsInput | number
   filiere?: Prisma.FiliereUpdateOneRequiredWithoutCandidat_FiliereNestedInput
 }
 
 export type Candidat_FiliereUncheckedUpdateWithoutCandidatInput = {
   filiereId?: Prisma.StringFieldUpdateOperationsInput | string
+  score?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type Candidat_FiliereUncheckedUpdateManyWithoutCandidatInput = {
   filiereId?: Prisma.StringFieldUpdateOperationsInput | string
+  score?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 
@@ -457,6 +535,7 @@ export type Candidat_FiliereUncheckedUpdateManyWithoutCandidatInput = {
 export type Candidat_FiliereSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   candidatId?: boolean
   filiereId?: boolean
+  score?: boolean
   candidat?: boolean | Prisma.CandidatDefaultArgs<ExtArgs>
   filiere?: boolean | Prisma.FiliereDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["candidat_Filiere"]>
@@ -464,6 +543,7 @@ export type Candidat_FiliereSelect<ExtArgs extends runtime.Types.Extensions.Inte
 export type Candidat_FiliereSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   candidatId?: boolean
   filiereId?: boolean
+  score?: boolean
   candidat?: boolean | Prisma.CandidatDefaultArgs<ExtArgs>
   filiere?: boolean | Prisma.FiliereDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["candidat_Filiere"]>
@@ -471,6 +551,7 @@ export type Candidat_FiliereSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
 export type Candidat_FiliereSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   candidatId?: boolean
   filiereId?: boolean
+  score?: boolean
   candidat?: boolean | Prisma.CandidatDefaultArgs<ExtArgs>
   filiere?: boolean | Prisma.FiliereDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["candidat_Filiere"]>
@@ -478,9 +559,10 @@ export type Candidat_FiliereSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
 export type Candidat_FiliereSelectScalar = {
   candidatId?: boolean
   filiereId?: boolean
+  score?: boolean
 }
 
-export type Candidat_FiliereOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"candidatId" | "filiereId", ExtArgs["result"]["candidat_Filiere"]>
+export type Candidat_FiliereOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"candidatId" | "filiereId" | "score", ExtArgs["result"]["candidat_Filiere"]>
 export type Candidat_FiliereInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   candidat?: boolean | Prisma.CandidatDefaultArgs<ExtArgs>
   filiere?: boolean | Prisma.FiliereDefaultArgs<ExtArgs>
@@ -503,6 +585,7 @@ export type $Candidat_FilierePayload<ExtArgs extends runtime.Types.Extensions.In
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     candidatId: string
     filiereId: string
+    score: number
   }, ExtArgs["result"]["candidat_Filiere"]>
   composites: {}
 }
@@ -930,6 +1013,7 @@ export interface Prisma__Candidat_FiliereClient<T, Null = never, ExtArgs extends
 export interface Candidat_FiliereFieldRefs {
   readonly candidatId: Prisma.FieldRef<"Candidat_Filiere", 'String'>
   readonly filiereId: Prisma.FieldRef<"Candidat_Filiere", 'String'>
+  readonly score: Prisma.FieldRef<"Candidat_Filiere", 'Int'>
 }
     
 

@@ -235,16 +235,6 @@ export interface PrismaClient<
   get candidat_Filiere(): Prisma.Candidat_FiliereDelegate<ExtArgs, { omit: OmitOpts }>;
 
   /**
-   * `prisma.candidat_Score`: Exposes CRUD operations for the **Candidat_Score** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Candidat_Scores
-    * const candidat_Scores = await prisma.candidat_Score.findMany()
-    * ```
-    */
-  get candidat_Score(): Prisma.Candidat_ScoreDelegate<ExtArgs, { omit: OmitOpts }>;
-
-  /**
    * `prisma.atelier`: Exposes CRUD operations for the **Atelier** model.
     * Example usage:
     * ```ts

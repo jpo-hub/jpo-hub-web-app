@@ -38,7 +38,7 @@ model Question {
 model Reponse_Filiere {
   reponseId String
   filiereId String
-  valeur    Int
+  score     Int    @default(0)
 
   response Response @relation(fields: [reponseId], references: [uid])
   filiere  Filiere  @relation(fields: [filiereId], references: [uid])
@@ -47,35 +47,23 @@ model Reponse_Filiere {
 }
 
 model Candidat {
-  uid          String    @id @default(uuid())
-  codeCandidat Int       @unique @default(autoincrement())
-  firstname    String?
-  lastname     String?
-  email        String?   @unique
-  dateBirth    DateTime?
+  uid          String   @id @default(uuid())
+  codeCandidat Int      @unique @default(autoincrement())
+  firstname    String
+  lastname     String
+  email        String   @unique
+  dateBirth    DateTime
   appointment  Boolean
   consentement Boolean
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   Candidat_Filiere Candidat_Filiere[]
 
   Atelier_Candidat Atelier_Candidat[]
-
-  Candidat_Score Candidat_Score[]
 }
 
 model Candidat_Filiere {
-  candidatId String
-  filiereId  String
-
-  candidat Candidat @relation(fields: [candidatId], references: [uid])
-  filiere  Filiere  @relation(fields: [filiereId], references: [uid])
-
-  @@unique([candidatId, filiereId])
-}
-
-model Candidat_Score {
   candidatId String
   filiereId  String
   score      Int    @default(0)
@@ -83,7 +71,7 @@ model Candidat_Score {
   candidat Candidat @relation(fields: [candidatId], references: [uid])
   filiere  Filiere  @relation(fields: [filiereId], references: [uid])
 
-  @@unique([candidatId])
+  @@unique([candidatId, filiereId])
 }
 
 model Atelier {

@@ -390,7 +390,6 @@ export const ModelName = {
   Reponse_Filiere: 'Reponse_Filiere',
   Candidat: 'Candidat',
   Candidat_Filiere: 'Candidat_Filiere',
-  Candidat_Score: 'Candidat_Score',
   Atelier: 'Atelier',
   Atelier_Filiere: 'Atelier_Filiere',
   Atelier_Candidat: 'Atelier_Candidat',
@@ -858,80 +857,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    Candidat_Score: {
-      payload: Prisma.$Candidat_ScorePayload<ExtArgs>
-      fields: Prisma.Candidat_ScoreFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.Candidat_ScoreFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$Candidat_ScorePayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.Candidat_ScoreFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$Candidat_ScorePayload>
-        }
-        findFirst: {
-          args: Prisma.Candidat_ScoreFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$Candidat_ScorePayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.Candidat_ScoreFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$Candidat_ScorePayload>
-        }
-        findMany: {
-          args: Prisma.Candidat_ScoreFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$Candidat_ScorePayload>[]
-        }
-        create: {
-          args: Prisma.Candidat_ScoreCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$Candidat_ScorePayload>
-        }
-        createMany: {
-          args: Prisma.Candidat_ScoreCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.Candidat_ScoreCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$Candidat_ScorePayload>[]
-        }
-        delete: {
-          args: Prisma.Candidat_ScoreDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$Candidat_ScorePayload>
-        }
-        update: {
-          args: Prisma.Candidat_ScoreUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$Candidat_ScorePayload>
-        }
-        deleteMany: {
-          args: Prisma.Candidat_ScoreDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.Candidat_ScoreUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.Candidat_ScoreUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$Candidat_ScorePayload>[]
-        }
-        upsert: {
-          args: Prisma.Candidat_ScoreUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$Candidat_ScorePayload>
-        }
-        aggregate: {
-          args: Prisma.Candidat_ScoreAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateCandidat_Score>
-        }
-        groupBy: {
-          args: Prisma.Candidat_ScoreGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Candidat_ScoreGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.Candidat_ScoreCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Candidat_ScoreCountAggregateOutputType> | number
-        }
-      }
-    }
     Atelier: {
       payload: Prisma.$AtelierPayload<ExtArgs>
       fields: Prisma.AtelierFieldRefs
@@ -1295,7 +1220,7 @@ export type QuestionScalarFieldEnum = (typeof QuestionScalarFieldEnum)[keyof typ
 export const Reponse_FiliereScalarFieldEnum = {
   reponseId: 'reponseId',
   filiereId: 'filiereId',
-  valeur: 'valeur'
+  score: 'score'
 } as const
 
 export type Reponse_FiliereScalarFieldEnum = (typeof Reponse_FiliereScalarFieldEnum)[keyof typeof Reponse_FiliereScalarFieldEnum]
@@ -1319,19 +1244,11 @@ export type CandidatScalarFieldEnum = (typeof CandidatScalarFieldEnum)[keyof typ
 
 export const Candidat_FiliereScalarFieldEnum = {
   candidatId: 'candidatId',
-  filiereId: 'filiereId'
-} as const
-
-export type Candidat_FiliereScalarFieldEnum = (typeof Candidat_FiliereScalarFieldEnum)[keyof typeof Candidat_FiliereScalarFieldEnum]
-
-
-export const Candidat_ScoreScalarFieldEnum = {
-  candidatId: 'candidatId',
   filiereId: 'filiereId',
   score: 'score'
 } as const
 
-export type Candidat_ScoreScalarFieldEnum = (typeof Candidat_ScoreScalarFieldEnum)[keyof typeof Candidat_ScoreScalarFieldEnum]
+export type Candidat_FiliereScalarFieldEnum = (typeof Candidat_FiliereScalarFieldEnum)[keyof typeof Candidat_FiliereScalarFieldEnum]
 
 
 export const AtelierScalarFieldEnum = {
@@ -1390,14 +1307,6 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
-
-
-export const NullsOrder = {
-  first: 'first',
-  last: 'last'
-} as const
-
-export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
 
@@ -1569,7 +1478,6 @@ export type GlobalOmitConfig = {
   reponse_Filiere?: Prisma.Reponse_FiliereOmit
   candidat?: Prisma.CandidatOmit
   candidat_Filiere?: Prisma.Candidat_FiliereOmit
-  candidat_Score?: Prisma.Candidat_ScoreOmit
   atelier?: Prisma.AtelierOmit
   atelier_Filiere?: Prisma.Atelier_FiliereOmit
   atelier_Candidat?: Prisma.Atelier_CandidatOmit
