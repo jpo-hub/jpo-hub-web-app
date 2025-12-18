@@ -409,7 +409,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "filiere" | "response" | "question" | "reponse_Filiere" | "candidat" | "candidat_Filiere" | "candidat_Score" | "atelier" | "atelier_Filiere" | "atelier_Candidat" | "admin"
+    modelProps: "filiere" | "response" | "question" | "reponse_Filiere" | "candidat" | "candidat_Filiere" | "atelier" | "atelier_Filiere" | "atelier_Candidat" | "admin"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {

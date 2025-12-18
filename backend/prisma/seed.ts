@@ -13,21 +13,21 @@ async function main() {
   // Filieres
   // ----------------------------
   const informatique = await prisma.filiere.upsert({
-    where: { label: 'Informatique' },
+    where: { label: 'informatique' },
     update: {},
-    create: { label: 'Informatique' },
+    create: { label: 'informatique' },
   });
 
   const iaData = await prisma.filiere.upsert({
-    where: { label: 'IA & Data' },
+    where: { label: 'ia-&-data' },
     update: {},
-    create: { label: 'IA & Data' },
+    create: { label: 'ia-&-data' },
   });
 
   const cybersecurite = await prisma.filiere.upsert({
-    where: { label: 'Cybersécurité' },
+    where: { label: 'cybersecurite' },
     update: {},
-    create: { label: 'Cybersécurité' },
+    create: { label: 'cybersecurite' },
   });
 
   console.log('✅ Filieres:', {
@@ -202,10 +202,10 @@ async function main() {
   // Candidat + liaisons (optionnel, comme ton seed)
   // ----------------------------
   const candidat = await prisma.candidat.upsert({
-    where: { email: '<EMAIL_PLACEHOLDER>' },
+    where: { email: 'kantin.fagn@gmail.com' },
     update: {},
     create: {
-      email: '<EMAIL_PLACEHOLDER>',
+      email: 'kantin.fagn@gmail.com',
       firstname: 'Kantin',
       appointment: false,
       consentement: true,
@@ -225,6 +225,7 @@ async function main() {
     create: {
       candidatId: candidat.uid,
       filiereId: informatique.uid,
+      score: 10,
     },
   });
 

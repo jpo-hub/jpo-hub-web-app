@@ -28,6 +28,35 @@ type CandidatDetailsDto = Candidat & {
 export class CandidatsService {
   constructor(private prisma: PrismaService) {}
 
+  private async enrichCandidatDetails(
+    candidat: Candidat,
+    tx: Prisma.TransactionClient | PrismaService = this.prisma,
+  ): Promise<CandidatDetailsDto> {
+    const [filieres, ateliers] = await Promise.all([
+      tx.candidat_Filiere.findMany({
+        where: { candidatId: candidat.uid },
+        include: { filiere: true },
+      }),
+      tx.atelier_Candidat.findMany({
+        where: { candidatId: candidat.uid },
+        include: { atelier: true },
+      }),
+    ]);
+
+    return {
+      ...candidat,
+      filieres: filieres.reduce<Record<string, number>>((acc, cf) => {
+        acc[cf.filiere.label] = cf.score;
+        return acc;
+      }, {}),
+      ateliers: ateliers.map((ac) => ({
+        uid: ac.atelier.uid,
+        title: ac.atelier.label,
+        date: ac.atelier.createAt,
+      })),
+    };
+  }
+
   /**
    * Récupère un candidat par critère unique (uid, email, etc.) et renvoie un DTO enrichi :
    * - `filieres` sous forme d'objet `{ [label]: score }`
@@ -53,28 +82,7 @@ export class CandidatsService {
         throw new NotFoundException('Candidat not found');
       }
 
-      const filieres = await this.prisma.candidat_Filiere.findMany({
-        where: { candidatId: candidat.uid },
-        include: { filiere: true },
-      });
-
-      const ateliers = await this.prisma.atelier_Candidat.findMany({
-        where: { candidatId: candidat.uid },
-        include: { atelier: true },
-      });
-
-      return {
-        ...candidat,
-        filieres: filieres.reduce<Record<string, number>>((acc, cf) => {
-          acc[cf.filiere.label] = cf.score;
-          return acc;
-        }, {}),
-        ateliers: ateliers.map((ac) => ({
-          uid: ac.atelier.uid,
-          title: ac.atelier.label,
-          date: ac.atelier.date,
-        })),
-      };
+      return this.enrichCandidatDetails(candidat);
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
 
@@ -111,36 +119,12 @@ export class CandidatsService {
         orderBy,
       });
 
-      const candidatsWithDetails = await Promise.all(
-        candidats.map(async (candidat) => {
-          const filieres = await this.prisma.candidat_Filiere.findMany({
-            where: { candidatId: candidat.uid },
-            include: { filiere: true },
-          });
-
-          const ateliers = await this.prisma.atelier_Candidat.findMany({
-            where: { candidatId: candidat.uid },
-            include: { atelier: true },
-          });
-
-          return {
-            ...candidat,
-            filieres: filieres.reduce<Record<string, number>>((acc, cf) => {
-              acc[cf.filiere.label] = cf.score;
-              return acc;
-            }, {}),
-            ateliers: ateliers.map((ac) => ({
-              uid: ac.atelier.uid,
-              title: ac.atelier.label,
-              date: ac.atelier.date,
-            })),
-          };
-        }),
+      return Promise.all(
+        candidats.map((candidat) => this.enrichCandidatDetails(candidat)),
       );
-
-      return candidatsWithDetails;
     } catch (error) {
       if (error instanceof BadRequestException) throw error;
+      console.error(error);
       throw new BadRequestException('Failed to fetch candidats');
     }
   }
@@ -150,47 +134,53 @@ export class CandidatsService {
    *
    * Particularités :
    * - si `consentement === false`, les champs personnels sont anonymisés avant insertion.
-   * - si `data.filieres` est fourni (mapping `{ [label]: score }`), les lignes de jointure
-   *   `candidat_Filiere` sont créées/mises à jour automatiquement en transaction.
+   * - si `data.filieres` est fourni, les scores sont enregistrés.
+   * - toutes les filières existantes non mentionnées sont initialisées à 0.
    *
-   * @param data Données de création + éventuellement `filieres`.
-   * @returns Le candidat créé + `filieres` sous forme d'objet `{ [label]: score }`.
-   * @throws ConflictException En cas de conflit d'unicité (ex: email).
-   * @throws BadRequestException Si les données sont invalides.
-   * @throws InternalServerErrorException En cas d'erreur inattendue.
+   * @param data Données de création.
+   * @returns Le candidat créé avec ses détails enrichis.
    */
   async createCandidat(data: CreateCandidatDto): Promise<CandidatDetailsDto> {
     try {
       const filieresInput = data.filieres ?? {};
 
-      const entries = Object.entries(filieresInput)
-        .map(([label, score]) => [String(label).trim(), Number(score)] as const)
-        .filter(
-          ([label, score]) =>
-            label.length > 0 && Number.isFinite(score) && score >= 0,
-        );
+      // Conversion sécurisée des booléens
+      const isConsentGiven =
+        data.consentement || String(data.consentement) === 'true';
+      const hasAppointment =
+        data.appointment || String(data.appointment) === 'true';
+      const anonymize = !isConsentGiven;
 
       return await this.prisma.$transaction(async (tx) => {
-        const anonymize = data.consentement === false;
+        const allFilieres = await tx.filiere.findMany();
 
         const candidatData: Prisma.CandidatCreateInput = {
           email: anonymize
             ? `placeholder+${randomUUID()}@example.invalid`
-            : data.email,
-          firstname: anonymize ? 'ANONYME' : data.firstname,
-          lastname: anonymize ? 'ANONYME' : data.lastname,
-          dateBirth: anonymize ? new Date('1970-01-01') : data.dateBirth,
-          appointment: data.appointment,
-          consentement: data.consentement,
+            : data.email || `missing-${randomUUID()}@example.com`,
+          firstname: anonymize ? 'ANONYME' : data.firstname || 'INCONNU',
+          lastname: anonymize ? 'ANONYME' : data.lastname || 'INCONNU',
+          dateBirth: anonymize
+            ? new Date('1970-01-01')
+            : data.dateBirth
+              ? new Date(data.dateBirth)
+              : new Date(),
+          appointment: hasAppointment,
+          consentement: isConsentGiven,
         };
 
         const candidat = await tx.candidat.create({ data: candidatData });
 
-        for (const [label, score] of entries) {
+        const processedLabels = new Set<string>();
+
+        for (const [label, score] of Object.entries(filieresInput)) {
+          const trimmedLabel = label.trim();
+          if (!trimmedLabel) continue;
+
           const filiere = await tx.filiere.upsert({
-            where: { label },
+            where: { label: trimmedLabel },
             update: {},
-            create: { label },
+            create: { label: trimmedLabel },
           });
 
           await tx.candidat_Filiere.upsert({
@@ -200,27 +190,29 @@ export class CandidatsService {
                 filiereId: filiere.uid,
               },
             },
-            update: { score },
+            update: { score: Number(score) },
             create: {
               candidatId: candidat.uid,
               filiereId: filiere.uid,
-              score,
+              score: Number(score),
             },
           });
+          processedLabels.add(trimmedLabel);
         }
 
-        const filieresRows = await tx.candidat_Filiere.findMany({
-          where: { candidatId: candidat.uid },
-          include: { filiere: true },
-        });
+        for (const filiere of allFilieres) {
+          if (!processedLabels.has(filiere.label)) {
+            await tx.candidat_Filiere.create({
+              data: {
+                candidatId: candidat.uid,
+                filiereId: filiere.uid,
+                score: 0,
+              },
+            });
+          }
+        }
 
-        return {
-          ...candidat,
-          filieres: filieresRows.reduce<Record<string, number>>((acc, cf) => {
-            acc[cf.filiere.label] = cf.score;
-            return acc;
-          }, {}),
-        };
+        return this.enrichCandidatDetails(candidat, tx);
       });
     } catch (error) {
       if (

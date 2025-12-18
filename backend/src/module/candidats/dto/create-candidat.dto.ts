@@ -1,24 +1,36 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsObject, IsOptional } from 'class-validator';
+import {
+  IsEmail,
+  IsObject,
+  IsOptional,
+  IsString,
+  IsBoolean,
+  IsDateString,
+} from 'class-validator';
 
 export class CreateCandidatDto {
   @ApiProperty()
+  @IsEmail()
   readonly email: string;
 
   @ApiProperty()
+  @IsString()
   readonly firstname: string;
 
   @ApiProperty()
+  @IsString()
   readonly lastname: string;
 
   @ApiProperty({ default: false })
+  @IsBoolean()
   readonly appointment: boolean;
 
   @ApiProperty({ default: false })
+  @IsBoolean()
   readonly consentement: boolean;
 
   @ApiPropertyOptional({
-    example: { Informatique: 2, Cybersecurite: 1 },
+    example: { informatique: 2, cybersecurite: 1 },
     description: "Mapping { 'LabelFiliere': score }",
   })
   @IsOptional()
@@ -26,5 +38,6 @@ export class CreateCandidatDto {
   filieres?: Record<string, number>;
 
   @ApiProperty()
-  readonly dateBirth: Date;
+  @IsDateString()
+  readonly dateBirth: string;
 }

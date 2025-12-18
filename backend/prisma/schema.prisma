@@ -14,8 +14,6 @@ model Filiere {
   Candidat_Filiere Candidat_Filiere[]
 
   Reponse_Filiere Reponse_Filiere[]
-
-  Candidat_Score  Candidat_Score[]
   Atelier_Filiere Atelier_Filiere[]
 }
 
