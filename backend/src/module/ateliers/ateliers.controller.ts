@@ -21,7 +21,7 @@ import { ApiConsumes, ApiOkResponse } from '@nestjs/swagger';
 import type { Express } from 'express';
 import { memoryStorage } from 'multer';
 import { AtelierModel } from '../../generated/prisma/models/Atelier';
-import type { AtelierApi } from './ateliers.service';
+import type { AtelierDetailsDto } from './ateliers.service';
 
 @Controller('ateliers')
 export class AteliersController {
@@ -41,19 +41,19 @@ export class AteliersController {
       }),
     )
     file: Express.Multer.File,
-  ): Promise<AtelierApi> {
+  ): Promise<AtelierDetailsDto> {
     return this.ateliersService.create(createAtelierDto, file);
   }
 
   @Get()
   @ApiOkResponse({ type: AtelierResponseDto, isArray: true })
-  async findAll(): Promise<AtelierApi[]> {
+  async findAll(): Promise<AtelierDetailsDto[]> {
     return await this.ateliersService.findAll({});
   }
 
   @Get(':uid')
   @ApiOkResponse({ type: AtelierResponseDto })
-  findOne(@Param('uid') uid: string): Promise<AtelierApi> {
+  findOne(@Param('uid') uid: string): Promise<AtelierDetailsDto> {
     return this.ateliersService.findOne(uid);
   }
 
