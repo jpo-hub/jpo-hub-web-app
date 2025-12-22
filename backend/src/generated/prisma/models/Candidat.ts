@@ -2053,3 +2053,5 @@ export type CandidatDefaultArgs<
   include?: Prisma.CandidatInclude<ExtArgs> | null;
 };
 export class Candidat {}
+
+export class Filiere {}
