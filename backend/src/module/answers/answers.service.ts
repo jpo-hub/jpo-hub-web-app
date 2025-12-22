@@ -1,26 +1,42 @@
 import { Injectable } from '@nestjs/common';
-import { CreateAnswerDto } from './dto/create-answer.dto';
-import { UpdateAnswerDto } from './dto/update-answer.dto';
+import { Prisma, Response } from '../../generated/prisma/client';
+import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class AnswersService {
-  create(createAnswerDto: CreateAnswerDto) {
-    return 'This action adds a new answer';
+  constructor(private prisma: PrismaService) {}
+
+  create(data: Prisma.ResponseCreateInput): Promise<Response> {
+    return this.prisma.response.create({
+      data,
+    });
   }
 
-  findAll() {
-    return `This action returns all answers`;
+  findAll(): Promise<Response[]> {
+    return this.prisma.response.findMany();
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} answer`;
+  findOne(
+    reponseWhereUniqueInput: Prisma.ResponseWhereUniqueInput,
+  ): Promise<Response | null> {
+    return this.prisma.response.findUnique({
+      where: reponseWhereUniqueInput,
+    });
   }
 
-  update(id: string, updateAnswerDto: UpdateAnswerDto) {
-    return `This action updates a #${id} answer`;
+  async update(
+    reponseWhereUniqueInput: Prisma.ResponseWhereUniqueInput,
+    data: Prisma.ResponseCreateInput,
+  ): Promise<Response> {
+    return this.prisma.response.update({
+      where: reponseWhereUniqueInput,
+      data,
+    });
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} answer`;
+  remove(reponseWhereUniqueInput: Prisma.ResponseWhereUniqueInput) {
+    return this.prisma.response.delete({
+      where: reponseWhereUniqueInput,
+    });
   }
 }
