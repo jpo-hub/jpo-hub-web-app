@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ScoringModule } from './module/scoring/scoring.module';
 import { FilieresModule } from './module/filieres/filieres.module';
 import { QuestionsModule } from './module/questions/questions.module';
+import { AnswersModule } from './module/answers/answers.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { QuestionsModule } from './module/questions/questions.module';
     FilieresModule,
     ConfigModule.forRoot({ isGlobal: true }),
     QuestionsModule,
+    AnswersModule,
   ],
   controllers: [],
   providers: [],
