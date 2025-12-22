@@ -16,20 +16,8 @@ import {
 import { PrismaService } from '../../prisma/prisma.service';
 import { Atelier, Prisma } from '../../generated/prisma/client';
 
-type AtelierWithCandidateUids = Omit<Atelier, 'candidats'> & {
-  candidats: string[];
-};
-
-export type AtelierApi = {
-  uid: string;
-  label: string;
-  imageUrl: string;
-  description: string;
-  draft: boolean;
-  createAt: Date;
-  updateAt: Date;
-  dockerfilelink: string;
-  filieres: Record<string, number>;
+export type AtelierDetailsDto = Atelier & {
+  filiere: Record<string, number>;
   candidats: string[];
 };
 
@@ -151,57 +139,15 @@ export class AteliersService {
     }
   }
 
-  private async attachCandidateUidsToAteliers(
-    ateliers: Atelier[],
-  ): Promise<AtelierWithCandidateUids[]> {
-    if (ateliers.length === 0) return [];
-
-    const atelierIds = ateliers.map((a) => a.uid);
-
-    const liens = await this.prisma.atelier_Candidat.findMany({
-      where: { atelierId: { in: atelierIds } },
-      select: {
-        atelierId: true,
-        candidat: { select: { uid: true } },
-      },
-    });
-
-    const map = new Map<string, string[]>();
-    for (const id of atelierIds) map.set(id, []);
-
-    for (const lien of liens) {
-      map.get(lien.atelierId)?.push(lien.candidat.uid);
-    }
-
-    return ateliers.map((atelier) => ({
-      ...atelier,
-      candidats: map.get(atelier.uid) ?? [],
-    }));
-  }
-
-  private async attachCandidateUidsToAtelier(
-    atelier: Atelier,
-  ): Promise<AtelierWithCandidateUids> {
-    const liens = await this.prisma.atelier_Candidat.findMany({
-      where: { atelierId: atelier.uid },
-      select: { candidat: { select: { uid: true } } },
-    });
-
-    return {
-      ...atelier,
-      candidats: liens.map((l) => l.candidat.uid),
-    };
-  }
-
   private toApiAtelier(
     atelier: {
       Atelier_Filiere?: Array<{ score: number; filiere: { label: string } }>;
       Atelier_Candidat?: Array<{ candidatId: string }>;
     } & Atelier,
-  ): AtelierApi {
-    const filieres: Record<string, number> = {};
+  ): AtelierDetailsDto {
+    const filiere: Record<string, number> = {};
     for (const af of atelier.Atelier_Filiere ?? []) {
-      filieres[af.filiere.label] = af.score;
+      filiere[af.filiere.label] = af.score;
     }
 
     return {
@@ -213,7 +159,7 @@ export class AteliersService {
       createAt: atelier.createAt,
       updateAt: atelier.updateAt,
       dockerfilelink: atelier.dockerfilelink,
-      filieres,
+      filiere,
       candidats: (atelier.Atelier_Candidat ?? []).map((ac) => ac.candidatId),
     };
   }
@@ -224,7 +170,7 @@ export class AteliersService {
   async create(
     createAtelierDto: CreateAtelierDto,
     file: Express.Multer.File,
-  ): Promise<AtelierApi> {
+  ): Promise<AtelierDetailsDto> {
     if (!file) {
       throw new BadRequestException(`image est requise`);
     }
@@ -235,87 +181,26 @@ export class AteliersService {
       folder: 'ateliers',
     });
 
-    // 1) Valider/normaliser filieres (Record<label, score>)
-    const entries = Object.entries(createAtelierDto.filieres ?? {});
-    if (entries.length === 0) {
-      await this.deleteS3ObjectIfOwnedByUs(publicUrl);
-      throw new BadRequestException(
-        `Le champ "filieres" est requis et ne peut pas être vide`,
-      );
-    }
-
-    for (const [label, score] of entries) {
-      if (typeof label !== 'string' || label.trim().length === 0) {
-        await this.deleteS3ObjectIfOwnedByUs(publicUrl);
-        throw new BadRequestException(`Nom de filière invalide`);
-      }
-      if (!Number.isInteger(score) || score < 0) {
-        await this.deleteS3ObjectIfOwnedByUs(publicUrl);
-        throw new BadRequestException(
-          `Score invalide pour "${label}" (entier >= 0 attendu)`,
-        );
-      }
-    }
-
-    const labels = entries.map(([label]) => label);
-
-    // 2) Récupérer les filières par label => uid
-    const filieres = await this.prisma.filiere.findMany({
-      where: { label: { in: labels } },
-      select: { uid: true, label: true },
+    const newAtelier = await this.prisma.atelier.create({
+      data: {
+        label: createAtelierDto.label,
+        description: createAtelierDto.description,
+        draft: createAtelierDto.draft,
+        dockerfilelink: createAtelierDto.dockerfilelink,
+        imageUrl: publicUrl,
+      },
+      include: {
+        Atelier_Filiere: {
+          include: { filiere: { select: { label: true } } },
+        },
+      },
     });
 
-    const found = new Set(filieres.map((f) => f.label));
-    const missing = labels.filter((l) => !found.has(l));
-    if (missing.length > 0) {
-      await this.deleteS3ObjectIfOwnedByUs(publicUrl);
-      throw new BadRequestException(
-        `Filière(s) inconnue(s): ${missing.join(', ')}`,
-      );
-    }
-
-    const labelToId = new Map(filieres.map((f) => [f.label, f.uid] as const));
-
-    // 3) Créer atelier + relations
-    try {
-      const created = await this.prisma.atelier.create({
-        data: {
-          label: createAtelierDto.label,
-          description: createAtelierDto.description,
-          draft: createAtelierDto.draft,
-          dockerfilelink: createAtelierDto.dockerfilelink,
-          imageUrl: publicUrl,
-
-          Atelier_Filiere: {
-            create: entries.map(([label, score]) => ({
-              score,
-              filiereId: labelToId.get(label)!,
-            })),
-          },
-
-          ...(createAtelierDto.candidats?.length
-            ? {
-                Atelier_Candidat: {
-                  create: createAtelierDto.candidats.map((candidatId) => ({
-                    candidatId,
-                  })),
-                },
-              }
-            : {}),
-        },
-        include: {
-          Atelier_Filiere: {
-            include: { filiere: { select: { label: true } } },
-          },
-          Atelier_Candidat: { select: { candidatId: true } },
-        },
-      });
-
-      return this.toApiAtelier(created);
-    } catch {
-      await this.deleteS3ObjectIfOwnedByUs(publicUrl);
-      throw new InternalServerErrorException(`Échec de création de l'atelier`);
-    }
+    return {
+      ...newAtelier,
+      filiere: {}, // Vide à la création
+      candidats: [], // Vide à la création, comme vous l'avez précisé
+    };
   }
 
   async findAll(
@@ -326,7 +211,7 @@ export class AteliersService {
       where?: Prisma.AtelierWhereInput;
       orderBy?: Prisma.AtelierOrderByWithRelationInput;
     } = {},
-  ): Promise<AtelierApi[]> {
+  ): Promise<AtelierDetailsDto[]> {
     const { skip, take, cursor, where, orderBy } = params;
 
     const ateliers = await this.prisma.atelier.findMany({
@@ -346,7 +231,7 @@ export class AteliersService {
     return ateliers.map((atelier) => this.toApiAtelier(atelier));
   }
 
-  async findOne(id: string): Promise<AtelierApi> {
+  async findOne(id: string): Promise<AtelierDetailsDto> {
     this.assertNonEmptyString(id, 'uid');
 
     try {
@@ -373,7 +258,6 @@ export class AteliersService {
   ): Promise<Atelier> {
     this.assertNonEmptyString(uid, 'uid');
 
-    // 1) vérifier existence + récupérer ancienne url
     let existing: { imageUrl: string | null };
     try {
       existing = await this.prisma.atelier.findUniqueOrThrow({
@@ -384,7 +268,6 @@ export class AteliersService {
       throw new NotFoundException(`Atelier introuvable`);
     }
 
-    // 2) upload nouvelle image si fournie
     let nextImageUrl: string | undefined;
     if (file) {
       const upload = await this.uploadImageToS3({
@@ -395,7 +278,6 @@ export class AteliersService {
       nextImageUrl = upload.publicUrl;
     }
 
-    // 3) construire un update Prisma SAFE (sans spread DTO)
     const data: Prisma.AtelierUpdateInput = {
       ...(typeof updateAtelierDto.label === 'string'
         ? { label: updateAtelierDto.label }
@@ -412,7 +294,6 @@ export class AteliersService {
       ...(nextImageUrl ? { imageUrl: nextImageUrl } : {}),
     };
 
-    // 4) update DB
     let updated: Atelier;
     try {
       updated = await this.prisma.atelier.update({
@@ -426,7 +307,6 @@ export class AteliersService {
       );
     }
 
-    // 5) cleanup ancienne image (best-effort)
     if (nextImageUrl) {
       await this.deleteS3ObjectIfOwnedByUs(existing.imageUrl);
     }
@@ -437,7 +317,6 @@ export class AteliersService {
   async remove(id: string): Promise<Atelier> {
     this.assertNonEmptyString(id, 'uid');
 
-    // On récupère d'abord l'imageUrl pour cleanup, puis delete DB
     let existing: { imageUrl: string | null };
     try {
       existing = await this.prisma.atelier.findUniqueOrThrow({

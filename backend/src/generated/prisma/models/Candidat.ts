@@ -218,10 +218,10 @@ export type CandidatGroupByArgs<
 export type CandidatGroupByOutputType = {
   uid: string;
   codeCandidat: number;
-  firstname: string | null;
-  lastname: string | null;
-  email: string | null;
-  dateBirth: Date | null;
+  firstname: string;
+  lastname: string;
+  email: string;
+  dateBirth: Date;
   appointment: boolean;
   consentement: boolean;
   createdAt: Date;
@@ -252,33 +252,31 @@ export type CandidatWhereInput = {
   NOT?: Prisma.CandidatWhereInput | Prisma.CandidatWhereInput[];
   uid?: Prisma.StringFilter<'Candidat'> | string;
   codeCandidat?: Prisma.IntFilter<'Candidat'> | number;
-  firstname?: Prisma.StringNullableFilter<'Candidat'> | string | null;
-  lastname?: Prisma.StringNullableFilter<'Candidat'> | string | null;
-  email?: Prisma.StringNullableFilter<'Candidat'> | string | null;
-  dateBirth?: Prisma.DateTimeNullableFilter<'Candidat'> | Date | string | null;
+  firstname?: Prisma.StringFilter<'Candidat'> | string;
+  lastname?: Prisma.StringFilter<'Candidat'> | string;
+  email?: Prisma.StringFilter<'Candidat'> | string;
+  dateBirth?: Prisma.DateTimeFilter<'Candidat'> | Date | string;
   appointment?: Prisma.BoolFilter<'Candidat'> | boolean;
   consentement?: Prisma.BoolFilter<'Candidat'> | boolean;
   createdAt?: Prisma.DateTimeFilter<'Candidat'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'Candidat'> | Date | string;
   Candidat_Filiere?: Prisma.Candidat_FiliereListRelationFilter;
   Atelier_Candidat?: Prisma.Atelier_CandidatListRelationFilter;
-  Candidat_Score?: Prisma.Candidat_ScoreListRelationFilter;
 };
 
 export type CandidatOrderByWithRelationInput = {
   uid?: Prisma.SortOrder;
   codeCandidat?: Prisma.SortOrder;
-  firstname?: Prisma.SortOrderInput | Prisma.SortOrder;
-  lastname?: Prisma.SortOrderInput | Prisma.SortOrder;
-  email?: Prisma.SortOrderInput | Prisma.SortOrder;
-  dateBirth?: Prisma.SortOrderInput | Prisma.SortOrder;
+  firstname?: Prisma.SortOrder;
+  lastname?: Prisma.SortOrder;
+  email?: Prisma.SortOrder;
+  dateBirth?: Prisma.SortOrder;
   appointment?: Prisma.SortOrder;
   consentement?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   Candidat_Filiere?: Prisma.Candidat_FiliereOrderByRelationAggregateInput;
   Atelier_Candidat?: Prisma.Atelier_CandidatOrderByRelationAggregateInput;
-  Candidat_Score?: Prisma.Candidat_ScoreOrderByRelationAggregateInput;
 };
 
 export type CandidatWhereUniqueInput = Prisma.AtLeast<
@@ -289,20 +287,15 @@ export type CandidatWhereUniqueInput = Prisma.AtLeast<
     AND?: Prisma.CandidatWhereInput | Prisma.CandidatWhereInput[];
     OR?: Prisma.CandidatWhereInput[];
     NOT?: Prisma.CandidatWhereInput | Prisma.CandidatWhereInput[];
-    firstname?: Prisma.StringNullableFilter<'Candidat'> | string | null;
-    lastname?: Prisma.StringNullableFilter<'Candidat'> | string | null;
-    dateBirth?:
-      | Prisma.DateTimeNullableFilter<'Candidat'>
-      | Date
-      | string
-      | null;
+    firstname?: Prisma.StringFilter<'Candidat'> | string;
+    lastname?: Prisma.StringFilter<'Candidat'> | string;
+    dateBirth?: Prisma.DateTimeFilter<'Candidat'> | Date | string;
     appointment?: Prisma.BoolFilter<'Candidat'> | boolean;
     consentement?: Prisma.BoolFilter<'Candidat'> | boolean;
     createdAt?: Prisma.DateTimeFilter<'Candidat'> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<'Candidat'> | Date | string;
     Candidat_Filiere?: Prisma.Candidat_FiliereListRelationFilter;
     Atelier_Candidat?: Prisma.Atelier_CandidatListRelationFilter;
-    Candidat_Score?: Prisma.Candidat_ScoreListRelationFilter;
   },
   'uid' | 'codeCandidat' | 'email'
 >;
@@ -310,10 +303,10 @@ export type CandidatWhereUniqueInput = Prisma.AtLeast<
 export type CandidatOrderByWithAggregationInput = {
   uid?: Prisma.SortOrder;
   codeCandidat?: Prisma.SortOrder;
-  firstname?: Prisma.SortOrderInput | Prisma.SortOrder;
-  lastname?: Prisma.SortOrderInput | Prisma.SortOrder;
-  email?: Prisma.SortOrderInput | Prisma.SortOrder;
-  dateBirth?: Prisma.SortOrderInput | Prisma.SortOrder;
+  firstname?: Prisma.SortOrder;
+  lastname?: Prisma.SortOrder;
+  email?: Prisma.SortOrder;
+  dateBirth?: Prisma.SortOrder;
   appointment?: Prisma.SortOrder;
   consentement?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
@@ -335,20 +328,10 @@ export type CandidatScalarWhereWithAggregatesInput = {
     | Prisma.CandidatScalarWhereWithAggregatesInput[];
   uid?: Prisma.StringWithAggregatesFilter<'Candidat'> | string;
   codeCandidat?: Prisma.IntWithAggregatesFilter<'Candidat'> | number;
-  firstname?:
-    | Prisma.StringNullableWithAggregatesFilter<'Candidat'>
-    | string
-    | null;
-  lastname?:
-    | Prisma.StringNullableWithAggregatesFilter<'Candidat'>
-    | string
-    | null;
-  email?: Prisma.StringNullableWithAggregatesFilter<'Candidat'> | string | null;
-  dateBirth?:
-    | Prisma.DateTimeNullableWithAggregatesFilter<'Candidat'>
-    | Date
-    | string
-    | null;
+  firstname?: Prisma.StringWithAggregatesFilter<'Candidat'> | string;
+  lastname?: Prisma.StringWithAggregatesFilter<'Candidat'> | string;
+  email?: Prisma.StringWithAggregatesFilter<'Candidat'> | string;
+  dateBirth?: Prisma.DateTimeWithAggregatesFilter<'Candidat'> | Date | string;
   appointment?: Prisma.BoolWithAggregatesFilter<'Candidat'> | boolean;
   consentement?: Prisma.BoolWithAggregatesFilter<'Candidat'> | boolean;
   createdAt?: Prisma.DateTimeWithAggregatesFilter<'Candidat'> | Date | string;
@@ -358,81 +341,69 @@ export type CandidatScalarWhereWithAggregatesInput = {
 export type CandidatCreateInput = {
   uid?: string;
   codeCandidat?: number;
-  firstname?: string | null;
-  lastname?: string | null;
-  email?: string | null;
-  dateBirth?: Date | string | null;
+  firstname: string;
+  lastname: string;
+  email: string;
+  dateBirth: Date | string;
   appointment: boolean;
   consentement: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   Candidat_Filiere?: Prisma.Candidat_FiliereCreateNestedManyWithoutCandidatInput;
   Atelier_Candidat?: Prisma.Atelier_CandidatCreateNestedManyWithoutCandidatInput;
-  Candidat_Score?: Prisma.Candidat_ScoreCreateNestedManyWithoutCandidatInput;
 };
 
 export type CandidatUncheckedCreateInput = {
   uid?: string;
   codeCandidat?: number;
-  firstname?: string | null;
-  lastname?: string | null;
-  email?: string | null;
-  dateBirth?: Date | string | null;
+  firstname: string;
+  lastname: string;
+  email: string;
+  dateBirth: Date | string;
   appointment: boolean;
   consentement: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   Candidat_Filiere?: Prisma.Candidat_FiliereUncheckedCreateNestedManyWithoutCandidatInput;
   Atelier_Candidat?: Prisma.Atelier_CandidatUncheckedCreateNestedManyWithoutCandidatInput;
-  Candidat_Score?: Prisma.Candidat_ScoreUncheckedCreateNestedManyWithoutCandidatInput;
 };
 
 export type CandidatUpdateInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string;
-  firstname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  lastname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  dateBirth?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
+  firstname?: Prisma.StringFieldUpdateOperationsInput | string;
+  lastname?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  dateBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   appointment?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   consentement?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   Candidat_Filiere?: Prisma.Candidat_FiliereUpdateManyWithoutCandidatNestedInput;
   Atelier_Candidat?: Prisma.Atelier_CandidatUpdateManyWithoutCandidatNestedInput;
-  Candidat_Score?: Prisma.Candidat_ScoreUpdateManyWithoutCandidatNestedInput;
 };
 
 export type CandidatUncheckedUpdateInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string;
   codeCandidat?: Prisma.IntFieldUpdateOperationsInput | number;
-  firstname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  lastname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  dateBirth?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
+  firstname?: Prisma.StringFieldUpdateOperationsInput | string;
+  lastname?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  dateBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   appointment?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   consentement?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   Candidat_Filiere?: Prisma.Candidat_FiliereUncheckedUpdateManyWithoutCandidatNestedInput;
   Atelier_Candidat?: Prisma.Atelier_CandidatUncheckedUpdateManyWithoutCandidatNestedInput;
-  Candidat_Score?: Prisma.Candidat_ScoreUncheckedUpdateManyWithoutCandidatNestedInput;
 };
 
 export type CandidatCreateManyInput = {
   uid?: string;
   codeCandidat?: number;
-  firstname?: string | null;
-  lastname?: string | null;
-  email?: string | null;
-  dateBirth?: Date | string | null;
+  firstname: string;
+  lastname: string;
+  email: string;
+  dateBirth: Date | string;
   appointment: boolean;
   consentement: boolean;
   createdAt?: Date | string;
@@ -441,14 +412,10 @@ export type CandidatCreateManyInput = {
 
 export type CandidatUpdateManyMutationInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string;
-  firstname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  lastname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  dateBirth?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
+  firstname?: Prisma.StringFieldUpdateOperationsInput | string;
+  lastname?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  dateBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   appointment?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   consentement?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -458,14 +425,10 @@ export type CandidatUpdateManyMutationInput = {
 export type CandidatUncheckedUpdateManyInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string;
   codeCandidat?: Prisma.IntFieldUpdateOperationsInput | number;
-  firstname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  lastname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  dateBirth?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
+  firstname?: Prisma.StringFieldUpdateOperationsInput | string;
+  lastname?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  dateBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   appointment?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   consentement?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -524,20 +487,12 @@ export type CandidatScalarRelationFilter = {
   isNot?: Prisma.CandidatWhereInput;
 };
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null;
-};
-
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null;
+export type DateTimeFieldUpdateOperationsInput = {
+  set?: Date | string;
 };
 
 export type BoolFieldUpdateOperationsInput = {
   set?: boolean;
-};
-
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string;
 };
 
 export type CandidatCreateNestedOneWithoutCandidat_FiliereInput = {
@@ -563,32 +518,6 @@ export type CandidatUpdateOneRequiredWithoutCandidat_FiliereNestedInput = {
       Prisma.CandidatUpdateWithoutCandidat_FiliereInput
     >,
     Prisma.CandidatUncheckedUpdateWithoutCandidat_FiliereInput
-  >;
-};
-
-export type CandidatCreateNestedOneWithoutCandidat_ScoreInput = {
-  create?: Prisma.XOR<
-    Prisma.CandidatCreateWithoutCandidat_ScoreInput,
-    Prisma.CandidatUncheckedCreateWithoutCandidat_ScoreInput
-  >;
-  connectOrCreate?: Prisma.CandidatCreateOrConnectWithoutCandidat_ScoreInput;
-  connect?: Prisma.CandidatWhereUniqueInput;
-};
-
-export type CandidatUpdateOneRequiredWithoutCandidat_ScoreNestedInput = {
-  create?: Prisma.XOR<
-    Prisma.CandidatCreateWithoutCandidat_ScoreInput,
-    Prisma.CandidatUncheckedCreateWithoutCandidat_ScoreInput
-  >;
-  connectOrCreate?: Prisma.CandidatCreateOrConnectWithoutCandidat_ScoreInput;
-  upsert?: Prisma.CandidatUpsertWithoutCandidat_ScoreInput;
-  connect?: Prisma.CandidatWhereUniqueInput;
-  update?: Prisma.XOR<
-    Prisma.XOR<
-      Prisma.CandidatUpdateToOneWithWhereWithoutCandidat_ScoreInput,
-      Prisma.CandidatUpdateWithoutCandidat_ScoreInput
-    >,
-    Prisma.CandidatUncheckedUpdateWithoutCandidat_ScoreInput
   >;
 };
 
@@ -621,31 +550,29 @@ export type CandidatUpdateOneRequiredWithoutAtelier_CandidatNestedInput = {
 export type CandidatCreateWithoutCandidat_FiliereInput = {
   uid?: string;
   codeCandidat?: number;
-  firstname?: string | null;
-  lastname?: string | null;
-  email?: string | null;
-  dateBirth?: Date | string | null;
+  firstname: string;
+  lastname: string;
+  email: string;
+  dateBirth: Date | string;
   appointment: boolean;
   consentement: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   Atelier_Candidat?: Prisma.Atelier_CandidatCreateNestedManyWithoutCandidatInput;
-  Candidat_Score?: Prisma.Candidat_ScoreCreateNestedManyWithoutCandidatInput;
 };
 
 export type CandidatUncheckedCreateWithoutCandidat_FiliereInput = {
   uid?: string;
   codeCandidat?: number;
-  firstname?: string | null;
-  lastname?: string | null;
-  email?: string | null;
-  dateBirth?: Date | string | null;
+  firstname: string;
+  lastname: string;
+  email: string;
+  dateBirth: Date | string;
   appointment: boolean;
   consentement: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   Atelier_Candidat?: Prisma.Atelier_CandidatUncheckedCreateNestedManyWithoutCandidatInput;
-  Candidat_Score?: Prisma.Candidat_ScoreUncheckedCreateNestedManyWithoutCandidatInput;
 };
 
 export type CandidatCreateOrConnectWithoutCandidat_FiliereInput = {
@@ -678,164 +605,57 @@ export type CandidatUpdateToOneWithWhereWithoutCandidat_FiliereInput = {
 
 export type CandidatUpdateWithoutCandidat_FiliereInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string;
-  firstname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  lastname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  dateBirth?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
+  firstname?: Prisma.StringFieldUpdateOperationsInput | string;
+  lastname?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  dateBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   appointment?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   consentement?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   Atelier_Candidat?: Prisma.Atelier_CandidatUpdateManyWithoutCandidatNestedInput;
-  Candidat_Score?: Prisma.Candidat_ScoreUpdateManyWithoutCandidatNestedInput;
 };
 
 export type CandidatUncheckedUpdateWithoutCandidat_FiliereInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string;
   codeCandidat?: Prisma.IntFieldUpdateOperationsInput | number;
-  firstname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  lastname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  dateBirth?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
+  firstname?: Prisma.StringFieldUpdateOperationsInput | string;
+  lastname?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  dateBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   appointment?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   consentement?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  Atelier_Candidat?: Prisma.Atelier_CandidatUncheckedUpdateManyWithoutCandidatNestedInput;
-  Candidat_Score?: Prisma.Candidat_ScoreUncheckedUpdateManyWithoutCandidatNestedInput;
-};
-
-export type CandidatCreateWithoutCandidat_ScoreInput = {
-  uid?: string;
-  codeCandidat?: number;
-  firstname?: string | null;
-  lastname?: string | null;
-  email?: string | null;
-  dateBirth?: Date | string | null;
-  appointment: boolean;
-  consentement: boolean;
-  createdAt?: Date | string;
-  updatedAt?: Date | string;
-  Candidat_Filiere?: Prisma.Candidat_FiliereCreateNestedManyWithoutCandidatInput;
-  Atelier_Candidat?: Prisma.Atelier_CandidatCreateNestedManyWithoutCandidatInput;
-};
-
-export type CandidatUncheckedCreateWithoutCandidat_ScoreInput = {
-  uid?: string;
-  codeCandidat?: number;
-  firstname?: string | null;
-  lastname?: string | null;
-  email?: string | null;
-  dateBirth?: Date | string | null;
-  appointment: boolean;
-  consentement: boolean;
-  createdAt?: Date | string;
-  updatedAt?: Date | string;
-  Candidat_Filiere?: Prisma.Candidat_FiliereUncheckedCreateNestedManyWithoutCandidatInput;
-  Atelier_Candidat?: Prisma.Atelier_CandidatUncheckedCreateNestedManyWithoutCandidatInput;
-};
-
-export type CandidatCreateOrConnectWithoutCandidat_ScoreInput = {
-  where: Prisma.CandidatWhereUniqueInput;
-  create: Prisma.XOR<
-    Prisma.CandidatCreateWithoutCandidat_ScoreInput,
-    Prisma.CandidatUncheckedCreateWithoutCandidat_ScoreInput
-  >;
-};
-
-export type CandidatUpsertWithoutCandidat_ScoreInput = {
-  update: Prisma.XOR<
-    Prisma.CandidatUpdateWithoutCandidat_ScoreInput,
-    Prisma.CandidatUncheckedUpdateWithoutCandidat_ScoreInput
-  >;
-  create: Prisma.XOR<
-    Prisma.CandidatCreateWithoutCandidat_ScoreInput,
-    Prisma.CandidatUncheckedCreateWithoutCandidat_ScoreInput
-  >;
-  where?: Prisma.CandidatWhereInput;
-};
-
-export type CandidatUpdateToOneWithWhereWithoutCandidat_ScoreInput = {
-  where?: Prisma.CandidatWhereInput;
-  data: Prisma.XOR<
-    Prisma.CandidatUpdateWithoutCandidat_ScoreInput,
-    Prisma.CandidatUncheckedUpdateWithoutCandidat_ScoreInput
-  >;
-};
-
-export type CandidatUpdateWithoutCandidat_ScoreInput = {
-  uid?: Prisma.StringFieldUpdateOperationsInput | string;
-  firstname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  lastname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  dateBirth?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  appointment?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  consentement?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  Candidat_Filiere?: Prisma.Candidat_FiliereUpdateManyWithoutCandidatNestedInput;
-  Atelier_Candidat?: Prisma.Atelier_CandidatUpdateManyWithoutCandidatNestedInput;
-};
-
-export type CandidatUncheckedUpdateWithoutCandidat_ScoreInput = {
-  uid?: Prisma.StringFieldUpdateOperationsInput | string;
-  codeCandidat?: Prisma.IntFieldUpdateOperationsInput | number;
-  firstname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  lastname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  dateBirth?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
-  appointment?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  consentement?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  Candidat_Filiere?: Prisma.Candidat_FiliereUncheckedUpdateManyWithoutCandidatNestedInput;
   Atelier_Candidat?: Prisma.Atelier_CandidatUncheckedUpdateManyWithoutCandidatNestedInput;
 };
 
 export type CandidatCreateWithoutAtelier_CandidatInput = {
   uid?: string;
   codeCandidat?: number;
-  firstname?: string | null;
-  lastname?: string | null;
-  email?: string | null;
-  dateBirth?: Date | string | null;
+  firstname: string;
+  lastname: string;
+  email: string;
+  dateBirth: Date | string;
   appointment: boolean;
   consentement: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   Candidat_Filiere?: Prisma.Candidat_FiliereCreateNestedManyWithoutCandidatInput;
-  Candidat_Score?: Prisma.Candidat_ScoreCreateNestedManyWithoutCandidatInput;
 };
 
 export type CandidatUncheckedCreateWithoutAtelier_CandidatInput = {
   uid?: string;
   codeCandidat?: number;
-  firstname?: string | null;
-  lastname?: string | null;
-  email?: string | null;
-  dateBirth?: Date | string | null;
+  firstname: string;
+  lastname: string;
+  email: string;
+  dateBirth: Date | string;
   appointment: boolean;
   consentement: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   Candidat_Filiere?: Prisma.Candidat_FiliereUncheckedCreateNestedManyWithoutCandidatInput;
-  Candidat_Score?: Prisma.Candidat_ScoreUncheckedCreateNestedManyWithoutCandidatInput;
 };
 
 export type CandidatCreateOrConnectWithoutAtelier_CandidatInput = {
@@ -868,39 +688,29 @@ export type CandidatUpdateToOneWithWhereWithoutAtelier_CandidatInput = {
 
 export type CandidatUpdateWithoutAtelier_CandidatInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string;
-  firstname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  lastname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  dateBirth?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
+  firstname?: Prisma.StringFieldUpdateOperationsInput | string;
+  lastname?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  dateBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   appointment?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   consentement?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   Candidat_Filiere?: Prisma.Candidat_FiliereUpdateManyWithoutCandidatNestedInput;
-  Candidat_Score?: Prisma.Candidat_ScoreUpdateManyWithoutCandidatNestedInput;
 };
 
 export type CandidatUncheckedUpdateWithoutAtelier_CandidatInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string;
   codeCandidat?: Prisma.IntFieldUpdateOperationsInput | number;
-  firstname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  lastname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  dateBirth?:
-    | Prisma.NullableDateTimeFieldUpdateOperationsInput
-    | Date
-    | string
-    | null;
+  firstname?: Prisma.StringFieldUpdateOperationsInput | string;
+  lastname?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  dateBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   appointment?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   consentement?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   Candidat_Filiere?: Prisma.Candidat_FiliereUncheckedUpdateManyWithoutCandidatNestedInput;
-  Candidat_Score?: Prisma.Candidat_ScoreUncheckedUpdateManyWithoutCandidatNestedInput;
 };
 
 /**
@@ -910,7 +720,6 @@ export type CandidatUncheckedUpdateWithoutAtelier_CandidatInput = {
 export type CandidatCountOutputType = {
   Candidat_Filiere: number;
   Atelier_Candidat: number;
-  Candidat_Score: number;
 };
 
 export type CandidatCountOutputTypeSelect<
@@ -919,7 +728,6 @@ export type CandidatCountOutputTypeSelect<
 > = {
   Candidat_Filiere?: boolean | CandidatCountOutputTypeCountCandidat_FiliereArgs;
   Atelier_Candidat?: boolean | CandidatCountOutputTypeCountAtelier_CandidatArgs;
-  Candidat_Score?: boolean | CandidatCountOutputTypeCountCandidat_ScoreArgs;
 };
 
 /**
@@ -955,16 +763,6 @@ export type CandidatCountOutputTypeCountAtelier_CandidatArgs<
   where?: Prisma.Atelier_CandidatWhereInput;
 };
 
-/**
- * CandidatCountOutputType without action
- */
-export type CandidatCountOutputTypeCountCandidat_ScoreArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
-> = {
-  where?: Prisma.Candidat_ScoreWhereInput;
-};
-
 export type CandidatSelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
@@ -982,7 +780,6 @@ export type CandidatSelect<
     updatedAt?: boolean;
     Candidat_Filiere?: boolean | Prisma.Candidat$Candidat_FiliereArgs<ExtArgs>;
     Atelier_Candidat?: boolean | Prisma.Candidat$Atelier_CandidatArgs<ExtArgs>;
-    Candidat_Score?: boolean | Prisma.Candidat$Candidat_ScoreArgs<ExtArgs>;
     _count?: boolean | Prisma.CandidatCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['candidat']
@@ -1061,7 +858,6 @@ export type CandidatInclude<
 > = {
   Candidat_Filiere?: boolean | Prisma.Candidat$Candidat_FiliereArgs<ExtArgs>;
   Atelier_Candidat?: boolean | Prisma.Candidat$Atelier_CandidatArgs<ExtArgs>;
-  Candidat_Score?: boolean | Prisma.Candidat$Candidat_ScoreArgs<ExtArgs>;
   _count?: boolean | Prisma.CandidatCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type CandidatIncludeCreateManyAndReturn<
@@ -1081,16 +877,15 @@ export type $CandidatPayload<
   objects: {
     Candidat_Filiere: Prisma.$Candidat_FilierePayload<ExtArgs>[];
     Atelier_Candidat: Prisma.$Atelier_CandidatPayload<ExtArgs>[];
-    Candidat_Score: Prisma.$Candidat_ScorePayload<ExtArgs>[];
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
       uid: string;
       codeCandidat: number;
-      firstname: string | null;
-      lastname: string | null;
-      email: string | null;
-      dateBirth: Date | null;
+      firstname: string;
+      lastname: string;
+      email: string;
+      dateBirth: Date;
       appointment: boolean;
       consentement: boolean;
       createdAt: Date;
@@ -1671,17 +1466,6 @@ export interface Prisma__CandidatClient<
       >
     | Null
   >;
-  Candidat_Score<T extends Prisma.Candidat$Candidat_ScoreArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.Candidat$Candidat_ScoreArgs<ExtArgs>>,
-  ): Prisma.PrismaPromise<
-    | runtime.Types.Result.GetResult<
-        Prisma.$Candidat_ScorePayload<ExtArgs>,
-        T,
-        'findMany',
-        GlobalOmitOptions
-      >
-    | Null
-  >;
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2246,37 +2030,6 @@ export type Candidat$Atelier_CandidatArgs<
   distinct?:
     | Prisma.Atelier_CandidatScalarFieldEnum
     | Prisma.Atelier_CandidatScalarFieldEnum[];
-};
-
-/**
- * Candidat.Candidat_Score
- */
-export type Candidat$Candidat_ScoreArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
-> = {
-  /**
-   * Select specific fields to fetch from the Candidat_Score
-   */
-  select?: Prisma.Candidat_ScoreSelect<ExtArgs> | null;
-  /**
-   * Omit specific fields from the Candidat_Score
-   */
-  omit?: Prisma.Candidat_ScoreOmit<ExtArgs> | null;
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.Candidat_ScoreInclude<ExtArgs> | null;
-  where?: Prisma.Candidat_ScoreWhereInput;
-  orderBy?:
-    | Prisma.Candidat_ScoreOrderByWithRelationInput
-    | Prisma.Candidat_ScoreOrderByWithRelationInput[];
-  cursor?: Prisma.Candidat_ScoreWhereUniqueInput;
-  take?: number;
-  skip?: number;
-  distinct?:
-    | Prisma.Candidat_ScoreScalarFieldEnum
-    | Prisma.Candidat_ScoreScalarFieldEnum[];
 };
 
 /**

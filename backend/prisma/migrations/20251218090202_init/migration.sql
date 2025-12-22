@@ -27,17 +27,17 @@ CREATE TABLE "Question" (
 CREATE TABLE "Reponse_Filiere" (
     "reponseId" TEXT NOT NULL,
     "filiereId" TEXT NOT NULL,
-    "valeur" INTEGER NOT NULL
+    "score" INTEGER NOT NULL DEFAULT 0
 );
 
 -- CreateTable
 CREATE TABLE "Candidat" (
     "uid" TEXT NOT NULL,
     "codeCandidat" SERIAL NOT NULL,
-    "firstname" TEXT,
-    "lastname" TEXT,
-    "email" TEXT,
-    "dateBirth" TIMESTAMP(3),
+    "firstname" TEXT NOT NULL,
+    "lastname" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "dateBirth" TIMESTAMP(3) NOT NULL,
     "appointment" BOOLEAN NOT NULL,
     "consentement" BOOLEAN NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -48,12 +48,6 @@ CREATE TABLE "Candidat" (
 
 -- CreateTable
 CREATE TABLE "Candidat_Filiere" (
-    "candidatId" TEXT NOT NULL,
-    "filiereId" TEXT NOT NULL
-);
-
--- CreateTable
-CREATE TABLE "Candidat_Score" (
     "candidatId" TEXT NOT NULL,
     "filiereId" TEXT NOT NULL,
     "score" INTEGER NOT NULL DEFAULT 0
@@ -113,9 +107,6 @@ CREATE UNIQUE INDEX "Candidat_email_key" ON "Candidat"("email");
 CREATE UNIQUE INDEX "Candidat_Filiere_candidatId_filiereId_key" ON "Candidat_Filiere"("candidatId", "filiereId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Candidat_Score_candidatId_key" ON "Candidat_Score"("candidatId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Atelier_label_key" ON "Atelier"("label");
 
 -- CreateIndex
@@ -141,12 +132,6 @@ ALTER TABLE "Candidat_Filiere" ADD CONSTRAINT "Candidat_Filiere_candidatId_fkey"
 
 -- AddForeignKey
 ALTER TABLE "Candidat_Filiere" ADD CONSTRAINT "Candidat_Filiere_filiereId_fkey" FOREIGN KEY ("filiereId") REFERENCES "Filiere"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Candidat_Score" ADD CONSTRAINT "Candidat_Score_candidatId_fkey" FOREIGN KEY ("candidatId") REFERENCES "Candidat"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Candidat_Score" ADD CONSTRAINT "Candidat_Score_filiereId_fkey" FOREIGN KEY ("filiereId") REFERENCES "Filiere"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Atelier_Filiere" ADD CONSTRAINT "Atelier_Filiere_atelierId_fkey" FOREIGN KEY ("atelierId") REFERENCES "Atelier"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
