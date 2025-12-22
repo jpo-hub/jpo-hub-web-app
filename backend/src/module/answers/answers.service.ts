@@ -12,15 +12,15 @@ export class AnswersService {
     return `This action returns all answers`;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} answer`;
   }
 
-  update(id: number, updateAnswerDto: UpdateAnswerDto) {
+  update(id: string, updateAnswerDto: UpdateAnswerDto) {
     return `This action updates a #${id} answer`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} answer`;
   }
 }
