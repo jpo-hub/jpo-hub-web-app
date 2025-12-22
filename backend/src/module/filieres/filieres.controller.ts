@@ -11,7 +11,7 @@ import {
 import { FilieresService } from './filieres.service';
 import { CreateFiliereDto } from './dto/create-filiere.dto';
 import { UpdateFiliereDto } from './dto/update-filiere.dto';
-import { Filiere as FiliereModel } from '../../generated/prisma/models/Candidat';
+import { Filiere as FiliereModel } from '../../generated/prisma/models/Filiere';
 
 @Controller('filieres')
 export class FilieresController {
