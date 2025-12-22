@@ -11,6 +11,7 @@ import {
   ParseFilePipe,
   FileTypeValidator,
   MaxFileSizeValidator,
+  Query,
 } from '@nestjs/common';
 import { AteliersService } from './ateliers.service';
 import { CreateAtelierDto } from './dto/create-atelier.dto';
@@ -47,8 +48,18 @@ export class AteliersController {
 
   @Get()
   @ApiOkResponse({ type: AtelierResponseDto, isArray: true })
-  async findAll(): Promise<AtelierDetailsDto[]> {
-    return await this.ateliersService.findAll({});
+  async findAll(
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
+  ): Promise<AtelierDetailsDto[]> {
+    const pageNum = page ? parseInt(page, 10) : 1;
+    const limitNum = limit ? parseInt(limit, 10) : 10;
+    const skip = (pageNum - 1) * limitNum;
+
+    return await this.ateliersService.findAll({
+      skip,
+      take: limitNum,
+    });
   }
 
   @Get(':uid')
