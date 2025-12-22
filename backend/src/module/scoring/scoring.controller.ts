@@ -5,11 +5,8 @@ import { ScoringService } from './scoring.service';
 export class ScoringController {
   constructor(private readonly scoringService: ScoringService) {}
 
-  @Get('candidat/:userId/atelier/:atelierId')
-  findByUserAndAtelier(
-    @Param('userId') userId: string,
-    @Param('atelierId') atelierId: string,
-  ) {
-    return { userId: Number(userId), atelierId: Number(atelierId) };
+  @Get(':candidatUid')
+  async findByUserAndAtelier(@Param('candidatUid') uid: string) {
+    return await this.scoringService.scoringCandidat({ uid });
   }
 }
