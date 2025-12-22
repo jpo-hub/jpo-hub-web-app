@@ -4,14 +4,16 @@ import { CandidatsModule } from './module/candidats/candidats.module';
 import { AteliersModule } from './module/ateliers/ateliers.module';
 import { ConfigModule } from '@nestjs/config';
 import { ScoringModule } from './module/scoring/scoring.module';
+import { FilieresModule } from './module/filieres/filieres.module';
 
 @Module({
   imports: [
     PrismaModule,
     CandidatsModule,
     AteliersModule,
-    ConfigModule.forRoot({ isGlobal: true }),
     ScoringModule,
+    FilieresModule,
+    ConfigModule.forRoot({ isGlobal: true }),
   ],
   controllers: [],
   providers: [],
