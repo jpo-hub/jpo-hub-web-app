@@ -127,10 +127,7 @@ export class ScoringService {
           .slice(0, 3);
       }
 
-      return {
-        candidat: candidatDetails,
-        ateliersRecommandes: top3Ateliers,
-      };
+      return top3Ateliers;
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
 
