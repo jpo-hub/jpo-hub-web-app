@@ -9,7 +9,11 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { Prisma, Candidat } from '../../generated/prisma/client';
 import { CreateCandidatDto } from './dto/create-candidat.dto';
 import { randomUUID } from 'crypto';
+import { ERROR } from '../../common/constants/error.constants';
 
+/**
+ * DTO enrichi d'un candidat avec ses filières et ateliers.
+ */
 type CandidatDetailsDto = Candidat & {
   filieres: Record<string, number>;
   ateliers?: Array<{ uid: string; title: string; date: Date }>;
@@ -18,16 +22,30 @@ type CandidatDetailsDto = Candidat & {
 /**
  * Service de gestion des candidats.
  *
- * Règle de consentement appliquée ici :
- * - si `consentement === false`, on anonymise les données personnelles enregistrées
- *   (email/firstname/lastname/dateBirth) avec des valeurs “placeholder”.
- * - les filières peuvent être initialisées / mises à jour via un mapping `{ [label]: score }`
- *   et sont persistées via la table de jointure `candidat_Filiere`.
+ * @description
+ * Gère les opérations CRUD sur les candidats avec les règles métier suivantes :
+ * - Si `consentement === false`, les données personnelles sont anonymisées
+ *   (email, firstname, lastname, dateBirth).
+ * - Les filières sont gérées via un mapping `{ [label]: score }` et persistées
+ *   dans la table de jointure `Candidat_Filiere`.
+ *
+ * @class CandidatsService
  */
 @Injectable()
 export class CandidatsService {
   constructor(private prisma: PrismaService) {}
 
+  /**
+   * Enrichit un candidat avec ses filières et ateliers associés.
+   *
+   * @private
+   * @async
+   * @param {Candidat} candidat - Le candidat à enrichir.
+   * @param {Prisma.TransactionClient | PrismaService} [tx=this.prisma] - Client Prisma ou transaction.
+   * @returns {Promise<CandidatDetailsDto>} Le candidat enrichi avec :
+   *   - `filieres`: objet `{ [label]: score }`
+   *   - `ateliers`: liste `{ uid, title, date }`
+   */
   private async enrichCandidatDetails(
     candidat: Candidat,
     tx: Prisma.TransactionClient | PrismaService = this.prisma,
@@ -58,17 +76,22 @@ export class CandidatsService {
   }
 
   /**
-   * Récupère un candidat par critère unique (uid, email, etc.) et renvoie un DTO enrichi :
-   * - `filieres` sous forme d'objet `{ [label]: score }`
-   * - `ateliers` sous forme de liste `{ uid, title, date }`
+   * Récupère un candidat par critère unique.
    *
-   * @param candidatWhereUniqueInput Critère unique Prisma.
-   * @returns Le candidat enrichi (DTO).
-   * @throws NotFoundException Si le candidat n'existe pas.
-   * @throws BadRequestException Si la requête est invalide.
+   * @async
+   * @param {Prisma.CandidatWhereUniqueInput} candidatWhereUniqueInput - Critère unique (uid, email, etc.).
+   * @returns {Promise<CandidatDetailsDto>} Le candidat enrichi avec ses filières et ateliers.
+   * @throws {NotFoundException} Si le candidat n'existe pas.
+   * @throws {BadRequestException} Si le critère de recherche est invalide.
+   * @throws {InternalServerErrorException} En cas d'erreur inattendue.
    *
    * @example
-   * const candidat = await candidatsService.candidat({ uid: '...' });
+   * // Recherche par UID
+   * const candidat = await candidatsService.candidat({ uid: 'abc-123' });
+   *
+   * @example
+   * // Recherche par email
+   * const candidat = await candidatsService.candidat({ email: 'test@example.com' });
    */
   async candidat(
     candidatWhereUniqueInput: Prisma.CandidatWhereUniqueInput,
@@ -79,7 +102,7 @@ export class CandidatsService {
       });
 
       if (!candidat) {
-        throw new NotFoundException('Candidat not found');
+        throw new NotFoundException(ERROR.ResourceNotFound);
       }
 
       return this.enrichCandidatDetails(candidat);
@@ -87,13 +110,35 @@ export class CandidatsService {
       if (error instanceof NotFoundException) throw error;
 
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        throw new BadRequestException('Invalid candidat query');
+        throw new BadRequestException(ERROR.InvalidInputFormat);
       }
 
-      throw new BadRequestException('Invalid candidat UID');
+      throw new InternalServerErrorException(ERROR.ConflictError);
     }
   }
 
+  /**
+   * Récupère une liste paginée de candidats.
+   *
+   * @async
+   * @param {Object} params - Paramètres de pagination et filtrage.
+   * @param {number} [params.skip] - Nombre d'éléments à ignorer (offset). Doit être >= 0.
+   * @param {number} [params.take] - Nombre d'éléments à récupérer (limit). Doit être > 0.
+   * @param {Prisma.CandidatWhereUniqueInput} [params.cursor] - Curseur pour la pagination.
+   * @param {Prisma.CandidatWhereInput} [params.where] - Filtres de recherche.
+   * @param {Prisma.CandidatOrderByWithRelationInput} [params.orderBy] - Tri des résultats.
+   * @returns {Promise<CandidatDetailsDto[]>} Liste des candidats enrichis.
+   * @throws {BadRequestException} Si les paramètres de pagination sont invalides.
+   * @throws {InternalServerErrorException} En cas d'erreur inattendue.
+   *
+   * @example
+   * // Récupérer les 10 premiers candidats
+   * const candidats = await candidatsService.candidats({ take: 10 });
+   *
+   * @example
+   * // Pagination : page 2 avec 20 éléments par page
+   * const candidats = await candidatsService.candidats({ skip: 20, take: 20 });
+   */
   async candidats(params: {
     skip?: number;
     take?: number;
@@ -108,7 +153,7 @@ export class CandidatsService {
         (skip !== undefined && skip < 0) ||
         (take !== undefined && take <= 0)
       ) {
-        throw new BadRequestException('Skip must be >= 0 and take must be > 0');
+        throw new BadRequestException(ERROR.InvalidInputFormat);
       }
 
       const candidats = await this.prisma.candidat.findMany({
@@ -124,27 +169,54 @@ export class CandidatsService {
       );
     } catch (error) {
       if (error instanceof BadRequestException) throw error;
-      console.error(error);
-      throw new BadRequestException('Failed to fetch candidats');
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        throw new BadRequestException(ERROR.InvalidInputFormat);
+      }
+
+      throw new InternalServerErrorException(ERROR.ConflictError);
     }
   }
 
   /**
-   * Crée un candidat.
+   * Crée un nouveau candidat.
    *
-   * Particularités :
-   * - si `consentement === false`, les champs personnels sont anonymisés avant insertion.
-   * - si `data.filieres` est fourni, les scores sont enregistrés.
-   * - toutes les filières existantes non mentionnées sont initialisées à 0.
+   * @async
+   * @param {CreateCandidatDto} data - Données de création du candidat.
+   * @returns {Promise<CandidatDetailsDto>} Le candidat créé avec ses détails enrichis.
+   * @throws {ConflictException} Si un conflit d'unicité survient (email existant).
+   * @throws {NotFoundException} Si une ressource référencée n'existe pas.
+   * @throws {BadRequestException} Si les données sont invalides.
+   * @throws {InternalServerErrorException} En cas d'erreur inattendue.
    *
-   * @param data Données de création.
-   * @returns Le candidat créé avec ses détails enrichis.
+   * @description
+   * Comportements spécifiques :
+   * - Si `consentement === false`, les champs personnels sont anonymisés.
+   * - Si `filieres` est fourni, les scores sont enregistrés pour chaque filière.
+   * - Toutes les filières existantes non mentionnées sont initialisées avec un score de 0.
+   *
+   * @example
+   * // Créer un candidat avec consentement
+   * const candidat = await candidatsService.createCandidat({
+   *   email: 'john@example.com',
+   *   firstname: 'John',
+   *   lastname: 'Doe',
+   *   dateBirth: '1990-01-15',
+   *   consentement: true,
+   *   filieres: { informatique: 5, marketing: 3 }
+   * });
+   *
+   * @example
+   * // Créer un candidat anonyme (sans consentement)
+   * const candidat = await candidatsService.createCandidat({
+   *   consentement: false,
+   *   filieres: { informatique: 2 }
+   * });
    */
   async createCandidat(data: CreateCandidatDto): Promise<CandidatDetailsDto> {
     try {
       const filieresInput = data.filieres ?? {};
 
-      // Conversion sécurisée des booléens
       const isConsentGiven =
         data.consentement || String(data.consentement) === 'true';
       const hasAppointment =
@@ -215,39 +287,64 @@ export class CandidatsService {
         return this.enrichCandidatDetails(candidat, tx);
       });
     } catch (error) {
-      if (
-        error instanceof Prisma.PrismaClientKnownRequestError &&
-        error.code === 'P2002'
-      ) {
-        throw new ConflictException('Conflit d’unicité (email ou filière).');
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        switch (error.code) {
+          case 'P2002':
+            throw new ConflictException(ERROR.AlreadyExists);
+          case 'P2025':
+            throw new NotFoundException(ERROR.ResourceNotFound);
+          default:
+            throw new BadRequestException(ERROR.InvalidInputFormat);
+        }
       }
+
       if (
         error instanceof BadRequestException ||
-        error instanceof ConflictException
+        error instanceof ConflictException ||
+        error instanceof NotFoundException
       ) {
         throw error;
       }
-      throw new InternalServerErrorException(
-        'Impossible de créer le candidat.',
-      );
+
+      throw new InternalServerErrorException(ERROR.ConflictError);
     }
   }
 
   /**
    * Met à jour un candidat existant.
    *
-   * Particularités :
-   * - si `data.consentement` est fourni et vaut `false`, on anonymise les champs personnels.
-   * - si `data.filieres` est fourni (mapping `{ [label]: score }`), les scores sont upsert
-   *   dans la table de jointure `candidat_Filiere`.
+   * @async
+   * @param {Object} params - Paramètres de mise à jour.
+   * @param {Prisma.CandidatWhereUniqueInput} params.where - Critère unique (uid, email, etc.).
+   * @param {Prisma.CandidatUpdateInput & { filieres?: Record<string, number> }} params.data - Données à mettre à jour.
+   * @returns {Promise<CandidatDetailsDto>} Le candidat mis à jour avec ses filières.
+   * @throws {NotFoundException} Si le candidat n'existe pas.
+   * @throws {ConflictException} En cas de conflit d'unicité (email déjà utilisé).
+   * @throws {BadRequestException} Si les données sont invalides.
+   * @throws {InternalServerErrorException} En cas d'erreur inattendue.
    *
-   * @param params.where Critère unique Prisma (uid, email, etc.)
-   * @param params.data Données de mise à jour + éventuellement `filieres`.
-   * @returns Le candidat mis à jour + `filieres` sous forme d'objet `{ [label]: score }`.
-   * @throws NotFoundException Si le candidat n'existe pas.
-   * @throws ConflictException En cas de conflit d'unicité (ex: email).
-   * @throws BadRequestException Si la mise à jour échoue.
-   * @throws InternalServerErrorException En cas d'erreur inattendue.
+   * @description
+   * Comportements spécifiques :
+   * - Si `consentement` passe à `false`, les champs personnels sont anonymisés.
+   * - Si `filieres` est fourni, les scores sont mis à jour (upsert).
+   * - Les scores négatifs ou labels vides sont ignorés.
+   *
+   * @example
+   * // Mettre à jour le nom et les filières
+   * const candidat = await candidatsService.updateCandidat({
+   *   where: { uid: 'abc-123' },
+   *   data: {
+   *     firstname: 'Jane',
+   *     filieres: { informatique: 10 }
+   *   }
+   * });
+   *
+   * @example
+   * // Anonymiser un candidat
+   * const candidat = await candidatsService.updateCandidat({
+   *   where: { uid: 'abc-123' },
+   *   data: { consentement: false }
+   * });
    */
   async updateCandidat(params: {
     where: Prisma.CandidatWhereUniqueInput;
@@ -259,7 +356,7 @@ export class CandidatsService {
 
       const candidat = await this.prisma.candidat.findUnique({ where });
       if (!candidat) {
-        throw new NotFoundException('Candidat not found');
+        throw new NotFoundException(ERROR.ResourceNotFound);
       }
 
       const entries = Object.entries(filieresInput ?? {})
@@ -331,11 +428,13 @@ export class CandidatsService {
       if (error instanceof NotFoundException) throw error;
 
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        if (error.code === 'P2002') {
-          throw new ConflictException('Email already in use');
-        }
-        if (error.code === 'P2025') {
-          throw new NotFoundException('Candidat not found');
+        switch (error.code) {
+          case 'P2002':
+            throw new ConflictException(ERROR.AlreadyExists);
+          case 'P2025':
+            throw new NotFoundException(ERROR.ResourceNotFound);
+          default:
+            throw new BadRequestException(ERROR.InvalidInputFormat);
         }
       }
 
@@ -346,20 +445,35 @@ export class CandidatsService {
         throw error;
       }
 
-      throw new InternalServerErrorException('Failed to update candidat');
+      throw new InternalServerErrorException(ERROR.ConflictError);
     }
   }
 
   /**
-   * Supprime un candidat de la base de données
+   * Supprime un candidat et toutes ses associations.
+   *
    * @async
-   * @param {Prisma.CandidatWhereUniqueInput} where - Critère de recherche unique du candidat à supprimer
-   * @returns {Promise<Candidat>} Les données du candidat supprimé
-   * @throws {NotFoundException} Si le candidat n'existe pas
-   * @throws {BadRequestException} En cas d'erreur de suppression
+   * @param {Prisma.CandidatWhereUniqueInput} where - Critère unique du candidat à supprimer.
+   * @returns {Promise<Candidat>} Les données du candidat supprimé.
+   * @throws {NotFoundException} Si le candidat n'existe pas.
+   * @throws {ConflictException} Si le candidat est encore lié à d'autres données non supprimables.
+   * @throws {BadRequestException} Si la suppression échoue.
+   * @throws {InternalServerErrorException} En cas d'erreur inattendue.
+   *
+   * @description
+   * Cette méthode supprime en cascade :
+   * - Les associations `Candidat_Filiere`
+   * - Les associations `Atelier_Candidat`
+   * - Le candidat lui-même
    *
    * @example
-   * const deletedCandidat = await candidatsService.deleteCandidat({ uid: '123' });
+   * // Supprimer par UID
+   * const deleted = await candidatsService.deleteCandidat({ uid: 'abc-123' });
+   * console.log(`Candidat ${deleted.firstname} supprimé`);
+   *
+   * @example
+   * // Supprimer par email
+   * const deleted = await candidatsService.deleteCandidat({ email: 'john@example.com' });
    */
   async deleteCandidat(
     where: Prisma.CandidatWhereUniqueInput,
@@ -368,7 +482,7 @@ export class CandidatsService {
       const candidat = await this.prisma.candidat.findUnique({ where });
 
       if (!candidat) {
-        throw new NotFoundException('Candidat not found');
+        throw new NotFoundException(ERROR.ResourceNotFound);
       }
 
       return await this.prisma.$transaction(async (tx) => {
@@ -387,16 +501,18 @@ export class CandidatsService {
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
 
-      if (
-        error instanceof Prisma.PrismaClientKnownRequestError &&
-        error.code === 'P2003'
-      ) {
-        throw new ConflictException(
-          "Impossible de supprimer ce candidat : il est encore lié à d'autres données.",
-        );
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        switch (error.code) {
+          case 'P2003':
+            throw new ConflictException(ERROR.ConflictError);
+          case 'P2025':
+            throw new NotFoundException(ERROR.ResourceNotFound);
+          default:
+            throw new BadRequestException(ERROR.InvalidInputFormat);
+        }
       }
 
-      throw new BadRequestException('Failed to delete candidat');
+      throw new InternalServerErrorException(ERROR.ConflictError);
     }
   }
 }
