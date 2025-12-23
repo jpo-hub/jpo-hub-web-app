@@ -38,6 +38,8 @@ export class AnswersService {
     };
   }
 
+  traitementAnswer(CandidatUID: string, answerUID: string) {}
+
   async create(data: CreateAnswerDto): Promise<ResponseDto> {
     try {
       const reponseFiliereData: Prisma.Reponse_FiliereCreateWithoutResponseInput[] =

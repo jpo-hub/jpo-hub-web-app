@@ -15,6 +15,14 @@ import { UpdateAnswerDto } from './dto/update-answer.dto';
 export class AnswersController {
   constructor(private readonly answersService: AnswersService) {}
 
+  @Post('traitement/:CandidatUID/answer/:answerUID')
+  traitementAnswer(
+    @Param('CandidatUID') CandidatUID: string,
+    @Param('answerUID') answerUID: string,
+  ) {
+    return this.answersService.traitementAnswer(CandidatUID, answerUID);
+  }
+
   @Post()
   create(@Body() createAnswerDto: CreateAnswerDto): Promise<ResponseDto> {
     return this.answersService.create(createAnswerDto);
