@@ -38,7 +38,58 @@ export class AnswersService {
     };
   }
 
-  traitementAnswer(CandidatUID: string, answerUID: string) {}
+  async traitementAnswer(CandidatUID: string, answerUID: string) {
+    return this.prisma.$transaction(async (tx) => {
+      const candidat = await tx.candidat.findUnique({
+        where: { uid: CandidatUID },
+        include: {
+          Candidat_Filiere: {
+            include: { filiere: true },
+          },
+        },
+      });
+
+      const answer = await tx.response.findUnique({
+        where: { uid: answerUID },
+        include: {
+          Reponse_Filiere: {
+            include: { filiere: true },
+          },
+        },
+      });
+
+      if (!candidat || !answer) {
+        throw new NotFoundException('Candidat ou réponse non trouvée');
+      }
+      for (const rf of answer.Reponse_Filiere) {
+        const candidatFiliere = candidat.Candidat_Filiere.find(
+          (cf) => cf.filiere.uid === rf.filiere.uid,
+        );
+        if (candidatFiliere) {
+          await tx.candidat_Filiere.update({
+            where: {
+              candidatId_filiereId: {
+                candidatId: candidatFiliere.candidatId,
+                filiereId: candidatFiliere.filiereId,
+              },
+            },
+            data: {
+              score: candidatFiliere.score + rf.score,
+            },
+          });
+        } else {
+          await tx.candidat_Filiere.create({
+            data: {
+              candidat: { connect: { uid: CandidatUID } },
+              filiere: { connect: { uid: rf.filiere.uid } },
+              score: rf.score,
+            },
+          });
+        }
+      }
+      return { message: 'Scores mis à jour avec succès' };
+    });
+  }
 
   async create(data: CreateAnswerDto): Promise<ResponseDto> {
     try {
