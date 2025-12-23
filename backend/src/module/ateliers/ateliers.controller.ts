@@ -15,21 +15,40 @@ import {
 } from '@nestjs/common';
 import { AteliersService } from './ateliers.service';
 import { CreateAtelierDto } from './dto/create-atelier.dto';
-import { AtelierResponseDto } from './dto/atelier-response.dto';
 import { UpdateAtelierDto } from './dto/update-atelier.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiConsumes, ApiOkResponse } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiParam,
+  ApiBody,
+  ApiQuery,
+  ApiConsumes,
+} from '@nestjs/swagger';
 import type { Express } from 'express';
 import { memoryStorage } from 'multer';
 import { AtelierModel } from '../../generated/prisma/models/Atelier';
 import type { AtelierDetailsDto } from './ateliers.service';
+import { SwaggerResponses } from '../../common/constants/swagger.constants';
+import { AtelierEntity } from './entities/atelier.entity';
 
+@ApiTags('Ateliers')
 @Controller('ateliers')
 export class AteliersController {
   constructor(private readonly ateliersService: AteliersService) {}
 
   @Post()
+  @ApiOperation({
+    summary: 'Créer un atelier',
+    description:
+      'Crée un nouvel atelier avec une image obligatoire (JPEG, max 5MB)',
+  })
   @ApiConsumes('multipart/form-data')
+  @ApiBody({ type: CreateAtelierDto })
+  @ApiResponse(SwaggerResponses.Created('Atelier', AtelierEntity))
+  @ApiResponse(SwaggerResponses.NotFound('Ressource'))
+  @ApiResponse(SwaggerResponses.ErrorServer)
   @UseInterceptors(FileInterceptor('imageUrl', { storage: memoryStorage() }))
   async create(
     @Body() createAtelierDto: CreateAtelierDto,
@@ -47,7 +66,24 @@ export class AteliersController {
   }
 
   @Get()
-  @ApiOkResponse({ type: AtelierResponseDto, isArray: true })
+  @ApiOperation({
+    summary: 'Récupérer tous les ateliers',
+    description: 'Retourne la liste paginée des ateliers avec leurs candidats',
+  })
+  @ApiQuery({
+    name: 'page',
+    required: false,
+    description: 'Numéro de page (défaut: 1)',
+    example: 1,
+  })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    description: "Nombre d'éléments par page (défaut: 10)",
+    example: 10,
+  })
+  @ApiResponse(SwaggerResponses.Found('Ateliers', [AtelierEntity]))
+  @ApiResponse(SwaggerResponses.ErrorServer)
   async findAll(
     @Query('page') page?: string,
     @Query('limit') limit?: string,
@@ -63,13 +99,30 @@ export class AteliersController {
   }
 
   @Get(':uid')
-  @ApiOkResponse({ type: AtelierResponseDto })
+  @ApiOperation({
+    summary: 'Récupérer un atelier',
+    description: 'Retourne un atelier par son UID avec ses candidats',
+  })
+  @ApiParam({ name: 'uid', description: "UID de l'atelier" })
+  @ApiResponse(SwaggerResponses.Found('Atelier', AtelierEntity))
+  @ApiResponse(SwaggerResponses.NotFound('Atelier'))
+  @ApiResponse(SwaggerResponses.ErrorServer)
   findOne(@Param('uid') uid: string): Promise<AtelierDetailsDto> {
     return this.ateliersService.findOne(uid);
   }
 
   @Patch(':uid')
+  @ApiOperation({
+    summary: 'Mettre à jour un atelier',
+    description:
+      "Met à jour un atelier. L'image est optionnelle (JPEG/PNG, max 5MB)",
+  })
   @ApiConsumes('multipart/form-data')
+  @ApiParam({ name: 'uid', description: "UID de l'atelier" })
+  @ApiBody({ type: UpdateAtelierDto })
+  @ApiResponse(SwaggerResponses.Updated('Atelier', AtelierEntity))
+  @ApiResponse(SwaggerResponses.NotFound('Atelier'))
+  @ApiResponse(SwaggerResponses.ErrorServer)
   @UseInterceptors(FileInterceptor('imageUrl', { storage: memoryStorage() }))
   async update(
     @Param('uid') uid: string,
@@ -89,6 +142,14 @@ export class AteliersController {
   }
 
   @Delete(':uid')
+  @ApiOperation({
+    summary: 'Supprimer un atelier',
+    description: 'Supprime un atelier et ses associations avec les candidats',
+  })
+  @ApiParam({ name: 'uid', description: "UID de l'atelier" })
+  @ApiResponse(SwaggerResponses.Deleted('Atelier'))
+  @ApiResponse(SwaggerResponses.NotFound('Atelier'))
+  @ApiResponse(SwaggerResponses.ErrorServer)
   async remove(@Param('uid') uid: string): Promise<AtelierModel> {
     return await this.ateliersService.remove(uid);
   }

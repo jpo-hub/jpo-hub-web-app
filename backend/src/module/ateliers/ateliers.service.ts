@@ -16,20 +16,63 @@ import {
 import { PrismaService } from '../../prisma/prisma.service';
 import { Atelier, Prisma } from '../../generated/prisma/client';
 
+/**
+ * DTO enrichi d'un atelier avec ses filières et candidats.
+ */
 export type AtelierDetailsDto = Atelier & {
   filiere: Record<string, number>;
   candidats: string[];
 };
 
+/**
+ * Service de gestion des ateliers.
+ *
+ * @description
+ * Gère les opérations CRUD sur les ateliers avec les fonctionnalités suivantes :
+ * - Upload et gestion des images sur AWS S3.
+ * - Association des ateliers avec des filières et des candidats.
+ * - Suppression en cascade des images S3 lors de la mise à jour ou suppression.
+ *
+ * @class AteliersService
+ */
 @Injectable()
 export class AteliersService {
+  /**
+   * Client AWS S3 pour la gestion des fichiers.
+   * @private
+   */
   private readonly s3Client: S3Client;
+
+  /**
+   * Nom du bucket S3.
+   * @private
+   */
   private readonly bucket: string;
+
+  /**
+   * Région AWS du bucket S3.
+   * @private
+   */
   private readonly region: string;
+
+  /**
+   * Préfixe URL public pour les objets S3.
+   * @private
+   */
   private readonly s3PublicPrefix: string;
 
+  /**
+   * Logger pour le service.
+   * @private
+   */
   private readonly logger = new Logger(AteliersService.name);
 
+  /**
+   * Crée une instance du service AteliersService.
+   *
+   * @param {ConfigService} configService - Service de configuration NestJS.
+   * @param {PrismaService} prisma - Service Prisma pour l'accès à la base de données.
+   */
   constructor(
     private readonly configService: ConfigService,
     private readonly prisma: PrismaService,
@@ -41,12 +84,27 @@ export class AteliersService {
     this.s3PublicPrefix = `https://${this.bucket}.s3.${this.region}.amazonaws.com/`;
   }
 
+  /**
+   * Vérifie qu'une chaîne n'est pas vide.
+   *
+   * @private
+   * @param {string} value - Valeur à vérifier.
+   * @param {string} fieldName - Nom du champ pour le message d'erreur.
+   * @throws {BadRequestException} Si la valeur est vide ou invalide.
+   */
   private assertNonEmptyString(value: string, fieldName: string): void {
     if (!value || typeof value !== 'string' || value.trim().length === 0) {
       throw new BadRequestException(`${fieldName} est requis`);
     }
   }
 
+  /**
+   * Vérifie que le fichier est une image supportée (JPEG ou PNG).
+   *
+   * @private
+   * @param {Express.Multer.File} file - Fichier à vérifier.
+   * @throws {BadRequestException} Si le type de fichier n'est pas supporté ou si le fichier est vide.
+   */
   private assertSupportedImage(file: Express.Multer.File): void {
     const allowed = new Set(['image/jpeg', 'image/png']);
     if (!allowed.has(file.mimetype)) {
@@ -59,6 +117,16 @@ export class AteliersService {
     }
   }
 
+  /**
+   * Nettoie et normalise le nom de base d'un fichier.
+   *
+   * @private
+   * @param {string} originalName - Nom original du fichier.
+   * @returns {string} Nom de base nettoyé (lowercase, caractères spéciaux remplacés).
+   *
+   * @example
+   * sanitizeBaseName('Mon Image (1).jpeg') // 'mon-image-1'
+   */
   private sanitizeBaseName(originalName: string): string {
     const base = originalName
       .toLowerCase()
@@ -70,10 +138,24 @@ export class AteliersService {
     return base.length > 0 ? base : 'image';
   }
 
+  /**
+   * Construit l'URL publique S3 à partir d'une clé.
+   *
+   * @private
+   * @param {string} key - Clé de l'objet S3.
+   * @returns {string} URL publique complète.
+   */
   private buildS3PublicUrl(key: string): string {
     return `${this.s3PublicPrefix}${key}`;
   }
 
+  /**
+   * Extrait la clé S3 d'une URL publique si elle appartient à notre bucket.
+   *
+   * @private
+   * @param {string | null | undefined} url - URL à analyser.
+   * @returns {string | null} Clé S3 ou null si l'URL n'appartient pas au bucket.
+   */
   private tryGetS3KeyFromPublicUrl(
     url: string | null | undefined,
   ): string | null {
@@ -83,6 +165,27 @@ export class AteliersService {
     return key.length > 0 ? key : null;
   }
 
+  /**
+   * Upload une image vers AWS S3.
+   *
+   * @private
+   * @async
+   * @param {Object} params - Paramètres d'upload.
+   * @param {string} params.uid - UID pour nommer le fichier.
+   * @param {Express.Multer.File} params.file - Fichier image à uploader.
+   * @param {string} params.folder - Dossier de destination dans S3.
+   * @returns {Promise<{ key: string; publicUrl: string; contentType: string }>} Informations sur le fichier uploadé.
+   * @throws {BadRequestException} Si le fichier n'est pas une image valide.
+   * @throws {InternalServerErrorException} Si l'upload vers S3 échoue.
+   *
+   * @example
+   * const result = await this.uploadImageToS3({
+   *   uid: 'atelier-123',
+   *   file: uploadedFile,
+   *   folder: 'ateliers'
+   * });
+   * // { key: 'ateliers/atelier-123-1234567890-image.jpg', publicUrl: '...', contentType: 'image/jpeg' }
+   */
   private async uploadImageToS3(params: {
     uid: string;
     file: Express.Multer.File;
@@ -118,6 +221,18 @@ export class AteliersService {
     return { key, publicUrl: this.buildS3PublicUrl(key), contentType };
   }
 
+  /**
+   * Supprime un objet S3 si l'URL appartient à notre bucket (best-effort).
+   *
+   * @private
+   * @async
+   * @param {string | null | undefined} imageUrl - URL de l'image à supprimer.
+   * @returns {Promise<void>}
+   *
+   * @description
+   * Cette méthode est "best-effort" : si la suppression échoue, un warning est loggé
+   * mais aucune exception n'est levée.
+   */
   private async deleteS3ObjectIfOwnedByUs(
     imageUrl: string | null | undefined,
   ): Promise<void> {
@@ -139,6 +254,15 @@ export class AteliersService {
     }
   }
 
+  /**
+   * Convertit une entité Atelier en DTO enrichi.
+   *
+   * @private
+   * @param {Atelier & { Atelier_Filiere?: Array<...>; Atelier_Candidat?: Array<...> }} atelier - L'atelier avec ses relations.
+   * @returns {AtelierDetailsDto} Le DTO avec :
+   *   - `filiere`: objet `{ [label]: score }`
+   *   - `candidats`: liste des UIDs des candidats
+   */
   private toApiAtelier(
     atelier: {
       Atelier_Filiere?: Array<{ score: number; filiere: { label: string } }>;
@@ -167,6 +291,23 @@ export class AteliersService {
   // ----------------------------
   // Public API
   // ----------------------------
+
+  /**
+   * Crée un nouvel atelier avec une image.
+   *
+   * @async
+   * @param {CreateAtelierDto} createAtelierDto - Données de création de l'atelier.
+   * @param {Express.Multer.File} file - Image de l'atelier (obligatoire, JPEG/PNG, max 5MB).
+   * @returns {Promise<AtelierDetailsDto>} L'atelier créé avec ses détails enrichis.
+   * @throws {BadRequestException} Si l'image est manquante ou invalide.
+   * @throws {InternalServerErrorException} Si l'upload S3 ou la création échoue.
+   *
+   * @example
+   * const atelier = await ateliersService.create(
+   *   { label: 'Atelier Docker', description: 'Introduction à Docker' },
+   *   imageFile
+   * );
+   */
   async create(
     createAtelierDto: CreateAtelierDto,
     file: Express.Multer.File,
@@ -198,11 +339,31 @@ export class AteliersService {
 
     return {
       ...newAtelier,
-      filiere: {}, // Vide à la création
-      candidats: [], // Vide à la création, comme vous l'avez précisé
+      filiere: {},
+      candidats: [],
     };
   }
 
+  /**
+   * Récupère une liste paginée d'ateliers.
+   *
+   * @async
+   * @param {Object} [params={}] - Paramètres de pagination et filtrage.
+   * @param {number} [params.skip] - Nombre d'éléments à ignorer (offset).
+   * @param {number} [params.take] - Nombre d'éléments à récupérer (limit).
+   * @param {Prisma.AtelierWhereUniqueInput} [params.cursor] - Curseur pour la pagination.
+   * @param {Prisma.AtelierWhereInput} [params.where] - Filtres de recherche.
+   * @param {Prisma.AtelierOrderByWithRelationInput} [params.orderBy] - Tri des résultats.
+   * @returns {Promise<AtelierDetailsDto[]>} Liste des ateliers enrichis.
+   *
+   * @example
+   * // Récupérer les 10 premiers ateliers
+   * const ateliers = await ateliersService.findAll({ take: 10 });
+   *
+   * @example
+   * // Pagination : page 2 avec 20 éléments par page
+   * const ateliers = await ateliersService.findAll({ skip: 20, take: 20 });
+   */
   async findAll(
     params: {
       skip?: number;
@@ -231,6 +392,18 @@ export class AteliersService {
     return ateliers.map((atelier) => this.toApiAtelier(atelier));
   }
 
+  /**
+   * Récupère un atelier par son UID.
+   *
+   * @async
+   * @param {string} id - L'UID de l'atelier.
+   * @returns {Promise<AtelierDetailsDto>} L'atelier avec ses filières et candidats.
+   * @throws {BadRequestException} Si l'UID est vide.
+   * @throws {NotFoundException} Si l'atelier n'existe pas.
+   *
+   * @example
+   * const atelier = await ateliersService.findOne('atelier-123');
+   */
   async findOne(id: string): Promise<AtelierDetailsDto> {
     this.assertNonEmptyString(id, 'uid');
 
@@ -251,6 +424,32 @@ export class AteliersService {
     }
   }
 
+  /**
+   * Met à jour un atelier existant.
+   *
+   * @async
+   * @param {string} uid - L'UID de l'atelier à mettre à jour.
+   * @param {UpdateAtelierDto} updateAtelierDto - Données de mise à jour.
+   * @param {Express.Multer.File} [file] - Nouvelle image (optionnelle, JPEG/PNG, max 5MB).
+   * @returns {Promise<Atelier>} L'atelier mis à jour.
+   * @throws {BadRequestException} Si l'UID est vide ou l'image invalide.
+   * @throws {NotFoundException} Si l'atelier n'existe pas.
+   * @throws {InternalServerErrorException} Si la mise à jour ou l'upload S3 échoue.
+   *
+   * @description
+   * Si une nouvelle image est fournie :
+   * 1. L'image est uploadée vers S3.
+   * 2. L'atelier est mis à jour avec la nouvelle URL.
+   * 3. L'ancienne image S3 est supprimée (best-effort).
+   *
+   * @example
+   * // Mise à jour sans nouvelle image
+   * const atelier = await ateliersService.update('atelier-123', { label: 'Nouveau nom' });
+   *
+   * @example
+   * // Mise à jour avec nouvelle image
+   * const atelier = await ateliersService.update('atelier-123', { label: 'Nouveau nom' }, newImageFile);
+   */
   async update(
     uid: string,
     updateAtelierDto: UpdateAtelierDto,
@@ -314,6 +513,26 @@ export class AteliersService {
     return updated;
   }
 
+  /**
+   * Supprime un atelier et son image S3 associée.
+   *
+   * @async
+   * @param {string} id - L'UID de l'atelier à supprimer.
+   * @returns {Promise<Atelier>} L'atelier supprimé.
+   * @throws {BadRequestException} Si l'UID est vide.
+   * @throws {NotFoundException} Si l'atelier n'existe pas.
+   * @throws {InternalServerErrorException} Si la suppression échoue.
+   *
+   * @description
+   * Cette méthode effectue les opérations suivantes :
+   * 1. Vérifie que l'atelier existe.
+   * 2. Supprime l'atelier de la base de données.
+   * 3. Supprime l'image S3 associée (best-effort).
+   *
+   * @example
+   * const deleted = await ateliersService.remove('atelier-123');
+   * console.log(`Atelier "${deleted.label}" supprimé`);
+   */
   async remove(id: string): Promise<Atelier> {
     this.assertNonEmptyString(id, 'uid');
 
