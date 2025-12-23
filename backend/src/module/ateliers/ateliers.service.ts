@@ -15,6 +15,7 @@ import {
 } from '@aws-sdk/client-s3';
 import { PrismaService } from '../../prisma/prisma.service';
 import { Atelier, Prisma } from '../../generated/prisma/client';
+import { ERROR } from '../../common/constants/error.constants';
 
 /**
  * DTO enrichi d'un atelier avec ses filières et candidats.
@@ -94,7 +95,7 @@ export class AteliersService {
    */
   private assertNonEmptyString(value: string, fieldName: string): void {
     if (!value || typeof value !== 'string' || value.trim().length === 0) {
-      throw new BadRequestException(`${fieldName} est requis`);
+      throw new BadRequestException(ERROR.MissingFields);
     }
   }
 
@@ -108,12 +109,10 @@ export class AteliersService {
   private assertSupportedImage(file: Express.Multer.File): void {
     const allowed = new Set(['image/jpeg', 'image/png']);
     if (!allowed.has(file.mimetype)) {
-      throw new BadRequestException(
-        `Type de fichier non supporté (${file.mimetype}). Autorisés: jpg/jpeg, png.`,
-      );
+      throw new BadRequestException(ERROR.InvalidInputFormat);
     }
     if (!file.buffer || file.buffer.length === 0) {
-      throw new BadRequestException(`Fichier image vide ou invalide`);
+      throw new BadRequestException(ERROR.InvalidInputFormat);
     }
   }
 
@@ -184,7 +183,6 @@ export class AteliersService {
    *   file: uploadedFile,
    *   folder: 'ateliers'
    * });
-   * // { key: 'ateliers/atelier-123-1234567890-image.jpg', publicUrl: '...', contentType: 'image/jpeg' }
    */
   private async uploadImageToS3(params: {
     uid: string;
@@ -213,9 +211,7 @@ export class AteliersService {
         }),
       );
     } catch {
-      throw new InternalServerErrorException(
-        `Échec de l'upload de l'image vers S3`,
-      );
+      throw new InternalServerErrorException(ERROR.ConflictError);
     }
 
     return { key, publicUrl: this.buildS3PublicUrl(key), contentType };
@@ -312,36 +308,51 @@ export class AteliersService {
     createAtelierDto: CreateAtelierDto,
     file: Express.Multer.File,
   ): Promise<AtelierDetailsDto> {
-    if (!file) {
-      throw new BadRequestException(`image est requise`);
-    }
+    try {
+      if (!file) {
+        throw new BadRequestException(ERROR.MissingFields);
+      }
 
-    const { publicUrl } = await this.uploadImageToS3({
-      uid: 'atelier',
-      file,
-      folder: 'ateliers',
-    });
+      const { publicUrl } = await this.uploadImageToS3({
+        uid: 'atelier',
+        file,
+        folder: 'ateliers',
+      });
 
-    const newAtelier = await this.prisma.atelier.create({
-      data: {
-        label: createAtelierDto.label,
-        description: createAtelierDto.description,
-        draft: createAtelierDto.draft,
-        dockerfilelink: createAtelierDto.dockerfilelink,
-        imageUrl: publicUrl,
-      },
-      include: {
-        Atelier_Filiere: {
-          include: { filiere: { select: { label: true } } },
+      const newAtelier = await this.prisma.atelier.create({
+        data: {
+          label: createAtelierDto.label,
+          description: createAtelierDto.description,
+          draft: createAtelierDto.draft,
+          dockerfilelink: createAtelierDto.dockerfilelink,
+          imageUrl: publicUrl,
         },
-      },
-    });
+        include: {
+          Atelier_Filiere: {
+            include: { filiere: { select: { label: true } } },
+          },
+        },
+      });
 
-    return {
-      ...newAtelier,
-      filiere: {},
-      candidats: [],
-    };
+      return {
+        ...newAtelier,
+        filiere: {},
+        candidats: [],
+      };
+    } catch (error) {
+      if (error instanceof BadRequestException) throw error;
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        switch (error.code) {
+          case 'P2002':
+            throw new BadRequestException(ERROR.AlreadyExists);
+          default:
+            throw new BadRequestException(ERROR.InvalidInputFormat);
+        }
+      }
+
+      throw new InternalServerErrorException(ERROR.ConflictError);
+    }
   }
 
   /**
@@ -355,14 +366,11 @@ export class AteliersService {
    * @param {Prisma.AtelierWhereInput} [params.where] - Filtres de recherche.
    * @param {Prisma.AtelierOrderByWithRelationInput} [params.orderBy] - Tri des résultats.
    * @returns {Promise<AtelierDetailsDto[]>} Liste des ateliers enrichis.
+   * @throws {BadRequestException} Si les paramètres sont invalides.
+   * @throws {InternalServerErrorException} En cas d'erreur inattendue.
    *
    * @example
-   * // Récupérer les 10 premiers ateliers
    * const ateliers = await ateliersService.findAll({ take: 10 });
-   *
-   * @example
-   * // Pagination : page 2 avec 20 éléments par page
-   * const ateliers = await ateliersService.findAll({ skip: 20, take: 20 });
    */
   async findAll(
     params: {
@@ -373,23 +381,31 @@ export class AteliersService {
       orderBy?: Prisma.AtelierOrderByWithRelationInput;
     } = {},
   ): Promise<AtelierDetailsDto[]> {
-    const { skip, take, cursor, where, orderBy } = params;
+    try {
+      const { skip, take, cursor, where, orderBy } = params;
 
-    const ateliers = await this.prisma.atelier.findMany({
-      skip,
-      take,
-      cursor,
-      where,
-      orderBy,
-      include: {
-        Atelier_Filiere: {
-          include: { filiere: { select: { label: true } } },
+      const ateliers = await this.prisma.atelier.findMany({
+        skip,
+        take,
+        cursor,
+        where,
+        orderBy,
+        include: {
+          Atelier_Filiere: {
+            include: { filiere: { select: { label: true } } },
+          },
+          Atelier_Candidat: { select: { candidatId: true } },
         },
-        Atelier_Candidat: { select: { candidatId: true } },
-      },
-    });
+      });
 
-    return ateliers.map((atelier) => this.toApiAtelier(atelier));
+      return ateliers.map((atelier) => this.toApiAtelier(atelier));
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        throw new BadRequestException(ERROR.InvalidInputFormat);
+      }
+
+      throw new InternalServerErrorException(ERROR.ConflictError);
+    }
   }
 
   /**
@@ -400,14 +416,15 @@ export class AteliersService {
    * @returns {Promise<AtelierDetailsDto>} L'atelier avec ses filières et candidats.
    * @throws {BadRequestException} Si l'UID est vide.
    * @throws {NotFoundException} Si l'atelier n'existe pas.
+   * @throws {InternalServerErrorException} En cas d'erreur inattendue.
    *
    * @example
    * const atelier = await ateliersService.findOne('atelier-123');
    */
   async findOne(id: string): Promise<AtelierDetailsDto> {
-    this.assertNonEmptyString(id, 'uid');
-
     try {
+      this.assertNonEmptyString(id, 'uid');
+
       const atelier = await this.prisma.atelier.findUniqueOrThrow({
         where: { uid: id },
         include: {
@@ -419,8 +436,17 @@ export class AteliersService {
       });
 
       return this.toApiAtelier(atelier);
-    } catch {
-      throw new NotFoundException(`Atelier introuvable`);
+    } catch (error) {
+      if (error instanceof BadRequestException) throw error;
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException(ERROR.ResourceNotFound);
+        }
+        throw new BadRequestException(ERROR.InvalidInputFormat);
+      }
+
+      throw new NotFoundException(ERROR.ResourceNotFound);
     }
   }
 
@@ -443,12 +469,7 @@ export class AteliersService {
    * 3. L'ancienne image S3 est supprimée (best-effort).
    *
    * @example
-   * // Mise à jour sans nouvelle image
    * const atelier = await ateliersService.update('atelier-123', { label: 'Nouveau nom' });
-   *
-   * @example
-   * // Mise à jour avec nouvelle image
-   * const atelier = await ateliersService.update('atelier-123', { label: 'Nouveau nom' }, newImageFile);
    */
   async update(
     uid: string,
@@ -464,7 +485,7 @@ export class AteliersService {
         select: { imageUrl: true },
       });
     } catch {
-      throw new NotFoundException(`Atelier introuvable`);
+      throw new NotFoundException(ERROR.ResourceNotFound);
     }
 
     let nextImageUrl: string | undefined;
@@ -499,11 +520,19 @@ export class AteliersService {
         where: { uid },
         data,
       });
-    } catch {
+    } catch (error) {
       if (nextImageUrl) await this.deleteS3ObjectIfOwnedByUs(nextImageUrl);
-      throw new InternalServerErrorException(
-        `Échec de mise à jour de l'atelier`,
-      );
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        switch (error.code) {
+          case 'P2025':
+            throw new NotFoundException(ERROR.ResourceNotFound);
+          default:
+            throw new BadRequestException(ERROR.InvalidInputFormat);
+        }
+      }
+
+      throw new InternalServerErrorException(ERROR.ConflictError);
     }
 
     if (nextImageUrl) {
@@ -543,16 +572,25 @@ export class AteliersService {
         select: { imageUrl: true },
       });
     } catch {
-      throw new NotFoundException(`Atelier introuvable`);
+      throw new NotFoundException(ERROR.ResourceNotFound);
     }
 
     let deleted: Atelier;
     try {
       deleted = await this.prisma.atelier.delete({ where: { uid: id } });
-    } catch {
-      throw new InternalServerErrorException(
-        `Échec de suppression de l'atelier`,
-      );
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        switch (error.code) {
+          case 'P2025':
+            throw new NotFoundException(ERROR.ResourceNotFound);
+          case 'P2003':
+            throw new BadRequestException(ERROR.ConflictError);
+          default:
+            throw new BadRequestException(ERROR.InvalidInputFormat);
+        }
+      }
+
+      throw new InternalServerErrorException(ERROR.ConflictError);
     }
 
     await this.deleteS3ObjectIfOwnedByUs(existing.imageUrl);
