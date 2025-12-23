@@ -39,56 +39,108 @@ export class AnswersService {
   }
 
   async traitementAnswer(CandidatUID: string, answerUID: string) {
-    return this.prisma.$transaction(async (tx) => {
-      const candidat = await tx.candidat.findUnique({
-        where: { uid: CandidatUID },
-        include: {
-          Candidat_Filiere: {
-            include: { filiere: true },
+    try {
+      return await this.prisma.$transaction(async (tx) => {
+        const candidat = await tx.candidat.findUnique({
+          where: { uid: CandidatUID },
+          include: {
+            Candidat_Filiere: {
+              include: { filiere: true },
+            },
           },
-        },
-      });
+        });
 
-      const answer = await tx.response.findUnique({
-        where: { uid: answerUID },
-        include: {
-          Reponse_Filiere: {
-            include: { filiere: true },
+        if (!candidat) {
+          throw new NotFoundException(
+            `Candidat avec l'UID ${CandidatUID} non trouvé`,
+          );
+        }
+
+        const answer = await tx.response.findUnique({
+          where: { uid: answerUID },
+          include: {
+            Reponse_Filiere: {
+              include: { filiere: true },
+            },
           },
-        },
-      });
+        });
 
-      if (!candidat || !answer) {
-        throw new NotFoundException('Candidat ou réponse non trouvée');
-      }
-      for (const rf of answer.Reponse_Filiere) {
-        const candidatFiliere = candidat.Candidat_Filiere.find(
-          (cf) => cf.filiere.uid === rf.filiere.uid,
-        );
-        if (candidatFiliere) {
-          await tx.candidat_Filiere.update({
-            where: {
-              candidatId_filiereId: {
-                candidatId: candidatFiliere.candidatId,
-                filiereId: candidatFiliere.filiereId,
+        if (!answer) {
+          throw new NotFoundException(
+            `Réponse avec l'UID ${answerUID} non trouvée`,
+          );
+        }
+
+        if (answer.Reponse_Filiere.length === 0) {
+          throw new BadRequestException(
+            'La réponse ne contient aucune filière à traiter',
+          );
+        }
+
+        for (const rf of answer.Reponse_Filiere) {
+          const candidatFiliere = candidat.Candidat_Filiere.find(
+            (cf) => cf.filiere.uid === rf.filiere.uid,
+          );
+
+          if (candidatFiliere) {
+            await tx.candidat_Filiere.update({
+              where: {
+                candidatId_filiereId: {
+                  candidatId: candidatFiliere.candidatId,
+                  filiereId: candidatFiliere.filiereId,
+                },
               },
-            },
-            data: {
-              score: candidatFiliere.score + rf.score,
-            },
-          });
-        } else {
-          await tx.candidat_Filiere.create({
-            data: {
-              candidat: { connect: { uid: CandidatUID } },
-              filiere: { connect: { uid: rf.filiere.uid } },
-              score: rf.score,
-            },
-          });
+              data: {
+                score: candidatFiliere.score + rf.score,
+              },
+            });
+          } else {
+            await tx.candidat_Filiere.create({
+              data: {
+                candidat: { connect: { uid: CandidatUID } },
+                filiere: { connect: { uid: rf.filiere.uid } },
+                score: rf.score,
+              },
+            });
+          }
+        }
+
+        return { message: 'Scores mis à jour avec succès' };
+      });
+    } catch (error) {
+      if (
+        error instanceof NotFoundException ||
+        error instanceof BadRequestException
+      ) {
+        throw error;
+      }
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        switch (error.code) {
+          case 'P2025':
+            throw new NotFoundException(
+              'Enregistrement non trouvé lors de la mise à jour',
+            );
+          case 'P2002':
+            throw new ConflictException(
+              'Conflit: une association candidat-filière existe déjà',
+            );
+          case 'P2003':
+            throw new BadRequestException(
+              'Référence invalide: candidat ou filière inexistant',
+            );
+          default:
+            throw new BadRequestException(
+              `Erreur base de données: ${error.code}`,
+            );
         }
       }
-      return { message: 'Scores mis à jour avec succès' };
-    });
+
+      // Erreur générique
+      throw new BadRequestException(
+        'Impossible de traiter la réponse pour ce candidat',
+      );
+    }
   }
 
   async create(data: CreateAnswerDto): Promise<ResponseDto> {
