@@ -30,7 +30,7 @@ export class AnswersController {
 
   @Post('traitement/:CandidatUID')
   @ApiOperation({
-    summary: 'Traiter les réponses pour un candidat',
+    summary: 'Traiter les scores pour un candidat',
     description: 'Additionne les scores des filières aux scores du candidat',
   })
   @ApiParam({ name: 'CandidatUID', description: 'UID du candidat' })
@@ -45,6 +45,9 @@ export class AnswersController {
     @Body() Body: TraitementAnswerDto,
   ) {
     if (!CandidatUID) {
+      throw new BadRequestException(ERROR.MissingFields);
+    }
+    if (!Body) {
       throw new BadRequestException(ERROR.MissingFields);
     }
     return this.answersService.traitementAnswer(CandidatUID, Body);
