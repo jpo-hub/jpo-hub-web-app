@@ -1,15 +1,16 @@
 import {
-  Injectable,
-  NotFoundException,
   BadRequestException,
   ConflictException,
+  Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { Prisma, Response } from '../../generated/prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateAnswerDto } from './dto/create-answer.dto';
 import { UpdateAnswerDto } from './dto/update-answer.dto';
 import { ERROR } from '../../common/constants/error.constants';
+import { TraitementAnswerDto } from './dto/traitement-answer.dto';
 
 /**
  * DTO de réponse enrichi avec les scores par filière.
@@ -66,7 +67,7 @@ export class AnswersService {
    *
    * @async
    * @param {string} CandidatUID - L'UID du candidat.
-   * @param {string} answerUID - L'UID de la réponse à traiter.
+   * @param data
    * @returns {Promise<{ message: string }>} Message de confirmation.
    * @throws {NotFoundException} Si le candidat ou la réponse n'existe pas.
    * @throws {BadRequestException} Si la réponse ne contient aucune filière.
@@ -86,7 +87,7 @@ export class AnswersService {
    * const result = await answersService.traitementAnswer('cand-123', 'resp-456');
    * // { message: 'Scores mis à jour avec succès' }
    */
-  async traitementAnswer(CandidatUID: string, answerUID: string) {
+  async traitementAnswer(CandidatUID: string, data: TraitementAnswerDto) {
     try {
       return await this.prisma.$transaction(async (tx) => {
         const candidat = await tx.candidat.findUnique({
@@ -102,48 +103,40 @@ export class AnswersService {
           throw new NotFoundException(ERROR.ResourceNotFound);
         }
 
-        const answer = await tx.response.findUnique({
-          where: { uid: answerUID },
-          include: {
-            Reponse_Filiere: {
-              include: { filiere: true },
-            },
-          },
-        });
+        if (data.filieres) {
+          for (const [label, score] of Object.entries(data.filieres)) {
+            const filiere = await this.prisma.filiere.findFirst({
+              where: { label },
+            });
+            if (!filiere) {
+              throw new NotFoundException(ERROR.ResourceNotFound);
+            }
 
-        if (!answer) {
-          throw new NotFoundException(ERROR.ResourceNotFound);
-        }
+            const candidatFiliere = candidat.Candidat_Filiere.find(
+              (cf) => cf.filiereId === filiere.uid,
+            );
 
-        if (answer.Reponse_Filiere.length === 0) {
-          throw new BadRequestException(ERROR.InvalidInputFormat);
-        }
-
-        for (const rf of answer.Reponse_Filiere) {
-          const candidatFiliere = candidat.Candidat_Filiere.find(
-            (cf) => cf.filiere.uid === rf.filiere.uid,
-          );
-
-          if (candidatFiliere) {
-            await tx.candidat_Filiere.update({
-              where: {
-                candidatId_filiereId: {
-                  candidatId: candidatFiliere.candidatId,
-                  filiereId: candidatFiliere.filiereId,
+            if (candidatFiliere) {
+              await tx.candidat_Filiere.update({
+                where: {
+                  candidatId_filiereId: {
+                    candidatId: candidat.uid,
+                    filiereId: filiere.uid,
+                  },
                 },
-              },
-              data: {
-                score: candidatFiliere.score + rf.score,
-              },
-            });
-          } else {
-            await tx.candidat_Filiere.create({
-              data: {
-                candidat: { connect: { uid: CandidatUID } },
-                filiere: { connect: { uid: rf.filiere.uid } },
-                score: rf.score,
-              },
-            });
+                data: {
+                  score: candidatFiliere.score + score,
+                },
+              });
+            } else {
+              await tx.candidat_Filiere.create({
+                data: {
+                  candidat: { connect: { uid: CandidatUID } },
+                  filiere: { connect: { uid: filiere.uid } },
+                  score: score,
+                },
+              });
+            }
           }
         }
 

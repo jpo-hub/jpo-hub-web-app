@@ -1,19 +1,19 @@
 import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
   BadRequestException,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
 } from '@nestjs/common';
 import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiParam,
   ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
 } from '@nestjs/swagger';
 import { AnswersService, ResponseDto } from './answers.service';
 import { CreateAnswerDto } from './dto/create-answer.dto';
@@ -21,34 +21,33 @@ import { UpdateAnswerDto } from './dto/update-answer.dto';
 import { SwaggerResponses } from '../../common/constants/swagger.constants';
 import { ERROR } from '../../common/constants/error.constants';
 import { AnswerEntity } from './entities/answer.entity';
+import { TraitementAnswerDto } from './dto/traitement-answer.dto';
 
 @ApiTags('Answers')
 @Controller('answers')
 export class AnswersController {
   constructor(private readonly answersService: AnswersService) {}
 
-  @Post('traitement/:CandidatUID/answer/:answerUID')
+  @Post('traitement/:CandidatUID')
   @ApiOperation({
-    summary: 'Traiter une réponse pour un candidat',
-    description:
-      'Additionne les scores des filières de la réponse aux scores du candidat',
+    summary: 'Traiter les réponses pour un candidat',
+    description: 'Additionne les scores des filières aux scores du candidat',
   })
   @ApiParam({ name: 'CandidatUID', description: 'UID du candidat' })
-  @ApiParam({ name: 'answerUID', description: 'UID de la réponse' })
   @ApiResponse({
     status: 200,
     description: 'Scores mis à jour avec succès',
   })
-  @ApiResponse(SwaggerResponses.NotFound('Candidat ou Réponse'))
+  @ApiResponse(SwaggerResponses.NotFound('Candidat'))
   @ApiResponse(SwaggerResponses.ErrorServer)
   traitementAnswer(
     @Param('CandidatUID') CandidatUID: string,
-    @Param('answerUID') answerUID: string,
+    @Body() Body: TraitementAnswerDto,
   ) {
-    if (!CandidatUID || !answerUID) {
+    if (!CandidatUID) {
       throw new BadRequestException(ERROR.MissingFields);
     }
-    return this.answersService.traitementAnswer(CandidatUID, answerUID);
+    return this.answersService.traitementAnswer(CandidatUID, Body);
   }
 
   @Post()
