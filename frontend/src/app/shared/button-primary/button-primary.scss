@@ -1,0 +1,24 @@
+button {
+  background-color: var(--color-primary-access);
+  border-radius: .5rem;
+  border: solid 1px var(--color-primary-access);
+  cursor: pointer;
+  transition: background-color .3s, border-color .3s;
+  font-size: 1rem;
+  font-weight: 600;
+  height: 3.125rem;
+  line-height: 1.25rem;
+  padding: .9375rem 1.5625rem;
+  text-align: center;
+  text-decoration: none;
+  span {
+    color: var(--color-text-white);
+  }
+
+  &:hover {
+    background-color: var(--color-background);
+    span {
+      color: var(--color-primary-access);
+    }
+  }
+}
