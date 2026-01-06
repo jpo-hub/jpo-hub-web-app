@@ -1,0 +1,17 @@
+.not-found-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  gap: 5rem;
+  .illustration {
+    svg {
+      color: var(--color-primary-access);
+    }
+  }
+  .content {
+    .btn-container {
+      margin-top: 2.5rem;
+    }
+  }
+}
