@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {ButtonPrimary} from '../../shared/button-primary/button-primary';
+import {ButtonPrimary} from '../../components/button-primary/button-primary';
 
 @Component({
   selector: 'app-not-found',
