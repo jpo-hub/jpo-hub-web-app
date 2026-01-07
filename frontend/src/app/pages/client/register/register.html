@@ -1,1 +1,44 @@
-<p>register works!</p>
+<section>
+  <div class="container-form">
+    <h1>Prêt(e) à découvrir votre profil ?</h1>
+    <div class="form-container">
+      <form [formGroup]="form">
+        <div class="form-group-container">
+          <div class="form-group-global">
+            <app-input-form label="Prénom *" formControlName="prenom"/>
+            <app-input-form label="Nom *" formControlName="nom"/>
+          </div>
+          @if (form.get('prenom')?.touched && form.get('prenom')?.hasError('required')) {
+            <span class="error">Le prénom est requis</span>
+          }
+          @if (form.get('nom')?.touched && form.get('nom')?.hasError('required')) {
+            <span class="error">Le nom est requis</span>
+          }
+
+          <div class="form-group-global">
+            <app-input-form label="Email *" formControlName="email"/>
+          </div>
+          @if (form.get('email')?.touched && form.get('email')?.hasError('required')) {
+            <span class="error">L'email est requis</span>
+          }
+          @if (form.get('email')?.touched && form.get('email')?.hasError('email')) {
+            <span class="error">Format email invalide</span>
+          }
+
+          <div class="form-group-global">
+            <app-input-form label="Date de naissance *" formControlName="dateNaissance" type="date"/>
+          </div>
+          @if (form.get('dateNaissance')?.touched && form.get('dateNaissance')?.hasError('required')) {
+            <span class="error">La date de naissance est requise</span>
+          }
+        </div>
+        <app-button-primary
+          link="/quiz"
+          label="Valider & commencer le quiz"
+          [disabled]="form.invalid"
+          (clicked)="onSubmit()"
+        />
+      </form>
+    </div>
+  </div>
+</section>
