@@ -1,5 +1,9 @@
-<a [routerLink]="link">
-  <button>
+<a [routerLink]="!disabled ? link : null">
+  <button
+    [disabled]="disabled"
+    (click)="!disabled && onClick()"
+    [class.disabled]="disabled"
+  >
     <span>{{ label }}</span>
   </button>
 </a>

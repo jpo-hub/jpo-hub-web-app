@@ -21,4 +21,9 @@ button {
       color: var(--color-primary-access);
     }
   }
+
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 }

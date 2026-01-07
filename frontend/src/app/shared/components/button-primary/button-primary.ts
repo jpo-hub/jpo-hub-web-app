@@ -1,5 +1,6 @@
-import {Component, Input} from '@angular/core';
-import {RouterLink} from '@angular/router';
+
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-button-primary',
@@ -9,7 +10,15 @@ import {RouterLink} from '@angular/router';
   templateUrl: './button-primary.html',
   styleUrl: './button-primary.scss',
 })
-export class ButtonPrimary{
-  @Input() label: string | undefined;
-  @Input() link: string | undefined;
+export class ButtonPrimary {
+  @Input() label: string = '';
+  @Input() link: string = '';
+  @Input() disabled: boolean = false;
+  @Output() clicked = new EventEmitter<void>();
+
+  onClick(): void {
+    if (!this.disabled) {
+      this.clicked.emit();
+    }
+  }
 }
