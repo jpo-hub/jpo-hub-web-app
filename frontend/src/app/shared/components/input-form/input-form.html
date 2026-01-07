@@ -1,1 +1,9 @@
-<p>input-form works!</p>
+<div class="form-group" [class.has-value]="value">
+  <input
+    [type]="type"
+    [value]="value"
+    (input)="onInput($event)"
+    (blur)="onTouched()"
+  >
+  <label>{{ label }}</label>
+</div>
