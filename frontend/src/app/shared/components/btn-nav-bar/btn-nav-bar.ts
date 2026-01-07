@@ -16,4 +16,5 @@ export class BtnNavBar {
   @Input() label: string = '';
   @Input() link: string = '';
   @Input() icon: string = '';
+  @Input() exact: boolean = false;
 }

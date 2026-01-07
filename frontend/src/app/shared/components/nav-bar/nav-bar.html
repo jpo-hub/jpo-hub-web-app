@@ -5,7 +5,7 @@
     </div>
     <div class="btn-container">
       @for (btn of customLink; track btn.link) {
-        <app-btn-nav-bar [label]="btn.label" [link]="btn.link" [icon]="btn.icon">
+        <app-btn-nav-bar [label]="btn.label" [link]="btn.link" [icon]="btn.icon" [exact]="btn.exact">
         </app-btn-nav-bar>
       }
     </div>
