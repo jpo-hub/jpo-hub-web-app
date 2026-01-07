@@ -2,4 +2,11 @@
   position: fixed;
   width: 8rem;
   height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding-top: 1rem;
+  box-shadow: var(--drop-shadow);
+  .logo {
+    width: 6rem;
+  }
 }
