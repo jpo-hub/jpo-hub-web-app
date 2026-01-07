@@ -20,7 +20,7 @@ a {
     }
     .border-select {
       height: 100%;
-      width: 0.75rem;
+      width: 0.50rem;
       background-color: var(---color-background-active);
       border-radius: 0 0.5rem 0.5rem 0;
     }
@@ -36,10 +36,7 @@ a {
     button {
       background-color: var(--color-background-active);
       .border-select {
-        height: 100%;
-        width: 0.75rem;
         background-color: var(--color-primary-access);
-        border-radius: 0 0.5rem 0.5rem 0;
       }
     }
   }
