@@ -1,1 +1,13 @@
-<p>checkbox-form works!</p>
+<label>
+  <input
+    type="checkbox"
+    [checked]="value"
+    [disabled]="disabled"
+    (change)="onInputChange($event)"
+    (blur)="onTouched()"
+  />
+  <div>
+    <span>{{ title }}</span>
+    <span>{{ label }}</span>
+  </div>
+</label>
