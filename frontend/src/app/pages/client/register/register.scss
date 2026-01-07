@@ -37,6 +37,19 @@ section {
             width: 100%;
             display: flex;
             gap: 1rem;
+
+            .form-group-double {
+              display: flex;
+              flex-direction: column;
+              width: 100%;
+
+              .error {
+                color: var(--color-error);
+                font-size: 12px;
+                margin-top: 5px;
+                padding-left: 10px;
+              }
+            }
           }
 
           app-button-primary {
@@ -46,10 +59,4 @@ section {
       }
     }
   }
-}
-
-.error {
-  color: red;
-  font-size: 12px;
-  margin-top: 5px;
 }
