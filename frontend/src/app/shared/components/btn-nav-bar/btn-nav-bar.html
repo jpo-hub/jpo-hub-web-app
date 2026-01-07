@@ -1,5 +1,6 @@
-<a routerLink="{{ link }}" routerLinkActive="active">
+<a [routerLink]="link" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
   <button>
     <span>{{ label }}</span>
+    <i class="fas {{ icon }}"></i>
   </button>
 </a>
