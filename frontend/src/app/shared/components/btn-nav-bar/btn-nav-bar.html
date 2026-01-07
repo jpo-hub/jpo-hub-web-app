@@ -1,7 +1,7 @@
 <a [routerLink]="link" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
   <button>
-    <div>
-      <i class="fas {{ icon }}"></i>
+    <div class="btn-content">
+      <lucide-icon [name]="icon"></lucide-icon>
       <span>{{ label }}</span>
     </div>
     <span class="border-select"></span>

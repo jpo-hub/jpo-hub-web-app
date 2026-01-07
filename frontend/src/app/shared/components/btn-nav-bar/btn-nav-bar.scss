@@ -15,6 +15,13 @@ a {
     justify-content: space-between;
     gap: .5rem;
 
+    .btn-content {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      margin-left: .5rem;
+    }
+
     div {
       width: 100%;
     }

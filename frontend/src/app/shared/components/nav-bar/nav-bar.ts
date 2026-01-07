@@ -12,8 +12,8 @@ import {BtnNavBar} from '../btn-nav-bar/btn-nav-bar';
 })
 export class NavBar {
   customLink = [
-    {label: 'Accueil', link: '/', icon: 'home'},
-    {label: 'Quiz', link: '/quiz', icon: 'user-plus'},
-    {label: 'Ateliers', link: '/atelier', icon: 'sign-in-alt'}
+    {label: 'Accueil', link: '/', icon: 'house'},
+    {label: 'Quiz', link: '/quiz', icon: 'list-todo'},
+    {label: 'Ateliers', link: '/atelier', icon: 'folder-code'}
   ];
 }
