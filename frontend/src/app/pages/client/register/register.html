@@ -40,12 +40,17 @@
             </div>
           </div>
         </div>
-        <app-button-primary
-          link="/quiz"
-          label="Valider & commencer le quiz"
-          [disabled]="form.invalid"
-          (clicked)="onSubmit()"
-        />
+        <div class="info-note">
+          <p>* Champs obligatoires</p>
+        </div>
+        <div class="btn-container">
+          <app-button-primary
+            link="/quiz"
+            label="Valider & commencer le quiz"
+            [disabled]="form.invalid"
+            (clicked)="onSubmit()"
+          />
+        </div>
       </form>
     </div>
   </div>

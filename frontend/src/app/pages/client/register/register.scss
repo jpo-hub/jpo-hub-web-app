@@ -23,7 +23,6 @@ section {
         width: 100%;
         display: flex;
         flex-direction: column;
-        align-items: center;
         justify-content: center;
 
         .form-group-container {
@@ -55,6 +54,18 @@ section {
           app-button-primary {
             margin-top: 2rem;
           }
+        }
+
+        .info-note {
+          margin-top: 1.5rem;
+          font-size: 0.775rem;
+          color: var(--color-text-gray);
+        }
+        .btn-container {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          margin-top: 1rem;
         }
       }
     }
