@@ -1,6 +1,9 @@
 <a [routerLink]="link" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
   <button>
-    <span>{{ label }}</span>
-    <i class="fas {{ icon }}"></i>
+    <div>
+      <i class="fas {{ icon }}"></i>
+      <span>{{ label }}</span>
+    </div>
+    <span class="border-select"></span>
   </button>
 </a>

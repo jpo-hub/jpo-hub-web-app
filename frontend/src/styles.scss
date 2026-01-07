@@ -46,6 +46,13 @@ body {
   font-size: 2.5rem;
   margin-bottom: .9375rem;
 }
+
 .error-message {
   font-size: 1.2rem;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
 }
