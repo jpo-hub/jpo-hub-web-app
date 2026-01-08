@@ -42,25 +42,38 @@
         </div>
         <div class="form-question">
           <span>Quelles sont les filières qui vous attirent le plus ?</span>
-          <!-- TODO : faire un service pour recup les filières et les sélectionner-->
-        </div>
-        <div class="form-consentement">
-          <app-checkbox-form
-            label="J'accepte que mes données soient utilisées dans le cadre de ce quiz et de ses analyses."
-            title="Consentement"
-            formControlName="consentement"
-          ></app-checkbox-form>
-        </div>
-        <div class="info-note">
-          <p>* Champs obligatoires</p>
-        </div>
-        <div class="btn-container">
-          <app-button-primary
-            link="/quiz"
-            label="Valider & commencer le quiz"
-            [disabled]="form.invalid"
-            (clicked)="onSubmit()"
-          />
+          <div class="form-group-checkbox">
+            @if (isLoading()) {
+              <p>Chargement des filières...</p>
+            } @else {
+              @for (filiere of filieres(); track filiere.uid) {
+                <app-checkbox-form
+                  [label]="filiere.label"
+                  (change)="onFiliereChange(filiere.uid, $event)">
+                </app-checkbox-form>
+              } @empty {
+                <p>Aucune filière disponible.</p>
+              }
+            }
+          </div>
+          <div class="form-consentement">
+            <app-checkbox-form
+              label="J'accepte que mes données soient utilisées dans le cadre de ce quiz et de ses analyses."
+              title="Consentement"
+              formControlName="consentement"
+            ></app-checkbox-form>
+          </div>
+          <div class="info-note">
+            <p>* Champs obligatoires</p>
+          </div>
+          <div class="btn-container">
+            <app-button-primary
+              link="/quiz"
+              label="Valider & commencer le quiz"
+              [disabled]="form.invalid"
+              (clicked)="onSubmit()"
+            />
+          </div>
         </div>
       </form>
     </div>
