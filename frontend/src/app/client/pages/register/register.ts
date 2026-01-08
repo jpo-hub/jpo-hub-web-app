@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, effect, OnInit} from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputForm } from '../../../shared/components/input-form/input-form';
 import { ButtonPrimary } from '../../../shared/components/button-primary/button-primary';
@@ -10,63 +10,71 @@ import { toSignal } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [
-    InputForm,
-    ReactiveFormsModule,
-    ButtonPrimary,
-    CheckboxForm,
-    Chips
-  ],
+  imports: [InputForm, ReactiveFormsModule, ButtonPrimary, CheckboxForm, Chips],
   templateUrl: './register.html',
   styleUrls: ['./register.scss'],
 })
-export class Register {
+export class Register implements OnInit {
   private filieresService = inject(Filieres);
 
-  // transforme l'Observable du service en Signal pour Angular 21
   filieres = toSignal(this.filieresService.filieres, { initialValue: [] });
-
   isLoading = signal(true);
 
+  // ✅ effect dans un champ, pas dans ngOnInit
+  loadingEffect = effect(() => {
+    this.isLoading.set(this.filieres().length === 0);
+  });
+
   form = new FormGroup({
-    nom: new FormControl('', [Validators.required]),
-    prenom: new FormControl('', [Validators.required]),
+    lastname: new FormControl('', [Validators.required]),
+    firstname: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
-    dateNaissance: new FormControl('', [Validators.required]),
-    consentement: new FormControl(false, [Validators.requiredTrue]),
+    dateBirth: new FormControl('', [Validators.required]),
+    consentement: new FormControl(false),
     filieres: new FormArray([])
   });
+
+  selectedFilieres: string[] = [];
 
   get filieresFormArray(): FormArray {
     return this.form.get('filieres') as FormArray;
   }
 
-  constructor() {
-    // lance la récupération des filières
-    this.filieresService.getFilieres();
-
-    // met isLoading à false dès que le signal contient des filières
-    this.isLoading.set(this.filieres().length === 0);
-    this.filieres().length > 0 && this.isLoading.set(false);
+  ngOnInit(): void {
+    this.filieresService.loadFilieres();
   }
 
-  onFiliereChange(filiereUid: string, event: Event) {
-    const isChecked = (event.target as HTMLInputElement).checked;
+  onFiliereChange(filiereLabel: string, isSelected: boolean) {
+    const formArray = this.filieresFormArray;
 
-    if (isChecked) {
-      this.filieresFormArray.push(new FormControl(filiereUid));
+    if (isSelected) {
+      if (!formArray.value.includes(filiereLabel)) {
+        formArray.push(new FormControl(filiereLabel));
+      }
     } else {
-      const index = this.filieresFormArray.controls.findIndex(c => c.value === filiereUid);
-      if (index !== -1) this.filieresFormArray.removeAt(index);
+      const index = formArray.controls.findIndex(c => c.value === filiereLabel);
+      if (index !== -1) formArray.removeAt(index);
     }
+
+    this.selectedFilieres = formArray.value; // pour debug si nécessaire
   }
 
-  onSubmit() {
-    if (this.form.valid) {
-      console.log('Formulaire valide:', this.form.value);
-    } else {
-      this.form.markAllAsTouched();
-      console.log('Formulaire invalide');
-    }
+  onSubmit(): void {
+    const rawValue = this.form.value;
+    const filieresArray = rawValue.filieres ?? [];
+    const filieresObj: Record<string, number> = {};
+    filieresArray.forEach((label: string) => filieresObj[label] = 1);
+
+    const payload = {
+      email: rawValue.email,
+      firstname: rawValue.firstname,
+      lastname: rawValue.lastname,
+      appointment: false,
+      consentement: rawValue.consentement,
+      filieres: filieresObj,
+      dateBirth: rawValue.dateBirth
+    };
+
+    console.log(payload);
   }
 }

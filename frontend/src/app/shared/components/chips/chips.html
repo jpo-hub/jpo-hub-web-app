@@ -1,4 +1,5 @@
-<div>
-  <span>{{ uid }}</span>
-  <span>{{ label }}</span>
+<div class="chip"
+     [class.selected]="selected"
+     (click)="toggleSelection()">
+  <span class="label">{{ label }}</span>
 </div>

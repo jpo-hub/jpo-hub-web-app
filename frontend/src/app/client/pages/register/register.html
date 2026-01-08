@@ -6,13 +6,13 @@
         <div class="form-group-container">
           <div class="form-group-global">
             <div class="form-group-double">
-              <app-input-form label="Prénom *" formControlName="prenom"/>
+              <app-input-form label="Prénom *" formControlName="firstname"/>
               @if (form.get('prenom')?.touched && form.get('prenom')?.hasError('required')) {
                 <span class="error">Le prénom est requis</span>
               }
             </div>
             <div class="form-group-double">
-              <app-input-form label="Nom *" formControlName="nom"/>
+              <app-input-form label="Nom *" formControlName="lastname"/>
               @if (form.get('nom')?.touched && form.get('nom')?.hasError('required')) {
                 <span class="error">Le nom est requis</span>
               }
@@ -33,7 +33,7 @@
 
           <div class="form-group-global">
             <div class="form-group-double">
-              <app-input-form label="Date de naissance *" formControlName="dateNaissance" type="date"/>
+              <app-input-form label="Date de naissance *" formControlName="dateBirth" type="date"/>
               @if (form.get('dateNaissance')?.touched && form.get('dateNaissance')?.hasError('required')) {
                 <span class="error">La date de naissance est requise</span>
               }
@@ -43,19 +43,21 @@
         <div class="form-question">
           <span>Quelles sont les filières qui vous attirent le plus ?</span>
           <div class="form-group-checkbox">
-            @if (isLoading()) {
-              <p>Chargement des filières...</p>
-            } @else {
-              @for (filiere of filieres(); track filiere.uid) {
-                <app-chips
-                  [uid]="filiere.uid"
-                  [label]="filiere.label"
-                  (change)="onFiliereChange(filiere.uid, $event)">
-                </app-chips>
-              } @empty {
-                <p>Aucune filière disponible.</p>
-              }
-            }
+              <div class="form-group-checkbox">
+                @if (isLoading()) {
+                  <p>Chargement des filières...</p>
+                } @else {
+                  @for (filiere of filieres(); track filiere.uid) {
+                    <app-chips
+                      [label]="filiere.label"
+                      [selected]="filieresFormArray.value.includes(filiere.label)"
+                      (selectionChange)="onFiliereChange(filiere.label, $event)">
+                    </app-chips>
+                  } @empty {
+                    <p>Aucune filière disponible.</p>
+                  }
+                }
+            </div>
           </div>
           <div class="form-consentement">
             <app-checkbox-form

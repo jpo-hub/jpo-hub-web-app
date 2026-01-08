@@ -1,0 +1,36 @@
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.8rem;
+  margin: 0.2rem;
+  border-radius: 16px;
+  border: 1px solid #ccc;
+  background-color: #f5f5f5;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  .uid {
+    font-weight: bold;
+    margin-right: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .label {
+    font-size: 0.9rem;
+  }
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+
+  &.selected {
+    background-color: #007bff;
+    border-color: #0056b3;
+    color: #fff;
+
+    .uid,
+    .label {
+      color: #fff;
+    }
+  }
+}
