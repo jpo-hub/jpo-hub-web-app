@@ -47,10 +47,11 @@
               <p>Chargement des filières...</p>
             } @else {
               @for (filiere of filieres(); track filiere.uid) {
-                <app-checkbox-form
+                <app-chips
+                  [uid]="filiere.uid"
                   [label]="filiere.label"
                   (change)="onFiliereChange(filiere.uid, $event)">
-                </app-checkbox-form>
+                </app-chips>
               } @empty {
                 <p>Aucune filière disponible.</p>
               }
