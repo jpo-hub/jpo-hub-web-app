@@ -20,7 +20,6 @@ export class Register implements OnInit {
   filieres = toSignal(this.filieresService.filieres, { initialValue: [] });
   isLoading = signal(true);
 
-  // ✅ effect dans un champ, pas dans ngOnInit
   loadingEffect = effect(() => {
     this.isLoading.set(this.filieres().length === 0);
   });
