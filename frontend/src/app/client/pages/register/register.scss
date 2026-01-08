@@ -58,7 +58,16 @@ section {
         }
 
         .form-question {
+          display: flex;
+          flex-direction: column;
+          gap: 2rem;
           margin-bottom: 2rem;
+
+          .form-question-filiere {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+          }
         }
 
         .info-note {
