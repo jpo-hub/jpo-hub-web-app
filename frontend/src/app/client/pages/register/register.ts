@@ -1,11 +1,15 @@
-import { Component, inject, signal, effect, OnInit} from '@angular/core';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { InputForm } from '../../../shared/components/input-form/input-form';
-import { ButtonPrimary } from '../../../shared/components/button-primary/button-primary';
-import { CheckboxForm } from '../../../shared/components/checkbox-form/checkbox-form';
-import { Chips } from '../../../shared/components/chips/chips';
-import { Filieres } from '../../../core/services/filieres';
-import { toSignal } from '@angular/core/rxjs-interop';
+import {Component, effect, inject, OnInit, signal} from '@angular/core';
+import {FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {InputForm} from '../../../shared/components/input-form/input-form';
+import {ButtonPrimary} from '../../../shared/components/button-primary/button-primary';
+import {CheckboxForm} from '../../../shared/components/checkbox-form/checkbox-form';
+import {Chips} from '../../../shared/components/chips/chips';
+import {Filieres} from '../../../core/services/filieres';
+import {toSignal} from '@angular/core/rxjs-interop';
+import {Candidat} from '../../service/candidat';
+import {firstValueFrom} from 'rxjs';
+import {CandidatModel} from '../../../core/models/candidat.model';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
@@ -16,6 +20,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 })
 export class Register implements OnInit {
   private filieresService = inject(Filieres);
+  private candidatService = inject(Candidat);
 
   filieres = toSignal(this.filieresService.filieres, { initialValue: [] });
   isLoading = signal(true);
@@ -55,25 +60,39 @@ export class Register implements OnInit {
       if (index !== -1) formArray.removeAt(index);
     }
 
-    this.selectedFilieres = formArray.value; // pour debug si nécessaire
+    this.selectedFilieres = formArray.value;
   }
 
-  onSubmit(): void {
-    const rawValue = this.form.value;
-    const filieresArray = rawValue.filieres ?? [];
-    const filieresObj: Record<string, number> = {};
-    filieresArray.forEach((label: string) => filieresObj[label] = 1);
+  async onSubmit(): Promise<void> {
+    try {
+      const rawValue = this.form.value;
+      const filieresArray = rawValue.filieres ?? [];
+      const filieresObj: Record<string, number> = {};
+      filieresArray.forEach((label: string) => filieresObj[label] = 1);
 
-    const payload = {
-      email: rawValue.email,
-      firstname: rawValue.firstname,
-      lastname: rawValue.lastname,
-      appointment: false,
-      consentement: rawValue.consentement,
-      filieres: filieresObj,
-      dateBirth: rawValue.dateBirth
-    };
+      const payload: CandidatModel = {
+        email: rawValue.email!,
+        firstname: rawValue.firstname!,
+        lastname: rawValue.lastname!,
+        appointment: false,
+        consentement: rawValue.consentement ?? false,
+        filieres: filieresObj,
+        dateBirth: rawValue.dateBirth!,
+      };
 
-    console.log(payload);
+      console.log(payload);
+
+      await firstValueFrom(
+        this.candidatService.submitCandidature(payload)
+      );
+    } catch (err) {
+      const error = err as HttpErrorResponse;
+
+      if (error.status === 409) {
+        console.error(error.error.message);
+      } else {
+        console.error('Unexpected error', error);
+      }
+    }
   }
 }
