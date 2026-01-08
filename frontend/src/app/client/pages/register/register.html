@@ -44,21 +44,19 @@
           <div class="form-question-filiere">
             <span>Sélectionnez les filières qui vous attirent le plus ?</span>
             <div class="form-group-checkbox">
-              <div class="form-group-checkbox">
-                @if (isLoading()) {
-                  <p>Chargement des filières...</p>
-                } @else {
-                  @for (filiere of filieres(); track filiere.uid) {
-                    <app-chips
-                      [label]="filiere.label"
-                      [selected]="filieresFormArray.value.includes(filiere.label)"
-                      (selectionChange)="onFiliereChange(filiere.label, $event)">
-                    </app-chips>
-                  } @empty {
-                    <p>Aucune filière disponible.</p>
-                  }
+              @if (isLoading()) {
+                <p>Chargement des filières...</p>
+              } @else {
+                @for (filiere of filieres(); track filiere.uid) {
+                  <app-chips
+                    [label]="filiere.label"
+                    [selected]="filieresFormArray.value.includes(filiere.label)"
+                    (selectionChange)="onFiliereChange(filiere.label, $event)">
+                  </app-chips>
+                } @empty {
+                  <p>Aucune filière disponible.</p>
                 }
-              </div>
+              }
             </div>
           </div>
           <div>

@@ -67,6 +67,12 @@ section {
             display: flex;
             flex-direction: column;
             gap: 0.4rem;
+
+            .form-group-checkbox {
+              display: flex;
+              flex-wrap: wrap;
+              gap: 0.8rem;
+            }
           }
         }
 
