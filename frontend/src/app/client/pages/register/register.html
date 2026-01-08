@@ -7,13 +7,13 @@
           <div class="form-group-global">
             <div class="form-group-double">
               <app-input-form label="Prénom *" formControlName="firstname"/>
-              @if (form.get('prenom')?.touched && form.get('prenom')?.hasError('required')) {
+              @if (form.get('firstname')?.touched && form.get('firstname')?.hasError('required')) {
                 <span class="error">Le prénom est requis</span>
               }
             </div>
             <div class="form-group-double">
               <app-input-form label="Nom *" formControlName="lastname"/>
-              @if (form.get('nom')?.touched && form.get('nom')?.hasError('required')) {
+              @if (form.get('lastname')?.touched && form.get('lastname')?.hasError('required')) {
                 <span class="error">Le nom est requis</span>
               }
             </div>
@@ -34,7 +34,7 @@
           <div class="form-group-global">
             <div class="form-group-double">
               <app-input-form label="Date de naissance *" formControlName="dateBirth" type="date"/>
-              @if (form.get('dateNaissance')?.touched && form.get('dateNaissance')?.hasError('required')) {
+              @if (form.get('dateBirth')?.touched && form.get('dateBirth')?.hasError('required')) {
                 <span class="error">La date de naissance est requise</span>
               }
             </div>
