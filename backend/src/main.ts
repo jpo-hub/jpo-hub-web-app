@@ -6,6 +6,12 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.enableCors({
+    origin: 'http://localhost:4200', // ton frontend
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    credentials: true, // si besoin d’envoyer des cookies
+  });
+
   const config = new DocumentBuilder()
     .setTitle('API JPO-HUB')
     .setDescription('The JPO-HUB API description')
@@ -26,6 +32,7 @@ async function bootstrap() {
       supportedSubmitMethods: ['get', 'post', 'put', 'patch', 'delete'],
     },
   });
+
   await app.listen(3000);
 }
 bootstrap();
