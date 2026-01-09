@@ -290,7 +290,7 @@ export class CandidatsService {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         switch (error.code) {
           case 'P2002':
-            throw new ConflictException(ERROR.AlreadyExists);
+            throw new ConflictException(ERROR.EmailAlreadyExists);
           case 'P2025':
             throw new NotFoundException(ERROR.ResourceNotFound);
           default:

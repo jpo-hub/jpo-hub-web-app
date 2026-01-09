@@ -27,7 +27,14 @@ export const ERROR = {
     code: 'forbidden-action',
     message: 'You don’t have permission to perform this action',
   },
-  TooManyRequests: 'too-many-requests',
+  EmailAlreadyExists: {
+    code: 'email-already-exists',
+    message: 'A candidate with this email already exists',
+  },
+  TooManyRequests: {
+    code: 'too-many-requests',
+    message: 'Too many requests, please try again later',
+  },
   PasswordStrengthError: {
     code: 'password-strength-error',
     message: 'Your password does not meet the requirements',
