@@ -12,7 +12,7 @@ import { RouterLink } from '@angular/router';
 })
 export class ButtonPrimary {
   @Input() label: string = '';
-  @Input() link: string = '';
+  @Input() link: string | null = null;
   @Input() disabled: boolean = false;
   @Output() clicked = new EventEmitter<void>();
 
