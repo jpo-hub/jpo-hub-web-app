@@ -5,3 +5,4 @@ export const ERROR_MESSAGES = {
   USER_ALREADY_EXISTS: 'Cet utilisateur existe déjà',
   SERVER_ERROR: 'Erreur serveur, veuillez réessayer plus tard'
 };
+

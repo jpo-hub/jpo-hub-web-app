@@ -10,6 +10,8 @@ import {Candidat} from '../../service/candidat';
 import {firstValueFrom} from 'rxjs';
 import {CandidatModel} from '../../../core/models/candidat.model';
 import {HttpErrorResponse} from '@angular/common/http';
+import {ToastService} from '../../../core/services/toast';
+import {ErrorHandlerService} from '../../../core/services/error-handler';
 
 @Component({
   selector: 'app-register',
@@ -21,6 +23,8 @@ import {HttpErrorResponse} from '@angular/common/http';
 export class Register implements OnInit {
   private filieresService = inject(Filieres);
   private candidatService = inject(Candidat);
+  private toastService = inject(ToastService);
+  private errorHandler = inject(ErrorHandlerService);
 
   filieres = toSignal(this.filieresService.filieres, { initialValue: [] });
   isLoading = signal(true);
@@ -80,19 +84,17 @@ export class Register implements OnInit {
         dateBirth: rawValue.dateBirth!,
       };
 
-      console.log(payload);
-
       await firstValueFrom(
         this.candidatService.submitCandidature(payload)
       );
     } catch (err) {
       const error = err as HttpErrorResponse;
+      console.error(error);
 
-      if (error.status === 409) {
-        console.error(error.error.message);
-      } else {
-        console.error('Unexpected error', error);
-      }
+      const message = this.errorHandler.getErrorMessage(error.error.code);
+      this.toastService.showError(message);
+
+
     }
   }
 }
