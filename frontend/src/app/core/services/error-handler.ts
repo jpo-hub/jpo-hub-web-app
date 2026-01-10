@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
 import {ERROR_MESSAGES} from '../../shared/constants/error-messages';
 
 @Injectable({ providedIn: 'root' })
