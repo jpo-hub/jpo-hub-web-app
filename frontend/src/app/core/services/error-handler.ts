@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {ERROR_MESSAGES} from '../../shared/constants/error-messages';
 
 @Injectable({ providedIn: 'root' })
-export class ErrorHandlerService {
+export class ErrorHandler {
 
   getErrorMessage(code: string): string {
     switch (code) {

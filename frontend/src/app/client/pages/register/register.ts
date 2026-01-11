@@ -11,7 +11,7 @@ import {firstValueFrom} from 'rxjs';
 import {CandidatModel} from '../../../core/models/candidat.model';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ToastService} from '../../../core/services/toast';
-import {ErrorHandlerService} from '../../../core/services/error-handler';
+import {ErrorHandler} from '../../../core/services/error-handler';
 
 @Component({
   selector: 'app-register',
@@ -24,7 +24,7 @@ export class Register implements OnInit {
   private filieresService = inject(Filieres);
   private candidatService = inject(Candidat);
   private toastService = inject(ToastService);
-  private errorHandler = inject(ErrorHandlerService);
+  private errorHandler = inject(ErrorHandler);
 
   filieres = toSignal(this.filieresService.filieres, { initialValue: [] });
   isLoading = signal(true);
@@ -90,11 +90,12 @@ export class Register implements OnInit {
     } catch (err) {
       const error = err as HttpErrorResponse;
       console.error(error);
+      console.error(error.error);
 
       const message = this.errorHandler.getErrorMessage(error.error.code);
-      this.toastService.showError(message);
-
-
+      console.log("1")
+      this.toastService.show(message, 'danger');
+      console.log("2")
     }
   }
 }
