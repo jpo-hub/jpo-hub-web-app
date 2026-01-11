@@ -1,8 +1,8 @@
 @if (toast.isVisible()) {
   <div class="toast {{ toast.status() }}">
-    <div>
-      <strong>{{ toast.message() }}</strong>
+    <div class="toast-content">
+      <lucide-icon [name]="toast.icon()"></lucide-icon>
+      <span>{{ toast.message() }}</span>
     </div>
-    <button (click)="toast.hide()">X</button>
   </div>
 }

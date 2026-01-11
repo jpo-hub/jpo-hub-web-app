@@ -5,7 +5,6 @@ import {BtnNavBar} from '../btn-nav-bar/btn-nav-bar';
   selector: 'app-nav-bar',
   imports: [
     BtnNavBar
-
   ],
   templateUrl: './nav-bar.html',
   styleUrl: './nav-bar.scss',

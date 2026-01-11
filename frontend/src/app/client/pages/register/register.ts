@@ -89,13 +89,9 @@ export class Register implements OnInit {
       );
     } catch (err) {
       const error = err as HttpErrorResponse;
-      console.error(error);
-      console.error(error.error);
 
       const message = this.errorHandler.getErrorMessage(error.error.code);
-      console.log("1")
       this.toastService.show(message, 'danger');
-      console.log("2")
     }
   }
 }

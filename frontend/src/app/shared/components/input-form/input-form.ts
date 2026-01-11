@@ -40,6 +40,5 @@ export class InputForm implements ControlValueAccessor {
     const input = event.target as HTMLInputElement;
     this.value = input.value;
     this.onChange(this.value);
-    console.log(this.value);
   }
 }
