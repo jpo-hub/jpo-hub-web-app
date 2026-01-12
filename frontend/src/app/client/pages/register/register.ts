@@ -12,6 +12,7 @@ import {CandidatModel} from '../../../core/models/candidat.model';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ToastService} from '../../../core/services/toast';
 import {ErrorHandler} from '../../../core/services/error-handler';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -25,6 +26,7 @@ export class Register implements OnInit {
   private candidatService = inject(Candidat);
   private toastService = inject(ToastService);
   private errorHandler = inject(ErrorHandler);
+  private router = inject(Router);
 
   filieres = toSignal(this.filieresService.filieres, { initialValue: [] });
   isLoading = signal(true);
@@ -87,6 +89,10 @@ export class Register implements OnInit {
       await firstValueFrom(
         this.candidatService.submitCandidature(payload)
       );
+
+      this.form.reset();
+      this.filieresFormArray.clear();
+      await this.router.navigate(['/quiz']);
     } catch (err) {
       const error = err as HttpErrorResponse;
 
