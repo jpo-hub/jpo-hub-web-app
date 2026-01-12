@@ -19,6 +19,7 @@ CREATE TABLE "Response" (
 CREATE TABLE "Question" (
     "uid" TEXT NOT NULL,
     "label" TEXT NOT NULL,
+    "multiple" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "Question_pkey" PRIMARY KEY ("uid")
 );
@@ -93,6 +94,9 @@ CREATE TABLE "Admin" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Filiere_label_key" ON "Filiere"("label");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Question_label_key" ON "Question"("label");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Reponse_Filiere_reponseId_filiereId_key" ON "Reponse_Filiere"("reponseId", "filiereId");

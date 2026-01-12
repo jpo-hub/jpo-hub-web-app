@@ -263,6 +263,94 @@ async function main() {
   });
 
   console.log('✅ Candidat + liens seeded');
+
+  await prisma.question.upsert({
+    where: {
+      label:
+        "Quelle est la commande pour lister les conteneurs Docker en cours d'exécution ?",
+    },
+    update: {},
+    create: {
+      label:
+        "Quelle est la commande pour lister les conteneurs Docker en cours d'exécution ?",
+      multiple: true,
+    },
+  });
+  await prisma.question.upsert({
+    where: {
+      label:
+        'Quelle commande permet de voir toutes les images Docker locales ?',
+    },
+    update: {},
+    create: {
+      label:
+        'Quelle commande permet de voir toutes les images Docker locales ?',
+      multiple: false,
+    },
+  });
+
+  await prisma.question.upsert({
+    where: {
+      label:
+        "Quelle commande permet de lancer un conteneur Docker à partir d'une image ?",
+    },
+    update: {},
+    create: {
+      label:
+        "Quelle commande permet de lancer un conteneur Docker à partir d'une image ?",
+      multiple: false,
+    },
+  });
+
+  await prisma.question.upsert({
+    where: {
+      label:
+        "Quelle commande permet d'arrêter un conteneur Docker en cours d'exécution ?",
+    },
+    update: {},
+    create: {
+      label:
+        "Quelle commande permet d'arrêter un conteneur Docker en cours d'exécution ?",
+      multiple: false,
+    },
+  });
+
+  await prisma.question.upsert({
+    where: {
+      label: 'Quelle commande permet de supprimer un conteneur Docker ?',
+    },
+    update: {},
+    create: {
+      label: 'Quelle commande permet de supprimer un conteneur Docker ?',
+      multiple: false,
+    },
+  });
+
+  await prisma.question.upsert({
+    where: {
+      label: 'À quoi sert un Dockerfile ?',
+    },
+    update: {},
+    create: {
+      label: 'À quoi sert un Dockerfile ?',
+      multiple: true,
+    },
+  });
+
+  await prisma.question.upsert({
+    where: {
+      label:
+        'Quelle est la différence entre une image Docker et un conteneur Docker ?',
+    },
+    update: {},
+    create: {
+      label:
+        'Quelle est la différence entre une image Docker et un conteneur Docker ?',
+      multiple: true,
+    },
+  });
+
+  console.log('✅ Questions seeded');
 }
 
 main()

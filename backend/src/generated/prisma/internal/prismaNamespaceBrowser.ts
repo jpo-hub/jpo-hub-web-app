@@ -98,7 +98,8 @@ export type ResponseScalarFieldEnum = (typeof ResponseScalarFieldEnum)[keyof typ
 
 export const QuestionScalarFieldEnum = {
   uid: 'uid',
-  label: 'label'
+  label: 'label',
+  multiple: 'multiple'
 } as const
 
 export type QuestionScalarFieldEnum = (typeof QuestionScalarFieldEnum)[keyof typeof QuestionScalarFieldEnum]

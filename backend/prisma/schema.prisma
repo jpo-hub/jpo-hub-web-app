@@ -29,7 +29,8 @@ model Response {
 
 model Question {
   uid      String     @id @default(uuid())
-  label    String
+  label    String     @unique
+  multiple Boolean    @default(false)
   Response Response[]
 }
 
