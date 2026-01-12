@@ -1,0 +1,42 @@
+.process-bar {
+  position: relative;
+  width: 100%;
+  height: 11px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.process-bar__fill {
+  height: 100%;
+  width: 0;
+  background-color: var(--color-primary);
+  border-radius: inherit;
+  transition: width 0.4s ease;
+}
+
+/* Texte visible au centre (si jamais tu l’utilises plus tard) */
+.process-bar__label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #111827;
+  pointer-events: none;
+}
+
+/* Texte uniquement pour lecteurs d’écran */
+.process-bar__label--sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

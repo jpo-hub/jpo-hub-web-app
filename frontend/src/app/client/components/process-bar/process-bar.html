@@ -1,1 +1,15 @@
-<p>process-bar works!</p>
+<div class="process-bar">
+  <div
+    class="process-bar__fill"
+    [style.width.%]="percent"
+    role="progressbar"
+    [attr.aria-valuenow]="value"
+    [attr.aria-valuemin]="0"
+    [attr.aria-valuemax]="max"
+  ></div>
+  @if (showLabel) {
+    <span class="process-bar__label--sr-only">
+      {{ percent | number:'1.0-0' }}%
+    </span>
+  }
+</div>
