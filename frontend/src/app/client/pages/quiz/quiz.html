@@ -15,11 +15,11 @@
       <div class="quiz-page__question">
         <span>{{ currentQuestionData().label }}</span>
       </div>
-      <div>
+      <div class="quiz-page-__answers">
         @if (currentQuestionData().multiple) {
-          <span>Choisissez une ou plusieurs réponses :</span>
+          <span class="quiz-page__consigne">Choisissez une ou plusieurs réponses :</span>
         } @else {
-          <span>Choisissez une réponse :</span>
+          <span class="quiz-page__consigne">Choisissez une réponse :</span>
         }
         <div>
           @if (currentQuestionDetails(); as question) {
