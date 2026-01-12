@@ -1,1 +1,24 @@
-<p>quiz works!</p>
+<section class="quiz-page">
+  <div class="quiz-page__header">
+    <span>Quiz - Question {{ currentQuestion() }}</span>
+    <div class="quiz-page__progress">
+      <app-process-bar
+        [value]="currentQuestion()"
+        [max]="totalQuestions()"
+      ></app-process-bar>
+
+      <div>{{ progressPercent() | number:'1.0-0' }}%</div>
+    </div>
+  </div>
+  <div class="quiz-page__content">
+    <div class="quiz-page__question">
+      <span>What is the capital of France?</span>
+    </div>
+    <div>
+      <button (click)="nextQuestion()">A) Berlin</button>
+      <button (click)="nextQuestion()">B) Madrid</button>
+      <button (click)="nextQuestion()">C) Paris</button>
+      <button (click)="nextQuestion()">D) Rome</button>
+    </div>
+  </div>
+</section>
