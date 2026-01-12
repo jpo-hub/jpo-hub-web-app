@@ -18,14 +18,18 @@
       <div>
         @if (currentQuestionData().multiple) {
           <span>Choisissez une ou plusieurs réponses :</span>
-          <button (click)="nextQuestion()">Réponse A</button>
-          <button (click)="nextQuestion()">Réponse B</button>
-          <button (click)="nextQuestion()">Réponse C</button>
-          <button (click)="nextQuestion()">Réponse D</button>
         } @else {
           <span>Choisissez une réponse :</span>
-          <input type="radio" name="answer" />
         }
+        <div>
+          @if (currentQuestionDetails(); as question) {
+            @for (reponse of question.reponses; track reponse.uid) {
+              <div class="quiz-page__answer">
+
+              </div>
+            }
+          }
+        </div>
       </div>
 
       <div class="quiz-navigation">

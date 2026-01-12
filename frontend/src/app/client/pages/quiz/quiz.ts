@@ -35,13 +35,12 @@ export class Quiz {
     return this.questions()[this.currentQuestion()];
   });
 
-  // ✅ Solution : Convertir le computed en Observable puis le reconvertir en Signal
   currentQuestionDetails = toSignal(
     toObservable(this.currentQuestionData).pipe(
-      filter(question => question?.uid != null), // Filtre les valeurs undefined
+      filter(question => question?.uid != null),
       switchMap(question => this.questionsServices.getQuestionByUid(question.uid))
     ),
-    { initialValue: null } // Valeur par défaut pendant le chargement
+    { initialValue: null }
   );
 
   constructor() {
@@ -66,4 +65,6 @@ export class Quiz {
   finishQuiz() {
     console.log('Quiz terminé !');
   }
+
+  protected readonly Object = Object;
 }
