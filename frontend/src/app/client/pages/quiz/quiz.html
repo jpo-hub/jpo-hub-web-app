@@ -1,24 +1,38 @@
 <section class="quiz-page">
-  <div class="quiz-page__header">
-    <span>Quiz - Question {{ currentQuestion() }}</span>
-    <div class="quiz-page__progress">
-      <app-process-bar
-        [value]="currentQuestion()"
-        [max]="totalQuestions()"
-      ></app-process-bar>
+  @if (questions().length > 0) {
+    <div class="quiz-page__header">
+      <span>Quiz - Question {{ currentQuestion() + 1 }} / {{ totalQuestions() }}</span>
+      <div class="quiz-page__progress">
+        <app-process-bar
+          [value]="currentQuestion() + 1"
+          [max]="totalQuestions()"
+        ></app-process-bar>
 
-      <div>{{ progressPercent() | number:'1.0-0' }}%</div>
+        <div>{{ progressPercent() | number:'1.0-0' }}%</div>
+      </div>
     </div>
-  </div>
-  <div class="quiz-page__content">
-    <div class="quiz-page__question">
-      <span>What is the capital of France?</span>
+    <div class="quiz-page__content">
+      <div class="quiz-page__question">
+        <span>{{ currentQuestionData()?.label }}</span>
+      </div>
+      <div>
+        <button (click)="nextQuestion()">Réponse A</button>
+        <button (click)="nextQuestion()">Réponse B</button>
+        <button (click)="nextQuestion()">Réponse C</button>
+        <button (click)="nextQuestion()">Réponse D</button>
+      </div>
+
+      <!-- Navigation optionnelle -->
+      <div class="quiz-navigation">
+        <button (click)="previousQuestion()" [disabled]="currentQuestion() === 0">
+          Précédent
+        </button>
+        <button (click)="nextQuestion()" [disabled]="currentQuestion() === totalQuestions() - 1">
+          Suivant
+        </button>
+      </div>
     </div>
-    <div>
-      <button (click)="nextQuestion()">A) Berlin</button>
-      <button (click)="nextQuestion()">B) Madrid</button>
-      <button (click)="nextQuestion()">C) Paris</button>
-      <button (click)="nextQuestion()">D) Rome</button>
-    </div>
-  </div>
+  } @else {
+    <div class="loading">Chargement des questions...</div>
+  }
 </section>
