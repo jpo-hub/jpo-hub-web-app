@@ -13,23 +13,27 @@
     </div>
     <div class="quiz-page__content">
       <div class="quiz-page__question">
-        <span>{{ currentQuestionData()?.label }}</span>
+        <span>{{ currentQuestionData().label }}</span>
       </div>
       <div>
-        <button (click)="nextQuestion()">Réponse A</button>
-        <button (click)="nextQuestion()">Réponse B</button>
-        <button (click)="nextQuestion()">Réponse C</button>
-        <button (click)="nextQuestion()">Réponse D</button>
+        @if (currentQuestionData().multiple) {
+          <span>Choisissez une ou plusieurs réponses :</span>
+          <button (click)="nextQuestion()">Réponse A</button>
+          <button (click)="nextQuestion()">Réponse B</button>
+          <button (click)="nextQuestion()">Réponse C</button>
+          <button (click)="nextQuestion()">Réponse D</button>
+        } @else {
+          <span>Choisissez une réponse :</span>
+          <input type="radio" name="answer" />
+        }
       </div>
 
-      <!-- Navigation optionnelle -->
       <div class="quiz-navigation">
-        <button (click)="previousQuestion()" [disabled]="currentQuestion() === 0">
-          Précédent
-        </button>
-        <button (click)="nextQuestion()" [disabled]="currentQuestion() === totalQuestions() - 1">
-          Suivant
-        </button>
+        @if (currentQuestion() < totalQuestions() - 1) {
+          <app-button-primary label="Question suivante" (click)="nextQuestion()"/>
+        } @else {
+          <app-button-primary label="Terminer le quiz" (click)="finishQuiz()" link="/quiz/results"/>
+        }
       </div>
     </div>
   } @else {

@@ -4,12 +4,14 @@ import { DecimalPipe } from '@angular/common';
 import { Questions } from '../../../core/services/questions';
 import { Question } from '../../../core/models/question.model';
 import { toSignal } from '@angular/core/rxjs-interop';
+import {ButtonPrimary} from '../../../shared/components/button-primary/button-primary';
 
 @Component({
   selector: 'app-quiz',
   imports: [
     ProcessBar,
-    DecimalPipe
+    DecimalPipe,
+    ButtonPrimary
   ],
   templateUrl: './quiz.html',
   styleUrl: './quiz.scss',
@@ -45,9 +47,7 @@ export class Quiz implements OnInit {
     }
   }
 
-  previousQuestion() {
-    if (this.currentQuestion() > 0) {
-      this.currentQuestion.update(value => value - 1);
-    }
+  finishQuiz() {
+    console.log('Quiz terminé !');
   }
 }
