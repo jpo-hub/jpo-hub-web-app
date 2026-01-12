@@ -300,7 +300,13 @@ export class AnswersService {
         where: { uid },
         include: {
           Reponse_Filiere: {
-            include: { filiere: { select: { label: true } } },
+            include: {
+              filiere: {
+                select: {
+                  label: true,
+                },
+              },
+            },
           },
         },
       });

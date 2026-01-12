@@ -1,9 +1,9 @@
 import {
-  Injectable,
-  NotFoundException,
   BadRequestException,
   ConflictException,
+  Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import { Question } from '../../generated/prisma/models/Question';
@@ -136,12 +136,35 @@ export class QuestionsService {
       }
 
       const reponses = await this.prisma.response.findMany({
-        where: { questionId: uid },
+        where: {
+          questionId: uid,
+        },
+        include: {
+          Reponse_Filiere: {
+            include: {
+              filiere: {
+                select: {
+                  label: true,
+                },
+              },
+            },
+          },
+        },
       });
 
       return {
         ...question,
-        reponses: reponses.map((r) => ({ ...r, questionId: undefined })),
+        reponses: reponses.map((r) => ({
+          uid: r.uid,
+          label: r.label,
+          filieres: r.Reponse_Filiere.reduce(
+            (acc, rf) => {
+              acc[rf.filiere.label] = rf.score;
+              return acc;
+            },
+            {} as Record<string, number>,
+          ),
+        })),
       };
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
