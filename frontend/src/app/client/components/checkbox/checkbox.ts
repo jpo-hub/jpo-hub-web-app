@@ -14,5 +14,6 @@ export class CheckboxComponent {
 
   toggle() {
     this.checked.set(!this.checked());
+    this.checkedChange.emit(this.checked());
   }
 }
