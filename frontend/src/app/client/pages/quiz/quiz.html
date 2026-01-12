@@ -25,7 +25,16 @@
           @if (currentQuestionDetails(); as question) {
             @for (reponse of question.reponses; track reponse.uid) {
               <div class="quiz-page__answer">
-
+                @if (!question.multiple) {
+                  <app-checkbox
+                    [label]="reponse.label"
+                  />
+                } @else {
+                  <!--                  <app-radio-->
+                    <!--                    name="quiz-question-{{ currentQuestion() }}"-->
+                    <!--                    [label]="reponse.label"-->
+                    <!--                  ></app-radio>-->
+                }
               </div>
             }
           }

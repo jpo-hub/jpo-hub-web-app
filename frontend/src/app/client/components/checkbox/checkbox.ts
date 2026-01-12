@@ -1,11 +1,18 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Input, Output, signal} from '@angular/core';
 
 @Component({
   selector: 'app-checkbox',
-  imports: [],
   templateUrl: './checkbox.html',
-  styleUrl: './checkbox.scss',
+  styleUrls: ['./checkbox.scss']
 })
-export class Checkbox {
+export class CheckboxComponent {
+  @Input() label!: string;
 
+  @Output() checkedChange = new EventEmitter<boolean>();
+
+  checked = signal(false);
+
+  toggle() {
+    this.checked.set(!this.checked());
+  }
 }

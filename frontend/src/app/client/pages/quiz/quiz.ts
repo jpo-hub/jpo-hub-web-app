@@ -6,13 +6,15 @@ import {Question} from '../../../core/models/question.model';
 import {toObservable, toSignal} from '@angular/core/rxjs-interop';
 import {ButtonPrimary} from '../../../shared/components/button-primary/button-primary';
 import {filter, switchMap} from 'rxjs/operators';
+import {CheckboxComponent} from '../../components/checkbox/checkbox';
 
 @Component({
   selector: 'app-quiz',
   imports: [
     ProcessBar,
     DecimalPipe,
-    ButtonPrimary
+    ButtonPrimary,
+    CheckboxComponent
   ],
   templateUrl: './quiz.html',
   styleUrl: './quiz.scss',
