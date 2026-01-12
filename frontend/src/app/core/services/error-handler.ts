@@ -7,7 +7,7 @@ export class ErrorHandler {
   getErrorMessage(code: string): string {
     switch (code) {
       case 'email-already-exists':
-        return ERROR_MESSAGES.EMAIL_INVALID;
+        return ERROR_MESSAGES.EMAIL_USED;
       case '500':
         return ERROR_MESSAGES.SERVER_ERROR;
       default:
