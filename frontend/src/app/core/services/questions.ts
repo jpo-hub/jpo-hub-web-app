@@ -24,4 +24,14 @@ export class Questions {
       )
       .subscribe(q => this.questionsSubject.next(q));
   }
+
+  public getQuestionByUid(uid: string): Observable<Question | null> {
+    return this.http.get<Question>(`${this.apiUrl}/questions/${uid}`)
+      .pipe(
+        catchError(err => {
+          console.error(`Error fetching question with id ${uid}:`, err);
+          return of(null);
+        })
+      );
+  }
 }
