@@ -210,7 +210,7 @@ async function main() {
       appointment: false,
       consentement: true,
       lastname: 'Fagniart',
-      dateBirth: new Date('1990-01-01'),
+      ageRange: '26-35',
     },
   });
 

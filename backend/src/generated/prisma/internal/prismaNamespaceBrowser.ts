@@ -120,7 +120,7 @@ export const CandidatScalarFieldEnum = {
   firstname: 'firstname',
   lastname: 'lastname',
   email: 'email',
-  dateBirth: 'dateBirth',
+  ageRange: 'ageRange',
   appointment: 'appointment',
   consentement: 'consentement',
   createdAt: 'createdAt',

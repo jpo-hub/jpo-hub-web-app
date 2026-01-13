@@ -38,7 +38,7 @@ CREATE TABLE "Candidat" (
     "firstname" TEXT NOT NULL,
     "lastname" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "dateBirth" TIMESTAMP(3) NOT NULL,
+    "ageRange" TEXT NOT NULL,
     "appointment" BOOLEAN NOT NULL,
     "consentement" BOOLEAN NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

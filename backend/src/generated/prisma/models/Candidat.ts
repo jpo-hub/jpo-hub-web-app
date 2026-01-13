@@ -40,7 +40,7 @@ export type CandidatMinAggregateOutputType = {
   firstname: string | null
   lastname: string | null
   email: string | null
-  dateBirth: Date | null
+  ageRange: string | null
   appointment: boolean | null
   consentement: boolean | null
   createdAt: Date | null
@@ -53,7 +53,7 @@ export type CandidatMaxAggregateOutputType = {
   firstname: string | null
   lastname: string | null
   email: string | null
-  dateBirth: Date | null
+  ageRange: string | null
   appointment: boolean | null
   consentement: boolean | null
   createdAt: Date | null
@@ -66,7 +66,7 @@ export type CandidatCountAggregateOutputType = {
   firstname: number
   lastname: number
   email: number
-  dateBirth: number
+  ageRange: number
   appointment: number
   consentement: number
   createdAt: number
@@ -89,7 +89,7 @@ export type CandidatMinAggregateInputType = {
   firstname?: true
   lastname?: true
   email?: true
-  dateBirth?: true
+  ageRange?: true
   appointment?: true
   consentement?: true
   createdAt?: true
@@ -102,7 +102,7 @@ export type CandidatMaxAggregateInputType = {
   firstname?: true
   lastname?: true
   email?: true
-  dateBirth?: true
+  ageRange?: true
   appointment?: true
   consentement?: true
   createdAt?: true
@@ -115,7 +115,7 @@ export type CandidatCountAggregateInputType = {
   firstname?: true
   lastname?: true
   email?: true
-  dateBirth?: true
+  ageRange?: true
   appointment?: true
   consentement?: true
   createdAt?: true
@@ -215,7 +215,7 @@ export type CandidatGroupByOutputType = {
   firstname: string
   lastname: string
   email: string
-  dateBirth: Date
+  ageRange: string
   appointment: boolean
   consentement: boolean
   createdAt: Date
@@ -251,7 +251,7 @@ export type CandidatWhereInput = {
   firstname?: Prisma.StringFilter<"Candidat"> | string
   lastname?: Prisma.StringFilter<"Candidat"> | string
   email?: Prisma.StringFilter<"Candidat"> | string
-  dateBirth?: Prisma.DateTimeFilter<"Candidat"> | Date | string
+  ageRange?: Prisma.StringFilter<"Candidat"> | string
   appointment?: Prisma.BoolFilter<"Candidat"> | boolean
   consentement?: Prisma.BoolFilter<"Candidat"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Candidat"> | Date | string
@@ -266,7 +266,7 @@ export type CandidatOrderByWithRelationInput = {
   firstname?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  dateBirth?: Prisma.SortOrder
+  ageRange?: Prisma.SortOrder
   appointment?: Prisma.SortOrder
   consentement?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -284,7 +284,7 @@ export type CandidatWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.CandidatWhereInput | Prisma.CandidatWhereInput[]
   firstname?: Prisma.StringFilter<"Candidat"> | string
   lastname?: Prisma.StringFilter<"Candidat"> | string
-  dateBirth?: Prisma.DateTimeFilter<"Candidat"> | Date | string
+  ageRange?: Prisma.StringFilter<"Candidat"> | string
   appointment?: Prisma.BoolFilter<"Candidat"> | boolean
   consentement?: Prisma.BoolFilter<"Candidat"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Candidat"> | Date | string
@@ -299,7 +299,7 @@ export type CandidatOrderByWithAggregationInput = {
   firstname?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  dateBirth?: Prisma.SortOrder
+  ageRange?: Prisma.SortOrder
   appointment?: Prisma.SortOrder
   consentement?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -320,7 +320,7 @@ export type CandidatScalarWhereWithAggregatesInput = {
   firstname?: Prisma.StringWithAggregatesFilter<"Candidat"> | string
   lastname?: Prisma.StringWithAggregatesFilter<"Candidat"> | string
   email?: Prisma.StringWithAggregatesFilter<"Candidat"> | string
-  dateBirth?: Prisma.DateTimeWithAggregatesFilter<"Candidat"> | Date | string
+  ageRange?: Prisma.StringWithAggregatesFilter<"Candidat"> | string
   appointment?: Prisma.BoolWithAggregatesFilter<"Candidat"> | boolean
   consentement?: Prisma.BoolWithAggregatesFilter<"Candidat"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Candidat"> | Date | string
@@ -333,7 +333,7 @@ export type CandidatCreateInput = {
   firstname: string
   lastname: string
   email: string
-  dateBirth: Date | string
+  ageRange: string
   appointment: boolean
   consentement: boolean
   createdAt?: Date | string
@@ -348,7 +348,7 @@ export type CandidatUncheckedCreateInput = {
   firstname: string
   lastname: string
   email: string
-  dateBirth: Date | string
+  ageRange: string
   appointment: boolean
   consentement: boolean
   createdAt?: Date | string
@@ -362,7 +362,7 @@ export type CandidatUpdateInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  dateBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ageRange?: Prisma.StringFieldUpdateOperationsInput | string
   appointment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   consentement?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -377,7 +377,7 @@ export type CandidatUncheckedUpdateInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  dateBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ageRange?: Prisma.StringFieldUpdateOperationsInput | string
   appointment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   consentement?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -392,7 +392,7 @@ export type CandidatCreateManyInput = {
   firstname: string
   lastname: string
   email: string
-  dateBirth: Date | string
+  ageRange: string
   appointment: boolean
   consentement: boolean
   createdAt?: Date | string
@@ -404,7 +404,7 @@ export type CandidatUpdateManyMutationInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  dateBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ageRange?: Prisma.StringFieldUpdateOperationsInput | string
   appointment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   consentement?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -417,7 +417,7 @@ export type CandidatUncheckedUpdateManyInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  dateBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ageRange?: Prisma.StringFieldUpdateOperationsInput | string
   appointment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   consentement?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -430,7 +430,7 @@ export type CandidatCountOrderByAggregateInput = {
   firstname?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  dateBirth?: Prisma.SortOrder
+  ageRange?: Prisma.SortOrder
   appointment?: Prisma.SortOrder
   consentement?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -447,7 +447,7 @@ export type CandidatMaxOrderByAggregateInput = {
   firstname?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  dateBirth?: Prisma.SortOrder
+  ageRange?: Prisma.SortOrder
   appointment?: Prisma.SortOrder
   consentement?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -460,7 +460,7 @@ export type CandidatMinOrderByAggregateInput = {
   firstname?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  dateBirth?: Prisma.SortOrder
+  ageRange?: Prisma.SortOrder
   appointment?: Prisma.SortOrder
   consentement?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -514,7 +514,7 @@ export type CandidatCreateWithoutCandidat_FiliereInput = {
   firstname: string
   lastname: string
   email: string
-  dateBirth: Date | string
+  ageRange: string
   appointment: boolean
   consentement: boolean
   createdAt?: Date | string
@@ -528,7 +528,7 @@ export type CandidatUncheckedCreateWithoutCandidat_FiliereInput = {
   firstname: string
   lastname: string
   email: string
-  dateBirth: Date | string
+  ageRange: string
   appointment: boolean
   consentement: boolean
   createdAt?: Date | string
@@ -557,7 +557,7 @@ export type CandidatUpdateWithoutCandidat_FiliereInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  dateBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ageRange?: Prisma.StringFieldUpdateOperationsInput | string
   appointment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   consentement?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -571,7 +571,7 @@ export type CandidatUncheckedUpdateWithoutCandidat_FiliereInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  dateBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ageRange?: Prisma.StringFieldUpdateOperationsInput | string
   appointment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   consentement?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -585,7 +585,7 @@ export type CandidatCreateWithoutAtelier_CandidatInput = {
   firstname: string
   lastname: string
   email: string
-  dateBirth: Date | string
+  ageRange: string
   appointment: boolean
   consentement: boolean
   createdAt?: Date | string
@@ -599,7 +599,7 @@ export type CandidatUncheckedCreateWithoutAtelier_CandidatInput = {
   firstname: string
   lastname: string
   email: string
-  dateBirth: Date | string
+  ageRange: string
   appointment: boolean
   consentement: boolean
   createdAt?: Date | string
@@ -628,7 +628,7 @@ export type CandidatUpdateWithoutAtelier_CandidatInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  dateBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ageRange?: Prisma.StringFieldUpdateOperationsInput | string
   appointment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   consentement?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -642,7 +642,7 @@ export type CandidatUncheckedUpdateWithoutAtelier_CandidatInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  dateBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ageRange?: Prisma.StringFieldUpdateOperationsInput | string
   appointment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   consentement?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -696,7 +696,7 @@ export type CandidatSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   firstname?: boolean
   lastname?: boolean
   email?: boolean
-  dateBirth?: boolean
+  ageRange?: boolean
   appointment?: boolean
   consentement?: boolean
   createdAt?: boolean
@@ -712,7 +712,7 @@ export type CandidatSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   firstname?: boolean
   lastname?: boolean
   email?: boolean
-  dateBirth?: boolean
+  ageRange?: boolean
   appointment?: boolean
   consentement?: boolean
   createdAt?: boolean
@@ -725,7 +725,7 @@ export type CandidatSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   firstname?: boolean
   lastname?: boolean
   email?: boolean
-  dateBirth?: boolean
+  ageRange?: boolean
   appointment?: boolean
   consentement?: boolean
   createdAt?: boolean
@@ -738,14 +738,14 @@ export type CandidatSelectScalar = {
   firstname?: boolean
   lastname?: boolean
   email?: boolean
-  dateBirth?: boolean
+  ageRange?: boolean
   appointment?: boolean
   consentement?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CandidatOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"uid" | "codeCandidat" | "firstname" | "lastname" | "email" | "dateBirth" | "appointment" | "consentement" | "createdAt" | "updatedAt", ExtArgs["result"]["candidat"]>
+export type CandidatOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"uid" | "codeCandidat" | "firstname" | "lastname" | "email" | "ageRange" | "appointment" | "consentement" | "createdAt" | "updatedAt", ExtArgs["result"]["candidat"]>
 export type CandidatInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   Candidat_Filiere?: boolean | Prisma.Candidat$Candidat_FiliereArgs<ExtArgs>
   Atelier_Candidat?: boolean | Prisma.Candidat$Atelier_CandidatArgs<ExtArgs>
@@ -766,7 +766,7 @@ export type $CandidatPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     firstname: string
     lastname: string
     email: string
-    dateBirth: Date
+    ageRange: string
     appointment: boolean
     consentement: boolean
     createdAt: Date
@@ -1201,7 +1201,7 @@ export interface CandidatFieldRefs {
   readonly firstname: Prisma.FieldRef<"Candidat", 'String'>
   readonly lastname: Prisma.FieldRef<"Candidat", 'String'>
   readonly email: Prisma.FieldRef<"Candidat", 'String'>
-  readonly dateBirth: Prisma.FieldRef<"Candidat", 'DateTime'>
+  readonly ageRange: Prisma.FieldRef<"Candidat", 'String'>
   readonly appointment: Prisma.FieldRef<"Candidat", 'Boolean'>
   readonly consentement: Prisma.FieldRef<"Candidat", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Candidat", 'DateTime'>

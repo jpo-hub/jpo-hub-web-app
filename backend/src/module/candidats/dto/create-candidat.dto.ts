@@ -38,6 +38,6 @@ export class CreateCandidatDto {
   filieres?: Record<string, number>;
 
   @ApiProperty()
-  @IsDateString()
-  readonly dateBirth: string;
+  @IsString()
+  readonly ageRange: string;
 }

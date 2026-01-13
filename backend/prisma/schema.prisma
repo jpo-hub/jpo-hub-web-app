@@ -51,7 +51,7 @@ model Candidat {
   firstname    String
   lastname     String
   email        String   @unique
-  dateBirth    DateTime
+  ageRange     String
   appointment  Boolean
   consentement Boolean
   createdAt    DateTime @default(now())

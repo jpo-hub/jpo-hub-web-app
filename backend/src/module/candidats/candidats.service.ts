@@ -201,9 +201,9 @@ export class CandidatsService {
    *   email: 'john@example.com',
    *   firstname: 'John',
    *   lastname: 'Doe',
-   *   dateBirth: '1990-01-15',
+   *   ageRange: '26-35',
    *   consentement: true,
-   *   filieres: { informatique: 5, marketing: 3 }
+   *   filieres: { informatique: 5, ia-&-data: 3 }
    * });
    *
    * @example
@@ -232,11 +232,7 @@ export class CandidatsService {
             : data.email || `missing-${randomUUID()}@example.com`,
           firstname: anonymize ? 'ANONYME' : data.firstname || 'INCONNU',
           lastname: anonymize ? 'ANONYME' : data.lastname || 'INCONNU',
-          dateBirth: anonymize
-            ? new Date('1970-01-01')
-            : data.dateBirth
-              ? new Date(data.dateBirth)
-              : new Date(),
+          ageRange: anonymize ? 'ANONYME' : data.ageRange || 'INCONNU',
           appointment: hasAppointment,
           consentement: isConsentGiven,
         };
