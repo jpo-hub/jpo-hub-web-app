@@ -1,0 +1,9 @@
+<label class="radio-label" [class.selected]="checked()">
+  <input
+    type="radio"
+    [checked]="checked()"
+    (change)="select()"
+    class="radio-input"
+  />
+  <span class="radio-text">{{ label() }}</span>
+</label>

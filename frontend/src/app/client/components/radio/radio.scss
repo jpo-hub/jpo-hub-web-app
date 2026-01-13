@@ -1,0 +1,14 @@
+.radio-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--color-text-black);
+
+  .radio-input {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+    accent-color: var(--color-text-black);
+  }
+}

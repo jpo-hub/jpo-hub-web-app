@@ -1,12 +1,15 @@
-import {Component, computed, effect, inject, signal} from '@angular/core';
-import {ProcessBar} from '../../components/process-bar/process-bar';
-import {DecimalPipe} from '@angular/common';
-import {Questions} from '../../../core/services/questions';
-import {Question} from '../../../core/models/question.model';
-import {toObservable, toSignal} from '@angular/core/rxjs-interop';
-import {ButtonPrimary} from '../../../shared/components/button-primary/button-primary';
-import {filter, switchMap} from 'rxjs/operators';
-import {CheckboxComponent} from '../../components/checkbox/checkbox';
+import { Component, computed, effect, inject, signal } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { filter, switchMap } from 'rxjs/operators';
+
+import { Questions } from '../../../core/services/questions';
+import { Question } from '../../../core/models/question.model';
+
+import { ProcessBar } from '../../components/process-bar/process-bar';
+import { ButtonPrimary } from '../../../shared/components/button-primary/button-primary';
+import { Radio } from '../../components/radio/radio';
+import { CheckboxComponent } from '../../components/checkbox/checkbox';
 
 @Component({
   selector: 'app-quiz',
@@ -14,26 +17,39 @@ import {CheckboxComponent} from '../../components/checkbox/checkbox';
     ProcessBar,
     DecimalPipe,
     ButtonPrimary,
+    Radio,
     CheckboxComponent
   ],
   templateUrl: './quiz.html',
   styleUrl: './quiz.scss',
 })
 export class Quiz {
-  private questionsServices = inject(Questions);
-  selectedAnswers = signal<{ [questionUid: string]: Question['reponses'] }>({});
 
-  cumulativeFilieres = signal<{ [key: string]: number }>({});
+  private questionsService = inject(Questions);
 
   currentQuestion = signal(0);
-  questions = toSignal(this.questionsServices.questions$, { initialValue: [] as Question[] });
+
+  /** Sélection radio */
+  selectedRadioUid = signal<string | null>(null);
+
+  /** Sélection checkbox */
+  selectedCheckboxUids = signal<string[]>([]);
+
+  /** Totaux cumulés */
+  cumulativeFilieres = signal<Record<string, number>>({});
+
+  questions = toSignal(
+    this.questionsService.questions$,
+    { initialValue: [] as Question[] }
+  );
 
   totalQuestions = computed(() => this.questions().length);
 
   progressPercent = computed(() => {
     const total = this.totalQuestions();
-    if (total === 0) return 0;
-    return Math.min(100, Math.max(0, ((this.currentQuestion() + 1) / total) * 100));
+    return total === 0
+      ? 0
+      : ((this.currentQuestion() + 1) / total) * 100;
   });
 
   currentQuestionData = computed(() => {
@@ -42,87 +58,106 @@ export class Quiz {
 
   currentQuestionDetails = toSignal(
     toObservable(this.currentQuestionData).pipe(
-      filter(question => question?.uid != null),
-      switchMap(question => this.questionsServices.getQuestionByUid(question.uid))
+      filter(q => !!q?.uid),
+      switchMap(q => this.questionsService.getQuestionByUid(q!.uid))
     ),
     { initialValue: null }
   );
 
-  onAnswerChange(answer: Question['reponses'][0], checked: boolean) {
-    const question = this.currentQuestionDetails();
-    if (!question) return;
-
-    const currentAnswers = this.selectedAnswers()[question.uid] || [];
-
-    if (checked) {
-      this.selectedAnswers.update(prev => ({
-        ...prev,
-        [question.uid]: [...currentAnswers, answer]
-      }));
-    } else {
-      this.selectedAnswers.update(prev => ({
-        ...prev,
-        [question.uid]: currentAnswers.filter(a => a.uid !== answer.uid)
-      }));
-    }
+  constructor() {
+    this.questionsService.loadQuestions();
+    effect(() => this.currentQuestionDetails());
   }
 
-  getCurrentQuestionFilieresTotal() {
+  /* =====================
+     RADIO
+     ===================== */
+
+  onRadioChange(answer: Question['reponses'][0]) {
+    this.selectedRadioUid.set(answer.uid);
+  }
+
+  isRadioSelected(uid: string): boolean {
+    return this.selectedRadioUid() === uid;
+  }
+
+  /* =====================
+     CHECKBOX
+     ===================== */
+
+  onCheckboxChange(answer: Question['reponses'][0], checked: boolean) {
+    this.selectedCheckboxUids.update(prev =>
+      checked
+        ? [...prev, answer.uid]
+        : prev.filter(uid => uid !== answer.uid)
+    );
+  }
+
+  isCheckboxChecked(uid: string): boolean {
+    return this.selectedCheckboxUids().includes(uid);
+  }
+
+  /* =====================
+     FILIÈRES
+     ===================== */
+
+  getCurrentQuestionFilieresTotal(): Record<string, number> {
     const question = this.currentQuestionDetails();
     if (!question) return {};
 
-    const answers = this.selectedAnswers()[question.uid] || [];
+    const totals: Record<string, number> = {};
 
-    const total: { [key: string]: number } = {};
+    const selectedAnswers = question.multiple
+      ? question.reponses.filter(r =>
+        this.selectedCheckboxUids().includes(r.uid)
+      )
+      : question.reponses.filter(r =>
+        r.uid === this.selectedRadioUid()
+      );
 
-    answers.forEach(answer => {
-      if (answer.filieres) {
-        for (const [key, value] of Object.entries(answer.filieres)) {
-          total[key] = (total[key] || 0) + value;
-        }
+    for (const answer of selectedAnswers) {
+      if (!answer.filieres) continue;
+
+      for (const [key, value] of Object.entries(answer.filieres)) {
+        totals[key] = (totals[key] || 0) + value;
       }
-    });
+    }
 
-    return total;
+    return totals;
   }
 
-  constructor() {
-    this.questionsServices.loadQuestions();
-
-    effect(() => {
-      this.currentQuestionData();
-      this.currentQuestionDetails();
-
-      console.log(this.currentQuestionDetails());
-    });
-  }
+  /* =====================
+     NAVIGATION
+     ===================== */
 
   nextQuestion() {
-    const question = this.currentQuestionDetails();
-    if (question) {
-      const currentTotals = this.getCurrentQuestionFilieresTotal();
+    const totals = this.getCurrentQuestionFilieresTotal();
 
-      this.cumulativeFilieres.update(prev => {
-        const newTotals = { ...prev };
-        for (const [key, value] of Object.entries(currentTotals)) {
-          newTotals[key] = (newTotals[key] || 0) + value;
-        }
-        return newTotals;
-      });
-
-      console.log(`Totaux cumulés après question ${question.uid}:`, this.cumulativeFilieres());
-    }
+    this.cumulativeFilieres.update(prev => {
+      const updated = { ...prev };
+      for (const [key, value] of Object.entries(totals)) {
+        updated[key] = (updated[key] || 0) + value;
+      }
+      return updated;
+    });
 
     if (this.currentQuestion() < this.totalQuestions() - 1) {
       this.currentQuestion.update(v => v + 1);
+      this.resetSelections();
     } else {
       this.finishQuiz();
     }
+
+    console.log(this.cumulativeFilieres());
+  }
+
+  resetSelections() {
+    this.selectedRadioUid.set(null);
+    this.selectedCheckboxUids.set([]);
   }
 
   finishQuiz() {
-    const totalQuiz = this.cumulativeFilieres();
-    console.log('Quiz terminé ! Totaux cumulés des filières:', totalQuiz);
+    console.log('Quiz terminé :', this.cumulativeFilieres());
   }
 
   protected readonly Object = Object;

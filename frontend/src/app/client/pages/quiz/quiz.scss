@@ -66,6 +66,20 @@
       width: 100%;
       gap: 15px;
     }
+
+    .quiz-page__answers-radio {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 15px;
+
+      .quiz-page__answer-radio {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
   }
 
   .quiz-navigation {

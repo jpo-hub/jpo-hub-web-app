@@ -1,48 +1,86 @@
 <section class="quiz-page">
   @if (questions().length > 0) {
+
     <div class="quiz-page__header">
-      <span>Quiz - Question {{ currentQuestion() + 1 }} / {{ totalQuestions() }}</span>
+      <span>
+        Quiz - Question {{ currentQuestion() + 1 }} / {{ totalQuestions() }}
+      </span>
+
       <div class="quiz-page__progress">
         <app-process-bar
           [value]="currentQuestion() + 1"
-          [max]="totalQuestions()"
-        ></app-process-bar>
+          [max]="totalQuestions()">
+        </app-process-bar>
 
         <div>{{ progressPercent() | number:'1.0-0' }}%</div>
       </div>
     </div>
+
     <div class="quiz-page__content">
+
       <div class="quiz-page__question">
-        <span>{{ currentQuestionData().label }}</span>
+        {{ currentQuestionData().label }}
       </div>
-      <div class="quiz-page-__answers">
+
+      <div class="quiz-page__answers">
+
         @if (currentQuestionData().multiple) {
-          <span class="quiz-page__consigne">Choisissez une ou plusieurs réponses :</span>
-        } @else {
-          <span class="quiz-page__consigne">Choisissez une réponse :</span>
-        }
-        <div>
+
+          <span class="quiz-page__consigne">
+            Choisissez une ou plusieurs réponses :
+          </span>
+
           @if (currentQuestionDetails(); as question) {
             @for (reponse of question.reponses; track reponse.uid) {
               <div class="quiz-page__answer">
                 <app-checkbox
                   [label]="reponse.label"
-                  (checkedChange)="onAnswerChange(reponse, $event)"
+                  [checked]="isCheckboxChecked(reponse.uid)"
+                  (checkedChange)="onCheckboxChange(reponse, $event)"
                 />
               </div>
             }
           }
-        </div>
+
+        } @else {
+
+          <span class="quiz-page__consigne">
+            Choisissez une réponse :
+          </span>
+
+          <div class="quiz-page__answers-radio">
+            @if (currentQuestionDetails(); as question) {
+              @for (reponse of question.reponses; track reponse.uid) {
+                <div class="quiz-page__answer-radio">
+                  <app-radio
+                    [label]="reponse.label"
+                    [checked]="isRadioSelected(reponse.uid)"
+                    (checkedChange)="onRadioChange(reponse)"
+                  />
+                </div>
+              }
+            }
+          </div>
+        }
       </div>
 
       <div class="quiz-navigation">
         @if (currentQuestion() < totalQuestions() - 1) {
-          <app-button-primary label="Question suivante" (click)="nextQuestion()"/>
+          <app-button-primary
+            label="Question suivante"
+            (click)="nextQuestion()">
+          </app-button-primary>
         } @else {
-          <app-button-primary label="Terminer le quiz" (click)="finishQuiz()" link="/quiz/results"/>
+          <app-button-primary
+            label="Terminer le quiz"
+            (click)="finishQuiz()"
+            link="/quiz/results">
+          </app-button-primary>
         }
       </div>
+
     </div>
+
   } @else {
     <div class="loading">Chargement des questions...</div>
   }

@@ -1,3 +1,6 @@
-<button class="quiz-answer-button" (click)="toggle()" [class.selected]="checked()">
-  {{ label }}
+<button
+  class="quiz-answer-button"
+  (click)="toggle()"
+  [class.selected]="checked()">
+  {{ label() }}
 </button>
