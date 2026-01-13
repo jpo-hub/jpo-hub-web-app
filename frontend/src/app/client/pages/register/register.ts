@@ -13,11 +13,12 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {ToastService} from '../../../core/services/toast';
 import {ErrorHandler} from '../../../core/services/error-handler';
 import {Router} from '@angular/router';
+import {SelectForm} from '../../components/select-form/select-form';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [InputForm, ReactiveFormsModule, ButtonPrimary, CheckboxForm, Chips],
+  imports: [InputForm, ReactiveFormsModule, ButtonPrimary, CheckboxForm, Chips, SelectForm],
   templateUrl: './register.html',
   styleUrls: ['./register.scss'],
 })
@@ -39,12 +40,18 @@ export class Register implements OnInit {
     lastname: new FormControl('', [Validators.required]),
     firstname: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
-    dateBirth: new FormControl('', [Validators.required]),
+    ageRange: new FormControl(''),
     consentement: new FormControl(false),
     filieres: new FormArray([])
   });
 
   selectedFilieres: string[] = [];
+  protected ageRanges: { label: string; value: string }[] = [
+    { label: 'Moins de 18 ans', value: 'under_18' },
+    { label: '18-22 ans', value: '18_22' },
+    { label: '23-29 ans', value: '23_29' },
+    { label: '30 ans et plus', value: '30_above' },
+  ];
 
   get filieresFormArray(): FormArray {
     return this.form.get('filieres') as FormArray;
@@ -83,7 +90,7 @@ export class Register implements OnInit {
         appointment: false,
         consentement: rawValue.consentement ?? false,
         filieres: filieresObj,
-        dateBirth: rawValue.dateBirth!,
+        ageRange: rawValue.ageRange || '',
       };
 
       await firstValueFrom(

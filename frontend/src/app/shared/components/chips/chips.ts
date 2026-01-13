@@ -3,7 +3,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-chips',
-  standalone: true, // important si tu veux l'utiliser dans un composant standalone
+  standalone: true,
   templateUrl: './chips.html',
   styleUrls: ['./chips.scss'],
   providers: [

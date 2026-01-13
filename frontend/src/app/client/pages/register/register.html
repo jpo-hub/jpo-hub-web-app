@@ -33,10 +33,11 @@
 
           <div class="form-group-global">
             <div class="form-group-double">
-              <app-input-form label="Date de naissance *" formControlName="dateBirth" type="date"/>
-              @if (form.get('dateBirth')?.touched && form.get('dateBirth')?.hasError('required')) {
-                <span class="error">La date de naissance est requise</span>
-              }
+              <span>Tranche d'âge</span>
+              <app-select-form
+                [options]="ageRanges"
+                formControlName="ageRange"
+              ></app-select-form>
             </div>
           </div>
         </div>
