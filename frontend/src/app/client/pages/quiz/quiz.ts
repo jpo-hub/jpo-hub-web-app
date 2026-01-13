@@ -1,15 +1,16 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
-import { DecimalPipe } from '@angular/common';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { filter, switchMap } from 'rxjs/operators';
+import {Component, computed, effect, inject, signal} from '@angular/core';
+import {DecimalPipe} from '@angular/common';
+import {toObservable, toSignal} from '@angular/core/rxjs-interop';
+import {filter, switchMap} from 'rxjs/operators';
 
-import { Questions } from '../../../core/services/questions';
-import { Question } from '../../../core/models/question.model';
+import {Questions} from '../../../core/services/questions';
+import {Question} from '../../../core/models/question.model';
 
-import { ProcessBar } from '../../components/process-bar/process-bar';
-import { ButtonPrimary } from '../../../shared/components/button-primary/button-primary';
-import { Radio } from '../../components/radio/radio';
-import { CheckboxComponent } from '../../components/checkbox/checkbox';
+import {ProcessBar} from '../../components/process-bar/process-bar';
+import {ButtonPrimary} from '../../../shared/components/button-primary/button-primary';
+import {Radio} from '../../components/radio/radio';
+import {CheckboxComponent} from '../../components/checkbox/checkbox';
+import {FormState} from '../../../core/services/form-state';
 
 @Component({
   selector: 'app-quiz',
@@ -26,6 +27,7 @@ import { CheckboxComponent } from '../../components/checkbox/checkbox';
 export class Quiz {
 
   private questionsService = inject(Questions);
+  private formState= inject(FormState);
 
   currentQuestion = signal(0);
 
@@ -158,6 +160,7 @@ export class Quiz {
 
   finishQuiz() {
     console.log('Quiz terminé :', this.cumulativeFilieres());
+    this.formState.removeCompleted()
   }
 
   protected readonly Object = Object;

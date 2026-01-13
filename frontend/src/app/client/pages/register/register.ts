@@ -14,6 +14,7 @@ import {ToastService} from '../../../core/services/toast';
 import {ErrorHandler} from '../../../core/services/error-handler';
 import {Router} from '@angular/router';
 import {SelectForm} from '../../components/select-form/select-form';
+import {FormState} from '../../../core/services/form-state';
 
 @Component({
   selector: 'app-register',
@@ -28,6 +29,7 @@ export class Register implements OnInit {
   private toastService = inject(ToastService);
   private errorHandler = inject(ErrorHandler);
   private router = inject(Router);
+  private formState= inject(FormState);
 
   filieres = toSignal(this.filieresService.filieres, { initialValue: [] });
   isLoading = signal(true);
@@ -99,7 +101,8 @@ export class Register implements OnInit {
 
       this.form.reset();
       this.filieresFormArray.clear();
-      await this.router.navigate(['/quiz']);
+      this.formState.setCompleted();
+      await this.router.navigate(['quiz']);
     } catch (err) {
       const error = err as HttpErrorResponse;
 
