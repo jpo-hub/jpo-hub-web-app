@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {catchError, tap, throwError} from 'rxjs';
 import {CandidatModel} from '../../core/models/candidat.model';
 import {StorageService} from '../../core/services/storage-service';
+import {Atelier} from '../../core/models/atelier.model';
 
 interface CandidatResponse {
   uid: string;
@@ -39,10 +40,20 @@ export class Candidat {
         console.log('Succès !', res)
       }),
       catchError(err => {
-        console.error('Code d\'erreur HTTP :', err.status);
-        console.error('Détails de l\'erreur :', err.error);
         return throwError(() => err);
       })
     );
+  }
+
+  public getScoring() {
+    const uid = this.storageService.getCandidatUid();
+    return this.http.get<Atelier[]>(`${this.apiUrl}/scoring/${uid}`).pipe(
+      tap(res => {
+        console.log(res)
+      }),
+      catchError(err => {
+        return throwError(() => err);
+      })
+    )
   }
 }
