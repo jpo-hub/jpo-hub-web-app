@@ -12,6 +12,9 @@ import { Radio } from '../../components/radio/radio';
 import { CheckboxComponent } from '../../components/checkbox/checkbox';
 import {FormState} from '../../../core/services/form-state';
 import {Router} from '@angular/router';
+import {StorageService} from '../../../core/services/storage-service';
+import {Candidat} from '../../service/candidat';
+import {firstValueFrom} from 'rxjs';
 
 @Component({
   selector: 'app-quiz',
@@ -30,6 +33,8 @@ export class Quiz {
   private questionsService = inject(Questions);
   private formState= inject(FormState);
   private router = inject(Router);
+  private localStorage = inject(StorageService);
+  private candiatService = inject(Candidat);
 
   currentQuestion = signal(0);
 
@@ -141,12 +146,25 @@ export class Quiz {
     this.selectedRadioUid.set(null);
     this.selectedCheckboxUids.set([]);
   }
-
-  finishQuiz() {
+  async finishQuiz() {
     console.log('Quiz terminé :', this.cumulativeFilieres());
-    this.formState.removeCompleted()
 
-    this.router.navigate(['/quiz/results']);
+    try {
+      console.log('UID récupéré :', this.localStorage.getCandidatUid());
+
+      const response = await firstValueFrom(
+        this.candiatService.submitScore(this.cumulativeFilieres())
+      );
+
+      console.log('Réponse du serveur après calcul :', response);
+
+      this.formState.removeCompleted();
+      this.localStorage.clearCandidatData();
+      await this.router.navigate(['/quiz/results']);
+
+    } catch (err) {
+      console.error('Erreur lors de l\'envoi des scores :', err);
+    }
   }
 
   protected readonly Object = Object;
