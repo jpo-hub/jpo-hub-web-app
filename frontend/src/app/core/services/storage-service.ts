@@ -1,20 +1,29 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StorageService {
+  private platformId = inject(PLATFORM_ID);
   private readonly CANDIDAT_UID_KEY = 'candidat_uid';
 
   public setCandidatUid(uid: string): void {
-    localStorage.setItem(this.CANDIDAT_UID_KEY, uid);
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem(this.CANDIDAT_UID_KEY, uid);
+    }
   }
 
   public getCandidatUid(): string | null {
-    return localStorage.getItem(this.CANDIDAT_UID_KEY);
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem(this.CANDIDAT_UID_KEY);
+    }
+    return null;
   }
 
   public clearCandidatData(): void {
-    localStorage.removeItem(this.CANDIDAT_UID_KEY);
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem(this.CANDIDAT_UID_KEY);
+    }
   }
 }
