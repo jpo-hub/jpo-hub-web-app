@@ -1,15 +1,15 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
-import { DecimalPipe } from '@angular/common';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { filter, switchMap } from 'rxjs/operators';
+import {Component, computed, effect, inject, signal} from '@angular/core';
+import {DecimalPipe} from '@angular/common';
+import {toObservable, toSignal} from '@angular/core/rxjs-interop';
+import {filter, switchMap} from 'rxjs/operators';
 
-import { Questions } from '../../../core/services/questions';
-import { Question } from '../../../core/models/question.model';
+import {Questions} from '../../../core/services/questions';
+import {Question} from '../../../core/models/question.model';
 
-import { ProcessBar } from '../../components/process-bar/process-bar';
-import { ButtonPrimary } from '../../../shared/components/button-primary/button-primary';
-import { Radio } from '../../components/radio/radio';
-import { CheckboxComponent } from '../../components/checkbox/checkbox';
+import {ProcessBar} from '../../components/process-bar/process-bar';
+import {ButtonPrimary} from '../../../shared/components/button-primary/button-primary';
+import {Radio} from '../../components/radio/radio';
+import {CheckboxComponent} from '../../components/checkbox/checkbox';
 import {FormState} from '../../../core/services/form-state';
 import {Router} from '@angular/router';
 import {StorageService} from '../../../core/services/storage-service';
@@ -147,19 +147,12 @@ export class Quiz {
     this.selectedCheckboxUids.set([]);
   }
   async finishQuiz() {
-    console.log('Quiz terminé :', this.cumulativeFilieres());
 
     try {
-      console.log('UID récupéré :', this.localStorage.getCandidatUid());
-
-      const response = await firstValueFrom(
+      await firstValueFrom(
         this.candiatService.submitScore(this.cumulativeFilieres())
       );
 
-      console.log('Réponse du serveur après calcul :', response);
-
-      this.formState.removeCompleted();
-      this.localStorage.clearCandidatData();
       await this.router.navigate(['/quiz/results']);
 
     } catch (err) {
