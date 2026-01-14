@@ -1,1 +1,24 @@
-<p>results works!</p>
+<div class="results-container">
+  <h1>Vos ateliers recommandés</h1>
+
+  <div class="ateliers-grid">
+    @for (atelier of scoringData(); track atelier.uid) {
+      <div class="atelier-card">
+        @if (atelier.imageUrl) {
+          <img [src]="atelier.imageUrl" [alt]="atelier.label" class="atelier-img">
+        }
+
+        <div class="atelier-content">
+          <h3>{{ atelier.label }}</h3>
+          <p>{{ atelier.description }}</p>
+
+          <a [href]="atelier.dockerfilelink" target="_blank" class="btn-link">
+            Voir le Dockerfile
+          </a>
+        </div>
+      </div>
+    } @empty {
+      <p>Aucun atelier trouvé pour votre profil.</p>
+    }
+  </div>
+</div>
