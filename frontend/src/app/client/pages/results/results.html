@@ -3,6 +3,7 @@
 
   <div class="ateliers-grid">
     @for (atelier of scoringData(); track atelier.uid) {
+      <app-card-atelier [atelier]="atelier"></app-card-atelier>
       <div class="atelier-card">
         @if (atelier.imageUrl) {
           <img [src]="atelier.imageUrl" [alt]="atelier.label" class="atelier-img">
