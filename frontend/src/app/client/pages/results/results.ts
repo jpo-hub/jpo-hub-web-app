@@ -1,5 +1,5 @@
 import {Component, effect, inject} from '@angular/core';
-import {Candidat} from '../../service/candidat';
+import {Candidat} from '../../services/candidat';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {CardAtelier} from '../../components/card-atelier/card-atelier';
 import {StorageService} from '../../../core/services/storage-service';

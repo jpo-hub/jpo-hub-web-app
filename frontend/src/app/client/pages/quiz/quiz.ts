@@ -13,7 +13,7 @@ import {CheckboxComponent} from '../../components/checkbox/checkbox';
 import {FormState} from '../../../core/services/form-state';
 import {Router} from '@angular/router';
 import {StorageService} from '../../../core/services/storage-service';
-import {Candidat} from '../../service/candidat';
+import {Candidat} from '../../services/candidat';
 import {firstValueFrom} from 'rxjs';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ToastService} from '../../../core/services/toast';
