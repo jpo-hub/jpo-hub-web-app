@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {environment} from '@environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {StorageService} from '../../core/services/storage-service';
+import {LoginResponse} from '../../core/models/login-response.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,10 @@ export class Admin {
   ) {}
 
   public login(email: string, password: string) {
-    return this.http.post(`${this.apiUrl}/auth/login`, {email, password});
+    return this.http.post<LoginResponse>(
+      `${this.apiUrl}/auth/login`,
+      { email, password },
+      { withCredentials: true }
+    );
   }
-
 }
