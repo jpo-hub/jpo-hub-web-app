@@ -358,9 +358,11 @@ async function main() {
 
   const password = await bcrypt.hash('securepassword123', roundsOfHashing);
 
-  await prisma.admin.upsert({
+  const admin = await prisma.admin.upsert({
     where: { email: 'kantin.fagniart@ynov.com' },
-    update: {},
+    update: {
+      password: password,
+    },
     create: {
       email: 'kantin.fagniart@ynov.com',
       firstname: 'Kantin',
@@ -369,6 +371,8 @@ async function main() {
       role: 'ADMIN',
     },
   });
+
+  console.log('✅ Questions seeded', admin);
 }
 
 main()
