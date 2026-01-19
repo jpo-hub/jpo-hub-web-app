@@ -6,9 +6,10 @@ import {
   Param,
   Patch,
   Post,
-  Query,
+  Query, UseGuards,
 } from '@nestjs/common';
 import {
+  ApiBearerAuth,
   ApiBody,
   ApiOperation,
   ApiParam,
@@ -22,6 +23,7 @@ import { UpdateQuestionDto } from './dto/update-question.dto';
 import { Question as QuestionModel } from '../../generated/prisma/models/Question';
 import { SwaggerResponses } from '../../common/constants/swagger.constants';
 import { QuestionEntity } from './entities/question.entity';
+import { JwtAuthGuard } from '../auth/strategy/jwt-auth.guard';
 
 @ApiTags('Questions')
 @Controller('questions')
@@ -37,6 +39,8 @@ export class QuestionsController {
   @ApiResponse(SwaggerResponses.Created('Question', QuestionEntity))
   @ApiResponse(SwaggerResponses.NotFound('Question'))
   @ApiResponse(SwaggerResponses.ErrorServer)
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   create(@Body() createQuestionDto: CreateQuestionDto): Promise<QuestionModel> {
     return this.questionsService.create(createQuestionDto);
   }
@@ -97,6 +101,8 @@ export class QuestionsController {
   @ApiResponse(SwaggerResponses.Updated('Question', QuestionEntity))
   @ApiResponse(SwaggerResponses.NotFound('Question'))
   @ApiResponse(SwaggerResponses.ErrorServer)
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   update(
     @Param('uid') uid: string,
     @Body() updateQuestionDto: UpdateQuestionDto,
@@ -113,6 +119,8 @@ export class QuestionsController {
   @ApiResponse(SwaggerResponses.Deleted('Question'))
   @ApiResponse(SwaggerResponses.NotFound('Question'))
   @ApiResponse(SwaggerResponses.ErrorServer)
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   remove(@Param('uid') uid: string) {
     return this.questionsService.remove(uid);
   }

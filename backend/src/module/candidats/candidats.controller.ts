@@ -6,7 +6,7 @@ import {
   Patch,
   Param,
   Delete,
-  Query,
+  Query, UseGuards,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -15,12 +15,14 @@ import {
   ApiParam,
   ApiBody,
   ApiQuery,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { CandidatsService } from './candidats.service';
 import { CreateCandidatDto } from './dto/create-candidat.dto';
 import { UpdateCandidatDto } from './dto/update-candidat.dto';
 import { SwaggerResponses } from '../../common/constants/swagger.constants';
 import { CandidatEntity } from './entities/candidat.entity';
+import { JwtAuthGuard } from '../auth/strategy/jwt-auth.guard';
 
 @ApiTags('Candidats')
 @Controller('candidats')
@@ -97,6 +99,8 @@ export class CandidatsController {
   @ApiResponse(SwaggerResponses.Updated('Candidat', CandidatEntity))
   @ApiResponse(SwaggerResponses.NotFound('Candidat'))
   @ApiResponse(SwaggerResponses.ErrorServer)
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   updateByUid(
     @Param('uid') uid: string,
     @Body() updateCandidatDto: UpdateCandidatDto,
@@ -117,6 +121,8 @@ export class CandidatsController {
   @ApiResponse(SwaggerResponses.Deleted('Candidat'))
   @ApiResponse(SwaggerResponses.NotFound('Candidat'))
   @ApiResponse(SwaggerResponses.ErrorServer)
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   remove(@Param('uid') uid: string) {
     return this.candidatsService.deleteCandidat({ uid: String(uid) });
   }

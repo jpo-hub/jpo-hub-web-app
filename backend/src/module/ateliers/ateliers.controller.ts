@@ -11,7 +11,7 @@ import {
   ParseFilePipe,
   FileTypeValidator,
   MaxFileSizeValidator,
-  Query,
+  Query, UseGuards,
 } from '@nestjs/common';
 import { AteliersService } from './ateliers.service';
 import { CreateAtelierDto } from './dto/create-atelier.dto';
@@ -25,6 +25,7 @@ import {
   ApiBody,
   ApiQuery,
   ApiConsumes,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import type { Express } from 'express';
 import { memoryStorage } from 'multer';
@@ -32,6 +33,7 @@ import { AtelierModel } from '../../generated/prisma/models/Atelier';
 import type { AtelierDetailsDto } from './ateliers.service';
 import { SwaggerResponses } from '../../common/constants/swagger.constants';
 import { AtelierEntity } from './entities/atelier.entity';
+import { JwtAuthGuard } from '../auth/strategy/jwt-auth.guard';
 
 @ApiTags('Ateliers')
 @Controller('ateliers')
@@ -50,6 +52,8 @@ export class AteliersController {
   @ApiResponse(SwaggerResponses.NotFound('Ressource'))
   @ApiResponse(SwaggerResponses.ErrorServer)
   @UseInterceptors(FileInterceptor('imageUrl', { storage: memoryStorage() }))
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   async create(
     @Body() createAtelierDto: CreateAtelierDto,
     @UploadedFile(
@@ -124,6 +128,8 @@ export class AteliersController {
   @ApiResponse(SwaggerResponses.NotFound('Atelier'))
   @ApiResponse(SwaggerResponses.ErrorServer)
   @UseInterceptors(FileInterceptor('imageUrl', { storage: memoryStorage() }))
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   async update(
     @Param('uid') uid: string,
     @Body() updateAtelierDto: UpdateAtelierDto,
@@ -150,6 +156,8 @@ export class AteliersController {
   @ApiResponse(SwaggerResponses.Deleted('Atelier'))
   @ApiResponse(SwaggerResponses.NotFound('Atelier'))
   @ApiResponse(SwaggerResponses.ErrorServer)
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   async remove(@Param('uid') uid: string): Promise<AtelierModel> {
     return await this.ateliersService.remove(uid);
   }

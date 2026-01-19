@@ -6,9 +6,10 @@ import {
   NotFoundException,
   Param,
   Patch,
-  Post,
+  Post, UseGuards,
 } from '@nestjs/common';
 import {
+  ApiBearerAuth,
   ApiBody,
   ApiOperation,
   ApiParam,
@@ -21,6 +22,7 @@ import { UpdateFiliereDto } from './dto/update-filiere.dto';
 import { Filiere as FiliereModel } from '../../generated/prisma/models/Filiere';
 import { SwaggerResponses } from '../../common/constants/swagger.constants';
 import { FiliereEntity } from './entities/filiere.entity';
+import { JwtAuthGuard } from '../auth/strategy/jwt-auth.guard';
 
 @ApiTags('Filieres')
 @Controller('filieres')
@@ -36,6 +38,8 @@ export class FilieresController {
   @ApiResponse(SwaggerResponses.Created('Filière', FiliereEntity))
   @ApiResponse(SwaggerResponses.NotFound('Filière'))
   @ApiResponse(SwaggerResponses.ErrorServer)
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   create(@Body() createFiliereDto: CreateFiliereDto): Promise<FiliereModel> {
     return this.filieresService.create(createFiliereDto);
   }
@@ -78,6 +82,8 @@ export class FilieresController {
   @ApiResponse(SwaggerResponses.Updated('Filière', FiliereEntity))
   @ApiResponse(SwaggerResponses.NotFound('Filière'))
   @ApiResponse(SwaggerResponses.ErrorServer)
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   update(
     @Param('uid') uid: string,
     @Body() updateFiliereDto: UpdateFiliereDto,
@@ -94,6 +100,8 @@ export class FilieresController {
   @ApiResponse(SwaggerResponses.Deleted('Filière'))
   @ApiResponse(SwaggerResponses.NotFound('Filière'))
   @ApiResponse(SwaggerResponses.ErrorServer)
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   remove(@Param('uid') uid: string): Promise<FiliereModel> {
     return this.filieresService.remove(uid);
   }
