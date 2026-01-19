@@ -10,6 +10,7 @@ import {ToastService} from '../../../core/services/toast';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ErrorHandler} from '../../../core/services/error-handler';
 import {firstValueFrom} from 'rxjs';
+import {CookieService} from '../../../core/services/cookie';
 
 @Component({
   selector: 'app-login',
@@ -26,6 +27,7 @@ export class Login {
   private adminService = inject(Admin);
   private toastService = inject(ToastService);
   private errorHandler = inject(ErrorHandler);
+  private cookieService = inject(CookieService);
 
   isLoading = signal(false);
 
@@ -49,7 +51,9 @@ export class Login {
     this.isLoading.set(true);
 
     try {
-      await firstValueFrom(this.adminService.login(email!, password!));
+      const response =await firstValueFrom(this.adminService.login(email!, password!));
+
+      this.cookieService.set('admin_token', response.accessToken, 1);
 
     } catch (err) {
       const error = err as HttpErrorResponse;
