@@ -1,12 +1,17 @@
-import {Injectable, signal} from '@angular/core';
+import {inject, Injectable, signal} from '@angular/core';
+import {StorageService} from '../../core/services/storage-service';
 
 @Injectable({ providedIn: 'root' })
 export class ModalService {
+  private storageService = inject(StorageService)
+
   isVisible = signal(false);
-  selectedAtelier = signal<{label: string, code: number} | null>(null);
+  selectedAtelier = signal<{label: string, code: string} | null>(null);
+
 
   open(label: string) {
-    this.selectedAtelier.set({ label, code: Math.floor(1000 + Math.random() * 9000) });
+    const code = this.storageService.getCandidatCode() ?? 'AUCUN_CODE';
+    this.selectedAtelier.set({ label, code });
     this.isVisible.set(true);
   }
 
