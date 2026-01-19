@@ -10,6 +10,7 @@ import {ErrorHandler} from '../../core/services/error-handler';
 
 interface CandidatResponse {
   uid: string;
+  codeCandidat: number;
 }
 
 @Injectable({
@@ -30,6 +31,9 @@ export class Candidat {
       tap(response => {
         if (response.uid) {
           this.storageService.setCandidatUid(response.uid);
+        }
+        if (response.codeCandidat) {
+          this.storageService.setCandidatCode(response.codeCandidat.toString());
         }
       })
     );
