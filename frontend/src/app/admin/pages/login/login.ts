@@ -5,7 +5,7 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {ynovEmailValidator} from '../../../core/validators/ynov-validators';
 import {Admin} from '../../services/admin';
 import {toSignal} from '@angular/core/rxjs-interop';
-import {map, startWith} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {ToastService} from '../../../core/services/toast';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ErrorHandler} from '../../../core/services/error-handler';
@@ -49,8 +49,7 @@ export class Login {
     this.isLoading.set(true);
 
     try {
-      const response = await firstValueFrom(this.adminService.login(email!, password!));
-      console.log('Connexion réussie', response);
+      await firstValueFrom(this.adminService.login(email!, password!));
 
     } catch (err) {
       const error = err as HttpErrorResponse;
