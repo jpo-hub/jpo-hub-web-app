@@ -20,4 +20,8 @@ export class Admin {
       { withCredentials: true }
     );
   }
+
+  public checkToken() {
+    return this.http.get(`${this.apiUrl}/auth/me`);
+  }
 }
