@@ -4,7 +4,7 @@ import { AuthController } from './auth.controller';
 import { PassportModule } from '@nestjs/passport';
 import { PrismaModule } from '../../prisma/prisma.module';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy } from './jwt.strategy';
+import { JwtStrategy } from './strategy/jwt.strategy';
 import { AdminsModule } from '../admins/admins.module';
 
 export const jwtSecret = 'zjP9h6ZI5LoSKCRj';
