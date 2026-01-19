@@ -9,10 +9,12 @@ import {Login} from './admin/pages/login/login';
 
 export const routes: Routes = [
   { path: '', component: Home },
+
   { path: 'quiz', component: Quiz, canActivate: [quizGuard] },
   { path: 'quiz/register', component: Register },
   { path: 'quiz/results', component: Results },
 
   { path: 'admin/login', component: Login},
+
   { path: '**', component: NotFound }
 ];
