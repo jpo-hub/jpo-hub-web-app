@@ -1,8 +1,6 @@
 import {
   BadRequestException,
   Injectable,
-  NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { AuthEntity } from './entity/auth.entity';
 import { JwtService } from '@nestjs/jwt';
@@ -33,7 +31,7 @@ export class AuthService {
     }
 
     return {
-      accessToken: this.jwtService.sign({ userUid: admin.uid }),
+      accessToken: this.jwtService.sign({ adminUid: admin.uid }),
     };
   }
 }
