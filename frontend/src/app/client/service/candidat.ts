@@ -1,10 +1,12 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {environment} from '@environments/environment';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {catchError, tap, throwError} from 'rxjs';
 import {CandidatModel} from '../../core/models/candidat.model';
 import {StorageService} from '../../core/services/storage-service';
 import {Atelier} from '../../core/models/atelier.model';
+import {ToastService} from '../../core/services/toast';
+import {ErrorHandler} from '../../core/services/error-handler';
 
 interface CandidatResponse {
   uid: string;
@@ -15,6 +17,8 @@ interface CandidatResponse {
 })
 export class Candidat {
   private apiUrl = environment.apiURL;
+  private toastService = inject(ToastService);
+  private errorHandler = inject(ErrorHandler);
 
   constructor(
     private http: HttpClient,
@@ -48,10 +52,11 @@ export class Candidat {
   public getScoring() {
     const uid = this.storageService.getCandidatUid();
     return this.http.get<Atelier[]>(`${this.apiUrl}/scoring/${uid}`).pipe(
-      tap(res => {
-        console.log(res)
-      }),
       catchError(err => {
+        const error = err as HttpErrorResponse;
+
+        const message = this.errorHandler.getErrorMessage(error.error.code);
+        this.toastService.show(message, 'danger');
         return throwError(() => err);
       })
     )
