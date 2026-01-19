@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject, Input} from '@angular/core';
 
 @Component({
   selector: 'app-modal-participation',
@@ -7,5 +7,12 @@ import { Component } from '@angular/core';
   styleUrl: './modal-participation.scss',
 })
 export class ModalParticipation {
+  @Input() codeParticipation!: number;
+  @Input() labelAtelier!: string;
+  @Input() isVisible!: boolean;
+  @Input() onClose!: () => void;
 
+  onCloseModal() {
+    this.onClose();
+  }
 }

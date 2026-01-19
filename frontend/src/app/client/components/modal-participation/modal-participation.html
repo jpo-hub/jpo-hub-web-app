@@ -1,1 +1,15 @@
-<p>modal-participation works!</p>
+@if (isVisible) {
+  <div class="modal-overlay" (click)="onCloseModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <section>
+        <h1>Participation à l'atelier</h1>
+        <div class="info-container">
+          <p><strong>Atelier :</strong> {{ labelAtelier }}</p>
+          <p><strong>Code :</strong> {{ codeParticipation }}</p>
+        </div>
+
+        <button class="btn-close" (click)="onCloseModal()">Fermer</button>
+      </section>
+    </div>
+  </div>
+}
