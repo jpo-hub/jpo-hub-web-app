@@ -1,0 +1,33 @@
+section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100vh;
+
+  .login {
+    width: 40rem;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 2rem;
+
+    .title {
+      text-align: center;
+    }
+
+    .form-container {
+      form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 1rem;
+
+        app-button-primary {
+          text-align: center;
+        }
+      }
+    }
+  }
+}
