@@ -110,8 +110,12 @@ model Atelier_Candidat {
 
 model Admin {
   uid       String @id @default(uuid())
-  fristname String
+  firstname String
+  password  String
   lastname  String
   role      String
   email     String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

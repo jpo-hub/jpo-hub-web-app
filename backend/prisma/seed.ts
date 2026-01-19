@@ -1,12 +1,15 @@
 import 'dotenv/config';
 import { PrismaClient } from '../src/generated/prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
+import * as bcrypt from 'bcrypt';
 
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL as string,
 });
 
 const prisma = new PrismaClient({ adapter });
+
+const roundsOfHashing = 10;
 
 async function main() {
   // ----------------------------
@@ -352,6 +355,20 @@ async function main() {
   });
 
   console.log('✅ Questions seeded');
+
+  const password = await bcrypt.hash('securepassword123', roundsOfHashing);
+
+  await prisma.admin.upsert({
+    where: { email: 'kantin.fagniart@ynov.com' },
+    update: {},
+    create: {
+      email: 'kantin.fagniart@ynov.com',
+      firstname: 'Kantin',
+      lastname: 'Fagniart',
+      password: password,
+      role: 'ADMIN',
+    },
+  });
 }
 
 main()

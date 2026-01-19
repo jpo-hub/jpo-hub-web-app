@@ -84,7 +84,8 @@ CREATE TABLE "Atelier_Candidat" (
 -- CreateTable
 CREATE TABLE "Admin" (
     "uid" TEXT NOT NULL,
-    "fristname" TEXT NOT NULL,
+    "firstname" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
     "lastname" TEXT NOT NULL,
     "role" TEXT NOT NULL,
     "email" TEXT NOT NULL,

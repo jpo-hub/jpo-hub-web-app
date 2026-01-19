@@ -26,7 +26,8 @@ export type AggregateAdmin = {
 
 export type AdminMinAggregateOutputType = {
   uid: string | null
-  fristname: string | null
+  firstname: string | null
+  password: string | null
   lastname: string | null
   role: string | null
   email: string | null
@@ -34,7 +35,8 @@ export type AdminMinAggregateOutputType = {
 
 export type AdminMaxAggregateOutputType = {
   uid: string | null
-  fristname: string | null
+  firstname: string | null
+  password: string | null
   lastname: string | null
   role: string | null
   email: string | null
@@ -42,7 +44,8 @@ export type AdminMaxAggregateOutputType = {
 
 export type AdminCountAggregateOutputType = {
   uid: number
-  fristname: number
+  firstname: number
+  password: number
   lastname: number
   role: number
   email: number
@@ -52,7 +55,8 @@ export type AdminCountAggregateOutputType = {
 
 export type AdminMinAggregateInputType = {
   uid?: true
-  fristname?: true
+  firstname?: true
+  password?: true
   lastname?: true
   role?: true
   email?: true
@@ -60,7 +64,8 @@ export type AdminMinAggregateInputType = {
 
 export type AdminMaxAggregateInputType = {
   uid?: true
-  fristname?: true
+  firstname?: true
+  password?: true
   lastname?: true
   role?: true
   email?: true
@@ -68,7 +73,8 @@ export type AdminMaxAggregateInputType = {
 
 export type AdminCountAggregateInputType = {
   uid?: true
-  fristname?: true
+  firstname?: true
+  password?: true
   lastname?: true
   role?: true
   email?: true
@@ -149,7 +155,8 @@ export type AdminGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 
 export type AdminGroupByOutputType = {
   uid: string
-  fristname: string
+  firstname: string
+  password: string
   lastname: string
   role: string
   email: string
@@ -178,7 +185,8 @@ export type AdminWhereInput = {
   OR?: Prisma.AdminWhereInput[]
   NOT?: Prisma.AdminWhereInput | Prisma.AdminWhereInput[]
   uid?: Prisma.StringFilter<"Admin"> | string
-  fristname?: Prisma.StringFilter<"Admin"> | string
+  firstname?: Prisma.StringFilter<"Admin"> | string
+  password?: Prisma.StringFilter<"Admin"> | string
   lastname?: Prisma.StringFilter<"Admin"> | string
   role?: Prisma.StringFilter<"Admin"> | string
   email?: Prisma.StringFilter<"Admin"> | string
@@ -186,7 +194,8 @@ export type AdminWhereInput = {
 
 export type AdminOrderByWithRelationInput = {
   uid?: Prisma.SortOrder
-  fristname?: Prisma.SortOrder
+  firstname?: Prisma.SortOrder
+  password?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
   role?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -198,14 +207,16 @@ export type AdminWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.AdminWhereInput | Prisma.AdminWhereInput[]
   OR?: Prisma.AdminWhereInput[]
   NOT?: Prisma.AdminWhereInput | Prisma.AdminWhereInput[]
-  fristname?: Prisma.StringFilter<"Admin"> | string
+  firstname?: Prisma.StringFilter<"Admin"> | string
+  password?: Prisma.StringFilter<"Admin"> | string
   lastname?: Prisma.StringFilter<"Admin"> | string
   role?: Prisma.StringFilter<"Admin"> | string
 }, "uid" | "email">
 
 export type AdminOrderByWithAggregationInput = {
   uid?: Prisma.SortOrder
-  fristname?: Prisma.SortOrder
+  firstname?: Prisma.SortOrder
+  password?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
   role?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -219,7 +230,8 @@ export type AdminScalarWhereWithAggregatesInput = {
   OR?: Prisma.AdminScalarWhereWithAggregatesInput[]
   NOT?: Prisma.AdminScalarWhereWithAggregatesInput | Prisma.AdminScalarWhereWithAggregatesInput[]
   uid?: Prisma.StringWithAggregatesFilter<"Admin"> | string
-  fristname?: Prisma.StringWithAggregatesFilter<"Admin"> | string
+  firstname?: Prisma.StringWithAggregatesFilter<"Admin"> | string
+  password?: Prisma.StringWithAggregatesFilter<"Admin"> | string
   lastname?: Prisma.StringWithAggregatesFilter<"Admin"> | string
   role?: Prisma.StringWithAggregatesFilter<"Admin"> | string
   email?: Prisma.StringWithAggregatesFilter<"Admin"> | string
@@ -227,7 +239,8 @@ export type AdminScalarWhereWithAggregatesInput = {
 
 export type AdminCreateInput = {
   uid?: string
-  fristname: string
+  firstname: string
+  password: string
   lastname: string
   role: string
   email: string
@@ -235,7 +248,8 @@ export type AdminCreateInput = {
 
 export type AdminUncheckedCreateInput = {
   uid?: string
-  fristname: string
+  firstname: string
+  password: string
   lastname: string
   role: string
   email: string
@@ -243,7 +257,8 @@ export type AdminUncheckedCreateInput = {
 
 export type AdminUpdateInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string
-  fristname?: Prisma.StringFieldUpdateOperationsInput | string
+  firstname?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -251,7 +266,8 @@ export type AdminUpdateInput = {
 
 export type AdminUncheckedUpdateInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string
-  fristname?: Prisma.StringFieldUpdateOperationsInput | string
+  firstname?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -259,7 +275,8 @@ export type AdminUncheckedUpdateInput = {
 
 export type AdminCreateManyInput = {
   uid?: string
-  fristname: string
+  firstname: string
+  password: string
   lastname: string
   role: string
   email: string
@@ -267,7 +284,8 @@ export type AdminCreateManyInput = {
 
 export type AdminUpdateManyMutationInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string
-  fristname?: Prisma.StringFieldUpdateOperationsInput | string
+  firstname?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -275,7 +293,8 @@ export type AdminUpdateManyMutationInput = {
 
 export type AdminUncheckedUpdateManyInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string
-  fristname?: Prisma.StringFieldUpdateOperationsInput | string
+  firstname?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -283,7 +302,8 @@ export type AdminUncheckedUpdateManyInput = {
 
 export type AdminCountOrderByAggregateInput = {
   uid?: Prisma.SortOrder
-  fristname?: Prisma.SortOrder
+  firstname?: Prisma.SortOrder
+  password?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
   role?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -291,7 +311,8 @@ export type AdminCountOrderByAggregateInput = {
 
 export type AdminMaxOrderByAggregateInput = {
   uid?: Prisma.SortOrder
-  fristname?: Prisma.SortOrder
+  firstname?: Prisma.SortOrder
+  password?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
   role?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -299,7 +320,8 @@ export type AdminMaxOrderByAggregateInput = {
 
 export type AdminMinOrderByAggregateInput = {
   uid?: Prisma.SortOrder
-  fristname?: Prisma.SortOrder
+  firstname?: Prisma.SortOrder
+  password?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
   role?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -309,7 +331,8 @@ export type AdminMinOrderByAggregateInput = {
 
 export type AdminSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   uid?: boolean
-  fristname?: boolean
+  firstname?: boolean
+  password?: boolean
   lastname?: boolean
   role?: boolean
   email?: boolean
@@ -317,7 +340,8 @@ export type AdminSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
 
 export type AdminSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   uid?: boolean
-  fristname?: boolean
+  firstname?: boolean
+  password?: boolean
   lastname?: boolean
   role?: boolean
   email?: boolean
@@ -325,7 +349,8 @@ export type AdminSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 
 export type AdminSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   uid?: boolean
-  fristname?: boolean
+  firstname?: boolean
+  password?: boolean
   lastname?: boolean
   role?: boolean
   email?: boolean
@@ -333,20 +358,22 @@ export type AdminSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 
 export type AdminSelectScalar = {
   uid?: boolean
-  fristname?: boolean
+  firstname?: boolean
+  password?: boolean
   lastname?: boolean
   role?: boolean
   email?: boolean
 }
 
-export type AdminOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"uid" | "fristname" | "lastname" | "role" | "email", ExtArgs["result"]["admin"]>
+export type AdminOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"uid" | "firstname" | "password" | "lastname" | "role" | "email", ExtArgs["result"]["admin"]>
 
 export type $AdminPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Admin"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     uid: string
-    fristname: string
+    firstname: string
+    password: string
     lastname: string
     role: string
     email: string
@@ -774,7 +801,8 @@ export interface Prisma__AdminClient<T, Null = never, ExtArgs extends runtime.Ty
  */
 export interface AdminFieldRefs {
   readonly uid: Prisma.FieldRef<"Admin", 'String'>
-  readonly fristname: Prisma.FieldRef<"Admin", 'String'>
+  readonly firstname: Prisma.FieldRef<"Admin", 'String'>
+  readonly password: Prisma.FieldRef<"Admin", 'String'>
   readonly lastname: Prisma.FieldRef<"Admin", 'String'>
   readonly role: Prisma.FieldRef<"Admin", 'String'>
   readonly email: Prisma.FieldRef<"Admin", 'String'>

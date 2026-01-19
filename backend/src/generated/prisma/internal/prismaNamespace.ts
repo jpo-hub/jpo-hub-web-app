@@ -1285,7 +1285,8 @@ export type Atelier_CandidatScalarFieldEnum = (typeof Atelier_CandidatScalarFiel
 
 export const AdminScalarFieldEnum = {
   uid: 'uid',
-  fristname: 'fristname',
+  firstname: 'firstname',
+  password: 'password',
   lastname: 'lastname',
   role: 'role',
   email: 'email'
