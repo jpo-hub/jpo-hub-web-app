@@ -1,6 +1,10 @@
 <div class="results-container">
   <div class="results-content">
-    <h1>Merci X !</h1>
+    @if (candidatName) {
+      <h1>Merci {{ candidatName | titlecase }} !</h1>
+    } @else {
+      <h1>Merci pour votre participation !</h1>
+    }
     <span>À partir de vos réponses, nous vous avons choisi des ateliers qui semble correspondre le mieux à votre profil. Vous pouvez désormais accéder aux différents ateliers qui vous sont proposés</span>
   </div>
 
