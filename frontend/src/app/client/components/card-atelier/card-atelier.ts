@@ -1,8 +1,11 @@
 import { Component, Input} from '@angular/core';
+import {ButtonPrimary} from '../../../shared/components/button-primary/button-primary';
 
 @Component({
   selector: 'app-card-atelier',
-  imports: [],
+  imports: [
+    ButtonPrimary
+  ],
   templateUrl: './card-atelier.html',
   styleUrl: './card-atelier.scss',
 })

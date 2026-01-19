@@ -1,25 +1,18 @@
 <div class="results-container">
-  <h1>Vos ateliers recommandés</h1>
+  <div class="results-content">
+    <h1>Merci X !</h1>
+    <span>À partir de vos réponses, nous vous avons choisi des ateliers qui semble correspondre le mieux à votre profil. Vous pouvez désormais accéder aux différents ateliers qui vous sont proposés</span>
+  </div>
 
   <div class="ateliers-grid">
-    @for (atelier of scoringData(); track atelier.uid) {
-      <app-card-atelier [atelier]="atelier"></app-card-atelier>
-      <div class="atelier-card">
-        @if (atelier.imageUrl) {
-          <img [src]="atelier.imageUrl" [alt]="atelier.label" class="atelier-img">
-        }
-
-        <div class="atelier-content">
-          <h3>{{ atelier.label }}</h3>
-          <p>{{ atelier.description }}</p>
-
-          <a [href]="atelier.dockerfilelink" target="_blank" class="btn-link">
-            Voir le Dockerfile
-          </a>
-        </div>
-      </div>
-    } @empty {
-      <p>Aucun atelier trouvé pour votre profil.</p>
-    }
+    <h2>Projets d’étudiants pour toi !</h2>
+    <div class="ateliers-grid__container">
+      @for (atelier of scoringData(); track atelier.uid) {
+        <app-card-atelier [label]="atelier.label" [imageUrl]="atelier.imageUrl" [description]="atelier.description"
+                          [dockerfilelink]="atelier.dockerfilelink"></app-card-atelier>
+      } @empty {
+        <p>Aucun atelier trouvé pour votre profil.</p>
+      }
+    </div>
   </div>
 </div>

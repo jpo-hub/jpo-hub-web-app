@@ -1,0 +1,72 @@
+.card-atelier {
+  display: flex;
+  flex-direction: column;
+
+  // TAILLE FIXE - Toutes les cartes feront exactement ces dimensions
+  width: 350px;
+  height: 500px;
+
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--drop-shadow, 0 4px 10px rgba(0,0,0,0.1));
+  transition: transform 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-5px);
+    .atelier-img { transform: scale(1.05); }
+  }
+
+  .img-wrapper {
+    height: 200px; // Taille fixe pour l'image
+    flex-shrink: 0;
+    overflow: hidden;
+
+    .atelier-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+  }
+
+  .content {
+    padding: 1.25rem;
+    flex-grow: 1; // Remplit l'espace entre l'image et le bouton
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    overflow: hidden; // Sécurité pour le texte
+
+    h2 {
+      margin: 0;
+      font-size: 1.2rem;
+      // Coupe le titre s'il est trop long (2 lignes max)
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    p {
+      margin: 0;
+      color: #666;
+      font-size: 0.9rem;
+      // Coupe la description si elle dépasse (4 lignes max)
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+
+  .card-footer {
+    padding: 1.25rem;
+    margin-top: auto; // Le bouton sera TOUJOURS au même endroit en bas
+
+    app-button-primary {
+      width: 100%;
+    }
+  }
+}

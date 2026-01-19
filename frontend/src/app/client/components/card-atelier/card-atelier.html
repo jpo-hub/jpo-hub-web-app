@@ -1,1 +1,14 @@
-<p>card-atelier works!</p>
+<div class="card-atelier">
+  <div class="img-wrapper">
+    <img [src]="imageUrl" [alt]="label" class="atelier-img">
+  </div>
+
+  <div class="content">
+    <h2>{{ label }}</h2>
+    <p>{{ description }}</p>
+  </div>
+
+  <div class="card-footer">
+    <app-button-primary label="Participer"/>
+  </div>
+</div>
