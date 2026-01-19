@@ -19,10 +19,7 @@ export class Results {
 
   constructor() {
     effect(() => {
-      const data = this.scoringData();
-      if (data) {
-        console.log('Signal mis à jour avec les données du back :', data);
-      }
+      this.scoringData();
     });
   }
 }

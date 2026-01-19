@@ -15,6 +15,9 @@ import {Router} from '@angular/router';
 import {StorageService} from '../../../core/services/storage-service';
 import {Candidat} from '../../service/candidat';
 import {firstValueFrom} from 'rxjs';
+import {HttpErrorResponse} from '@angular/common/http';
+import {ToastService} from '../../../core/services/toast';
+import {ErrorHandler} from '../../../core/services/error-handler';
 
 @Component({
   selector: 'app-quiz',
@@ -31,9 +34,9 @@ import {firstValueFrom} from 'rxjs';
 export class Quiz {
 
   private questionsService = inject(Questions);
-  private formState= inject(FormState);
   private router = inject(Router);
-  private localStorage = inject(StorageService);
+  private toastService = inject(ToastService);
+  private errorHandler = inject(ErrorHandler);
   private candiatService = inject(Candidat);
 
   currentQuestion = signal(0);
@@ -156,7 +159,10 @@ export class Quiz {
       await this.router.navigate(['/quiz/results']);
 
     } catch (err) {
-      console.error('Erreur lors de l\'envoi des scores :', err);
+      const error = err as HttpErrorResponse;
+
+      const message = this.errorHandler.getErrorMessage(error.error.code);
+      this.toastService.show(message, 'danger');
     }
   }
 
