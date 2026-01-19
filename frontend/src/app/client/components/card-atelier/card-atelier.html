@@ -1,6 +1,9 @@
 <div class="card-atelier">
   <div class="img-wrapper">
-    <img [src]="imageUrl" [alt]="label" class="atelier-img">
+    <img [src]="imageUrl"
+         [alt]="label"
+         class="atelier-img"
+         (error)="handleImageError($event)">
   </div>
 
   <div class="content">

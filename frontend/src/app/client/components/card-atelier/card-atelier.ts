@@ -15,4 +15,13 @@ export class CardAtelier {
   @Input() description!: string;
   @Input() imageUrl!: string;
   @Input() dockerfilelink!: string;
+
+  imageError = false;
+
+  handleImageError(event: Event) {
+    const imgElement = event.target as HTMLImageElement;
+    if (imgElement) {
+      imgElement.src = 'assets/images/default-placeholder.png';
+    }
+  }
 }
