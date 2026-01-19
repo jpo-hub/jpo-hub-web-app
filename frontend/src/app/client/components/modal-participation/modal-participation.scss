@@ -20,31 +20,39 @@
   max-width: 450px;
   text-align: center;
 
-  h1 {
-    margin-top: 0;
-    color: #333;
-  }
+  section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 
-  .info-container {
-    margin: 1.5rem 0;
-    padding: 1rem;
-    background: #f9f9f9;
-    border-radius: 8px;
-    text-align: left;
-  }
+    .header-modal {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-  .btn-close {
-    padding: 0.6rem 1.5rem;
-    background: #e11d48; // Un rouge sympa
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background 0.2s;
+    .code-container {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      span:first-child {
+        font-size: 1rem;
+        font-weight: lighter;
+        color: var(--color-text-gray);
+      }
 
-    &:hover {
-      background: #be123c;
+      span:last-child {
+        font-size: 1.8rem;
+        font-weight: bold;
+      }
+    }
+
+    .info-container {
+      padding: 1rem;
+      background: #f9f9f9;
+      border-radius: 8px;
+      text-align: left;
+      border: 1px solid var(--color-primary);
     }
   }
 }

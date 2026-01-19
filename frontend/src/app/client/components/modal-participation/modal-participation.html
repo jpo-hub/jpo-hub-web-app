@@ -2,13 +2,21 @@
   <div class="modal-overlay" (click)="onCloseModal()">
     <div class="modal-content" (click)="$event.stopPropagation()">
       <section>
-        <h1>Participation à l'atelier</h1>
-        <div class="info-container">
-          <p><strong>Atelier :</strong> {{ labelAtelier }}</p>
-          <p><strong>Code :</strong> {{ codeParticipation }}</p>
+        <div class="header-modal">
+          <h1>Participation à l'atelier</h1>
         </div>
 
-        <button class="btn-close" (click)="onCloseModal()">Fermer</button>
+        <div class="code-container">
+          <span>Voici votre code de participation : </span>
+          <span>{{ codeParticipation }}</span>
+        </div>
+
+        <div class="info-container">
+          <p>Présente ce code à l’équipe de l’atelier <strong>{{ labelAtelier }}</strong> afin de validé ta
+            participation </p>
+        </div>
+
+        <app-button-primary label="Fermer" (click)="onCloseModal()"/>
       </section>
     </div>
   </div>
