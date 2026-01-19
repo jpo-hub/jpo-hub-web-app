@@ -32,4 +32,8 @@ export class CookieService {
     }
     return null;
   }
+
+  public erase(name: string): void {
+    this.set(name, '', -1);
+  }
 }

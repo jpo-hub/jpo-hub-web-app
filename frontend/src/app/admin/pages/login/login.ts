@@ -53,6 +53,8 @@ export class Login {
     try {
       const response =await firstValueFrom(this.adminService.login(email!, password!));
 
+      console.log(response);
+
       this.cookieService.set('admin_token', response.accessToken, 1);
 
     } catch (err) {

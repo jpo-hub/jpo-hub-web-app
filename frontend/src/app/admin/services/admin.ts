@@ -22,6 +22,6 @@ export class Admin {
   }
 
   public checkToken() {
-    return this.http.get(`${this.apiUrl}/auth/me`);
+    return this.http.get(`${this.apiUrl}/auth/me`, { withCredentials: true });
   }
 }
