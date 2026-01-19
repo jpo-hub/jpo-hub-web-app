@@ -1,5 +1,6 @@
-import { Component, Input} from '@angular/core';
+import { Component, inject, Input} from '@angular/core';
 import {ButtonPrimary} from '../../../shared/components/button-primary/button-primary';
+import {ModalService} from '../../services/modal';
 
 @Component({
   selector: 'app-card-atelier',
@@ -16,6 +17,8 @@ export class CardAtelier {
   @Input() imageUrl!: string;
   @Input() dockerfilelink!: string;
 
+  private modalService = inject(ModalService);
+
   imageError = false;
 
   handleImageError(event: Event) {
@@ -23,5 +26,9 @@ export class CardAtelier {
     if (imgElement) {
       imgElement.src = 'assets/images/default-placeholder.png';
     }
+  }
+
+  onParticiper() {
+    this.modalService.open(this.label);
   }
 }
