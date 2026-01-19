@@ -21,8 +21,6 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'admin-jwt') {
       throw new UnauthorizedException(ERROR.UnauthorizedAccess);
     }
 
-    console.log('Admin trouvé dans la stratégie:', admin);
-
     return admin;
   }
 }
