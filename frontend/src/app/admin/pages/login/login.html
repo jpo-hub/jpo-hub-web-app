@@ -1,1 +1,14 @@
-<p>login works!</p>
+<section>
+  <div>
+    <h1>Connexion Admin</h1>
+    <span>Accédez au tableau de bord d'administration</span>
+  </div>
+  <div>
+    <form [formGroup]="form">
+      <app-input-form label="Email *" formControlName="email"/>
+      <app-input-form label="Mot de passe *" formControlName="password"/>
+
+      <app-button-primary label="Connexion" type="submit" [disabled]="form.invalid" (click)="onSubmit()"/>
+    </form>
+  </div>
+</section>
