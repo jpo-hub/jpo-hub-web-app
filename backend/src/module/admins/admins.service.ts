@@ -1,8 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
 import { PrismaService } from '../../prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
+import { Prisma } from '../../generated/prisma/client';
+import { ERROR } from '../../common/constants/error.constants';
 
 export const roundsOfHashing = 10;
 
@@ -11,38 +19,107 @@ export class AdminsService {
   constructor(private prisma: PrismaService) {}
 
   async create(createAdminDto: CreateAdminDto) {
-    createAdminDto.password = await bcrypt.hash(
-      createAdminDto.password,
-      roundsOfHashing,
-    );
+    try {
+      createAdminDto.password = await bcrypt.hash(
+        createAdminDto.password,
+        roundsOfHashing,
+      );
 
-    return this.prisma.admin.create({
-      data: createAdminDto,
-    });
+      return this.prisma.admin.create({
+        data: createAdminDto,
+      });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        switch (error.code) {
+          case 'P2025':
+            throw new NotFoundException(ERROR.ResourceNotFound);
+          case 'P2002':
+            throw new ConflictException(ERROR.AlreadyExists);
+          default:
+            throw new BadRequestException(ERROR.InvalidInputFormat);
+        }
+      }
+
+      throw new InternalServerErrorException(ERROR.ConflictError);
+    }
   }
 
-  findAll() {
-    return this.prisma.admin.findMany();
+  async findAll() {
+    try {
+      return await this.prisma.admin.findMany();
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        switch (error.code) {
+          case 'P2025':
+            throw new NotFoundException(ERROR.ResourceNotFound);
+          default:
+            throw new BadRequestException(ERROR.InvalidInputFormat);
+        }
+      }
+
+      throw new InternalServerErrorException(ERROR.ConflictError);
+    }
   }
 
-  findOne(uid: string) {
-    return this.prisma.admin.findUnique({ where: { uid } });
+  async findOne(uid: string) {
+    try {
+      return await this.prisma.admin.findUnique({ where: { uid } });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        switch (error.code) {
+          case 'P2025':
+            throw new NotFoundException(ERROR.ResourceNotFound);
+          default:
+            throw new BadRequestException(ERROR.InvalidInputFormat);
+        }
+      }
+    }
   }
 
   async update(uid: string, updateAdminDto: UpdateAdminDto) {
-    if (updateAdminDto.password) {
-      updateAdminDto.password = await bcrypt.hash(
-        updateAdminDto.password,
-        roundsOfHashing,
-      );
+    try {
+      if (updateAdminDto.password) {
+        updateAdminDto.password = await bcrypt.hash(
+          updateAdminDto.password,
+          roundsOfHashing,
+        );
+      }
+      return this.prisma.admin.update({
+        where: { uid },
+        data: updateAdminDto,
+      });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        switch (error.code) {
+          case 'P2025':
+            throw new NotFoundException(ERROR.ResourceNotFound);
+          case 'P2002':
+            throw new ConflictException(ERROR.AlreadyExists);
+          default:
+            throw new BadRequestException(ERROR.InvalidInputFormat);
+        }
+      }
+
+      throw new InternalServerErrorException(ERROR.ConflictError);
     }
-    return this.prisma.admin.update({
-      where: { uid },
-      data: updateAdminDto,
-    });
   }
 
-  remove(uid: string) {
-    return this.prisma.admin.delete({ where: { uid } });
+  async remove(uid: string) {
+    try {
+      return await this.prisma.admin.delete({ where: { uid } });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        switch (error.code) {
+          case 'P2025':
+            throw new NotFoundException(ERROR.ResourceNotFound);
+          case 'P2002':
+            throw new ConflictException(ERROR.AlreadyExists);
+          default:
+            throw new BadRequestException(ERROR.InvalidInputFormat);
+        }
+      }
+
+      throw new InternalServerErrorException(ERROR.ConflictError);
+    }
   }
 }
