@@ -15,6 +15,7 @@ import {ErrorHandler} from '../../../core/services/error-handler';
 import {Router} from '@angular/router';
 import {SelectForm} from '../../components/select-form/select-form';
 import {FormState} from '../../../core/services/form-state';
+import {StorageService} from '../../../core/services/storage-service';
 
 @Component({
   selector: 'app-register',
@@ -25,6 +26,7 @@ import {FormState} from '../../../core/services/form-state';
 })
 export class Register implements OnInit {
   private filieresService = inject(Filieres);
+  private storageService = inject(StorageService);
   private candidatService = inject(Candidat);
   private toastService = inject(ToastService);
   private errorHandler = inject(ErrorHandler);
@@ -99,8 +101,11 @@ export class Register implements OnInit {
         this.candidatService.submitCandidature(payload)
       );
 
+
+
       this.form.reset();
       this.filieresFormArray.clear();
+      this.storageService.setCandidatName(payload.firstname)
       this.formState.setCompleted();
       await this.router.navigate(['quiz']);
     } catch (err) {
