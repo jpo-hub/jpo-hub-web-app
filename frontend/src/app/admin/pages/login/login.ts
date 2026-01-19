@@ -1,4 +1,4 @@
-import {Component, computed, inject} from '@angular/core';
+import {Component, computed, inject, signal} from '@angular/core';
 import {InputForm} from '../../../shared/components/input-form/input-form';
 import {ButtonPrimary} from '../../../shared/components/button-primary/button-primary';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
@@ -9,6 +9,7 @@ import {map, startWith} from 'rxjs/operators';
 import {ToastService} from '../../../core/services/toast';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ErrorHandler} from '../../../core/services/error-handler';
+import {firstValueFrom} from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -26,35 +27,39 @@ export class Login {
   private toastService = inject(ToastService);
   private errorHandler = inject(ErrorHandler);
 
+  isLoading = signal(false);
+
   form = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email, ynovEmailValidator()]),
     password: new FormControl('', [Validators.required])
   });
 
   isFormInvalid = toSignal(
-    this.form.statusChanges.pipe(
-      map(status => status !== 'VALID')
-    ),
+    this.form.statusChanges.pipe(map(status => status !== 'VALID')),
     { initialValue: true }
   );
 
-  onSubmit() {
-    if (this.isFormInvalid()) return;
+  isSubmitDisabled = computed(() => this.isFormInvalid() || this.isLoading());
+
+  async onSubmit() {
+    if (this.isSubmitDisabled()) return;
 
     const { email, password } = this.form.getRawValue();
 
-    this.adminService.login(email!, password!).subscribe({
-      next: (response) => {
-        console.log('Connexion réussie', response);
-      },
-      error: (err) => {
-        const error = err as HttpErrorResponse;
+    this.isLoading.set(true);
 
-        const errorCode = error.error?.code || 'UNKNOWN_ERROR';
-        const message = this.errorHandler.getErrorMessage(errorCode);
+    try {
+      const response = await firstValueFrom(this.adminService.login(email!, password!));
+      console.log('Connexion réussie', response);
 
-        this.toastService.show(message, 'danger');
-      }
-    });
+    } catch (err) {
+      const error = err as HttpErrorResponse;
+      const errorCode = error.error?.code || 'UNKNOWN_ERROR';
+      const message = this.errorHandler.getErrorMessage(errorCode);
+
+      this.toastService.show(message, 'danger');
+    } finally {
+      this.isLoading.set(false);
+    }
   }
 }
