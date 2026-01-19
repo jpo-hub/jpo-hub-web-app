@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {environment} from '@environments/environment';
 import {HttpClient} from '@angular/common/http';
-import {StorageService} from '../../core/services/storage-service';
 import {LoginResponse} from '../../core/models/login-response.model';
 
 @Injectable({
@@ -12,7 +11,6 @@ export class Admin {
 
   constructor(
     private http: HttpClient,
-    private storageService: StorageService
   ) {}
 
   public login(email: string, password: string) {
