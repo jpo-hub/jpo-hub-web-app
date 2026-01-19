@@ -5,13 +5,17 @@
       <span>Accédez au tableau de bord d'administration</span>
     </div>
     <div class="form-container">
-      <form [formGroup]="form">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div>
           <app-input-form label="Email *" formControlName="email"/>
           <app-input-form label="Mot de passe *" type="password" formControlName="password"/>
         </div>
 
-        <app-button-primary label="Connexion" type="submit" [disabled]="form.invalid" (click)="onSubmit()"/>
+        <app-button-primary
+          label="Connexion"
+          type="submit"
+          [disabled]="isFormInvalid() ?? true"
+        />
       </form>
     </div>
   </div>
