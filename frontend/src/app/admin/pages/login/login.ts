@@ -3,7 +3,7 @@ import {InputForm} from '../../../shared/components/input-form/input-form';
 import {ButtonPrimary} from '../../../shared/components/button-primary/button-primary';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ynovEmailValidator} from '../../../core/validators/ynov-validators';
-import {Admin} from '../../services/admin';
+import {Auth} from '../../services/auth';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {map} from 'rxjs/operators';
 import {ToastService} from '../../../core/services/toast';
@@ -25,7 +25,7 @@ import {Router} from '@angular/router';
   styleUrl: './login.scss',
 })
 export class Login {
-  private adminService = inject(Admin);
+  private adminService = inject(Auth);
   private toastService = inject(ToastService);
   private errorHandler = inject(ErrorHandler);
   private cookieService = inject(CookieService);
