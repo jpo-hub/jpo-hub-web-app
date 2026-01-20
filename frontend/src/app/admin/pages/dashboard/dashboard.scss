@@ -1,3 +1,15 @@
 section {
   padding: 20px;
+
+  .stats-grid {
+    display: flex;
+    flex-direction: row; // Aligne les cartes horizontalement
+    gap: 2rem;           // Espacement de 2rem entre les cartes
+    width: 100%;         // Prend toute la largeur du parent
+
+    app-stat-card {
+      flex: 1;           // Chaque carte s'étire pour remplir l'espace équitablement
+      min-width: 0;      // Empêche les cartes de déborder si le contenu est trop large
+    }
+  }
 }
