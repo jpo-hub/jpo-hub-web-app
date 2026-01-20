@@ -1,8 +1,10 @@
 <section>
   <div class="stats">
     <app-stat-card
-
-    />
+      [value]="totalUsers()"
+      label="Total Users"
+      icon="person">
+    </app-stat-card>
   </div>
   <div class="charts">
 
