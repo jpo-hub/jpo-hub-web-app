@@ -28,8 +28,12 @@ export class NavBar {
     {label: 'Candidats', link: '/admin/candidats', icon: 'file-user', exact: true},
     {label: 'Utilisateur', link: '/admin/utilisateurs', icon: 'circle-user-round', exact: true},
     {label: 'Journal de log', link: '/admin/log', icon: 'file-text', exact: true},
-    {label: 'Retour Site', link: '/', icon: 'undo', exact: true},
   ];
+
+  logout() {
+    localStorage.removeItem('admin_token');
+    this.router.navigate(['/admin/login']);
+  }
 
   private url = toSignal(
     this.router.events.pipe(
