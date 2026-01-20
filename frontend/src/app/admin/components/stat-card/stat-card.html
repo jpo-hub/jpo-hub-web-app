@@ -1,6 +1,10 @@
-<div>
-  <p>Stat card</p>
-  <p>{{ value }}</p>
-  <p>{{ title }}</p>
-  <p>{{ icon }}</p>
+<div class="stat-card">
+  <div class="stat-card__content">
+    <p class="title">{{ title }}</p>
+    <p class="value">{{ value }}</p>
+    <span class="score_positive">+12% vs dernière JPO</span>
+  </div>
+  <div class="stat-card__icon">
+    <lucide-icon [name]="icon"></lucide-icon>
+  </div>
 </div>
