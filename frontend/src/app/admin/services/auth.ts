@@ -6,7 +6,7 @@ import {LoginResponse} from '../../core/models/login-response.model';
 @Injectable({
   providedIn: 'root',
 })
-export class Admin {
+export class Auth {
   private apiUrl = environment.apiURL;
 
   constructor(
