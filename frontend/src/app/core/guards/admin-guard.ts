@@ -3,13 +3,13 @@ import {inject, PLATFORM_ID} from '@angular/core';
 import {isPlatformBrowser} from '@angular/common';
 import {CookieService} from '../services/cookie';
 import {catchError, map, of} from 'rxjs';
-import {Admin} from '../../admin/services/admin';
+import {Auth} from '../../admin/services/auth';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ToastService} from '../services/toast';
 import {ErrorHandler} from '../services/error-handler';
 
 export const adminGuard: CanActivateFn = (route, state) => {
-  const adminService = inject(Admin);
+  const adminService = inject(Auth);
   const router = inject(Router);
   const cookieService = inject(CookieService);
   const platformId = inject(PLATFORM_ID);
