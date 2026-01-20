@@ -11,6 +11,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {ErrorHandler} from '../../../core/services/error-handler';
 import {firstValueFrom} from 'rxjs';
 import {CookieService} from '../../../core/services/cookie';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -28,6 +29,7 @@ export class Login {
   private toastService = inject(ToastService);
   private errorHandler = inject(ErrorHandler);
   private cookieService = inject(CookieService);
+  private router = inject(Router);
 
   isLoading = signal(false);
 
@@ -51,11 +53,11 @@ export class Login {
     this.isLoading.set(true);
 
     try {
-      const response =await firstValueFrom(this.adminService.login(email!, password!));
-
-      console.log(response);
+      const response = await firstValueFrom(this.adminService.login(email!, password!));
 
       this.cookieService.set('admin_token', response.accessToken, 1);
+
+      await this.router.navigate(['/admin/dashboard']);
 
     } catch (err) {
       const error = err as HttpErrorResponse;
