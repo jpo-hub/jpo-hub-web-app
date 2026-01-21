@@ -1,4 +1,4 @@
-import { Component, Input} from '@angular/core';
+import { Component, Input, numberAttribute} from '@angular/core';
 import {LucideAngularModule} from 'lucide-angular';
 
 @Component({

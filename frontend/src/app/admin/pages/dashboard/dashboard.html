@@ -1,22 +1,22 @@
 <section>
   <div class="stats-grid">
     <app-stat-card
-      [value]="totalUsers()"
+      [value]="stats().candidats"
       title="Total Candidats"
       icon="users">
     </app-stat-card>
     <app-stat-card
-      [value]="totalUsers()"
+      [value]="stats().appointment"
       title="RDV Confirmés"
       icon="calendar-check-2">
     </app-stat-card>
     <app-stat-card
-      [value]="totalUsers()"
+      [value]="stats().ateliersActifs"
       title="Ateliers Actifs"
       icon="folder-code">
     </app-stat-card>
     <app-stat-card
-      [value]="totalUsers()"
+      [value]="calculateConversion()"
       title="Taux Conversion"
       icon="trending-up">
     </app-stat-card>

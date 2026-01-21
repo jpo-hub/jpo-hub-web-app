@@ -4,6 +4,8 @@ import {Candidat} from '../../services/candidat';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {CandidatsStat} from '../../components/candidats-stat/candidats-stat';
 import {FiliereStat} from '../../components/filiere-stat/filiere-stat';
+import {Stats} from '../../services/stats';
+import {Stats as StatsModel} from '../../../core/models/stats.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,8 +19,17 @@ import {FiliereStat} from '../../components/filiere-stat/filiere-stat';
 })
 export class Dashboard {
   private candidatService = inject(Candidat);
+  private statsService = inject(Stats);
 
   candidats = toSignal(this.candidatService.getCandidats(), { initialValue: [] as any[] });
 
-  totalUsers = computed(() => this.candidats().length);
+  stats = toSignal(this.statsService.getStats(), { initialValue: new StatsModel() })
+
+  calculateConversion = computed(() => {
+    const s = this.stats();
+    if (!s || s.candidats === 0) return 0;
+
+    const rate = (s.appointment / s.candidats) * 100;
+    return Math.round(rate);
+  });
 }
