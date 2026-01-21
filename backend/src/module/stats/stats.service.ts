@@ -25,15 +25,28 @@ export class StatsService {
    */
   async findAll(): Promise<StatEntity> {
     try {
-      const stats = await this.prisma.filiereStats.findMany({
-        include: {
-          filiere: {
-            select: {
-              label: true,
+      // On peut exécuter les deux requêtes en parallèle pour gagner du temps
+      const [
+        stats,
+        activeAteliersCount,
+        candidatAppointmentCount,
+        candidatsCount,
+      ] = await Promise.all([
+        this.prisma.filiereStats.findMany({
+          include: {
+            filiere: {
+              select: { label: true },
             },
           },
-        },
-      });
+        }),
+        this.prisma.atelier.count({
+          where: { draft: false },
+        }),
+        this.prisma.candidat.count({
+          where: { appointment: true },
+        }),
+        this.prisma.candidat.count(),
+      ]);
 
       if (!stats || stats.length === 0) {
         throw new NotFoundException(ERROR.ResourceNotFound);
@@ -50,6 +63,9 @@ export class StatsService {
 
       return {
         filieres: formattedStats,
+        ateliersActifs: activeAteliersCount,
+        appointment: candidatAppointmentCount,
+        candidats: candidatsCount,
       };
     } catch (error) {
       if (error instanceof NotFoundException) {
