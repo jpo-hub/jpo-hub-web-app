@@ -6,7 +6,7 @@
     3 derniers
   </div>
 </div>
-<div>
+<div class="candidats-container">
   @if (isLoaded) {
     @for (candidat of candidats(); track candidat.uid) {
       <app-candidats-info-dashboard
@@ -21,6 +21,5 @@
     }
   } @else {
     <span>Chargement des candidats...</span>
-
   }
 </div>

@@ -1,7 +1,19 @@
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%; // Le composant lui-même doit prendre toute la place
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+
 .chart-title {
+  flex-shrink: 0;
   padding: 1rem;
   display: flex;
   justify-content: space-between;
+  border-bottom: 1px solid var(--color-border);
 
   .chart-title__subtitle {
     display: flex;
@@ -11,5 +23,25 @@
     color: var(--color-text-gray);
     background-color: var(--color-background-badge);
     text-align: center;
+  }
+}
+
+.candidats-container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+
+  app-candidats-info-dashboard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+    min-height: 0;
+    padding: 0 1rem;
+
+    &:not(:first-child) {
+      border-top: 1px solid var(--color-border);
+    }
   }
 }
