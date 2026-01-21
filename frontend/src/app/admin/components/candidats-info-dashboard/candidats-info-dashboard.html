@@ -1,0 +1,19 @@
+<div class="candidat-info">
+  <div class="candidat-info__header">
+    <span>{{ firstname }} {{ lastname | uppercase }}</span>
+    <span>Tranche d'âge : {{ ageRange }}</span>
+  </div>
+  <div>
+    <span>{{ email }}</span>
+    <span>RDV : {{ appointment ? 'Confirmé' : 'En attente' }}</span>
+  </div>
+  <div>
+    <div class="ateliers-list">
+      @for (atelier of ateliers; track atelier.uid) {
+        <span class="atelier-tag">{{ atelier.label }}</span>
+      } @empty {
+        <span class="no-atelier">Aucun ateliers</span>
+      }
+    </div>
+  </div>
+</div>
