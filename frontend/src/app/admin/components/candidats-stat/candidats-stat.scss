@@ -1,0 +1,16 @@
+.chart-title {
+  padding: 1rem;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+
+  .chart-title__subtitle {
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    border-radius: 8px;
+    color: var(--color-text-gray);
+    background-color: var(--color-background-badge);
+    text-align: center;
+  }
+}
