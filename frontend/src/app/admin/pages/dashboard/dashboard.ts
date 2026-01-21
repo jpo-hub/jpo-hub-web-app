@@ -3,12 +3,14 @@ import {StatCard} from '../../components/stat-card/stat-card';
 import {Candidat} from '../../services/candidat';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {CandidatsStat} from '../../components/candidats-stat/candidats-stat';
+import {FiliereStat} from '../../components/filiere-stat/filiere-stat';
 
 @Component({
   selector: 'app-dashboard',
   imports: [
     StatCard,
-    CandidatsStat
+    CandidatsStat,
+    FiliereStat
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
