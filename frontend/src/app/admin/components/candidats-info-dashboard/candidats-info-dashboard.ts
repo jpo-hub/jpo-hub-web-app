@@ -1,13 +1,14 @@
 import { Component, effect, Input} from '@angular/core';
 import {Atelier} from '../../../core/models/atelier.model';
-import {UpperCasePipe} from '@angular/common';
+import {TitleCasePipe, UpperCasePipe} from '@angular/common';
 import {LucideAngularModule} from 'lucide-angular';
 
 @Component({
   selector: 'app-candidats-info-dashboard',
   imports: [
     UpperCasePipe,
-    LucideAngularModule
+    LucideAngularModule,
+    TitleCasePipe
   ],
   templateUrl: './candidats-info-dashboard.html',
   styleUrl: './candidats-info-dashboard.scss',
