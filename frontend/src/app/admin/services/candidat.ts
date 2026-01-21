@@ -29,4 +29,16 @@ export class Candidat {
       })
     );
   }
+
+  public getCandidatsOrderByDate() {
+    return this.http.get<CandidatModel[]>(`${this.apiUrl}/candidats?orderBy=desc&limit=3`).pipe(
+      catchError(err => {
+        const error = err as HttpErrorResponse;
+
+        const message = this.errorHandler.getErrorMessage(error.error.code);
+        this.toastService.show(message, 'danger');
+        return throwError(() => err);
+      })
+    )
+  }
 }

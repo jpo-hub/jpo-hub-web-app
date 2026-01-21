@@ -15,5 +15,5 @@ import {CandidatsInfoDashboard} from '../candidats-info-dashboard/candidats-info
 export class CandidatsStat {
   private candidatService = inject(Candidat);
 
-  candidats = toSignal(this.candidatService.getCandidats(), { initialValue: [] as CandidatModel[] });
+  candidats = toSignal(this.candidatService.getCandidatsOrderByDate(), { initialValue: [] as CandidatModel[] });
 }
