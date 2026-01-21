@@ -2,14 +2,39 @@ section {
   padding: 20px;
 
   .stats-grid {
-    display: flex;
-    flex-direction: row; // Aligne les cartes horizontalement
-    gap: 2rem;           // Espacement de 2rem entre les cartes
-    width: 100%;         // Prend toute la largeur du parent
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    width: 100%;
 
     app-stat-card {
-      flex: 1;           // Chaque carte s'étire pour remplir l'espace équitablement
-      min-width: 0;      // Empêche les cartes de déborder si le contenu est trop large
+      min-width: 0;
+    }
+  }
+
+  .charts {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-top: 2rem;
+    width: 100%;
+
+    .candidat-container {
+      grid-column: span 3;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      min-height: 300px;
+    }
+
+    .filiere-container {
+      grid-column: span 1;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+
+      .chart-title {
+        padding: 1rem;
+        border-bottom: 1px solid var(--color-border);
+      }
     }
   }
 }
