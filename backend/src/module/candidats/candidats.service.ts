@@ -16,7 +16,7 @@ import { ERROR } from '../../common/constants/error.constants';
  */
 type CandidatDetailsDto = Candidat & {
   filieres: Record<string, number>;
-  ateliers?: Array<{ uid: string; title: string; date: Date }>;
+  ateliers?: Array<{ uid: string; label: string; createAt: Date }>;
 };
 
 /**
@@ -69,8 +69,8 @@ export class CandidatsService {
       }, {}),
       ateliers: ateliers.map((ac) => ({
         uid: ac.atelier.uid,
-        title: ac.atelier.label,
-        date: ac.atelier.createAt,
+        label: ac.atelier.label,
+        createAt: ac.atelier.createAt,
       })),
     };
   }
