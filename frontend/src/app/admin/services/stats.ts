@@ -4,6 +4,7 @@ import {ToastService} from '../../core/services/toast';
 import {ErrorHandler} from '../../core/services/error-handler';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {catchError} from 'rxjs';
+import {Stats as StatsModel} from '../../core/models/stats.model';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,7 @@ export class Stats {
   ) { }
 
   public getStats() {
-    return this.http.get(`${this.apiUrl}/stats`).pipe(
+    return this.http.get<StatsModel>(`${this.apiUrl}/stats`).pipe(
       catchError(err => {
         const error = err as HttpErrorResponse;
 

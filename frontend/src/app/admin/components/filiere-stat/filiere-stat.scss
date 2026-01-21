@@ -2,3 +2,56 @@
   padding: 1rem;
   border-bottom: 1px solid var(--color-border);
 }
+
+.donut-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.donut-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.svg-wrapper {
+  width: 220px;
+  height: 220px;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  width: 100%;
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+    }
+
+    .label {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #374151;
+      white-space: nowrap;
+    }
+
+    .value {
+      font-size: 0.9rem;
+      font-weight: bold;
+      color: #111827;
+    }
+  }
+}
