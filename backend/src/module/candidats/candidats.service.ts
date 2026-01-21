@@ -1,12 +1,12 @@
 import {
-  Injectable,
-  NotFoundException,
   BadRequestException,
   ConflictException,
+  Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
-import { Prisma, Candidat } from '../../generated/prisma/client';
+import { Candidat, Prisma } from '../../generated/prisma/client';
 import { CreateCandidatDto } from './dto/create-candidat.dto';
 import { randomUUID } from 'crypto';
 import { ERROR } from '../../common/constants/error.constants';
@@ -265,6 +265,18 @@ export class CandidatsService {
               score: Number(score),
             },
           });
+
+          await tx.filiereStats.upsert({
+            where: { filiereId: filiere.uid },
+            update: {
+              selectionCount: { increment: 1 },
+            },
+            create: {
+              filiereId: filiere.uid,
+              selectionCount: 1,
+            },
+          });
+
           processedLabels.add(trimmedLabel);
         }
 

@@ -89,8 +89,20 @@ CREATE TABLE "Admin" (
     "lastname" TEXT NOT NULL,
     "role" TEXT NOT NULL,
     "email" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Admin_pkey" PRIMARY KEY ("uid")
+);
+
+-- CreateTable
+CREATE TABLE "FiliereStats" (
+    "uid" TEXT NOT NULL,
+    "filiereId" TEXT NOT NULL,
+    "selectionCount" INTEGER NOT NULL DEFAULT 0,
+    "views" INTEGER NOT NULL DEFAULT 0,
+
+    CONSTRAINT "FiliereStats_pkey" PRIMARY KEY ("uid")
 );
 
 -- CreateIndex
@@ -123,6 +135,9 @@ CREATE UNIQUE INDEX "Atelier_Candidat_atelierId_candidatId_key" ON "Atelier_Cand
 -- CreateIndex
 CREATE UNIQUE INDEX "Admin_email_key" ON "Admin"("email");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "FiliereStats_filiereId_key" ON "FiliereStats"("filiereId");
+
 -- AddForeignKey
 ALTER TABLE "Response" ADD CONSTRAINT "Response_questionId_fkey" FOREIGN KEY ("questionId") REFERENCES "Question"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
 
@@ -149,3 +164,6 @@ ALTER TABLE "Atelier_Candidat" ADD CONSTRAINT "Atelier_Candidat_atelierId_fkey" 
 
 -- AddForeignKey
 ALTER TABLE "Atelier_Candidat" ADD CONSTRAINT "Atelier_Candidat_candidatId_fkey" FOREIGN KEY ("candidatId") REFERENCES "Candidat"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "FiliereStats" ADD CONSTRAINT "FiliereStats_filiereId_fkey" FOREIGN KEY ("filiereId") REFERENCES "Filiere"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;

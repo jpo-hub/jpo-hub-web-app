@@ -393,7 +393,8 @@ export const ModelName = {
   Atelier: 'Atelier',
   Atelier_Filiere: 'Atelier_Filiere',
   Atelier_Candidat: 'Atelier_Candidat',
-  Admin: 'Admin'
+  Admin: 'Admin',
+  FiliereStats: 'FiliereStats'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -409,7 +410,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "filiere" | "response" | "question" | "reponse_Filiere" | "candidat" | "candidat_Filiere" | "atelier" | "atelier_Filiere" | "atelier_Candidat" | "admin"
+    modelProps: "filiere" | "response" | "question" | "reponse_Filiere" | "candidat" | "candidat_Filiere" | "atelier" | "atelier_Filiere" | "atelier_Candidat" | "admin" | "filiereStats"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1153,6 +1154,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    FiliereStats: {
+      payload: Prisma.$FiliereStatsPayload<ExtArgs>
+      fields: Prisma.FiliereStatsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FiliereStatsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FiliereStatsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FiliereStatsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FiliereStatsPayload>
+        }
+        findFirst: {
+          args: Prisma.FiliereStatsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FiliereStatsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FiliereStatsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FiliereStatsPayload>
+        }
+        findMany: {
+          args: Prisma.FiliereStatsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FiliereStatsPayload>[]
+        }
+        create: {
+          args: Prisma.FiliereStatsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FiliereStatsPayload>
+        }
+        createMany: {
+          args: Prisma.FiliereStatsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FiliereStatsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FiliereStatsPayload>[]
+        }
+        delete: {
+          args: Prisma.FiliereStatsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FiliereStatsPayload>
+        }
+        update: {
+          args: Prisma.FiliereStatsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FiliereStatsPayload>
+        }
+        deleteMany: {
+          args: Prisma.FiliereStatsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FiliereStatsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FiliereStatsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FiliereStatsPayload>[]
+        }
+        upsert: {
+          args: Prisma.FiliereStatsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FiliereStatsPayload>
+        }
+        aggregate: {
+          args: Prisma.FiliereStatsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFiliereStats>
+        }
+        groupBy: {
+          args: Prisma.FiliereStatsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FiliereStatsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FiliereStatsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FiliereStatsCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1289,10 +1364,22 @@ export const AdminScalarFieldEnum = {
   password: 'password',
   lastname: 'lastname',
   role: 'role',
-  email: 'email'
+  email: 'email',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type AdminScalarFieldEnum = (typeof AdminScalarFieldEnum)[keyof typeof AdminScalarFieldEnum]
+
+
+export const FiliereStatsScalarFieldEnum = {
+  uid: 'uid',
+  filiereId: 'filiereId',
+  selectionCount: 'selectionCount',
+  views: 'views'
+} as const
+
+export type FiliereStatsScalarFieldEnum = (typeof FiliereStatsScalarFieldEnum)[keyof typeof FiliereStatsScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1484,6 +1571,7 @@ export type GlobalOmitConfig = {
   atelier_Filiere?: Prisma.Atelier_FiliereOmit
   atelier_Candidat?: Prisma.Atelier_CandidatOmit
   admin?: Prisma.AdminOmit
+  filiereStats?: Prisma.FiliereStatsOmit
 }
 
 /* Types for Logging */
