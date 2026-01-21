@@ -7,15 +7,20 @@
   </div>
 </div>
 <div>
-  @for (candidat of candidats(); track candidat.uid) {
-    <app-candidats-info-dashboard
-      [uid]="candidat.uid"
-      [firstname]="candidat.firstname"
-      [lastname]="candidat.lastname"
-      [email]="candidat.email"
-      [ageRange]="candidat.ageRange"
-      [appointment]="candidat.appointment"
-      [ateliers]="candidat.ateliers"
-    ></app-candidats-info-dashboard>
+  @if (isLoaded) {
+    @for (candidat of candidats(); track candidat.uid) {
+      <app-candidats-info-dashboard
+        [uid]="candidat.uid"
+        [firstname]="candidat.firstname"
+        [lastname]="candidat.lastname"
+        [email]="candidat.email"
+        [ageRange]="candidat.ageRange"
+        [appointment]="candidat.appointment"
+        [ateliers]="candidat.ateliers"
+      ></app-candidats-info-dashboard>
+    }
+  } @else {
+    <span>Chargement des candidats...</span>
+
   }
 </div>

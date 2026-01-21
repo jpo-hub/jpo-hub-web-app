@@ -7,7 +7,7 @@ import {CandidatsInfoDashboard} from '../candidats-info-dashboard/candidats-info
 @Component({
   selector: 'app-candidats-stat',
   imports: [
-    CandidatsInfoDashboard
+    CandidatsInfoDashboard,
   ],
   templateUrl: './candidats-stat.html',
   styleUrl: './candidats-stat.scss',
@@ -16,4 +16,6 @@ export class CandidatsStat {
   private candidatService = inject(Candidat);
 
   candidats = toSignal(this.candidatService.getCandidatsOrderByDate(), { initialValue: [] as CandidatModel[] });
+
+  isLoaded = effect(() => this.candidats().length > 0);
 }
