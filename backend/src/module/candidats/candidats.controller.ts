@@ -1,21 +1,22 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
-  Query, UseGuards,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+  UseGuards,
 } from '@nestjs/common';
 import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiParam,
-  ApiBody,
-  ApiQuery,
   ApiBearerAuth,
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiQuery,
+  ApiResponse,
+  ApiTags,
 } from '@nestjs/swagger';
 import { CandidatsService } from './candidats.service';
 import { CreateCandidatDto } from './dto/create-candidat.dto';
@@ -61,9 +62,19 @@ export class CandidatsController {
     description: "Nombre d'éléments par page (défaut: 10)",
     example: 10,
   })
+  @ApiQuery({
+    name: 'orderBy',
+    required: false,
+    description: 'Tri par date de création (asc ou desc)',
+    enum: ['asc', 'desc'],
+  })
   @ApiResponse(SwaggerResponses.Found('Candidats', [CandidatEntity]))
   @ApiResponse(SwaggerResponses.ErrorServer)
-  findAll(@Query('page') page?: string, @Query('limit') limit?: string) {
+  findAll(
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
+    @Query('orderBy') orderBy?: 'asc' | 'desc',
+  ) {
     const pageNum = page ? parseInt(page, 10) : 1;
     const limitNum = limit ? parseInt(limit, 10) : 10;
     const skip = (pageNum - 1) * limitNum;
@@ -71,6 +82,7 @@ export class CandidatsController {
     return this.candidatsService.candidats({
       skip,
       take: limitNum,
+      orderBy: orderBy ? { createdAt: orderBy } : undefined,
     });
   }
 
