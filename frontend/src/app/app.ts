@@ -28,16 +28,12 @@ export class App {
   showNavBar = computed(() => {
     const url = this.currentUrl();
 
-    // 1. On définit les routes "valides" (celles où on veut la Nav)
-    // On utilise startsWith pour les routes avec des enfants (comme /quiz/...)
     const validRoutes = ['/', '/quiz', '/admin/dashboard'];
 
-    // 2. On vérifie si l'URL actuelle correspond au début d'une de nos routes valides
     const isValidRoute = validRoutes.some(route =>
       route === '/' ? url === '/' : url.startsWith(route)
     );
 
-    // 3. On affiche la nav SEULEMENT si c'est une route valide ET que ce n'est PAS le login
     return isValidRoute && url !== '/admin/login';
   });
 
