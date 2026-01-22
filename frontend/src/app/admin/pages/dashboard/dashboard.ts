@@ -6,13 +6,15 @@ import {CandidatsStat} from '../../components/candidats-stat/candidats-stat';
 import {FiliereStat} from '../../components/filiere-stat/filiere-stat';
 import {Stats} from '../../services/stats';
 import {Stats as StatsModel} from '../../../core/models/stats.model';
+import {AteliersTopStats} from '../../components/ateliers-top-stats/ateliers-top-stats';
 
 @Component({
   selector: 'app-dashboard',
   imports: [
     StatCard,
     CandidatsStat,
-    FiliereStat
+    FiliereStat,
+    AteliersTopStats
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',

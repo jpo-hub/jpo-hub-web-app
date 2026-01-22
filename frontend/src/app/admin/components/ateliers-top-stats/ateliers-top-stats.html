@@ -1,0 +1,39 @@
+<div class="chart-title">
+  <h2>Top ateliers</h2>
+  <div class="chart-title__subtitle">3 premiers</div>
+</div>
+
+<div class="ateliers-container">
+  @for (atelier of topAteliersList(); track atelier.uid; let i = $index) {
+    <div class="atelier-row">
+      <div class="atelier-row__left">
+        <span
+          class="atelier-row__rank"
+          [class.is-gold]="i === 0"
+          [class.is-silver]="i === 1"
+          [class.is-bronze]="i === 2"
+          aria-hidden="true"
+        >
+          @if (i === 0) {
+            <lucide-icon name="trophy" class="atelier-row__icon"></lucide-icon>
+          } @else if (i === 1) {
+            <lucide-icon name="medal" class="atelier-row__icon"></lucide-icon>
+          } @else {
+            <lucide-icon name="award" class="atelier-row__icon"></lucide-icon>
+          }
+        </span>
+
+        <div class="atelier-row__content">
+          <span class="atelier-row__label">{{ atelier.label }}</span>
+          <span class="atelier-row__count">{{ atelier.candidatsCount }} participation(s)</span>
+        </div>
+      </div>
+
+      <div class="atelier-row__right">
+        <span class="atelier-row__position">#{{ i + 1 }}</span>
+      </div>
+    </div>
+  } @empty {
+    <span>Chargement des ateliers...</span>
+  }
+</div>
