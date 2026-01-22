@@ -14,7 +14,7 @@ export const routes: Routes = [
 
   { path: 'quiz', component: Quiz, canActivate: [quizGuard] },
   { path: 'quiz/register', component: Register },
-  { path: 'quiz/results', component: Results },
+  { path: 'quiz/results', component: Results, canActivate: [quizGuard] },
 
   { path: 'admin/login', component: Login},
   { path: 'admin/dashboard', component: Dashboard , canActivate: [adminGuard]},

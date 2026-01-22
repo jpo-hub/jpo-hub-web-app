@@ -1,5 +1,6 @@
-import { Component, Inject, Input, numberAttribute} from '@angular/core';
+import { Component, inject, Input, numberAttribute} from '@angular/core';
 import {ButtonPrimary} from '../../../shared/components/button-primary/button-primary';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-modal-participation',
@@ -15,7 +16,10 @@ export class ModalParticipation {
   @Input() isVisible!: boolean;
   @Input() onClose!: () => void;
 
+  private router = inject(Router);
+
   onCloseModal() {
+    this.router.navigate(['/']);
     this.onClose();
   }
 }
