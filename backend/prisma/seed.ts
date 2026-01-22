@@ -265,6 +265,30 @@ async function main() {
     create: { atelierId: atelier3.uid, candidatId: candidat.uid },
   });
 
+  const candidat2 = await prisma.candidat.upsert({
+    where: { email: 'firas.bouchira@ynov.com' },
+    update: {},
+    create: {
+      email: 'firas.bouchira@ynov.com',
+      firstname: 'firas',
+      appointment: false,
+      consentement: true,
+      lastname: 'bouchira',
+      ageRange: '26-35',
+    },
+  });
+
+  await prisma.atelier_Candidat.upsert({
+    where: {
+      atelierId_candidatId: {
+        atelierId: atelier2.uid,
+        candidatId: candidat2.uid,
+      },
+    },
+    update: {},
+    create: { atelierId: atelier2.uid, candidatId: candidat2.uid },
+  });
+
   console.log('✅ Candidat + liens seeded');
 
   await prisma.question.upsert({

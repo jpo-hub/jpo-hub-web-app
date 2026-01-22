@@ -25,17 +25,18 @@ export class StatsService {
    */
   async findAll(): Promise<StatEntity> {
     try {
-      // On peut exécuter les deux requêtes en parallèle pour gagner du temps
       const [
-        stats,
+        filieresRaw,
         activeAteliersCount,
         candidatAppointmentCount,
         candidatsCount,
+        topAteliersRaw,
       ] = await Promise.all([
-        this.prisma.filiereStats.findMany({
-          include: {
-            filiere: {
-              select: { label: true },
+        this.prisma.filiere.findMany({
+          select: {
+            label: true,
+            filiereStats: {
+              select: { selectionCount: true },
             },
           },
         }),
@@ -46,27 +47,47 @@ export class StatsService {
           where: { appointment: true },
         }),
         this.prisma.candidat.count(),
+        this.prisma.atelier.findMany({
+          where: { draft: false },
+          take: 3,
+          orderBy: {
+            Atelier_Candidat: {
+              _count: 'desc',
+            },
+          },
+          select: {
+            uid: true,
+            label: true,
+            _count: { select: { Atelier_Candidat: true } },
+          },
+        }),
       ]);
 
-      if (!stats || stats.length === 0) {
+      if (!filieresRaw || filieresRaw.length === 0) {
         throw new NotFoundException(ERROR.ResourceNotFound);
       }
 
-      const formattedStats = stats.reduce(
-        (acc, curr) => {
-          const label = curr.filiere.label;
-          acc[label] = curr.selectionCount;
+      const formattedStats = filieresRaw.reduce(
+        (acc, f) => {
+          acc[f.label] = f.filiereStats?.selectionCount ?? 0;
           return acc;
         },
         {} as Record<string, number>,
       );
+
+      const topAteliers = topAteliersRaw.map((a) => ({
+        uid: a.uid,
+        label: a.label,
+        candidatsCount: a._count.Atelier_Candidat,
+      }));
 
       return {
         filieres: formattedStats,
         ateliersActifs: activeAteliersCount,
         appointment: candidatAppointmentCount,
         candidats: candidatsCount,
-      };
+        topAteliers,
+      } as StatEntity;
     } catch (error) {
       if (error instanceof NotFoundException) {
         throw error;
