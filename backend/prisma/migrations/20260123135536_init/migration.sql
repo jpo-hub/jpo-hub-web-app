@@ -1,0 +1,179 @@
+-- CreateTable
+CREATE TABLE "Filiere" (
+    "uid" TEXT NOT NULL,
+    "label" TEXT NOT NULL,
+
+    CONSTRAINT "Filiere_pkey" PRIMARY KEY ("uid")
+);
+
+-- CreateTable
+CREATE TABLE "Response" (
+    "uid" TEXT NOT NULL,
+    "label" TEXT NOT NULL,
+    "questionId" TEXT NOT NULL,
+
+    CONSTRAINT "Response_pkey" PRIMARY KEY ("uid")
+);
+
+-- CreateTable
+CREATE TABLE "Question" (
+    "uid" TEXT NOT NULL,
+    "label" TEXT NOT NULL,
+    "multiple" BOOLEAN NOT NULL DEFAULT false,
+
+    CONSTRAINT "Question_pkey" PRIMARY KEY ("uid")
+);
+
+-- CreateTable
+CREATE TABLE "Reponse_Filiere" (
+    "reponseId" TEXT NOT NULL,
+    "filiereId" TEXT NOT NULL,
+    "score" INTEGER NOT NULL DEFAULT 0
+);
+
+-- CreateTable
+CREATE TABLE "Candidat" (
+    "uid" TEXT NOT NULL,
+    "codeCandidat" SERIAL NOT NULL,
+    "firstname" TEXT NOT NULL,
+    "lastname" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "ageRange" TEXT NOT NULL,
+    "appointment" BOOLEAN NOT NULL,
+    "consentement" BOOLEAN NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Candidat_pkey" PRIMARY KEY ("uid")
+);
+
+-- CreateTable
+CREATE TABLE "Candidat_Filiere" (
+    "candidatId" TEXT NOT NULL,
+    "filiereId" TEXT NOT NULL,
+    "score" INTEGER NOT NULL DEFAULT 0
+);
+
+-- CreateTable
+CREATE TABLE "Atelier" (
+    "uid" TEXT NOT NULL,
+    "label" TEXT NOT NULL,
+    "imageUrl" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "draft" BOOLEAN NOT NULL DEFAULT true,
+    "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updateAt" TIMESTAMP(3) NOT NULL,
+    "dockerfilelink" TEXT NOT NULL,
+
+    CONSTRAINT "Atelier_pkey" PRIMARY KEY ("uid")
+);
+
+-- CreateTable
+CREATE TABLE "Atelier_Filiere" (
+    "atelierId" TEXT NOT NULL,
+    "filiereId" TEXT NOT NULL,
+    "score" INTEGER NOT NULL DEFAULT 0
+);
+
+-- CreateTable
+CREATE TABLE "Atelier_Candidat" (
+    "atelierId" TEXT NOT NULL,
+    "candidatId" TEXT NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "Admin" (
+    "uid" TEXT NOT NULL,
+    "firstname" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "lastname" TEXT NOT NULL,
+    "role" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Admin_pkey" PRIMARY KEY ("uid")
+);
+
+-- CreateTable
+CREATE TABLE "Stats" (
+    "uid" TEXT NOT NULL,
+    "filiereId" TEXT NOT NULL,
+    "selectionCount" INTEGER NOT NULL DEFAULT 0,
+    "views" INTEGER NOT NULL DEFAULT 0,
+
+    CONSTRAINT "Stats_pkey" PRIMARY KEY ("uid")
+);
+
+-- CreateTable
+CREATE TABLE "StatsSnapshot" (
+    "uid" TEXT NOT NULL,
+    "label" TEXT NOT NULL,
+    "data" JSONB NOT NULL,
+    "timestamp" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "StatsSnapshot_pkey" PRIMARY KEY ("uid")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Filiere_label_key" ON "Filiere"("label");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Question_label_key" ON "Question"("label");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Reponse_Filiere_reponseId_filiereId_key" ON "Reponse_Filiere"("reponseId", "filiereId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Candidat_codeCandidat_key" ON "Candidat"("codeCandidat");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Candidat_email_key" ON "Candidat"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Candidat_Filiere_candidatId_filiereId_key" ON "Candidat_Filiere"("candidatId", "filiereId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Atelier_label_key" ON "Atelier"("label");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Atelier_Filiere_atelierId_filiereId_key" ON "Atelier_Filiere"("atelierId", "filiereId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Atelier_Candidat_atelierId_candidatId_key" ON "Atelier_Candidat"("atelierId", "candidatId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Admin_email_key" ON "Admin"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Stats_filiereId_key" ON "Stats"("filiereId");
+
+-- AddForeignKey
+ALTER TABLE "Response" ADD CONSTRAINT "Response_questionId_fkey" FOREIGN KEY ("questionId") REFERENCES "Question"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Reponse_Filiere" ADD CONSTRAINT "Reponse_Filiere_reponseId_fkey" FOREIGN KEY ("reponseId") REFERENCES "Response"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Reponse_Filiere" ADD CONSTRAINT "Reponse_Filiere_filiereId_fkey" FOREIGN KEY ("filiereId") REFERENCES "Filiere"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Candidat_Filiere" ADD CONSTRAINT "Candidat_Filiere_candidatId_fkey" FOREIGN KEY ("candidatId") REFERENCES "Candidat"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Candidat_Filiere" ADD CONSTRAINT "Candidat_Filiere_filiereId_fkey" FOREIGN KEY ("filiereId") REFERENCES "Filiere"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Atelier_Filiere" ADD CONSTRAINT "Atelier_Filiere_atelierId_fkey" FOREIGN KEY ("atelierId") REFERENCES "Atelier"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Atelier_Filiere" ADD CONSTRAINT "Atelier_Filiere_filiereId_fkey" FOREIGN KEY ("filiereId") REFERENCES "Filiere"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Atelier_Candidat" ADD CONSTRAINT "Atelier_Candidat_atelierId_fkey" FOREIGN KEY ("atelierId") REFERENCES "Atelier"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Atelier_Candidat" ADD CONSTRAINT "Atelier_Candidat_candidatId_fkey" FOREIGN KEY ("candidatId") REFERENCES "Candidat"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Stats" ADD CONSTRAINT "Stats_filiereId_fkey" FOREIGN KEY ("filiereId") REFERENCES "Filiere"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;

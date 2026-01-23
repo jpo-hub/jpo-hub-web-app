@@ -61,7 +61,8 @@ export const ModelName = {
   Atelier_Filiere: 'Atelier_Filiere',
   Atelier_Candidat: 'Atelier_Candidat',
   Admin: 'Admin',
-  FiliereStats: 'FiliereStats'
+  Stats: 'Stats',
+  StatsSnapshot: 'StatsSnapshot'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -185,14 +186,24 @@ export const AdminScalarFieldEnum = {
 export type AdminScalarFieldEnum = (typeof AdminScalarFieldEnum)[keyof typeof AdminScalarFieldEnum]
 
 
-export const FiliereStatsScalarFieldEnum = {
+export const StatsScalarFieldEnum = {
   uid: 'uid',
   filiereId: 'filiereId',
   selectionCount: 'selectionCount',
   views: 'views'
 } as const
 
-export type FiliereStatsScalarFieldEnum = (typeof FiliereStatsScalarFieldEnum)[keyof typeof FiliereStatsScalarFieldEnum]
+export type StatsScalarFieldEnum = (typeof StatsScalarFieldEnum)[keyof typeof StatsScalarFieldEnum]
+
+
+export const StatsSnapshotScalarFieldEnum = {
+  uid: 'uid',
+  label: 'label',
+  data: 'data',
+  timestamp: 'timestamp'
+} as const
+
+export type StatsSnapshotScalarFieldEnum = (typeof StatsSnapshotScalarFieldEnum)[keyof typeof StatsSnapshotScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -203,10 +214,26 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const JsonNullValueInput = {
+  JsonNull: 'JsonNull'
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const JsonNullValueFilter = {
+  DbNull: 'DbNull',
+  JsonNull: 'JsonNull',
+  AnyNull: 'AnyNull'
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

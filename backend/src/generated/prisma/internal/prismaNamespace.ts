@@ -394,7 +394,8 @@ export const ModelName = {
   Atelier_Filiere: 'Atelier_Filiere',
   Atelier_Candidat: 'Atelier_Candidat',
   Admin: 'Admin',
-  FiliereStats: 'FiliereStats'
+  Stats: 'Stats',
+  StatsSnapshot: 'StatsSnapshot'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -410,7 +411,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "filiere" | "response" | "question" | "reponse_Filiere" | "candidat" | "candidat_Filiere" | "atelier" | "atelier_Filiere" | "atelier_Candidat" | "admin" | "filiereStats"
+    modelProps: "filiere" | "response" | "question" | "reponse_Filiere" | "candidat" | "candidat_Filiere" | "atelier" | "atelier_Filiere" | "atelier_Candidat" | "admin" | "stats" | "statsSnapshot"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1154,77 +1155,151 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    FiliereStats: {
-      payload: Prisma.$FiliereStatsPayload<ExtArgs>
-      fields: Prisma.FiliereStatsFieldRefs
+    Stats: {
+      payload: Prisma.$StatsPayload<ExtArgs>
+      fields: Prisma.StatsFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.FiliereStatsFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FiliereStatsPayload> | null
+          args: Prisma.StatsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StatsPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.FiliereStatsFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FiliereStatsPayload>
+          args: Prisma.StatsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StatsPayload>
         }
         findFirst: {
-          args: Prisma.FiliereStatsFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FiliereStatsPayload> | null
+          args: Prisma.StatsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StatsPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.FiliereStatsFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FiliereStatsPayload>
+          args: Prisma.StatsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StatsPayload>
         }
         findMany: {
-          args: Prisma.FiliereStatsFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FiliereStatsPayload>[]
+          args: Prisma.StatsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StatsPayload>[]
         }
         create: {
-          args: Prisma.FiliereStatsCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FiliereStatsPayload>
+          args: Prisma.StatsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StatsPayload>
         }
         createMany: {
-          args: Prisma.FiliereStatsCreateManyArgs<ExtArgs>
+          args: Prisma.StatsCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.FiliereStatsCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FiliereStatsPayload>[]
+          args: Prisma.StatsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StatsPayload>[]
         }
         delete: {
-          args: Prisma.FiliereStatsDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FiliereStatsPayload>
+          args: Prisma.StatsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StatsPayload>
         }
         update: {
-          args: Prisma.FiliereStatsUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FiliereStatsPayload>
+          args: Prisma.StatsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StatsPayload>
         }
         deleteMany: {
-          args: Prisma.FiliereStatsDeleteManyArgs<ExtArgs>
+          args: Prisma.StatsDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.FiliereStatsUpdateManyArgs<ExtArgs>
+          args: Prisma.StatsUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.FiliereStatsUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FiliereStatsPayload>[]
+          args: Prisma.StatsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StatsPayload>[]
         }
         upsert: {
-          args: Prisma.FiliereStatsUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FiliereStatsPayload>
+          args: Prisma.StatsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StatsPayload>
         }
         aggregate: {
-          args: Prisma.FiliereStatsAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateFiliereStats>
+          args: Prisma.StatsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateStats>
         }
         groupBy: {
-          args: Prisma.FiliereStatsGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.FiliereStatsGroupByOutputType>[]
+          args: Prisma.StatsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StatsGroupByOutputType>[]
         }
         count: {
-          args: Prisma.FiliereStatsCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.FiliereStatsCountAggregateOutputType> | number
+          args: Prisma.StatsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StatsCountAggregateOutputType> | number
+        }
+      }
+    }
+    StatsSnapshot: {
+      payload: Prisma.$StatsSnapshotPayload<ExtArgs>
+      fields: Prisma.StatsSnapshotFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.StatsSnapshotFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StatsSnapshotPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.StatsSnapshotFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StatsSnapshotPayload>
+        }
+        findFirst: {
+          args: Prisma.StatsSnapshotFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StatsSnapshotPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.StatsSnapshotFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StatsSnapshotPayload>
+        }
+        findMany: {
+          args: Prisma.StatsSnapshotFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StatsSnapshotPayload>[]
+        }
+        create: {
+          args: Prisma.StatsSnapshotCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StatsSnapshotPayload>
+        }
+        createMany: {
+          args: Prisma.StatsSnapshotCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.StatsSnapshotCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StatsSnapshotPayload>[]
+        }
+        delete: {
+          args: Prisma.StatsSnapshotDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StatsSnapshotPayload>
+        }
+        update: {
+          args: Prisma.StatsSnapshotUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StatsSnapshotPayload>
+        }
+        deleteMany: {
+          args: Prisma.StatsSnapshotDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.StatsSnapshotUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.StatsSnapshotUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StatsSnapshotPayload>[]
+        }
+        upsert: {
+          args: Prisma.StatsSnapshotUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StatsSnapshotPayload>
+        }
+        aggregate: {
+          args: Prisma.StatsSnapshotAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateStatsSnapshot>
+        }
+        groupBy: {
+          args: Prisma.StatsSnapshotGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StatsSnapshotGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.StatsSnapshotCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StatsSnapshotCountAggregateOutputType> | number
         }
       }
     }
@@ -1372,14 +1447,24 @@ export const AdminScalarFieldEnum = {
 export type AdminScalarFieldEnum = (typeof AdminScalarFieldEnum)[keyof typeof AdminScalarFieldEnum]
 
 
-export const FiliereStatsScalarFieldEnum = {
+export const StatsScalarFieldEnum = {
   uid: 'uid',
   filiereId: 'filiereId',
   selectionCount: 'selectionCount',
   views: 'views'
 } as const
 
-export type FiliereStatsScalarFieldEnum = (typeof FiliereStatsScalarFieldEnum)[keyof typeof FiliereStatsScalarFieldEnum]
+export type StatsScalarFieldEnum = (typeof StatsScalarFieldEnum)[keyof typeof StatsScalarFieldEnum]
+
+
+export const StatsSnapshotScalarFieldEnum = {
+  uid: 'uid',
+  label: 'label',
+  data: 'data',
+  timestamp: 'timestamp'
+} as const
+
+export type StatsSnapshotScalarFieldEnum = (typeof StatsSnapshotScalarFieldEnum)[keyof typeof StatsSnapshotScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1390,12 +1475,28 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 
@@ -1450,6 +1551,20 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -1571,7 +1686,8 @@ export type GlobalOmitConfig = {
   atelier_Filiere?: Prisma.Atelier_FiliereOmit
   atelier_Candidat?: Prisma.Atelier_CandidatOmit
   admin?: Prisma.AdminOmit
-  filiereStats?: Prisma.FiliereStatsOmit
+  stats?: Prisma.StatsOmit
+  statsSnapshot?: Prisma.StatsSnapshotOmit
 }
 
 /* Types for Logging */

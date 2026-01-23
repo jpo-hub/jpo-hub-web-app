@@ -166,8 +166,8 @@ export type FiliereWhereInput = {
   Reponse_Filiere?: Prisma.Reponse_FiliereListRelationFilter;
   Atelier_Filiere?: Prisma.Atelier_FiliereListRelationFilter;
   filiereStats?: Prisma.XOR<
-    Prisma.FiliereStatsNullableScalarRelationFilter,
-    Prisma.FiliereStatsWhereInput
+    Prisma.StatsNullableScalarRelationFilter,
+    Prisma.StatsWhereInput
   > | null;
 };
 
@@ -177,7 +177,7 @@ export type FiliereOrderByWithRelationInput = {
   Candidat_Filiere?: Prisma.Candidat_FiliereOrderByRelationAggregateInput;
   Reponse_Filiere?: Prisma.Reponse_FiliereOrderByRelationAggregateInput;
   Atelier_Filiere?: Prisma.Atelier_FiliereOrderByRelationAggregateInput;
-  filiereStats?: Prisma.FiliereStatsOrderByWithRelationInput;
+  filiereStats?: Prisma.StatsOrderByWithRelationInput;
 };
 
 export type FiliereWhereUniqueInput = Prisma.AtLeast<
@@ -191,8 +191,8 @@ export type FiliereWhereUniqueInput = Prisma.AtLeast<
     Reponse_Filiere?: Prisma.Reponse_FiliereListRelationFilter;
     Atelier_Filiere?: Prisma.Atelier_FiliereListRelationFilter;
     filiereStats?: Prisma.XOR<
-      Prisma.FiliereStatsNullableScalarRelationFilter,
-      Prisma.FiliereStatsWhereInput
+      Prisma.StatsNullableScalarRelationFilter,
+      Prisma.StatsWhereInput
     > | null;
   },
   'uid' | 'label'
@@ -224,7 +224,7 @@ export type FiliereCreateInput = {
   Candidat_Filiere?: Prisma.Candidat_FiliereCreateNestedManyWithoutFiliereInput;
   Reponse_Filiere?: Prisma.Reponse_FiliereCreateNestedManyWithoutFiliereInput;
   Atelier_Filiere?: Prisma.Atelier_FiliereCreateNestedManyWithoutFiliereInput;
-  filiereStats?: Prisma.FiliereStatsCreateNestedOneWithoutFiliereInput;
+  filiereStats?: Prisma.StatsCreateNestedOneWithoutFiliereInput;
 };
 
 export type FiliereUncheckedCreateInput = {
@@ -233,7 +233,7 @@ export type FiliereUncheckedCreateInput = {
   Candidat_Filiere?: Prisma.Candidat_FiliereUncheckedCreateNestedManyWithoutFiliereInput;
   Reponse_Filiere?: Prisma.Reponse_FiliereUncheckedCreateNestedManyWithoutFiliereInput;
   Atelier_Filiere?: Prisma.Atelier_FiliereUncheckedCreateNestedManyWithoutFiliereInput;
-  filiereStats?: Prisma.FiliereStatsUncheckedCreateNestedOneWithoutFiliereInput;
+  filiereStats?: Prisma.StatsUncheckedCreateNestedOneWithoutFiliereInput;
 };
 
 export type FiliereUpdateInput = {
@@ -242,7 +242,7 @@ export type FiliereUpdateInput = {
   Candidat_Filiere?: Prisma.Candidat_FiliereUpdateManyWithoutFiliereNestedInput;
   Reponse_Filiere?: Prisma.Reponse_FiliereUpdateManyWithoutFiliereNestedInput;
   Atelier_Filiere?: Prisma.Atelier_FiliereUpdateManyWithoutFiliereNestedInput;
-  filiereStats?: Prisma.FiliereStatsUpdateOneWithoutFiliereNestedInput;
+  filiereStats?: Prisma.StatsUpdateOneWithoutFiliereNestedInput;
 };
 
 export type FiliereUncheckedUpdateInput = {
@@ -251,7 +251,7 @@ export type FiliereUncheckedUpdateInput = {
   Candidat_Filiere?: Prisma.Candidat_FiliereUncheckedUpdateManyWithoutFiliereNestedInput;
   Reponse_Filiere?: Prisma.Reponse_FiliereUncheckedUpdateManyWithoutFiliereNestedInput;
   Atelier_Filiere?: Prisma.Atelier_FiliereUncheckedUpdateManyWithoutFiliereNestedInput;
-  filiereStats?: Prisma.FiliereStatsUncheckedUpdateOneWithoutFiliereNestedInput;
+  filiereStats?: Prisma.StatsUncheckedUpdateOneWithoutFiliereNestedInput;
 };
 
 export type FiliereCreateManyInput = {
@@ -402,7 +402,7 @@ export type FiliereCreateWithoutReponse_FiliereInput = {
   label: string;
   Candidat_Filiere?: Prisma.Candidat_FiliereCreateNestedManyWithoutFiliereInput;
   Atelier_Filiere?: Prisma.Atelier_FiliereCreateNestedManyWithoutFiliereInput;
-  filiereStats?: Prisma.FiliereStatsCreateNestedOneWithoutFiliereInput;
+  filiereStats?: Prisma.StatsCreateNestedOneWithoutFiliereInput;
 };
 
 export type FiliereUncheckedCreateWithoutReponse_FiliereInput = {
@@ -410,7 +410,7 @@ export type FiliereUncheckedCreateWithoutReponse_FiliereInput = {
   label: string;
   Candidat_Filiere?: Prisma.Candidat_FiliereUncheckedCreateNestedManyWithoutFiliereInput;
   Atelier_Filiere?: Prisma.Atelier_FiliereUncheckedCreateNestedManyWithoutFiliereInput;
-  filiereStats?: Prisma.FiliereStatsUncheckedCreateNestedOneWithoutFiliereInput;
+  filiereStats?: Prisma.StatsUncheckedCreateNestedOneWithoutFiliereInput;
 };
 
 export type FiliereCreateOrConnectWithoutReponse_FiliereInput = {
@@ -446,7 +446,7 @@ export type FiliereUpdateWithoutReponse_FiliereInput = {
   label?: Prisma.StringFieldUpdateOperationsInput | string;
   Candidat_Filiere?: Prisma.Candidat_FiliereUpdateManyWithoutFiliereNestedInput;
   Atelier_Filiere?: Prisma.Atelier_FiliereUpdateManyWithoutFiliereNestedInput;
-  filiereStats?: Prisma.FiliereStatsUpdateOneWithoutFiliereNestedInput;
+  filiereStats?: Prisma.StatsUpdateOneWithoutFiliereNestedInput;
 };
 
 export type FiliereUncheckedUpdateWithoutReponse_FiliereInput = {
@@ -454,7 +454,7 @@ export type FiliereUncheckedUpdateWithoutReponse_FiliereInput = {
   label?: Prisma.StringFieldUpdateOperationsInput | string;
   Candidat_Filiere?: Prisma.Candidat_FiliereUncheckedUpdateManyWithoutFiliereNestedInput;
   Atelier_Filiere?: Prisma.Atelier_FiliereUncheckedUpdateManyWithoutFiliereNestedInput;
-  filiereStats?: Prisma.FiliereStatsUncheckedUpdateOneWithoutFiliereNestedInput;
+  filiereStats?: Prisma.StatsUncheckedUpdateOneWithoutFiliereNestedInput;
 };
 
 export type FiliereCreateWithoutCandidat_FiliereInput = {
@@ -462,7 +462,7 @@ export type FiliereCreateWithoutCandidat_FiliereInput = {
   label: string;
   Reponse_Filiere?: Prisma.Reponse_FiliereCreateNestedManyWithoutFiliereInput;
   Atelier_Filiere?: Prisma.Atelier_FiliereCreateNestedManyWithoutFiliereInput;
-  filiereStats?: Prisma.FiliereStatsCreateNestedOneWithoutFiliereInput;
+  filiereStats?: Prisma.StatsCreateNestedOneWithoutFiliereInput;
 };
 
 export type FiliereUncheckedCreateWithoutCandidat_FiliereInput = {
@@ -470,7 +470,7 @@ export type FiliereUncheckedCreateWithoutCandidat_FiliereInput = {
   label: string;
   Reponse_Filiere?: Prisma.Reponse_FiliereUncheckedCreateNestedManyWithoutFiliereInput;
   Atelier_Filiere?: Prisma.Atelier_FiliereUncheckedCreateNestedManyWithoutFiliereInput;
-  filiereStats?: Prisma.FiliereStatsUncheckedCreateNestedOneWithoutFiliereInput;
+  filiereStats?: Prisma.StatsUncheckedCreateNestedOneWithoutFiliereInput;
 };
 
 export type FiliereCreateOrConnectWithoutCandidat_FiliereInput = {
@@ -506,7 +506,7 @@ export type FiliereUpdateWithoutCandidat_FiliereInput = {
   label?: Prisma.StringFieldUpdateOperationsInput | string;
   Reponse_Filiere?: Prisma.Reponse_FiliereUpdateManyWithoutFiliereNestedInput;
   Atelier_Filiere?: Prisma.Atelier_FiliereUpdateManyWithoutFiliereNestedInput;
-  filiereStats?: Prisma.FiliereStatsUpdateOneWithoutFiliereNestedInput;
+  filiereStats?: Prisma.StatsUpdateOneWithoutFiliereNestedInput;
 };
 
 export type FiliereUncheckedUpdateWithoutCandidat_FiliereInput = {
@@ -514,7 +514,7 @@ export type FiliereUncheckedUpdateWithoutCandidat_FiliereInput = {
   label?: Prisma.StringFieldUpdateOperationsInput | string;
   Reponse_Filiere?: Prisma.Reponse_FiliereUncheckedUpdateManyWithoutFiliereNestedInput;
   Atelier_Filiere?: Prisma.Atelier_FiliereUncheckedUpdateManyWithoutFiliereNestedInput;
-  filiereStats?: Prisma.FiliereStatsUncheckedUpdateOneWithoutFiliereNestedInput;
+  filiereStats?: Prisma.StatsUncheckedUpdateOneWithoutFiliereNestedInput;
 };
 
 export type FiliereCreateWithoutAtelier_FiliereInput = {
@@ -522,7 +522,7 @@ export type FiliereCreateWithoutAtelier_FiliereInput = {
   label: string;
   Candidat_Filiere?: Prisma.Candidat_FiliereCreateNestedManyWithoutFiliereInput;
   Reponse_Filiere?: Prisma.Reponse_FiliereCreateNestedManyWithoutFiliereInput;
-  filiereStats?: Prisma.FiliereStatsCreateNestedOneWithoutFiliereInput;
+  filiereStats?: Prisma.StatsCreateNestedOneWithoutFiliereInput;
 };
 
 export type FiliereUncheckedCreateWithoutAtelier_FiliereInput = {
@@ -530,7 +530,7 @@ export type FiliereUncheckedCreateWithoutAtelier_FiliereInput = {
   label: string;
   Candidat_Filiere?: Prisma.Candidat_FiliereUncheckedCreateNestedManyWithoutFiliereInput;
   Reponse_Filiere?: Prisma.Reponse_FiliereUncheckedCreateNestedManyWithoutFiliereInput;
-  filiereStats?: Prisma.FiliereStatsUncheckedCreateNestedOneWithoutFiliereInput;
+  filiereStats?: Prisma.StatsUncheckedCreateNestedOneWithoutFiliereInput;
 };
 
 export type FiliereCreateOrConnectWithoutAtelier_FiliereInput = {
@@ -566,7 +566,7 @@ export type FiliereUpdateWithoutAtelier_FiliereInput = {
   label?: Prisma.StringFieldUpdateOperationsInput | string;
   Candidat_Filiere?: Prisma.Candidat_FiliereUpdateManyWithoutFiliereNestedInput;
   Reponse_Filiere?: Prisma.Reponse_FiliereUpdateManyWithoutFiliereNestedInput;
-  filiereStats?: Prisma.FiliereStatsUpdateOneWithoutFiliereNestedInput;
+  filiereStats?: Prisma.StatsUpdateOneWithoutFiliereNestedInput;
 };
 
 export type FiliereUncheckedUpdateWithoutAtelier_FiliereInput = {
@@ -574,7 +574,7 @@ export type FiliereUncheckedUpdateWithoutAtelier_FiliereInput = {
   label?: Prisma.StringFieldUpdateOperationsInput | string;
   Candidat_Filiere?: Prisma.Candidat_FiliereUncheckedUpdateManyWithoutFiliereNestedInput;
   Reponse_Filiere?: Prisma.Reponse_FiliereUncheckedUpdateManyWithoutFiliereNestedInput;
-  filiereStats?: Prisma.FiliereStatsUncheckedUpdateOneWithoutFiliereNestedInput;
+  filiereStats?: Prisma.StatsUncheckedUpdateOneWithoutFiliereNestedInput;
 };
 
 export type FiliereCreateWithoutFiliereStatsInput = {
@@ -777,7 +777,7 @@ export type $FilierePayload<
     Candidat_Filiere: Prisma.$Candidat_FilierePayload<ExtArgs>[];
     Reponse_Filiere: Prisma.$Reponse_FilierePayload<ExtArgs>[];
     Atelier_Filiere: Prisma.$Atelier_FilierePayload<ExtArgs>[];
-    filiereStats: Prisma.$FiliereStatsPayload<ExtArgs> | null;
+    filiereStats: Prisma.$StatsPayload<ExtArgs> | null;
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -1368,9 +1368,9 @@ export interface Prisma__FiliereClient<
   >;
   filiereStats<T extends Prisma.Filiere$filiereStatsArgs<ExtArgs> = {}>(
     args?: Prisma.Subset<T, Prisma.Filiere$filiereStatsArgs<ExtArgs>>,
-  ): Prisma.Prisma__FiliereStatsClient<
+  ): Prisma.Prisma__StatsClient<
     runtime.Types.Result.GetResult<
-      Prisma.$FiliereStatsPayload<ExtArgs>,
+      Prisma.$StatsPayload<ExtArgs>,
       T,
       'findUniqueOrThrow',
       GlobalOmitOptions
@@ -1976,18 +1976,18 @@ export type Filiere$filiereStatsArgs<
     runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
-   * Select specific fields to fetch from the FiliereStats
+   * Select specific fields to fetch from the Stats
    */
-  select?: Prisma.FiliereStatsSelect<ExtArgs> | null;
+  select?: Prisma.StatsSelect<ExtArgs> | null;
   /**
-   * Omit specific fields from the FiliereStats
+   * Omit specific fields from the Stats
    */
-  omit?: Prisma.FiliereStatsOmit<ExtArgs> | null;
+  omit?: Prisma.StatsOmit<ExtArgs> | null;
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.FiliereStatsInclude<ExtArgs> | null;
-  where?: Prisma.FiliereStatsWhereInput;
+  include?: Prisma.StatsInclude<ExtArgs> | null;
+  where?: Prisma.StatsWhereInput;
 };
 
 /**

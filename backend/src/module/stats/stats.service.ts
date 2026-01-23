@@ -5,7 +5,8 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { StatEntity } from './entities/stat.entity';
-import { ERROR } from '../../common/constants/error.constants'; // Ajustez le chemin selon votre projet
+import { ERROR } from '../../common/constants/error.constants';
+import { StatSnapshotEntity } from './entities/statSnapshot.entity';
 
 @Injectable()
 export class StatsService {
@@ -93,7 +94,94 @@ export class StatsService {
         throw error;
       }
 
-      throw new InternalServerErrorException(ERROR.ConflictError);
+      console.error('Error fetching stats:', error);
+      throw new InternalServerErrorException(
+        'Une erreur est survenue lors de la récupération des statistiques',
+      );
+    }
+  }
+
+  /**
+   * Crée un snapshot des statistiques actuelles
+   *
+   * @param label - Libellé du snapshot (ex: "JPO Janvier 2026")
+   * @returns Le snapshot créé
+   */
+  async makeSnapshot(label: string): Promise<StatSnapshotEntity> {
+    try {
+      const currentStats = await this.findAll();
+
+      const snapshot = await this.prisma.statsSnapshot.create({
+        data: {
+          label,
+          data: JSON.parse(JSON.stringify(currentStats)),
+        },
+      });
+
+      return {
+        uid: snapshot.uid,
+        label: snapshot.label,
+        data: snapshot.data as StatSnapshotEntity['data'],
+        timestamp: snapshot.timestamp,
+      };
+    } catch (error) {
+      console.error('Error creating snapshot:', error);
+      throw new InternalServerErrorException(
+        'Erreur lors de la création du snapshot',
+      );
+    }
+  }
+
+  /**
+   * Récupère le dernier snapshot sauvegardé
+   */
+  async findLastSnapshot(): Promise<StatSnapshotEntity> {
+    try {
+      const snapshot = await this.prisma.statsSnapshot.findFirst({
+        orderBy: { timestamp: 'desc' },
+      });
+
+      if (!snapshot) {
+        throw new NotFoundException('Aucun snapshot trouvé');
+      }
+
+      return {
+        uid: snapshot.uid,
+        label: snapshot.label,
+        data: snapshot.data as StatSnapshotEntity['data'],
+        timestamp: snapshot.timestamp,
+      };
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      console.error('Error fetching snapshot:', error);
+      throw new InternalServerErrorException(
+        'Erreur lors de la récupération du snapshot',
+      );
+    }
+  }
+
+  /**
+   * Récupère tous les snapshots
+   */
+  async findAllSnapshots(): Promise<StatSnapshotEntity[]> {
+    try {
+      const snapshots = await this.prisma.statsSnapshot.findMany({
+        orderBy: { timestamp: 'desc' },
+      });
+
+      return snapshots.map((s) => ({
+        uid: s.uid,
+        label: s.label,
+        data: s.data as StatSnapshotEntity['data'],
+        timestamp: s.timestamp,
+      }));
+    } catch (error) {
+      console.error('Error fetching snapshots:', error);
+      throw new InternalServerErrorException(
+        'Erreur lors de la récupération des snapshots',
+      );
     }
   }
 }

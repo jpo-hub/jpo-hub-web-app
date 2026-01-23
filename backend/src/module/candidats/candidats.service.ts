@@ -266,7 +266,7 @@ export class CandidatsService {
             },
           });
 
-          await tx.filiereStats.upsert({
+          await tx.stats.upsert({
             where: { filiereId: filiere.uid },
             update: {
               selectionCount: { increment: 1 },

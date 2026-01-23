@@ -21,4 +21,22 @@ export class StatEntity {
     example: 12,
   })
   candidats: number;
+
+  @ApiProperty({
+    description: 'Top 3 des ateliers les plus populaires',
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: {
+        uid: { type: 'string' },
+        label: { type: 'string' },
+        candidatsCount: { type: 'number' },
+      },
+    },
+  })
+  topAteliers: Array<{
+    uid: string;
+    label: string;
+    candidatsCount: number;
+  }>;
 }
