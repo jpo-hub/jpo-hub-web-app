@@ -93,6 +93,11 @@ export type Admin = Prisma.AdminModel
  */
 export type Stats = Prisma.StatsModel
 /**
+ * Model GlobalStats
+ * 
+ */
+export type GlobalStats = Prisma.GlobalStatsModel
+/**
  * Model StatsSnapshot
  * 
  */

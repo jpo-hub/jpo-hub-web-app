@@ -126,9 +126,15 @@ model Stats {
   uid            String @id @default(uuid())
   filiereId      String @unique
   selectionCount Int    @default(0)
-  views          Int    @default(0)
 
   filiere Filiere @relation(fields: [filiereId], references: [uid])
+}
+
+model GlobalStats {
+  uid         String   @id @default(uuid())
+  candidats   Int
+  appointment Int
+  createdAt   DateTime @default(now())
 }
 
 model StatsSnapshot {

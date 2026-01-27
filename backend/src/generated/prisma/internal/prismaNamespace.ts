@@ -395,6 +395,7 @@ export const ModelName = {
   Atelier_Candidat: 'Atelier_Candidat',
   Admin: 'Admin',
   Stats: 'Stats',
+  GlobalStats: 'GlobalStats',
   StatsSnapshot: 'StatsSnapshot'
 } as const
 
@@ -411,7 +412,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "filiere" | "response" | "question" | "reponse_Filiere" | "candidat" | "candidat_Filiere" | "atelier" | "atelier_Filiere" | "atelier_Candidat" | "admin" | "stats" | "statsSnapshot"
+    modelProps: "filiere" | "response" | "question" | "reponse_Filiere" | "candidat" | "candidat_Filiere" | "atelier" | "atelier_Filiere" | "atelier_Candidat" | "admin" | "stats" | "globalStats" | "statsSnapshot"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1229,6 +1230,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    GlobalStats: {
+      payload: Prisma.$GlobalStatsPayload<ExtArgs>
+      fields: Prisma.GlobalStatsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.GlobalStatsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GlobalStatsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.GlobalStatsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GlobalStatsPayload>
+        }
+        findFirst: {
+          args: Prisma.GlobalStatsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GlobalStatsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.GlobalStatsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GlobalStatsPayload>
+        }
+        findMany: {
+          args: Prisma.GlobalStatsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GlobalStatsPayload>[]
+        }
+        create: {
+          args: Prisma.GlobalStatsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GlobalStatsPayload>
+        }
+        createMany: {
+          args: Prisma.GlobalStatsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.GlobalStatsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GlobalStatsPayload>[]
+        }
+        delete: {
+          args: Prisma.GlobalStatsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GlobalStatsPayload>
+        }
+        update: {
+          args: Prisma.GlobalStatsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GlobalStatsPayload>
+        }
+        deleteMany: {
+          args: Prisma.GlobalStatsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.GlobalStatsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.GlobalStatsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GlobalStatsPayload>[]
+        }
+        upsert: {
+          args: Prisma.GlobalStatsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GlobalStatsPayload>
+        }
+        aggregate: {
+          args: Prisma.GlobalStatsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateGlobalStats>
+        }
+        groupBy: {
+          args: Prisma.GlobalStatsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GlobalStatsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.GlobalStatsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GlobalStatsCountAggregateOutputType> | number
+        }
+      }
+    }
     StatsSnapshot: {
       payload: Prisma.$StatsSnapshotPayload<ExtArgs>
       fields: Prisma.StatsSnapshotFieldRefs
@@ -1450,11 +1525,20 @@ export type AdminScalarFieldEnum = (typeof AdminScalarFieldEnum)[keyof typeof Ad
 export const StatsScalarFieldEnum = {
   uid: 'uid',
   filiereId: 'filiereId',
-  selectionCount: 'selectionCount',
-  views: 'views'
+  selectionCount: 'selectionCount'
 } as const
 
 export type StatsScalarFieldEnum = (typeof StatsScalarFieldEnum)[keyof typeof StatsScalarFieldEnum]
+
+
+export const GlobalStatsScalarFieldEnum = {
+  uid: 'uid',
+  candidats: 'candidats',
+  appointment: 'appointment',
+  createdAt: 'createdAt'
+} as const
+
+export type GlobalStatsScalarFieldEnum = (typeof GlobalStatsScalarFieldEnum)[keyof typeof GlobalStatsScalarFieldEnum]
 
 
 export const StatsSnapshotScalarFieldEnum = {
@@ -1687,6 +1771,7 @@ export type GlobalOmitConfig = {
   atelier_Candidat?: Prisma.Atelier_CandidatOmit
   admin?: Prisma.AdminOmit
   stats?: Prisma.StatsOmit
+  globalStats?: Prisma.GlobalStatsOmit
   statsSnapshot?: Prisma.StatsSnapshotOmit
 }
 

@@ -397,6 +397,15 @@ async function main() {
   });
 
   console.log('✅ Questions seeded', admin);
+
+  await prisma.globalStats.create({
+    data: {
+      candidats: 0,
+      appointment: 0,
+    },
+  });
+
+  console.log('✅ GlobalStats initialisé');
 }
 
 main()

@@ -292,6 +292,10 @@ export class CandidatsService {
           }
         }
 
+        await tx.globalStats.updateMany({
+          data: { candidats: { increment: 1 } },
+        });
+
         return this.enrichCandidatDetails(candidat, tx);
       });
     } catch (error) {

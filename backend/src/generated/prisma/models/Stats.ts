@@ -28,66 +28,56 @@ export type AggregateStats = {
 
 export type StatsAvgAggregateOutputType = {
   selectionCount: number | null
-  views: number | null
 }
 
 export type StatsSumAggregateOutputType = {
   selectionCount: number | null
-  views: number | null
 }
 
 export type StatsMinAggregateOutputType = {
   uid: string | null
   filiereId: string | null
   selectionCount: number | null
-  views: number | null
 }
 
 export type StatsMaxAggregateOutputType = {
   uid: string | null
   filiereId: string | null
   selectionCount: number | null
-  views: number | null
 }
 
 export type StatsCountAggregateOutputType = {
   uid: number
   filiereId: number
   selectionCount: number
-  views: number
   _all: number
 }
 
 
 export type StatsAvgAggregateInputType = {
   selectionCount?: true
-  views?: true
 }
 
 export type StatsSumAggregateInputType = {
   selectionCount?: true
-  views?: true
 }
 
 export type StatsMinAggregateInputType = {
   uid?: true
   filiereId?: true
   selectionCount?: true
-  views?: true
 }
 
 export type StatsMaxAggregateInputType = {
   uid?: true
   filiereId?: true
   selectionCount?: true
-  views?: true
 }
 
 export type StatsCountAggregateInputType = {
   uid?: true
   filiereId?: true
   selectionCount?: true
-  views?: true
   _all?: true
 }
 
@@ -181,7 +171,6 @@ export type StatsGroupByOutputType = {
   uid: string
   filiereId: string
   selectionCount: number
-  views: number
   _count: StatsCountAggregateOutputType | null
   _avg: StatsAvgAggregateOutputType | null
   _sum: StatsSumAggregateOutputType | null
@@ -211,7 +200,6 @@ export type StatsWhereInput = {
   uid?: Prisma.StringFilter<"Stats"> | string
   filiereId?: Prisma.StringFilter<"Stats"> | string
   selectionCount?: Prisma.IntFilter<"Stats"> | number
-  views?: Prisma.IntFilter<"Stats"> | number
   filiere?: Prisma.XOR<Prisma.FiliereScalarRelationFilter, Prisma.FiliereWhereInput>
 }
 
@@ -219,7 +207,6 @@ export type StatsOrderByWithRelationInput = {
   uid?: Prisma.SortOrder
   filiereId?: Prisma.SortOrder
   selectionCount?: Prisma.SortOrder
-  views?: Prisma.SortOrder
   filiere?: Prisma.FiliereOrderByWithRelationInput
 }
 
@@ -230,7 +217,6 @@ export type StatsWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.StatsWhereInput[]
   NOT?: Prisma.StatsWhereInput | Prisma.StatsWhereInput[]
   selectionCount?: Prisma.IntFilter<"Stats"> | number
-  views?: Prisma.IntFilter<"Stats"> | number
   filiere?: Prisma.XOR<Prisma.FiliereScalarRelationFilter, Prisma.FiliereWhereInput>
 }, "uid" | "filiereId">
 
@@ -238,7 +224,6 @@ export type StatsOrderByWithAggregationInput = {
   uid?: Prisma.SortOrder
   filiereId?: Prisma.SortOrder
   selectionCount?: Prisma.SortOrder
-  views?: Prisma.SortOrder
   _count?: Prisma.StatsCountOrderByAggregateInput
   _avg?: Prisma.StatsAvgOrderByAggregateInput
   _max?: Prisma.StatsMaxOrderByAggregateInput
@@ -253,13 +238,11 @@ export type StatsScalarWhereWithAggregatesInput = {
   uid?: Prisma.StringWithAggregatesFilter<"Stats"> | string
   filiereId?: Prisma.StringWithAggregatesFilter<"Stats"> | string
   selectionCount?: Prisma.IntWithAggregatesFilter<"Stats"> | number
-  views?: Prisma.IntWithAggregatesFilter<"Stats"> | number
 }
 
 export type StatsCreateInput = {
   uid?: string
   selectionCount?: number
-  views?: number
   filiere: Prisma.FiliereCreateNestedOneWithoutFiliereStatsInput
 }
 
@@ -267,13 +250,11 @@ export type StatsUncheckedCreateInput = {
   uid?: string
   filiereId: string
   selectionCount?: number
-  views?: number
 }
 
 export type StatsUpdateInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string
   selectionCount?: Prisma.IntFieldUpdateOperationsInput | number
-  views?: Prisma.IntFieldUpdateOperationsInput | number
   filiere?: Prisma.FiliereUpdateOneRequiredWithoutFiliereStatsNestedInput
 }
 
@@ -281,27 +262,23 @@ export type StatsUncheckedUpdateInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string
   filiereId?: Prisma.StringFieldUpdateOperationsInput | string
   selectionCount?: Prisma.IntFieldUpdateOperationsInput | number
-  views?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type StatsCreateManyInput = {
   uid?: string
   filiereId: string
   selectionCount?: number
-  views?: number
 }
 
 export type StatsUpdateManyMutationInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string
   selectionCount?: Prisma.IntFieldUpdateOperationsInput | number
-  views?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type StatsUncheckedUpdateManyInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string
   filiereId?: Prisma.StringFieldUpdateOperationsInput | string
   selectionCount?: Prisma.IntFieldUpdateOperationsInput | number
-  views?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type StatsNullableScalarRelationFilter = {
@@ -313,31 +290,26 @@ export type StatsCountOrderByAggregateInput = {
   uid?: Prisma.SortOrder
   filiereId?: Prisma.SortOrder
   selectionCount?: Prisma.SortOrder
-  views?: Prisma.SortOrder
 }
 
 export type StatsAvgOrderByAggregateInput = {
   selectionCount?: Prisma.SortOrder
-  views?: Prisma.SortOrder
 }
 
 export type StatsMaxOrderByAggregateInput = {
   uid?: Prisma.SortOrder
   filiereId?: Prisma.SortOrder
   selectionCount?: Prisma.SortOrder
-  views?: Prisma.SortOrder
 }
 
 export type StatsMinOrderByAggregateInput = {
   uid?: Prisma.SortOrder
   filiereId?: Prisma.SortOrder
   selectionCount?: Prisma.SortOrder
-  views?: Prisma.SortOrder
 }
 
 export type StatsSumOrderByAggregateInput = {
   selectionCount?: Prisma.SortOrder
-  views?: Prisma.SortOrder
 }
 
 export type StatsCreateNestedOneWithoutFiliereInput = {
@@ -375,13 +347,11 @@ export type StatsUncheckedUpdateOneWithoutFiliereNestedInput = {
 export type StatsCreateWithoutFiliereInput = {
   uid?: string
   selectionCount?: number
-  views?: number
 }
 
 export type StatsUncheckedCreateWithoutFiliereInput = {
   uid?: string
   selectionCount?: number
-  views?: number
 }
 
 export type StatsCreateOrConnectWithoutFiliereInput = {
@@ -403,13 +373,11 @@ export type StatsUpdateToOneWithWhereWithoutFiliereInput = {
 export type StatsUpdateWithoutFiliereInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string
   selectionCount?: Prisma.IntFieldUpdateOperationsInput | number
-  views?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type StatsUncheckedUpdateWithoutFiliereInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string
   selectionCount?: Prisma.IntFieldUpdateOperationsInput | number
-  views?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 
@@ -418,7 +386,6 @@ export type StatsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   uid?: boolean
   filiereId?: boolean
   selectionCount?: boolean
-  views?: boolean
   filiere?: boolean | Prisma.FiliereDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["stats"]>
 
@@ -426,7 +393,6 @@ export type StatsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   uid?: boolean
   filiereId?: boolean
   selectionCount?: boolean
-  views?: boolean
   filiere?: boolean | Prisma.FiliereDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["stats"]>
 
@@ -434,7 +400,6 @@ export type StatsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   uid?: boolean
   filiereId?: boolean
   selectionCount?: boolean
-  views?: boolean
   filiere?: boolean | Prisma.FiliereDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["stats"]>
 
@@ -442,10 +407,9 @@ export type StatsSelectScalar = {
   uid?: boolean
   filiereId?: boolean
   selectionCount?: boolean
-  views?: boolean
 }
 
-export type StatsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"uid" | "filiereId" | "selectionCount" | "views", ExtArgs["result"]["stats"]>
+export type StatsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"uid" | "filiereId" | "selectionCount", ExtArgs["result"]["stats"]>
 export type StatsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   filiere?: boolean | Prisma.FiliereDefaultArgs<ExtArgs>
 }
@@ -465,7 +429,6 @@ export type $StatsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     uid: string
     filiereId: string
     selectionCount: number
-    views: number
   }, ExtArgs["result"]["stats"]>
   composites: {}
 }
@@ -893,7 +856,6 @@ export interface StatsFieldRefs {
   readonly uid: Prisma.FieldRef<"Stats", 'String'>
   readonly filiereId: Prisma.FieldRef<"Stats", 'String'>
   readonly selectionCount: Prisma.FieldRef<"Stats", 'Int'>
-  readonly views: Prisma.FieldRef<"Stats", 'Int'>
 }
     
 

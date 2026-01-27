@@ -62,6 +62,7 @@ export const ModelName = {
   Atelier_Candidat: 'Atelier_Candidat',
   Admin: 'Admin',
   Stats: 'Stats',
+  GlobalStats: 'GlobalStats',
   StatsSnapshot: 'StatsSnapshot'
 } as const
 
@@ -189,11 +190,20 @@ export type AdminScalarFieldEnum = (typeof AdminScalarFieldEnum)[keyof typeof Ad
 export const StatsScalarFieldEnum = {
   uid: 'uid',
   filiereId: 'filiereId',
-  selectionCount: 'selectionCount',
-  views: 'views'
+  selectionCount: 'selectionCount'
 } as const
 
 export type StatsScalarFieldEnum = (typeof StatsScalarFieldEnum)[keyof typeof StatsScalarFieldEnum]
+
+
+export const GlobalStatsScalarFieldEnum = {
+  uid: 'uid',
+  candidats: 'candidats',
+  appointment: 'appointment',
+  createdAt: 'createdAt'
+} as const
+
+export type GlobalStatsScalarFieldEnum = (typeof GlobalStatsScalarFieldEnum)[keyof typeof GlobalStatsScalarFieldEnum]
 
 
 export const StatsSnapshotScalarFieldEnum = {

@@ -26,49 +26,37 @@ export class StatsService {
    */
   async findAll(): Promise<StatEntity> {
     try {
-      const [
-        filieresRaw,
-        activeAteliersCount,
-        candidatAppointmentCount,
-        candidatsCount,
-        topAteliersRaw,
-      ] = await Promise.all([
-        this.prisma.filiere.findMany({
-          select: {
-            label: true,
-            filiereStats: {
-              select: { selectionCount: true },
+      const [filieresRaw, activeAteliersCount, topAteliersRaw, globalStats] =
+        await Promise.all([
+          this.prisma.filiere.findMany({
+            select: {
+              label: true,
+              filiereStats: { select: { selectionCount: true } },
             },
-          },
-        }),
-        this.prisma.atelier.count({
-          where: { draft: false },
-        }),
-        this.prisma.candidat.count({
-          where: { appointment: true },
-        }),
-        this.prisma.candidat.count(),
-        this.prisma.atelier.findMany({
-          where: { draft: false },
-          take: 3,
-          orderBy: {
-            Atelier_Candidat: {
-              _count: 'desc',
+          }),
+          this.prisma.atelier.count({ where: { draft: false } }),
+          this.prisma.atelier.findMany({
+            where: { draft: false },
+            take: 3,
+            orderBy: {
+              Atelier_Candidat: { _count: 'desc' },
             },
-          },
-          select: {
-            uid: true,
-            label: true,
-            _count: { select: { Atelier_Candidat: true } },
-          },
-        }),
-      ]);
+            select: {
+              uid: true,
+              label: true,
+              _count: { select: { Atelier_Candidat: true } },
+            },
+          }),
+          this.prisma.globalStats.findFirst({
+            orderBy: { createdAt: 'desc' },
+          }),
+        ]);
 
       if (!filieresRaw || filieresRaw.length === 0) {
         throw new NotFoundException(ERROR.ResourceNotFound);
       }
 
-      const formattedStats = filieresRaw.reduce(
+      const filieres = filieresRaw.reduce(
         (acc, f) => {
           acc[f.label] = f.filiereStats?.selectionCount ?? 0;
           return acc;
@@ -83,10 +71,10 @@ export class StatsService {
       }));
 
       return {
-        filieres: formattedStats,
+        filieres,
         ateliersActifs: activeAteliersCount,
-        appointment: candidatAppointmentCount,
-        candidats: candidatsCount,
+        appointment: globalStats?.appointment ?? 0,
+        candidats: globalStats?.candidats ?? 0,
         topAteliers,
       } as StatEntity;
     } catch (error) {
@@ -109,21 +97,37 @@ export class StatsService {
    */
   async makeSnapshot(label: string): Promise<StatSnapshotEntity> {
     try {
-      const currentStats = await this.findAll();
+      return await this.prisma.$transaction(async (tx) => {
+        const currentStats = await this.findAll();
 
-      const snapshot = await this.prisma.statsSnapshot.create({
-        data: {
-          label,
-          data: JSON.parse(JSON.stringify(currentStats)),
-        },
+        const snapshot = await tx.statsSnapshot.create({
+          data: {
+            label,
+            data: JSON.parse(JSON.stringify(currentStats)),
+          },
+        });
+
+        // Reset global stats after snapshot
+        await tx.globalStats.updateMany({
+          data: {
+            candidats: 0,
+            appointment: 0,
+          },
+        });
+
+        await tx.stats.updateMany({
+          data: {
+            selectionCount: 0,
+          },
+        });
+
+        return {
+          uid: snapshot.uid,
+          label: snapshot.label,
+          data: snapshot.data as StatSnapshotEntity['data'],
+          timestamp: snapshot.timestamp,
+        };
       });
-
-      return {
-        uid: snapshot.uid,
-        label: snapshot.label,
-        data: snapshot.data as StatSnapshotEntity['data'],
-        timestamp: snapshot.timestamp,
-      };
     } catch (error) {
       console.error('Error creating snapshot:', error);
       throw new InternalServerErrorException(
