@@ -1,12 +1,12 @@
-import {Component, computed, inject} from '@angular/core';
-import {StatCard} from '../../components/stat-card/stat-card';
-import {Candidat} from '../../services/candidat';
-import {toSignal} from '@angular/core/rxjs-interop';
-import {CandidatsStat} from '../../components/candidats-stat/candidats-stat';
-import {FiliereStat} from '../../components/filiere-stat/filiere-stat';
-import {Stats} from '../../services/stats';
-import {Stats as StatsModel} from '../../../core/models/stats.model';
-import {AteliersTopStats} from '../../components/ateliers-top-stats/ateliers-top-stats';
+import { Component, computed, inject } from '@angular/core';
+import { StatCard } from '../../components/stat-card/stat-card';
+import { Candidat } from '../../services/candidat';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { StatsService } from '../../services/stats';
+import {LastStats, Stats } from '../../../core/models/stats.model';
+import { CandidatsStat } from '../../components/candidats-stat/candidats-stat';
+import { FiliereStat } from '../../components/filiere-stat/filiere-stat';
+import { AteliersTopStats } from '../../components/ateliers-top-stats/ateliers-top-stats';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,17 +21,43 @@ import {AteliersTopStats} from '../../components/ateliers-top-stats/ateliers-top
 })
 export class Dashboard {
   private candidatService = inject(Candidat);
-  private statsService = inject(Stats);
+  private statsService = inject(StatsService);
 
   candidats = toSignal(this.candidatService.getCandidats(), { initialValue: [] as any[] });
+  stats = toSignal(this.statsService.getStats(), { initialValue: new Stats() });
+  lastStats = toSignal(this.statsService.getLastStats(), { initialValue: new LastStats() });
 
-  stats = toSignal(this.statsService.getStats(), { initialValue: new StatsModel() })
-
+  // Calcul du taux de conversion actuel
   calculateConversion = computed(() => {
     const s = this.stats();
     if (!s || s.candidats === 0) return 0;
-
     const rate = (s.appointment / s.candidats) * 100;
     return Math.round(rate);
+  });
+
+  // Fonction sécurisée pour calculer la variation en %
+  computeDelta(current: number, previous: number): number {
+    const curr = current ?? 0;
+    const prev = previous ?? 0;
+
+    if (curr === prev) return 0;           // valeurs identiques → 0%
+    if (prev === 0) return curr > 0 ? 100 : 0; // pas de valeur précédente
+    return Math.round(((curr - prev) / prev) * 100);
+  }
+
+  // Deltas pour toutes les stats
+  deltas = computed(() => {
+    const s = this.stats();
+    const l = this.lastStats();
+
+    return {
+      candidats: this.computeDelta(s.candidats, l.data.candidats),
+      appointment: this.computeDelta(s.appointment, l.data.appointment),
+      ateliersActifs: this.computeDelta(s.ateliersActifs, l.data.ateliersActifs),
+      conversion: this.computeDelta(
+        s.candidats ? (s.appointment / s.candidats) * 100 : 0,
+        l.data.candidats ? (l.data.appointment / l.data.candidats) * 100 : 0
+      )
+    };
   });
 }

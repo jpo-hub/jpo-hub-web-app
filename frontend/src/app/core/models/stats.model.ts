@@ -11,3 +11,10 @@ class Atelier {
   label!: string;
   candidatsCount!: number;
 }
+
+export class LastStats {
+  uid!: string;
+  label!: string;
+  data!: Stats
+  timestamp!: string;
+}

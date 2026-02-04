@@ -4,12 +4,12 @@ import {ToastService} from '../../core/services/toast';
 import {ErrorHandler} from '../../core/services/error-handler';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {catchError} from 'rxjs';
-import {Stats as StatsModel} from '../../core/models/stats.model';
+import {LastStats, Stats} from '../../core/models/stats.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class Stats {
+export class StatsService {
   apiUrl = environment.apiURL;
   private toastService = inject(ToastService);
   private errorHandler = inject(ErrorHandler);
@@ -19,7 +19,19 @@ export class Stats {
   ) { }
 
   public getStats() {
-    return this.http.get<StatsModel>(`${this.apiUrl}/stats`).pipe(
+    return this.http.get<Stats>(`${this.apiUrl}/stats`).pipe(
+      catchError(err => {
+        const error = err as HttpErrorResponse;
+
+        const message = this.errorHandler.getErrorMessage(error.error.code);
+        this.toastService.show(message, 'danger');
+        return [];
+      })
+    );
+  }
+
+  public getLastStats() {
+    return this.http.get<LastStats>(`${this.apiUrl}/stats/snapshots/last`).pipe(
       catchError(err => {
         const error = err as HttpErrorResponse;
 
