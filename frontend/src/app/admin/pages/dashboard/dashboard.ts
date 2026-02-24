@@ -50,13 +50,15 @@ export class Dashboard {
     const s = this.stats();
     const l = this.lastStats();
 
+    const last = l?.data ?? { candidats: 0, appointment: 0, ateliersActifs: 0 };
+
     return {
-      candidats: this.computeDelta(s.candidats, l.data.candidats),
-      appointment: this.computeDelta(s.appointment, l.data.appointment),
-      ateliersActifs: this.computeDelta(s.ateliersActifs, l.data.ateliersActifs),
+      candidats: this.computeDelta(s?.candidats ?? 0, last.candidats ?? 0),
+      appointment: this.computeDelta(s?.appointment ?? 0, last.appointment ?? 0),
+      ateliersActifs: this.computeDelta(s?.ateliersActifs ?? 0, last.ateliersActifs ?? 0),
       conversion: this.computeDelta(
-        s.candidats ? (s.appointment / s.candidats) * 100 : 0,
-        l.data.candidats ? (l.data.appointment / l.data.candidats) * 100 : 0
+        (s?.candidats ? (s.appointment / s.candidats) * 100 : 0),
+        (last.candidats ? (last.appointment / last.candidats) * 100 : 0)
       )
     };
   });
