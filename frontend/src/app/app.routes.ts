@@ -7,6 +7,7 @@ import {quizGuard} from './core/guards/quiz-guard';
 import {Results} from './client/pages/results/results';
 import {Login} from './admin/pages/login/login';
 import {Dashboard} from './admin/pages/dashboard/dashboard';
+import {Quiz as QuizAdmin} from './admin/pages/quiz/quiz';
 import {adminGuard} from './core/guards/admin-guard';
 
 export const routes: Routes = [
@@ -18,6 +19,7 @@ export const routes: Routes = [
 
   { path: 'admin/login', component: Login},
   { path: 'admin/dashboard', component: Dashboard , canActivate: [adminGuard]},
+  { path: 'admin/quiz', component: QuizAdmin , canActivate: [adminGuard]},
 
   { path: '**', component: NotFound }
 ];
