@@ -34,6 +34,7 @@ export class StatsService {
     return this.http.get<LastStats>(`${this.apiUrl}/stats/snapshots/last`).pipe(
       catchError(err => {
         const error = err as HttpErrorResponse;
+        console.error(error);
 
         const message = this.errorHandler.getErrorMessage(error.error.code);
         this.toastService.show(message, 'danger');

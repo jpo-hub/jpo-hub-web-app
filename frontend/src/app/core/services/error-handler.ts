@@ -10,6 +10,8 @@ export class ErrorHandler {
         return ERROR_MESSAGES.EMAIL_USED;
       case 'incorrect-credentials':
         return ERROR_MESSAGES.INCORRECT_CREDANTIALS
+      case 'resource-not-found':
+        return ERROR_MESSAGES.RESSOURCE_NOT_FOUND
       case '500':
         return ERROR_MESSAGES.SERVER_ERROR;
       default:

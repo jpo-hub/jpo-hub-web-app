@@ -5,6 +5,7 @@ export const ERROR_MESSAGES = {
   PASSWORD_TOO_SHORT: 'Le mot de passe est trop court',
   INCORRECT_CREDANTIALS: 'Email ou mot de passe incorrect',
   USER_ALREADY_EXISTS: 'Cet utilisateur existe déjà',
+  RESSOURCE_NOT_FOUND: 'Ressource introuvable',
   SERVER_ERROR: 'Erreur serveur, veuillez réessayer plus tard'
 };
 

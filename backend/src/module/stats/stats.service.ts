@@ -81,8 +81,6 @@ export class StatsService {
       if (error instanceof NotFoundException) {
         throw error;
       }
-
-      console.error('Error fetching stats:', error);
       throw new InternalServerErrorException(
         'Une erreur est survenue lors de la récupération des statistiques',
       );
@@ -129,7 +127,6 @@ export class StatsService {
         };
       });
     } catch (error) {
-      console.error('Error creating snapshot:', error);
       throw new InternalServerErrorException(
         'Erreur lors de la création du snapshot',
       );
@@ -146,7 +143,7 @@ export class StatsService {
       });
 
       if (!snapshot) {
-        throw new NotFoundException('Aucun snapshot trouvé');
+        throw new NotFoundException(ERROR.ResourceNotFound);
       }
 
       return {
@@ -159,7 +156,6 @@ export class StatsService {
       if (error instanceof NotFoundException) {
         throw error;
       }
-      console.error('Error fetching snapshot:', error);
       throw new InternalServerErrorException(
         'Erreur lors de la récupération du snapshot',
       );
@@ -182,7 +178,9 @@ export class StatsService {
         timestamp: s.timestamp,
       }));
     } catch (error) {
-      console.error('Error fetching snapshots:', error);
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
       throw new InternalServerErrorException(
         'Erreur lors de la récupération des snapshots',
       );
