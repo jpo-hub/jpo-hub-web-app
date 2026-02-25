@@ -1,0 +1,227 @@
+section {
+  padding: 20px;
+
+  .quiz-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+
+    .quiz-title {
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+
+      span {
+        font-size: 0.8rem;
+        color: var(--color-text-gray);
+      }
+    }
+
+    .quiz-content {
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      padding: 1rem;
+    }
+  }
+  .quiz-recherche-bar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 12px;
+
+    input {
+      flex: 1;
+      padding: 10px 12px;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      outline: none;
+    }
+
+    .primary {
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--color-border);
+      background: var(--color-primary, #111);
+      color: #fff;
+      cursor: pointer;
+    }
+  }
+
+  .questions-list {
+    display: grid;
+    gap: 8px;
+  }
+
+  .question-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 12px;
+
+    .meta {
+      .label { font-weight: 600; }
+      .uid { font-size: 12px; color: var(--color-text-gray); margin-top: 4px; }
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .secondary {
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--color-border);
+      background: #fff;
+      cursor: pointer;
+    }
+  }
+
+  .empty {
+    padding: 16px;
+    color: var(--color-text-gray);
+  }
+
+  /* Modal */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0,0,0,.45);
+    z-index: 50;
+  }
+
+  .modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: min(760px, calc(100vw - 24px));
+    max-height: calc(100vh - 24px);
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+    z-index: 51;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .modal-header {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    h2 { margin: 0; font-size: 1.1rem; }
+
+    .icon {
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-size: 18px;
+    }
+  }
+
+  .modal-body {
+    padding: 16px;
+    overflow: auto;
+
+    label {
+      display: block;
+      font-size: 12px;
+      color: var(--color-text-gray);
+      margin-bottom: 6px;
+    }
+
+    input[type='text'], input[type='number'] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      outline: none;
+      margin-bottom: 12px;
+    }
+  }
+
+  .modal-footer {
+    padding: 14px 16px;
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+
+    .secondary {
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--color-border);
+      background: #fff;
+      cursor: pointer;
+    }
+
+    .primary {
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--color-border);
+      background: var(--color-primary, #111);
+      color: #fff;
+      cursor: pointer;
+
+      &:disabled { opacity: .5; cursor: not-allowed; }
+    }
+  }
+
+  .answers-block {
+    margin-top: 8px;
+
+    .answers-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 6px 0 10px;
+
+      h3 { margin: 0; }
+    }
+
+    .answer-card {
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+
+    .answer-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+
+      .answer-uid { font-size: 12px; color: var(--color-text-gray); }
+    }
+
+    .danger.ghost {
+      border: none;
+      background: transparent;
+      color: #d33;
+      cursor: pointer;
+    }
+
+    .scores {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px;
+    }
+
+    .hint {
+      font-size: 12px;
+      color: var(--color-text-gray);
+      margin-top: 6px;
+    }
+  }
+
+}

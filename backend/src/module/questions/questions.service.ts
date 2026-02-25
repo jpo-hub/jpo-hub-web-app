@@ -91,7 +91,10 @@ export class QuestionsService {
         skip,
         take,
         cursor,
-        where,
+        where: {
+          ...where,
+          draft: false,
+        },
         orderBy,
       });
 

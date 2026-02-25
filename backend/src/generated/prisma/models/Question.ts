@@ -27,18 +27,21 @@ export type AggregateQuestion = {
 export type QuestionMinAggregateOutputType = {
   uid: string | null;
   label: string | null;
+  draft: boolean | null;
   multiple: boolean | null;
 };
 
 export type QuestionMaxAggregateOutputType = {
   uid: string | null;
   label: string | null;
+  draft: boolean | null;
   multiple: boolean | null;
 };
 
 export type QuestionCountAggregateOutputType = {
   uid: number;
   label: number;
+  draft: number;
   multiple: number;
   _all: number;
 };
@@ -46,18 +49,21 @@ export type QuestionCountAggregateOutputType = {
 export type QuestionMinAggregateInputType = {
   uid?: true;
   label?: true;
+  draft?: true;
   multiple?: true;
 };
 
 export type QuestionMaxAggregateInputType = {
   uid?: true;
   label?: true;
+  draft?: true;
   multiple?: true;
 };
 
 export type QuestionCountAggregateInputType = {
   uid?: true;
   label?: true;
+  draft?: true;
   multiple?: true;
   _all?: true;
 };
@@ -144,6 +150,7 @@ export type QuestionGroupByArgs<
 export type QuestionGroupByOutputType = {
   uid: string;
   label: string;
+  draft: boolean;
   multiple: boolean;
   _count: QuestionCountAggregateOutputType | null;
   _min: QuestionMinAggregateOutputType | null;
@@ -169,6 +176,7 @@ export type QuestionWhereInput = {
   NOT?: Prisma.QuestionWhereInput | Prisma.QuestionWhereInput[];
   uid?: Prisma.StringFilter<'Question'> | string;
   label?: Prisma.StringFilter<'Question'> | string;
+  draft?: Prisma.BoolFilter<'Question'> | boolean;
   multiple?: Prisma.BoolFilter<'Question'> | boolean;
   Response?: Prisma.ResponseListRelationFilter;
 };
@@ -176,6 +184,7 @@ export type QuestionWhereInput = {
 export type QuestionOrderByWithRelationInput = {
   uid?: Prisma.SortOrder;
   label?: Prisma.SortOrder;
+  draft?: Prisma.SortOrder;
   multiple?: Prisma.SortOrder;
   Response?: Prisma.ResponseOrderByRelationAggregateInput;
 };
@@ -187,6 +196,7 @@ export type QuestionWhereUniqueInput = Prisma.AtLeast<
     AND?: Prisma.QuestionWhereInput | Prisma.QuestionWhereInput[];
     OR?: Prisma.QuestionWhereInput[];
     NOT?: Prisma.QuestionWhereInput | Prisma.QuestionWhereInput[];
+    draft?: Prisma.BoolFilter<'Question'> | boolean;
     multiple?: Prisma.BoolFilter<'Question'> | boolean;
     Response?: Prisma.ResponseListRelationFilter;
   },
@@ -196,6 +206,7 @@ export type QuestionWhereUniqueInput = Prisma.AtLeast<
 export type QuestionOrderByWithAggregationInput = {
   uid?: Prisma.SortOrder;
   label?: Prisma.SortOrder;
+  draft?: Prisma.SortOrder;
   multiple?: Prisma.SortOrder;
   _count?: Prisma.QuestionCountOrderByAggregateInput;
   _max?: Prisma.QuestionMaxOrderByAggregateInput;
@@ -212,12 +223,14 @@ export type QuestionScalarWhereWithAggregatesInput = {
     | Prisma.QuestionScalarWhereWithAggregatesInput[];
   uid?: Prisma.StringWithAggregatesFilter<'Question'> | string;
   label?: Prisma.StringWithAggregatesFilter<'Question'> | string;
+  draft?: Prisma.BoolWithAggregatesFilter<'Question'> | boolean;
   multiple?: Prisma.BoolWithAggregatesFilter<'Question'> | boolean;
 };
 
 export type QuestionCreateInput = {
   uid?: string;
   label: string;
+  draft?: boolean;
   multiple?: boolean;
   Response?: Prisma.ResponseCreateNestedManyWithoutQuestionInput;
 };
@@ -225,6 +238,7 @@ export type QuestionCreateInput = {
 export type QuestionUncheckedCreateInput = {
   uid?: string;
   label: string;
+  draft?: boolean;
   multiple?: boolean;
   Response?: Prisma.ResponseUncheckedCreateNestedManyWithoutQuestionInput;
 };
@@ -232,6 +246,7 @@ export type QuestionUncheckedCreateInput = {
 export type QuestionUpdateInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string;
   label?: Prisma.StringFieldUpdateOperationsInput | string;
+  draft?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   multiple?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   Response?: Prisma.ResponseUpdateManyWithoutQuestionNestedInput;
 };
@@ -239,6 +254,7 @@ export type QuestionUpdateInput = {
 export type QuestionUncheckedUpdateInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string;
   label?: Prisma.StringFieldUpdateOperationsInput | string;
+  draft?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   multiple?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   Response?: Prisma.ResponseUncheckedUpdateManyWithoutQuestionNestedInput;
 };
@@ -246,18 +262,21 @@ export type QuestionUncheckedUpdateInput = {
 export type QuestionCreateManyInput = {
   uid?: string;
   label: string;
+  draft?: boolean;
   multiple?: boolean;
 };
 
 export type QuestionUpdateManyMutationInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string;
   label?: Prisma.StringFieldUpdateOperationsInput | string;
+  draft?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   multiple?: Prisma.BoolFieldUpdateOperationsInput | boolean;
 };
 
 export type QuestionUncheckedUpdateManyInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string;
   label?: Prisma.StringFieldUpdateOperationsInput | string;
+  draft?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   multiple?: Prisma.BoolFieldUpdateOperationsInput | boolean;
 };
 
@@ -269,18 +288,21 @@ export type QuestionScalarRelationFilter = {
 export type QuestionCountOrderByAggregateInput = {
   uid?: Prisma.SortOrder;
   label?: Prisma.SortOrder;
+  draft?: Prisma.SortOrder;
   multiple?: Prisma.SortOrder;
 };
 
 export type QuestionMaxOrderByAggregateInput = {
   uid?: Prisma.SortOrder;
   label?: Prisma.SortOrder;
+  draft?: Prisma.SortOrder;
   multiple?: Prisma.SortOrder;
 };
 
 export type QuestionMinOrderByAggregateInput = {
   uid?: Prisma.SortOrder;
   label?: Prisma.SortOrder;
+  draft?: Prisma.SortOrder;
   multiple?: Prisma.SortOrder;
 };
 
@@ -317,12 +339,14 @@ export type BoolFieldUpdateOperationsInput = {
 export type QuestionCreateWithoutResponseInput = {
   uid?: string;
   label: string;
+  draft?: boolean;
   multiple?: boolean;
 };
 
 export type QuestionUncheckedCreateWithoutResponseInput = {
   uid?: string;
   label: string;
+  draft?: boolean;
   multiple?: boolean;
 };
 
@@ -357,12 +381,14 @@ export type QuestionUpdateToOneWithWhereWithoutResponseInput = {
 export type QuestionUpdateWithoutResponseInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string;
   label?: Prisma.StringFieldUpdateOperationsInput | string;
+  draft?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   multiple?: Prisma.BoolFieldUpdateOperationsInput | boolean;
 };
 
 export type QuestionUncheckedUpdateWithoutResponseInput = {
   uid?: Prisma.StringFieldUpdateOperationsInput | string;
   label?: Prisma.StringFieldUpdateOperationsInput | string;
+  draft?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   multiple?: Prisma.BoolFieldUpdateOperationsInput | boolean;
 };
 
@@ -411,6 +437,7 @@ export type QuestionSelect<
   {
     uid?: boolean;
     label?: boolean;
+    draft?: boolean;
     multiple?: boolean;
     Response?: boolean | Prisma.Question$ResponseArgs<ExtArgs>;
     _count?: boolean | Prisma.QuestionCountOutputTypeDefaultArgs<ExtArgs>;
@@ -425,6 +452,7 @@ export type QuestionSelectCreateManyAndReturn<
   {
     uid?: boolean;
     label?: boolean;
+    draft?: boolean;
     multiple?: boolean;
   },
   ExtArgs['result']['question']
@@ -437,6 +465,7 @@ export type QuestionSelectUpdateManyAndReturn<
   {
     uid?: boolean;
     label?: boolean;
+    draft?: boolean;
     multiple?: boolean;
   },
   ExtArgs['result']['question']
@@ -445,6 +474,7 @@ export type QuestionSelectUpdateManyAndReturn<
 export type QuestionSelectScalar = {
   uid?: boolean;
   label?: boolean;
+  draft?: boolean;
   multiple?: boolean;
 };
 
@@ -452,7 +482,7 @@ export type QuestionOmit<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetOmit<
-  'uid' | 'label' | 'multiple',
+  'uid' | 'label' | 'draft' | 'multiple',
   ExtArgs['result']['question']
 >;
 export type QuestionInclude<
@@ -483,6 +513,7 @@ export type $QuestionPayload<
     {
       uid: string;
       label: string;
+      draft: boolean;
       multiple: boolean;
     },
     ExtArgs['result']['question']
@@ -1089,6 +1120,7 @@ export interface Prisma__QuestionClient<
 export interface QuestionFieldRefs {
   readonly uid: Prisma.FieldRef<'Question', 'String'>;
   readonly label: Prisma.FieldRef<'Question', 'String'>;
+  readonly draft: Prisma.FieldRef<'Question', 'Boolean'>;
   readonly multiple: Prisma.FieldRef<'Question', 'Boolean'>;
 }
 

@@ -32,6 +32,7 @@ model Response {
 model Question {
   uid      String     @id @default(uuid())
   label    String     @unique
+  draft    Boolean    @default(true)
   multiple Boolean    @default(false)
   Response Response[]
 }

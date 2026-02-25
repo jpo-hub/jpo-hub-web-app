@@ -300,6 +300,7 @@ async function main() {
     create: {
       label:
         "Quelle est la commande pour lister les conteneurs Docker en cours d'exécution ?",
+      draft: false,
       multiple: true,
     },
   });
@@ -313,6 +314,7 @@ async function main() {
     create: {
       label:
         'Quelle commande permet de voir toutes les images Docker locales ?',
+      draft: false,
       multiple: false,
     },
   });
@@ -326,6 +328,7 @@ async function main() {
     create: {
       label:
         "Quelle commande permet de lancer un conteneur Docker à partir d'une image ?",
+      draft: false,
       multiple: false,
     },
   });
@@ -339,6 +342,7 @@ async function main() {
     create: {
       label:
         "Quelle commande permet d'arrêter un conteneur Docker en cours d'exécution ?",
+      draft: false,
       multiple: false,
     },
   });
@@ -350,6 +354,7 @@ async function main() {
     update: {},
     create: {
       label: 'Quelle commande permet de supprimer un conteneur Docker ?',
+      draft: false,
       multiple: false,
     },
   });
@@ -361,6 +366,7 @@ async function main() {
     update: {},
     create: {
       label: 'À quoi sert un Dockerfile ?',
+      draft: false,
       multiple: true,
     },
   });
@@ -374,6 +380,7 @@ async function main() {
     create: {
       label:
         'Quelle est la différence entre une image Docker et un conteneur Docker ?',
+      draft: false,
       multiple: true,
     },
   });
