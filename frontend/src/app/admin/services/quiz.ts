@@ -16,7 +16,7 @@ export class QuizService {
   private errorHandler = inject(ErrorHandler);
   private http = inject(HttpClient);
 
-  public getQuestions(page = 1, limit = 50) {
+  public getQuestions() {
     return this.http.get<Question[]>(`${this.apiUrl}/questions`).pipe(
       catchError(err => {
         const error = err as HttpErrorResponse;

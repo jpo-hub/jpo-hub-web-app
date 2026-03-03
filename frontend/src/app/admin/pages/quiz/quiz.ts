@@ -1,13 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Component, inject, signal} from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { catchError, of, switchMap } from 'rxjs';
 
 import { QuizService } from '../../services/quiz';
 import { Question } from '../../../core/models/question.model';
-
-type ModalMode = 'create' | 'edit';
+import {toSignal} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-quiz',
@@ -18,5 +15,9 @@ type ModalMode = 'create' | 'edit';
 })
 export class Quiz {
   private quizService = inject(QuizService);
+
+  questions = toSignal(this.quizService.getQuestions(), {
+    initialValue: []
+  });
 
 }
