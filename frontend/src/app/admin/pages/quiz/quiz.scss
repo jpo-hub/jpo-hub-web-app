@@ -24,7 +24,6 @@ section {
   .quiz-content {
     display: flex;
     flex-direction: column;
-    gap: 12px;
     padding: 12px;
 
     .quiz-content__filters {
@@ -33,6 +32,7 @@ section {
       align-items: center;
       gap: 12px;
       justify-content: end;
+      margin-bottom: 12px;
 
       .quiz-recherche-bar {
         display: flex;
@@ -176,8 +176,13 @@ section {
 
       .modal-header {
         display: flex;
-        justify-content: end;
+        align-items: center;
+        justify-content: space-between;
 
+        span {
+          font-size: 1.2rem;
+          font-weight: 600;
+        }
         .modal-header-close {
           cursor: pointer;
         }

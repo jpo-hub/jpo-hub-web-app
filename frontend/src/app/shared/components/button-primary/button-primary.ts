@@ -1,5 +1,5 @@
 
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, booleanAttribute} from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -13,7 +13,7 @@ import { RouterLink } from '@angular/router';
 export class ButtonPrimary {
   @Input() label: string = '';
   @Input() link: string | null = null;
-  @Input() disabled: boolean = false;
+  @Input({transform: booleanAttribute}) disabled: boolean = false;
   @Output() clicked = new EventEmitter<void>();
 
   onClick(): void {
