@@ -4,7 +4,7 @@ import {environment} from '@environments/environment';
 import {ToastService} from '../../core/services/toast';
 import {ErrorHandler} from '../../core/services/error-handler';
 import {Question} from '../../core/models/question.model';
-import {catchError, throwError} from 'rxjs';
+import {catchError, tap, throwError} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -62,6 +62,9 @@ export class QuizService {
 
   public createQuestion(payload: { label: string }) {
     return this.http.post<Question>(`${this.apiUrl}/questions`, payload).pipe(
+      tap(question => {
+        this.toastService.show('Question créer avec succès', 'success');
+      }),
       catchError(err => {
         const error = err as HttpErrorResponse;
         const message = this.errorHandler.getErrorMessage(error.error.code);
