@@ -70,6 +70,11 @@
   @if (modalCreated()) {
     <div class="modal-overlay" (click)="closeModal()">
       <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <div class="modal-header-close">
+            <lucide-icon name="x" size="24" (click)="closeModal()"></lucide-icon>
+          </div>
+        </div>
         <app-modal-create/>
       </div>
     </div>
