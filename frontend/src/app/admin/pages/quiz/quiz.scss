@@ -133,6 +133,10 @@ section {
         display: flex;
         align-items: center;
         gap: 5px;
+
+        lucide-icon {
+          display: flex;
+        }
       }
 
       .secondary:hover {
