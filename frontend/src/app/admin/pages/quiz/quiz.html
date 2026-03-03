@@ -16,7 +16,7 @@
           />
         </div>
         <div>
-          <button class="primary">Créer</button>
+          <button class="primary" (click)="createQuestion()">Créer</button>
         </div>
       </div>
       @if (filteredQuestions().length === 0) {
@@ -66,4 +66,12 @@
       }
     </div>
   </div>
+
+  @if (modalCreated()) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <app-modal-create/>
+      </div>
+    </div>
+  }
 </section>
