@@ -6,7 +6,6 @@ import {
   Param,
   Patch,
   Post,
-  Query,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -14,7 +13,6 @@ import {
   ApiBody,
   ApiOperation,
   ApiParam,
-  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -49,34 +47,25 @@ export class QuestionsController {
   @Get()
   @ApiOperation({
     summary: 'Récupérer toutes les questions',
-    description: 'Retourne la liste paginée des questions',
-  })
-  @ApiQuery({
-    name: 'page',
-    required: false,
-    description: 'Numéro de page (défaut: 1)',
-    example: 1,
-  })
-  @ApiQuery({
-    name: 'limit',
-    required: false,
-    description: "Nombre d'éléments par page (défaut: 10)",
-    example: 10,
+    description: 'Retourne la liste des questions',
   })
   @ApiResponse(SwaggerResponses.Found('Questions', [QuestionEntity]))
   @ApiResponse(SwaggerResponses.ErrorServer)
-  findAll(
-    @Query('page') page?: string,
-    @Query('limit') limit?: string,
-  ): Promise<QuestionModel[]> {
-    const pageNum = page ? parseInt(page, 10) : 1;
-    const limitNum = limit ? parseInt(limit, 10) : 10;
-    const skip = (pageNum - 1) * limitNum;
+  findAll(): Promise<QuestionModel[]> {
+    return this.questionsService.findAll();
+  }
 
-    return this.questionsService.findAll({
-      skip,
-      take: limitNum,
-    });
+  @Get('all')
+  @ApiOperation({
+    summary: 'Récupérer toutes les questions',
+    description: 'Retourne la liste des questions Draft ou non',
+  })
+  @ApiResponse(SwaggerResponses.Found('Questions', [QuestionEntity]))
+  @ApiResponse(SwaggerResponses.ErrorServer)
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  findAllQuestions(): Promise<QuestionModel[]> {
+    return this.questionsService.findAllQuestions();
   }
 
   @Get(':uid')

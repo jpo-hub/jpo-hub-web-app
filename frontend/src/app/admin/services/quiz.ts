@@ -27,6 +27,17 @@ export class QuizService {
     );
   }
 
+  public getAllQuestions() {
+    return this.http.get<Question[]>(`${this.apiUrl}/questions/all`).pipe(
+      catchError(err => {
+        const error = err as HttpErrorResponse;
+        const message = this.errorHandler.getErrorMessage(error.error.code);
+        this.toastService.show(message, 'danger');
+        return throwError(() => err);
+      })
+    )
+  }
+
   public getQuestion(uid: string) {
     return this.http.get<Question>(`${this.apiUrl}/questions/${uid}`).pipe(
       catchError(err => {

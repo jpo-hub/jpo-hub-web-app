@@ -65,8 +65,6 @@ export class QuestionsService {
    *
    * @async
    * @param {Object} params - Paramètres de pagination et filtrage.
-   * @param {number} [params.skip] - Nombre d'éléments à ignorer (offset).
-   * @param {number} [params.take] - Nombre d'éléments à récupérer (limit).
    * @param {Prisma.QuestionWhereUniqueInput} [params.cursor] - Curseur pour la pagination.
    * @param {Prisma.QuestionWhereInput} [params.where] - Filtres de recherche.
    * @param {Prisma.QuestionOrderByWithRelationInput} [params.orderBy] - Tri des résultats.
@@ -75,28 +73,34 @@ export class QuestionsService {
    * @throws {BadRequestException} Si les paramètres sont invalides.
    * @throws {InternalServerErrorException} En cas d'erreur inattendue.
    *
-   * @example
-   * const questions = await questionsService.findAll({ take: 10 });
    */
-  async findAll(params: {
-    skip?: number;
-    take?: number;
-    cursor?: Prisma.QuestionWhereUniqueInput;
-    where?: Prisma.QuestionWhereInput;
-    orderBy?: Prisma.QuestionOrderByWithRelationInput;
-  }): Promise<Question[]> {
+  async findAll(): Promise<Question[]> {
     try {
-      const { skip, take, cursor, where, orderBy } = params;
       const questions = await this.prisma.question.findMany({
-        skip,
-        take,
-        cursor,
         where: {
-          ...where,
           draft: false,
         },
-        orderBy,
       });
+
+      if (questions.length === 0) {
+        throw new NotFoundException(ERROR.ResourceNotFound);
+      }
+
+      return questions;
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        throw new BadRequestException(ERROR.InvalidInputFormat);
+      }
+
+      throw new InternalServerErrorException(ERROR.ConflictError);
+    }
+  }
+
+  async findAllQuestions(): Promise<Question[]> {
+    try {
+      const questions = await this.prisma.question.findMany();
 
       if (questions.length === 0) {
         throw new NotFoundException(ERROR.ResourceNotFound);

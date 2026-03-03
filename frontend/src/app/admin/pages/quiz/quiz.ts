@@ -18,7 +18,7 @@ import {LucideAngularModule} from 'lucide-angular';
 export class Quiz {
   private quizService = inject(QuizService);
 
-  questions = toSignal(this.quizService.getQuestions(), {
+  questions = toSignal(this.quizService.getAllQuestions(), {
     initialValue: [] as Question[]
   });
 
