@@ -5,6 +5,7 @@ import {ToastService} from '../../core/services/toast';
 import {ErrorHandler} from '../../core/services/error-handler';
 import {Question} from '../../core/models/question.model';
 import {catchError, tap, throwError} from 'rxjs';
+import {Answer} from '../../core/models/answer.model';
 
 @Injectable({
   providedIn: 'root',
@@ -46,6 +47,18 @@ export class QuizService {
         const message = this.errorHandler.getErrorMessage(error.error.code);
         this.toastService.show(message, 'danger');
         return throwError(() => err);      })
+    );
+  }
+
+  public addAnswer(answer: Answer) {
+    return this.http.post<Answer>(`${this.apiUrl}/answers`, answer).pipe(
+      catchError(err => {
+        const error = err as HttpErrorResponse;
+
+        const message = this.errorHandler.getErrorMessage(error.error.code);
+        this.toastService.show(message, 'danger');
+        return throwError(() => err);
+      })
     );
   }
 

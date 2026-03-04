@@ -1,27 +1,43 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Question } from '../../../core/models/question.model';
+import {Component, EventEmitter, inject, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {Question} from '../../../core/models/question.model';
 import {InputForm} from '../../../shared/components/input-form/input-form';
+import {ButtonPrimary} from '../../../shared/components/button-primary/button-primary';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {QuizService} from '../../services/quiz';
 
 @Component({
   selector: 'app-modal-update',
   imports: [
-    InputForm
+    InputForm,
+    ButtonPrimary,
+    FormsModule,
+    ReactiveFormsModule
   ],
   templateUrl: './modal-update.html',
   styleUrl: './modal-update.scss',
 })
-export class ModalUpdate {
+export class ModalUpdate implements OnChanges {
+  @Input() question!: Question | null;
 
-  @Input() question: Question | null = null;
+  label: string = '';
+  draft: boolean = false;
+  multiple: boolean = false;
 
-  @Output() closeModal = new EventEmitter<void>();
-  @Output() refreshQuestions = new EventEmitter<void>();
-
-  onClose() {
-    this.closeModal.emit();
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['question'] && this.question) {
+      this.label = this.question.label;
+      this.draft = this.question.draft;
+      this.multiple = this.question.multiple;
+    }
   }
 
-  onRefresh() {
-    this.refreshQuestions.emit();
+  onSubmit(): void {
+    const payload = {
+      label: this.label,
+      draft: this.draft,
+      multiple: this.multiple,
+    };
+
+    console.log('Form submitted:', payload);
   }
 }

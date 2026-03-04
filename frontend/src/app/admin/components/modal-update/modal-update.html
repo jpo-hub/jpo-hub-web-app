@@ -1,3 +1,42 @@
-<div class="modal-body">
-  <app-input-form label="Label *" value="{{ question?.label }}"/>
-</div>
+<form (ngSubmit)="onSubmit()" #form="ngForm" class="modal-form">
+  <div class="form-container">
+    <div class="form-group">
+      <app-input-form
+        label="Question *"
+        type="text"
+        placeholder="Enter question"
+        [(ngModel)]="label"
+        name="label"
+        required
+      />
+    </div>
+
+    <div class="form-group checkbox-group">
+      <label>
+        <input
+          type="checkbox"
+          name="draft"
+          [(ngModel)]="draft"
+        />
+        Brouillon
+      </label>
+    </div>
+
+    <div class="form-group checkbox-group">
+      <label>
+        <input
+          type="checkbox"
+          name="multiple"
+          [(ngModel)]="multiple"
+        />
+        Plusieurs réponses
+      </label>
+    </div>
+  </div>
+
+  <app-button-primary
+    label="Modifier la question"
+    type="submit"
+    [disabled]="form.invalid"
+  />
+</form>
