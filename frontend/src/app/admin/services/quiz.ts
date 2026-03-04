@@ -17,17 +17,6 @@ export class QuizService {
   private http = inject(HttpClient);
 
   public getQuestions() {
-    return this.http.get<Question[]>(`${this.apiUrl}/questions`).pipe(
-      catchError(err => {
-        const error = err as HttpErrorResponse;
-
-        const message = this.errorHandler.getErrorMessage(error.error.code);
-        this.toastService.show(message, 'danger');
-        return throwError(() => err);      })
-    );
-  }
-
-  public getAllQuestions() {
     return this.http.get<Question[]>(`${this.apiUrl}/questions/all`).pipe(
       catchError(err => {
         const error = err as HttpErrorResponse;
