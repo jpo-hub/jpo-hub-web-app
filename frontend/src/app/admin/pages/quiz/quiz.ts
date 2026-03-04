@@ -1,5 +1,5 @@
-import {CommonModule} from '@angular/common';
-import {Component, computed, inject, OnInit, signal} from '@angular/core';
+import {CommonModule, isPlatformBrowser} from '@angular/common';
+import {Component, computed, inject, OnInit, PLATFORM_ID, signal} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 
 import {QuizService} from '../../services/quiz';
@@ -18,13 +18,16 @@ import {ModalUpdate} from '../../components/modal-update/modal-update';
 })
 export class Quiz implements OnInit {
   private quizService = inject(QuizService);
+  private platformId = inject(PLATFORM_ID);
 
   questions = signal<Question[]>([]);
 
   searchTerm = signal('');
 
   ngOnInit() {
-    this.loadQuestions();
+    if (isPlatformBrowser(this.platformId)) {
+      this.loadQuestions();
+    }
   }
   filteredQuestions = computed(() => {
     const term = this.searchTerm().toLowerCase().trim();

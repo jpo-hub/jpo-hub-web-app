@@ -62,6 +62,20 @@ export class QuizService {
     );
   }
 
+  public removeAnswer(uid: string) {
+    return this.http.delete(`${this.apiUrl}/answers/${uid}`).pipe(
+      tap(() => {
+        this.toastService.show('Réponse supprimée avec succès', 'success');
+      }),
+      catchError(err => {
+        const error = err as HttpErrorResponse;
+        const message = this.errorHandler.getErrorMessage(error.error.code);
+        this.toastService.show(message, 'danger');
+        return throwError(() => err);
+      })
+    );
+  }
+
   public createQuestion(payload: { label: string }) {
     return this.http.post<Question>(`${this.apiUrl}/questions`, payload).pipe(
       tap(() => {

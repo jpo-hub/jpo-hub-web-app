@@ -1,13 +1,284 @@
 .modal-form {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
 
   .form-container {
-    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 1rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    &.checkbox-group {
+      label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        font-size: 0.95rem;
+
+        input[type="checkbox"] {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .answers-section {
+    border-top: 1px solid #e5e7eb;
+    padding-top: 1rem;
+    margin-top: 0.5rem;
+
+    .answers-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+
+      h4 {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 600;
+      }
+
+      .add-answer-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: #3b82f6;
+        color: white;
+        border: none;
+        border-radius: 0.375rem;
+        cursor: pointer;
+        font-size: 0.875rem;
+        transition: background 0.2s;
+
+        &:hover {
+          background: #2563eb;
+        }
+      }
+    }
+
+    .add-answer-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding: 1rem;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+
+      .answer-input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        label {
+          font-size: 0.875rem;
+          font-weight: 500;
+          color: #374151;
+        }
+
+        .answer-input {
+          padding: 0.625rem;
+          border: 1px solid #d1d5db;
+          border-radius: 0.375rem;
+          font-size: 0.95rem;
+
+          &:focus {
+            outline: none;
+            border-color: #3b82f6;
+          }
+        }
+      }
+
+      .filieres-section {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+
+        .filieres-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+          }
+
+          .btn-add-filiere {
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.375rem 0.75rem;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+
+            &:hover {
+              background: #f3f4f6;
+              border-color: #9ca3af;
+            }
+          }
+        }
+
+        .filiere-item {
+          display: flex;
+          gap: 0.5rem;
+          align-items: center;
+
+          .filiere-select {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            background: white;
+
+            &:focus {
+              outline: none;
+              border-color: #3b82f6;
+            }
+          }
+
+          .filiere-score {
+            width: 80px;
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+
+            &:focus {
+              outline: none;
+              border-color: #3b82f6;
+            }
+          }
+
+          .btn-remove-filiere {
+            padding: 0.375rem;
+            background: #fee2e2;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            border-radius: 0.375rem;
+            display: flex;
+            align-items: center;
+            transition: background 0.2s;
+
+            &:hover {
+              background: #fecaca;
+            }
+          }
+        }
+      }
+
+      .add-answer-actions {
+        display: flex;
+        gap: 0.5rem;
+        padding-top: 0.5rem;
+
+        button {
+          flex: 1;
+          padding: 0.625rem;
+          border: none;
+          border-radius: 0.375rem;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+          font-size: 0.875rem;
+          font-weight: 500;
+          transition: background 0.2s;
+
+          &.btn-success {
+            background: #10b981;
+            color: white;
+
+            &:hover {
+              background: #059669;
+            }
+          }
+
+          &.btn-cancel {
+            background: #ef4444;
+            color: white;
+
+            &:hover {
+              background: #dc2626;
+            }
+          }
+        }
+      }
+    }
+
+    .answers-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      .no-answers {
+        text-align: center;
+        color: #6b7280;
+        font-size: 0.875rem;
+        padding: 1rem;
+      }
+
+      .answer-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem;
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.375rem;
+
+        .answer-content {
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+
+          .answer-label {
+            font-size: 0.95rem;
+            color: #374151;
+            font-weight: 500;
+          }
+
+          .answer-filieres {
+            font-size: 0.8rem;
+            color: #6b7280;
+          }
+        }
+
+        .btn-delete {
+          padding: 0.375rem;
+          background: transparent;
+          border: none;
+          color: #ef4444;
+          cursor: pointer;
+          border-radius: 0.25rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: background 0.2s;
+
+          &:hover {
+            background: #fee2e2;
+          }
+        }
+      }
+    }
   }
 }

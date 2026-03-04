@@ -1,5 +1,6 @@
 export class Answer {
+  uid?: string;
   label!: string;
   questionUid!: string;
-  filiere!: Record<string, number>;
+  filieres!: Record<string, number>;
 }
