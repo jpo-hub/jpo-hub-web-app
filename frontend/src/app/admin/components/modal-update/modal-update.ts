@@ -151,7 +151,7 @@ export class ModalUpdate implements OnChanges, OnInit {
         }
       });
     } else {
--      this.answers.update(prev => prev.filter((_, i) => i !== index));
+      this.answers.update(prev => prev.filter((_, i) => i !== index));
     }
   }
 
