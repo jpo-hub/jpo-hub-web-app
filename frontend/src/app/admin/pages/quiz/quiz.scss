@@ -194,6 +194,10 @@ section {
         align-items: center;
         margin-top: 24px;
         gap: 12px;
+
+        app-modal-update {
+          width: 100%;
+        }
       }
     }
   }

@@ -43,7 +43,7 @@
               </div>
             </div>
             <div class="actions">
-              <button class="secondary">
+              <button class="secondary" (click)="modalUpdateQuestion(question)">
                 <lucide-icon name="squarePen" size="13"></lucide-icon>
                 Modifier
               </button>
@@ -76,7 +76,6 @@
       </div>
     </div>
   }
-
   @if (modalDeleted()) {
     <div class="modal-overlay" (click)="closeModal()">
       <div class="modal" (click)="$event.stopPropagation()">
@@ -92,6 +91,27 @@
           <app-button-primary
             label="Supprimer"
             (click)="deleteQuestion()"
+          />
+        </div>
+      </div>
+    </div>
+  }
+  @if (modalUpdate()) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <span>
+              Modifier la question
+            </span>
+          <div class="modal-header-close">
+            <lucide-icon name="x" size="24" (click)="closeModal()"></lucide-icon>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <app-modal-update
+            [question]="selectedQuestion()"
+            (closeModal)="closeModal()"
+            (refreshQuestions)="loadQuestions()"
           />
         </div>
       </div>

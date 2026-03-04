@@ -7,11 +7,12 @@ import {Question} from '../../../core/models/question.model';
 import {ModalCreate} from '../../components/modal-create/modal-create';
 import {LucideAngularModule} from 'lucide-angular';
 import {ButtonPrimary} from '../../../shared/components/button-primary/button-primary';
+import {ModalUpdate} from '../../components/modal-update/modal-update';
 
 @Component({
   selector: 'app-quiz',
   standalone: true,
-  imports: [CommonModule, FormsModule, ModalCreate, LucideAngularModule, ButtonPrimary],
+  imports: [CommonModule, FormsModule, ModalCreate, LucideAngularModule, ButtonPrimary, ModalUpdate],
   templateUrl: './quiz.html',
   styleUrl: './quiz.scss',
 })
@@ -33,23 +34,21 @@ export class Quiz implements OnInit {
 
   modalCreated = signal(false);
   modalDeleted = signal(false);
+  modalUpdate = signal(false);
 
   createQuestion() {
     this.modalCreated.set(true);
   }
 
   selectedQuestion = signal<Question | null>(null);
-
   modalDeleteQuestion(question: Question) {
     this.selectedQuestion.set(question);
     this.modalDeleted.set(true);
   }
-
   deleteQuestion() {
     const question = this.selectedQuestion();
     if (!question) return;
 
-    console.log('Suppression ID:', question.uid);
     this.quizService.removeQuestion(question.uid).subscribe({
       next: () => {
         this.closeModal();
@@ -57,14 +56,24 @@ export class Quiz implements OnInit {
     })
   }
 
+  modalUpdateQuestion(question: Question) {
+    this.selectedQuestion.set(question);
+    this.modalUpdate.set(true);
+  }
+  updateQuestion() {
+    const question = this.selectedQuestion();
+    if (!question) return;
+  }
+
   closeModal() {
     this.modalCreated.set(false);
     this.modalDeleted.set(false);
+    this.modalUpdate.set(false);
     this.loadQuestions();
   }
 
   loadQuestions() {
-    this.quizService.getAllQuestions().subscribe(data => {
+    this.quizService.getQuestions().subscribe(data => {
       this.questions.set(data);
     })
   }
