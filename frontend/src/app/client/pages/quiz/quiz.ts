@@ -10,9 +10,7 @@ import {ProcessBar} from '../../components/process-bar/process-bar';
 import {ButtonPrimary} from '../../../shared/components/button-primary/button-primary';
 import {Radio} from '../../components/radio/radio';
 import {CheckboxComponent} from '../../components/checkbox/checkbox';
-import {FormState} from '../../../core/services/form-state';
 import {Router} from '@angular/router';
-import {StorageService} from '../../../core/services/storage-service';
 import {Candidat} from '../../services/candidat';
 import {firstValueFrom} from 'rxjs';
 import {HttpErrorResponse} from '@angular/common/http';
@@ -99,6 +97,7 @@ export class Quiz {
     return this.selectedCheckboxUids().includes(uid);
   }
 
+
   getCurrentQuestionFilieresTotal(): Record<string, number> {
     const question = this.currentQuestionDetails();
     if (!question) return {};
@@ -114,6 +113,7 @@ export class Quiz {
       );
 
     for (const answer of selectedAnswers) {
+
       if (!answer.filieres) continue;
 
       for (const [key, value] of Object.entries(answer.filieres)) {
@@ -141,8 +141,6 @@ export class Quiz {
     } else {
       this.finishQuiz();
     }
-
-    console.log(this.cumulativeFilieres());
   }
 
   resetSelections() {
@@ -150,6 +148,15 @@ export class Quiz {
     this.selectedCheckboxUids.set([]);
   }
   async finishQuiz() {
+    const totals = this.getCurrentQuestionFilieresTotal();
+
+    this.cumulativeFilieres.update(prev => {
+      const updated = { ...prev };
+      for (const [key, value] of Object.entries(totals)) {
+        updated[key] = (updated[key] || 0) + value;
+      }
+      return updated;
+    });
 
     try {
       await firstValueFrom(
