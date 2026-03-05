@@ -97,6 +97,14 @@ export class Quiz {
     return this.selectedCheckboxUids().includes(uid);
   }
 
+  hasAnswerSelected = computed(() => {
+    const question = this.currentQuestionData();
+    if (!question) return false;
+
+    return question.multiple
+      ? this.selectedCheckboxUids().length > 0
+      : this.selectedRadioUid() !== null;
+  });
 
   getCurrentQuestionFilieresTotal(): Record<string, number> {
     const question = this.currentQuestionDetails();
@@ -125,6 +133,11 @@ export class Quiz {
   }
 
   nextQuestion() {
+    if (!this.hasAnswerSelected()) {
+      this.toastService.show('Veuillez sélectionner au moins une réponse', 'warning');
+      return;
+    }
+
     const totals = this.getCurrentQuestionFilieresTotal();
 
     this.cumulativeFilieres.update(prev => {
@@ -148,6 +161,11 @@ export class Quiz {
     this.selectedCheckboxUids.set([]);
   }
   async finishQuiz() {
+    if (!this.hasAnswerSelected()) {
+      this.toastService.show('Veuillez sélectionner au moins une réponse', 'warning');
+      return;
+    }
+
     const totals = this.getCurrentQuestionFilieresTotal();
 
     this.cumulativeFilieres.update(prev => {
