@@ -23,16 +23,27 @@ export class Quiz implements OnInit {
   questions = signal<Question[]>([]);
 
   searchTerm = signal('');
+  statusFilter = signal<'all' | 'published' | 'draft'>('all');
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
       this.loadQuestions();
     }
   }
+
   filteredQuestions = computed(() => {
     const term = this.searchTerm().toLowerCase().trim();
-    if (!term) return this.questions();
-    return this.questions().filter(q => q.label?.toLowerCase().includes(term));
+    const status = this.statusFilter();
+
+    return this.questions().filter((q) => {
+      const matchesSearch = !term || q.label?.toLowerCase().includes(term);
+      const matchesStatus =
+        status === 'all' ||
+        (status === 'draft' && q.draft) ||
+        (status === 'published' && !q.draft);
+
+      return matchesSearch && matchesStatus;
+    });
   });
 
   modalCreated = signal(false);
@@ -62,10 +73,6 @@ export class Quiz implements OnInit {
   modalUpdateQuestion(question: Question) {
     this.selectedQuestion.set(question);
     this.modalUpdate.set(true);
-  }
-  updateQuestion() {
-    const question = this.selectedQuestion();
-    if (!question) return;
   }
 
   closeModal() {

@@ -34,6 +34,38 @@ section {
       justify-content: end;
       margin-bottom: 12px;
 
+      select {
+        min-width: 160px;
+        border: 1px solid var(--color-border);
+        border-radius: 8px;
+        background-color: #ffffff;
+        color: #1f2937;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        outline: none;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: linear-gradient(45deg, transparent 50%, #6b7280 50%),
+        linear-gradient(135deg, #6b7280 50%, transparent 50%);
+        background-position: calc(100% - 18px) calc(50% - 3px), calc(100% - 12px) calc(50% - 3px);
+        background-size: 6px 6px, 6px 6px;
+        background-repeat: no-repeat;
+        padding: 10px 36px 10px 14px;
+
+        &:hover {
+          border-color: #b8c0cc;
+          background-color: #f9fafb;
+        }
+
+        &:focus {
+          border-color: var(--color-primary);
+          box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.08);
+        }
+      }
+
       .quiz-recherche-bar {
         display: flex;
         gap: 12px;

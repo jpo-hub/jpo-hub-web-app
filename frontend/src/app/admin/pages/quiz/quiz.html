@@ -15,6 +15,18 @@
             (ngModelChange)="searchTerm.set($event)"
           />
         </div>
+
+        <div>
+          <select
+            [ngModel]="statusFilter()"
+            (ngModelChange)="statusFilter.set($event)"
+          >
+            <option value="all">Toutes</option>
+            <option value="published">Publiées</option>
+            <option value="draft">Brouillons</option>
+          </select>
+        </div>
+
         <div>
           <button class="primary" (click)="createQuestion()">Créer</button>
         </div>
