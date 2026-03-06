@@ -28,7 +28,7 @@ export class App {
   showNavBar = computed(() => {
     const url = this.currentUrl();
 
-    const validRoutes = ['/', '/quiz', '/admin/dashboard', "/admin/quiz"];
+    const validRoutes = ['/', '/quiz', '/admin/dashboard', "/admin/quiz", "/admin/ateliers"];
 
     const isValidRoute = validRoutes.some(route =>
       route === '/' ? url === '/' : url.startsWith(route)

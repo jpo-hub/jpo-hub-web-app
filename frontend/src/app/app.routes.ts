@@ -9,6 +9,7 @@ import {Login} from './admin/pages/login/login';
 import {Dashboard} from './admin/pages/dashboard/dashboard';
 import {Quiz as QuizAdmin} from './admin/pages/quiz/quiz';
 import {adminGuard} from './core/guards/admin-guard';
+import {AteliersAdmin} from './admin/pages/ateliers/ateliers';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -20,6 +21,8 @@ export const routes: Routes = [
   { path: 'admin/login', component: Login},
   { path: 'admin/dashboard', component: Dashboard , canActivate: [adminGuard]},
   { path: 'admin/quiz', component: QuizAdmin , canActivate: [adminGuard]},
+  { path: 'admin/ateliers', component: AteliersAdmin , canActivate: [adminGuard]},
+
 
   { path: '**', component: NotFound }
 ];
