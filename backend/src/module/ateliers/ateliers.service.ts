@@ -8,11 +8,7 @@ import {
 import { CreateAtelierDto } from './dto/create-atelier.dto';
 import { UpdateAtelierDto } from './dto/update-atelier.dto';
 import { ConfigService } from '@nestjs/config';
-import {
-  DeleteObjectCommand,
-  PutObjectCommand,
-  S3Client,
-} from '@aws-sdk/client-s3';
+import { DeleteObjectCommand, PutObjectCommand, S3Client, } from '@aws-sdk/client-s3';
 import { PrismaService } from '../../prisma/prisma.service';
 import { Atelier, Prisma } from '../../generated/prisma/client';
 import { ERROR } from '../../common/constants/error.constants';
@@ -326,6 +322,21 @@ export class AteliersService {
           draft: createAtelierDto.draft,
           dockerfilelink: createAtelierDto.dockerfilelink,
           imageUrl: publicUrl,
+          Atelier_Filiere: createAtelierDto.filieres
+            ? {
+                create: await Promise.all(
+                  Object.entries(createAtelierDto.filieres).map(
+                    async ([label, score]) => {
+                      const filiere =
+                        await this.prisma.filiere.findFirstOrThrow({
+                          where: { label },
+                        });
+                      return { score, filiereId: filiere.uid };
+                    },
+                  ),
+                ),
+              }
+            : undefined,
         },
         include: {
           Atelier_Filiere: {
@@ -334,11 +345,7 @@ export class AteliersService {
         },
       });
 
-      return {
-        ...newAtelier,
-        filiere: {},
-        candidats: [],
-      };
+      return this.toApiAtelier(newAtelier);
     } catch (error) {
       if (error instanceof BadRequestException) throw error;
 
@@ -359,12 +366,6 @@ export class AteliersService {
    * Récupère une liste paginée d'ateliers.
    *
    * @async
-   * @param {Object} [params={}] - Paramètres de pagination et filtrage.
-   * @param {number} [params.skip] - Nombre d'éléments à ignorer (offset).
-   * @param {number} [params.take] - Nombre d'éléments à récupérer (limit).
-   * @param {Prisma.AtelierWhereUniqueInput} [params.cursor] - Curseur pour la pagination.
-   * @param {Prisma.AtelierWhereInput} [params.where] - Filtres de recherche.
-   * @param {Prisma.AtelierOrderByWithRelationInput} [params.orderBy] - Tri des résultats.
    * @returns {Promise<AtelierDetailsDto[]>} Liste des ateliers enrichis.
    * @throws {BadRequestException} Si les paramètres sont invalides.
    * @throws {InternalServerErrorException} En cas d'erreur inattendue.
@@ -372,24 +373,31 @@ export class AteliersService {
    * @example
    * const ateliers = await ateliersService.findAll({ take: 10 });
    */
-  async findAll(
-    params: {
-      skip?: number;
-      take?: number;
-      cursor?: Prisma.AtelierWhereUniqueInput;
-      where?: Prisma.AtelierWhereInput;
-      orderBy?: Prisma.AtelierOrderByWithRelationInput;
-    } = {},
-  ): Promise<AtelierDetailsDto[]> {
+  async findAll(): Promise<AtelierDetailsDto[]> {
     try {
-      const { skip, take, cursor, where, orderBy } = params;
-
       const ateliers = await this.prisma.atelier.findMany({
-        skip,
-        take,
-        cursor,
-        where,
-        orderBy,
+        include: {
+          Atelier_Filiere: {
+            include: { filiere: { select: { label: true } } },
+          },
+          Atelier_Candidat: { select: { candidatId: true } },
+        },
+        where: { draft: false },
+      });
+
+      return ateliers.map((atelier) => this.toApiAtelier(atelier));
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        throw new BadRequestException(ERROR.InvalidInputFormat);
+      }
+
+      throw new InternalServerErrorException(ERROR.ConflictError);
+    }
+  }
+
+  async findAllAteliers(): Promise<AtelierDetailsDto[]> {
+    try {
+      const ateliers = await this.prisma.atelier.findMany({
         include: {
           Atelier_Filiere: {
             include: { filiere: { select: { label: true } } },

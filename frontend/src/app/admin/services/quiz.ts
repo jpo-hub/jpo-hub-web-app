@@ -96,6 +96,7 @@ export class QuizService {
         this.toastService.show('Question supprimée avec succès', 'success');
       }),
       catchError(err => {
+        console.error(uid);
         const error = err as HttpErrorResponse;
         const message = this.errorHandler.getErrorMessage(error.error.code);
         this.toastService.show(message, 'danger');

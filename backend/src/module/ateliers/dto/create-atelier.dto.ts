@@ -43,6 +43,16 @@ export class CreateAtelierDto {
     description: "Mapping { 'LabelFiliere': score }",
   })
   @IsOptional()
+  @Transform(({ value }: TransformFnParams) => {
+    if (typeof value === 'string') {
+      try {
+        return JSON.parse(value) as Record<string, number>;
+      } catch {
+        return value as unknown as Record<string, number>;
+      }
+    }
+    return value as Record<string, number>;
+  })
   @IsObject()
   filieres?: Record<string, number>;
 }

@@ -239,7 +239,27 @@ export class QuestionsService {
    * console.log(`Question "${deleted.label}" supprimée`);
    */
   async remove(uid: string): Promise<Question> {
+    console.log(uid);
+    console.log(
+      await this.prisma.question.findMany({
+        where: { uid },
+      }),
+    );
     try {
+      const question = await this.prisma.question.findUnique({
+        where: { uid },
+      });
+
+      if (!question) {
+        throw new NotFoundException(ERROR.ResourceNotFound);
+      }
+
+      await this.prisma.response.deleteMany({
+        where: {
+          questionId: uid,
+        },
+      });
+
       return await this.prisma.question.delete({
         where: { uid },
       });
