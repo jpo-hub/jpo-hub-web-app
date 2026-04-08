@@ -27,4 +27,15 @@ export class AteliersService {
     )
   }
 
+  public createAtelier(newAtelier: FormData) {
+    return this.http.post(`${this.apiUrl}/ateliers`, newAtelier).pipe(
+      catchError(err => {
+        const error = err as HttpErrorResponse;
+        const message = this.errorHandler.getErrorMessage(error.error.code);
+        this.toastService.show(message, 'danger');
+        return throwError(() => err);
+      })
+    );
+  }
+
 }

@@ -1,7 +1,8 @@
 export class Atelier {
-  uid!: string;
+  uid?: string;
   label!: string;
-  date?: string;
+  createAt?: string;
+  updateAt?: string;
   draft!: boolean;
   description!: string;
   imageUrl!: string;

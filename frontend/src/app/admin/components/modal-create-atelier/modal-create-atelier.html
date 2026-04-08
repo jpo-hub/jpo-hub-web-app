@@ -31,6 +31,11 @@
           {{ fileName || 'Aucune image sélectionné' }}
         </span>
       </label>
+      @if (imagePreview) {
+        <div class="image-preview">
+          <img [src]="imagePreview" alt="Prévisualisation de l'image"/>
+        </div>
+      }
     </div>
     <div class="form-group dockerfile-group">
       <app-input-form
@@ -40,6 +45,43 @@
         [(ngModel)]="dockerfilelink"
         name="dockerfilelink"
       />
+    </div>
+    <div class="form-group filieres-group">
+      <div class="head_filieres-group">
+        <label>Filières et scores</label>
+        <button type="button" class="btn-add-filiere" (click)="addFiliere()">
+          Ajouter une filière
+        </button>
+      </div>
+
+      @for (filiere of filieresList; track $index) {
+        <div class="filiere-item">
+          <div class="option">
+            <select [(ngModel)]="filiere.name" name="filiereName{{$index}}" required>
+              <option value="">Choisir une filière</option>
+              @for (option of availableFilieres(); track option.uid) {
+                <option [value]="option.label">{{ option.label }}</option>
+              }
+            </select>
+
+            <input type="number" [(ngModel)]="filiere.score" name="filiereScore{{$index}}" min="1" placeholder="Score"
+                   required/>
+          </div>
+
+
+          <button
+            type="button"
+            class="btn-delete"
+            (click)="removeFiliere($index)"
+          >
+            <lucide-icon name="trash2" size="14"></lucide-icon>
+          </button>
+        </div>
+      }
+
+      @if (filieresList.length === 0) {
+        <p class="void-filiere">Aucune filière ajoutée</p>
+      }
     </div>
     <div class="form-group checkbox-group">
       <label for="draft">

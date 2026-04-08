@@ -18,14 +18,6 @@ export class CreateAtelierDto {
   @IsString()
   readonly description: string;
 
-  @ApiProperty({
-    type: 'string',
-    format: 'binary',
-    description: 'The article media (file)',
-    required: false,
-  })
-  imageUrl?: unknown;
-
   @ApiProperty({ default: false })
   @Transform(
     ({ value }: TransformFnParams): boolean =>
