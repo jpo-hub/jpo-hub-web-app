@@ -5,14 +5,15 @@ import {Atelier} from '../../../core/models/atelier.model';
 import {LucideAngularModule} from 'lucide-angular';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ModalCreate} from '../../components/modal-create/modal-create';
+import {ModalCreateAtelier} from '../../components/modal-create-atelier/modal-create-atelier';
 
 @Component({
   selector: 'app-ateliers',
   imports: [
     LucideAngularModule,
     ReactiveFormsModule,
-    ModalCreate,
-    FormsModule
+    FormsModule,
+    ModalCreateAtelier
   ],
   templateUrl: './ateliers.html',
   styleUrl: './ateliers.scss',

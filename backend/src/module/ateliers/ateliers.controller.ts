@@ -43,7 +43,7 @@ export class AteliersController {
   @ApiOperation({
     summary: 'Créer un atelier',
     description:
-      'Crée un nouvel atelier avec une image obligatoire (JPEG, max 5MB)',
+      'Crée un nouvel atelier avec une image obligatoire (JPEG, PNG, WEBP, max 5MB)',
   })
   @ApiConsumes('multipart/form-data')
   @ApiBody({ type: CreateAtelierDto })
@@ -59,7 +59,7 @@ export class AteliersController {
       new ParseFilePipe({
         validators: [
           new MaxFileSizeValidator({ maxSize: 5_000_000 }),
-          new FileTypeValidator({ fileType: 'image/jpeg' }),
+          new FileTypeValidator({ fileType: 'image/(jpeg|png|webp)' }),
         ],
       }),
     )

@@ -1,1 +1,61 @@
-<p>modal-create-atelier works!</p>
+<form (ngSubmit)="onSubmit()" #form="ngForm" class="modal-form">
+  <div class="form-container">
+    <div class="form-group">
+      <app-input-form
+        label="Titre de l'atelier*"
+        type="text"
+        placeholder="Enter heading atelier"
+        [(ngModel)]="label"
+        name="label"
+      />
+    </div>
+    <div class="form-group">
+      <app-text-area
+        label="Description de l'atelier*"
+        type="text"
+        placeholder="Enter description atelier"
+        [(ngModel)]="description"
+        name="label"
+      />
+    </div>
+    <div class="form-group file-group">
+      <label class="file-label">
+        <input
+          type="file"
+          accept="image/*"
+          (change)="onFileSelected($event)"
+          hidden
+        />
+        <span class="file-button">Choisir une image</span>
+        <span class="file-name">
+          {{ fileName || 'Aucune image sélectionné' }}
+        </span>
+      </label>
+    </div>
+    <div class="form-group dockerfile-group">
+      <app-input-form
+        label="Lien DockerFile*"
+        type="text"
+        placeholder="Enter docker file link"
+        [(ngModel)]="dockerfilelink"
+        name="dockerfilelink"
+      />
+    </div>
+    <div class="form-group checkbox-group">
+      <label for="draft">
+        <input
+          type="checkbox"
+          id="draft"
+          name="draft"
+          [(ngModel)]="draft"
+        />
+        Brouillon
+      </label>
+    </div>
+  </div>
+  <app-button-primary
+    label="Créer la question"
+    type="submit"
+    [disabled]="form.invalid"
+  />
+</form>
