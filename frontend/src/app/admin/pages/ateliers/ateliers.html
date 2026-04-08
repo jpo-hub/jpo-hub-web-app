@@ -1,0 +1,86 @@
+<section>
+  <div class="quiz-container">
+    <div class="quiz-title">
+      <h2>Atelier</h2>
+      <span>Recherchez, filtrez et gérez tous les ateliers de la JPO</span>
+    </div>
+
+    <div class="quiz-content">
+      <div class="quiz-content__filters">
+        <div class="quiz-recherche-bar">
+          <input
+            type="text"
+            placeholder="Rechercher un atelier..."
+            [ngModel]="searchTerm()"
+            (ngModelChange)="searchTerm.set($event)"
+          />
+        </div>
+
+        <div>
+          <select
+            [ngModel]="statusFilter()"
+            (ngModelChange)="statusFilter.set($event)"
+          >
+            <option value="all">Tous</option>
+            <option value="published">Publiées</option>
+            <option value="draft">Brouillons</option>
+          </select>
+        </div>
+
+        <div>
+          <button class="primary" (click)="createAtelier()">Créer</button>
+        </div>
+      </div>
+      @if (filteredAteliers().length === 0) {
+        <div class="empty-state">
+          <p>Aucune question trouvée.</p>
+        </div>
+      } @else {
+        @for (question of filteredAteliers(); track question.uid) {
+          <div class="quiz-question-container">
+            <div class="quiz-question">
+              <div class="quiz-question__title">
+                <h3>{{ question.label }}</h3>
+              </div>
+              <div class="quiz-question__content">
+                @if (question.draft) {
+                  <span class="badge draft">Brouillon</span>
+                } @else {
+                  <span class="badge published">Publiée</span>
+                }
+              </div>
+            </div>
+            <div class="actions">
+              <button class="secondary">
+                <lucide-icon name="squarePen" size="13"></lucide-icon>
+                Modifier
+              </button>
+              <button class="secondary">
+                <lucide-icon name="trash" size="13"></lucide-icon>
+                Supprimer
+              </button>
+            </div>
+          </div>
+        }
+      }
+    </div>
+  </div>
+  @if (modalCreated()) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <span>
+              Créer un atelier
+            </span>
+          <div class="modal-header-close">
+            <lucide-icon name="x" size="24" (click)="closeModal()"></lucide-icon>
+          </div>
+        </div>
+        <app-modal-create
+          (closeModal)="closeModal()"
+          (refreshQuestions)="loadAteliers()"
+        />
+      </div>
+    </div>
+  }
+</section>
