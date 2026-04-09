@@ -18,11 +18,17 @@ section {
     }
 
     .form-container {
+
       form {
         display: flex;
         flex-direction: column;
         justify-content: center;
         gap: 1rem;
+
+        app-input-form {
+          display: block;
+          margin-top: 1rem;
+        }
 
         app-button-primary {
           text-align: center;
