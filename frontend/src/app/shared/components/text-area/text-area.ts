@@ -1,5 +1,5 @@
-import { Component, Input} from '@angular/core';
-import {ControlValueAccessor, FormsModule} from '@angular/forms';
+import { Component, Input, forwardRef } from '@angular/core';
+import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-text-area',
@@ -8,6 +8,13 @@ import {ControlValueAccessor, FormsModule} from '@angular/forms';
   ],
   templateUrl: './text-area.html',
   styleUrl: './text-area.scss',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => TextArea),
+      multi: true,
+    },
+  ],
 })
 export class TextArea implements ControlValueAccessor {
   @Input() label: string = '';

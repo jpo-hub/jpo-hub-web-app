@@ -1,13 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, type TransformFnParams } from 'class-transformer';
-import {
-  IsArray,
-  IsBoolean,
-  IsObject,
-  IsOptional,
-  IsString,
-  IsUUID,
-} from 'class-validator';
+import { IsBoolean, IsObject, IsOptional, IsString } from 'class-validator';
 
 export class CreateAtelierDto {
   @ApiProperty()
@@ -19,10 +12,10 @@ export class CreateAtelierDto {
   readonly description: string;
 
   @ApiProperty({ default: false })
-  @Transform(
-    ({ value }: TransformFnParams): boolean =>
-      value === true || value === 'true',
-  )
+  @Transform(({ obj, key }: TransformFnParams): boolean => {
+    const raw = (obj as Record<string, unknown>)[key];
+    return raw === true || raw === 'true';
+  })
   @IsBoolean()
   readonly draft: boolean;
 

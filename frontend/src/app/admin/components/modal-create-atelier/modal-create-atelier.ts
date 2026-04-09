@@ -93,11 +93,13 @@ export class ModalCreateAtelier implements OnInit {
     formData.append('dockerfilelink', this.dockerfilelink);
     formData.append('filieres', JSON.stringify(filieresPayload));
 
-    if (this.selectedFile) {
-      formData.append('imageUrl', this.selectedFile);
+    if (!this.selectedFile) {
+      return;
     }
 
-    console.log(formData);
+    formData.append('imageUrl', this.selectedFile);
+
+    console.log(this.draft);
 
     this.atelierService.createAtelier(formData).subscribe({
       next: () => {
