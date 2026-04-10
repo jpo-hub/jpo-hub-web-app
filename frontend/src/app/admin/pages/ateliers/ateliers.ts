@@ -74,8 +74,6 @@ export class AteliersAdmin implements OnInit{
     const atelier = this.selectedAtelier();
     if (!atelier) return;
 
-    console.log('Deleting atelier:', atelier.label);
-
     this.ateliersService.removeAtelier(atelier.uid).subscribe({
       next: () => {
         this.closeModal();

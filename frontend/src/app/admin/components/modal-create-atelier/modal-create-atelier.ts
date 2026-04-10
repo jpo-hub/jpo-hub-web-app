@@ -98,9 +98,7 @@ export class ModalCreateAtelier implements OnInit {
     }
 
     formData.append('imageUrl', this.selectedFile);
-
-    console.log(this.draft);
-
+    
     this.atelierService.createAtelier(formData).subscribe({
       next: () => {
         this.refreshQuestions.emit();
