@@ -38,6 +38,17 @@ export class AteliersService {
     );
   }
 
+  public updateAtelier(uid: string, formData: FormData) {
+    return this.http.patch(`${this.apiUrl}/ateliers/${uid}`, formData).pipe(
+      catchError(err => {
+        const error = err as HttpErrorResponse;
+        const message = this.errorHandler.getErrorMessage(error.error.code);
+        this.toastService.show(message, 'danger');
+        return throwError(() => err);
+      })
+    );
+  }
+
   public removeAtelier(uid: string | undefined) {
     return this.http.delete(`${this.apiUrl}/ateliers/${uid}`).pipe(
       catchError(err => {

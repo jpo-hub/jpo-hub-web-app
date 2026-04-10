@@ -51,7 +51,7 @@
               </div>
             </div>
             <div class="actions">
-              <button class="secondary">
+              <button class="secondary" (click)="modalUpdateAtelier(question)">
                 <lucide-icon name="squarePen" size="13"></lucide-icon>
                 Modifier
               </button>
@@ -77,6 +77,23 @@
           </div>
         </div>
         <app-modal-create-atelier
+          (closeModal)="closeModal()"
+          (refreshQuestions)="loadAteliers()"
+        />
+      </div>
+    </div>
+  }
+  @if (modalUpdate() && selectedAtelier()) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <span>Modifier l'atelier</span>
+          <div class="modal-header-close">
+            <lucide-icon name="x" size="24" (click)="closeModal()"></lucide-icon>
+          </div>
+        </div>
+        <app-modal-update-atelier
+          [atelier]="selectedAtelier()!"
           (closeModal)="closeModal()"
           (refreshQuestions)="loadAteliers()"
         />

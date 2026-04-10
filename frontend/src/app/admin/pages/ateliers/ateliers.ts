@@ -4,10 +4,9 @@ import {isPlatformBrowser} from '@angular/common';
 import {Atelier} from '../../../core/models/atelier.model';
 import {LucideAngularModule} from 'lucide-angular';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {ModalCreate} from '../../components/modal-create/modal-create';
 import {ModalCreateAtelier} from '../../components/modal-create-atelier/modal-create-atelier';
+import {ModalUpdateAtelier} from '../../components/modal-update-atelier/modal-update-atelier';
 import {ButtonPrimary} from '../../../shared/components/button-primary/button-primary';
-import {Question} from '../../../core/models/question.model';
 
 @Component({
   selector: 'app-ateliers',
@@ -16,6 +15,7 @@ import {Question} from '../../../core/models/question.model';
     ReactiveFormsModule,
     FormsModule,
     ModalCreateAtelier,
+    ModalUpdateAtelier,
     ButtonPrimary
   ],
   templateUrl: './ateliers.html',
@@ -66,9 +66,15 @@ export class AteliersAdmin implements OnInit{
   }
 
   selectedAtelier = signal<Atelier | null>(null);
+
   modalDeleteAtelier(atelier: Atelier) {
     this.selectedAtelier.set(atelier);
     this.modalDeleted.set(true);
+  }
+
+  modalUpdateAtelier(atelier: Atelier) {
+    this.selectedAtelier.set(atelier);
+    this.modalUpdate.set(true);
   }
   deleteAtelier() {
     const atelier = this.selectedAtelier();
