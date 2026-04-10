@@ -3,7 +3,7 @@ import {ToastService} from '../../core/services/toast';
 import {ErrorHandler} from '../../core/services/error-handler';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {environment} from '@environments/environment';
-import {catchError, throwError} from 'rxjs';
+import {catchError, tap, throwError} from 'rxjs';
 import {Atelier} from '../../core/models/atelier.model';
 
 @Injectable({
@@ -29,6 +29,9 @@ export class AteliersService {
 
   public createAtelier(newAtelier: FormData) {
     return this.http.post(`${this.apiUrl}/ateliers`, newAtelier).pipe(
+      tap(() => {
+        this.toastService.show('Atelier créé avec succès', 'success');
+      }),
       catchError(err => {
         const error = err as HttpErrorResponse;
         const message = this.errorHandler.getErrorMessage(error.error.code);
@@ -40,6 +43,9 @@ export class AteliersService {
 
   public updateAtelier(uid: string, formData: FormData) {
     return this.http.patch(`${this.apiUrl}/ateliers/${uid}`, formData).pipe(
+      tap(() => {
+        this.toastService.show('Atelier mis à jour avec succès', 'success');
+      }),
       catchError(err => {
         const error = err as HttpErrorResponse;
         const message = this.errorHandler.getErrorMessage(error.error.code);
@@ -51,6 +57,9 @@ export class AteliersService {
 
   public removeAtelier(uid: string | undefined) {
     return this.http.delete(`${this.apiUrl}/ateliers/${uid}`).pipe(
+      tap(() => {
+        this.toastService.show('Atelier supprimé avec succès', 'success');
+      }),
       catchError(err => {
         const error = err as HttpErrorResponse;
         const message = this.errorHandler.getErrorMessage(error.error.code);

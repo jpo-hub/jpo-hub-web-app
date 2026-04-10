@@ -41,6 +41,9 @@ export class QuizService {
 
   public updateQuestion(uid: string, question: Question) {
     return this.http.patch<Question>(`${this.apiUrl}/questions/${uid}`, question).pipe(
+      tap(() => {
+        this.toastService.show('Question mise à jour avec succès', 'success');
+      }),
       catchError(err => {
         const error = err as HttpErrorResponse;
 
@@ -52,6 +55,9 @@ export class QuizService {
 
   public addAnswer(answer: Answer) {
     return this.http.post<Answer>(`${this.apiUrl}/answers`, answer).pipe(
+      tap(() => {
+        this.toastService.show('Réponse ajoutée avec succès', 'success');
+      }),
       catchError(err => {
         const error = err as HttpErrorResponse;
 
