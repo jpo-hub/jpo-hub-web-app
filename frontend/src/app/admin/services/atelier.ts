@@ -38,4 +38,14 @@ export class AteliersService {
     );
   }
 
+  public removeAtelier(uid: string | undefined) {
+    return this.http.delete(`${this.apiUrl}/ateliers/${uid}`).pipe(
+      catchError(err => {
+        const error = err as HttpErrorResponse;
+        const message = this.errorHandler.getErrorMessage(error.error.code);
+        this.toastService.show(message, 'danger');
+        return throwError(() => err);
+      })
+    );
+  }
 }

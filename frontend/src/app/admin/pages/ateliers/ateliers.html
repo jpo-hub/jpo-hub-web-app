@@ -55,7 +55,7 @@
                 <lucide-icon name="squarePen" size="13"></lucide-icon>
                 Modifier
               </button>
-              <button class="secondary">
+              <button class="secondary" (click)="modalDeleteAtelier(question)">
                 <lucide-icon name="trash" size="13"></lucide-icon>
                 Supprimer
               </button>
@@ -80,6 +80,26 @@
           (closeModal)="closeModal()"
           (refreshQuestions)="loadAteliers()"
         />
+      </div>
+    </div>
+  }
+  @if (modalDeleted()) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <span>
+              Etes vous sur de vouloir supprimer cette atelier ?
+            </span>
+          <div class="modal-header-close">
+            <lucide-icon name="x" size="24" (click)="closeModal()"></lucide-icon>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <app-button-primary
+            label="Supprimer"
+            (click)="deleteAtelier()"
+          />
+        </div>
       </div>
     </div>
   }

@@ -6,6 +6,8 @@ import {LucideAngularModule} from 'lucide-angular';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ModalCreate} from '../../components/modal-create/modal-create';
 import {ModalCreateAtelier} from '../../components/modal-create-atelier/modal-create-atelier';
+import {ButtonPrimary} from '../../../shared/components/button-primary/button-primary';
+import {Question} from '../../../core/models/question.model';
 
 @Component({
   selector: 'app-ateliers',
@@ -13,7 +15,8 @@ import {ModalCreateAtelier} from '../../components/modal-create-atelier/modal-cr
     LucideAngularModule,
     ReactiveFormsModule,
     FormsModule,
-    ModalCreateAtelier
+    ModalCreateAtelier,
+    ButtonPrimary
   ],
   templateUrl: './ateliers.html',
   styleUrl: './ateliers.scss',
@@ -60,6 +63,24 @@ export class AteliersAdmin implements OnInit{
 
   createAtelier() {
     this.modalCreated.set(true);
+  }
+
+  selectedAtelier = signal<Atelier | null>(null);
+  modalDeleteAtelier(atelier: Atelier) {
+    this.selectedAtelier.set(atelier);
+    this.modalDeleted.set(true);
+  }
+  deleteAtelier() {
+    const atelier = this.selectedAtelier();
+    if (!atelier) return;
+
+    console.log('Deleting atelier:', atelier.label);
+
+    this.ateliersService.removeAtelier(atelier.uid).subscribe({
+      next: () => {
+        this.closeModal();
+      }
+    })
   }
 
   closeModal() {
