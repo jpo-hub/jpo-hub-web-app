@@ -3,9 +3,19 @@ export const ERROR_MESSAGES = {
   EMAIL_INVALID: 'Adresse email invalide',
   EMAIL_USED: 'Cette adresse email est déjà utilisée',
   PASSWORD_TOO_SHORT: 'Le mot de passe est trop court',
-  INCORRECT_CREDANTIALS: 'Email ou mot de passe incorrect',
+  INCORRECT_CREDENTIALS: 'Email ou mot de passe incorrect',
   USER_ALREADY_EXISTS: 'Cet utilisateur existe déjà',
-  RESSOURCE_NOT_FOUND: 'Ressource introuvable',
-  SERVER_ERROR: 'Erreur serveur, veuillez réessayer plus tard'
+  RESOURCE_NOT_FOUND: 'Ressource introuvable',
+  SERVER_ERROR: 'Erreur serveur, veuillez réessayer plus tard',
+  ALREADY_EXISTS: 'Cette ressource existe déjà',
+  UNAUTHORIZED_ACCESS: 'Accès non autorisé',
+  MISSING_FIELDS: 'Des champs obligatoires sont manquants',
+  INVALID_TOKEN: 'Token invalide ou expiré',
+  INVALID_INPUT_FORMAT: 'Format de saisie invalide',
+  FORBIDDEN_ACTION: "Vous n'avez pas la permission d'effectuer cette action",
+  TOO_MANY_REQUESTS: 'Trop de requêtes, veuillez réessayer plus tard',
+  PASSWORD_STRENGTH_ERROR: 'Le mot de passe ne remplit pas les critères requis',
+  EMAIL_NOT_VERIFIED: 'Veuillez vérifier votre adresse email',
+  CONFLICT_ERROR: 'Conflit de données détecté, veuillez résoudre les conflits',
 };
 

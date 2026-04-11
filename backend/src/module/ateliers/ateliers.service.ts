@@ -309,6 +309,15 @@ export class AteliersService {
         throw new BadRequestException(ERROR.MissingFields);
       }
 
+      const ateliersExisting = await this.findAllAteliers();
+
+      const labelExists = ateliersExisting.some(
+        (a) => a.label.toLowerCase() === createAtelierDto.label.toLowerCase(),
+      );
+      if (labelExists) {
+        throw new BadRequestException(ERROR.AlreadyExists);
+      }
+
       const filiereEntries = createAtelierDto.filieres
         ? Object.entries(createAtelierDto.filieres)
         : null;
