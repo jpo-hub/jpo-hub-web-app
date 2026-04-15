@@ -1,1 +1,64 @@
 @use '../../styles/page';
+
+section {
+  .table-wrapper {
+    overflow-x: auto;
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+
+      thead {
+        background-color: #f9fafb;
+
+        th {
+          padding: 10px 14px;
+          text-align: left;
+          font-weight: 600;
+          color: #374151;
+          border-bottom: 1px solid var(--color-border);
+          white-space: nowrap;
+
+          &.th-actions {
+            text-align: right;
+          }
+        }
+      }
+
+      tbody {
+        tr {
+          border-bottom: 1px solid var(--color-border);
+          transition: background-color 0.15s;
+
+          &:last-child {
+            border-bottom: none;
+          }
+
+          &:hover {
+            background-color: #f9fafb;
+          }
+        }
+
+        td {
+          padding: 10px 14px;
+          vertical-align: middle;
+          color: #1f2937;
+        }
+
+        .empty-cell {
+          color: #9ca3af;
+        }
+
+        .actions-cell {
+          display: flex;
+          gap: 8px;
+          align-items: center;
+          justify-content: flex-end;
+        }
+      }
+    }
+  }
+}

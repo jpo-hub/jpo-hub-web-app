@@ -36,36 +36,47 @@
           <p>Aucune question trouvée.</p>
         </div>
       } @else {
-        @for (question of filteredQuestions(); track question.uid) {
-          <div class="quiz-question-container">
-            <div class="quiz-question">
-              <div class="quiz-question__title">
-                <h3>{{ question.label }}</h3>
-              </div>
-              <div class="quiz-question__content">
-                @if (question.draft) {
-                  <span class="badge draft">Brouillon</span>
-                } @else {
-                  <span class="badge published">Publiée</span>
-                }
-
-                @if (question.multiple) {
-                  <span class="badge multiple">Plusieurs reponses</span>
-                }
-              </div>
-            </div>
-            <div class="actions">
-              <button class="secondary" (click)="modalUpdateQuestion(question)">
-                <lucide-icon name="squarePen" size="13"></lucide-icon>
-                Modifier
-              </button>
-              <button class="secondary" (click)="modalDeleteQuestion(question)">
-                <lucide-icon name="trash" size="13"></lucide-icon>
-                Supprimer
-              </button>
-            </div>
-          </div>
-        }
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Question</th>
+                <th>Statut</th>
+                <th>Type</th>
+                <th class="th-actions">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (question of filteredQuestions(); track question.uid) {
+                <tr>
+                  <td>{{ question.label }}</td>
+                  <td>
+                    @if (question.draft) {
+                      <span class="badge draft">Brouillon</span>
+                    } @else {
+                      <span class="badge published">Publiée</span>
+                    }
+                  </td>
+                  <td>
+                    @if (question.multiple) {
+                      <span class="badge multiple">Plusieurs réponses</span>
+                    } @else {
+                      <span class="empty-cell">—</span>
+                    }
+                  </td>
+                  <td class="actions-cell">
+                    <button class="secondary" (click)="modalUpdateQuestion(question)" aria-label="Modifier">
+                      <lucide-icon name="squarePen" size="13"></lucide-icon>
+                    </button>
+                    <button class="secondary" (click)="modalDeleteQuestion(question)" aria-label="Supprimer">
+                      <lucide-icon name="trash" size="13"></lucide-icon>
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
       }
     </div>
   </div>
