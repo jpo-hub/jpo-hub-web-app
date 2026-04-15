@@ -26,31 +26,37 @@ export class StatsService {
    */
   async findAll(): Promise<StatEntity> {
     try {
-      const [filieresRaw, activeAteliersCount, topAteliersRaw, globalStats] =
-        await Promise.all([
-          this.prisma.filiere.findMany({
-            select: {
-              label: true,
-              filiereStats: { select: { selectionCount: true } },
-            },
-          }),
-          this.prisma.atelier.count({ where: { draft: false } }),
-          this.prisma.atelier.findMany({
-            where: { draft: false },
-            take: 3,
-            orderBy: {
-              Atelier_Candidat: { _count: 'desc' },
-            },
-            select: {
-              uid: true,
-              label: true,
-              _count: { select: { Atelier_Candidat: true } },
-            },
-          }),
-          this.prisma.globalStats.findFirst({
-            orderBy: { createdAt: 'desc' },
-          }),
-        ]);
+      const [
+        filieresRaw,
+        activeAteliersCount,
+        topAteliersRaw,
+        globalStats,
+        appointmentCount,
+      ] = await Promise.all([
+        this.prisma.filiere.findMany({
+          select: {
+            label: true,
+            filiereStats: { select: { selectionCount: true } },
+          },
+        }),
+        this.prisma.atelier.count({ where: { draft: false } }),
+        this.prisma.atelier.findMany({
+          where: { draft: false },
+          take: 3,
+          orderBy: {
+            Atelier_Candidat: { _count: 'desc' },
+          },
+          select: {
+            uid: true,
+            label: true,
+            _count: { select: { Atelier_Candidat: true } },
+          },
+        }),
+        this.prisma.globalStats.findFirst({
+          orderBy: { createdAt: 'desc' },
+        }),
+        this.prisma.candidat.count({ where: { appointment: true } }),
+      ]);
 
       if (!filieresRaw || filieresRaw.length === 0) {
         throw new NotFoundException(ERROR.ResourceNotFound);
@@ -73,7 +79,7 @@ export class StatsService {
       return {
         filieres,
         ateliersActifs: activeAteliersCount,
-        appointment: globalStats?.appointment ?? 0,
+        appointment: appointmentCount,
         candidats: globalStats?.candidats ?? 0,
         topAteliers,
       } as StatEntity;

@@ -2,7 +2,7 @@ import {inject, Injectable } from '@angular/core';
 import {environment} from '@environments/environment';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {CandidatModel} from '../../core/models/candidat.model';
-import {catchError, throwError} from 'rxjs';
+import {catchError, tap, throwError} from 'rxjs';
 import {ToastService} from '../../core/services/toast';
 import {ErrorHandler} from '../../core/services/error-handler';
 
@@ -40,5 +40,30 @@ export class Candidat {
         return throwError(() => err);
       })
     )
+  }
+
+  public updateCandidat(uid: string, data: Partial<CandidatModel>) {
+    return this.http.patch<CandidatModel>(`${this.apiUrl}/candidats/${uid}`, data).pipe(
+      catchError(err => {
+        const error = err as HttpErrorResponse;
+        const message = this.errorHandler.getErrorMessage(error.error.code);
+        this.toastService.show(message, 'danger');
+        return throwError(() => err);
+      })
+    );
+  }
+
+  public deleteCandidat(uid: string | undefined) {
+    return this.http.delete(`${this.apiUrl}/candidats/${uid}`).pipe(
+      tap(() => {
+        this.toastService.show('Candidat supprimé avec succès', 'success');
+      }),
+      catchError(err => {
+        const error = err as HttpErrorResponse;
+        const message = this.errorHandler.getErrorMessage(error.error.code);
+        this.toastService.show(message, 'danger');
+        return throwError(() => err);
+      })
+    );
   }
 }
