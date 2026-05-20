@@ -133,8 +133,11 @@ export class StatsService {
         };
       });
     } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
       throw new InternalServerErrorException(
-        'Erreur lors de la création du snapshot',
+        'Une erreur est survenue lors de la récupération des statistiques',
       );
     }
   }
@@ -163,7 +166,7 @@ export class StatsService {
         throw error;
       }
       throw new InternalServerErrorException(
-        'Erreur lors de la récupération du snapshot',
+        'Une erreur est survenue lors de la récupération des statistiques',
       );
     }
   }

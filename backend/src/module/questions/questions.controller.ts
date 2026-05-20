@@ -19,7 +19,7 @@ import {
 import { QuestionsService } from './questions.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
-import { Question as QuestionModel } from '../../generated/prisma/models/Question';
+import { QuestionModel } from '../../generated/prisma/models/Question';
 import { SwaggerResponses } from '../../common/constants/swagger.constants';
 import { QuestionEntity } from './entities/question.entity';
 import { JwtAuthGuard } from '../auth/strategy/jwt-auth.guard';

@@ -160,6 +160,7 @@ export class Quiz {
     this.selectedRadioUid.set(null);
     this.selectedCheckboxUids.set([]);
   }
+
   async finishQuiz() {
     if (!this.hasAnswerSelected()) {
       this.toastService.show('Veuillez sélectionner au moins une réponse', 'warning');

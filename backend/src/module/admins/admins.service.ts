@@ -25,7 +25,7 @@ export class AdminsService {
         roundsOfHashing,
       );
 
-      return this.prisma.admin.create({
+      return await this.prisma.admin.create({
         data: createAdminDto,
       });
     } catch (error) {
@@ -63,8 +63,16 @@ export class AdminsService {
 
   async findOne(uid: string) {
     try {
-      return await this.prisma.admin.findUnique({ where: { uid } });
+      const admin = await this.prisma.admin.findUnique({ where: { uid } });
+
+      if (!admin) {
+        throw new NotFoundException(ERROR.ResourceNotFound);
+      }
+
+      return admin;
     } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         switch (error.code) {
           case 'P2025':
@@ -73,6 +81,8 @@ export class AdminsService {
             throw new BadRequestException(ERROR.InvalidInputFormat);
         }
       }
+
+      throw new InternalServerErrorException(ERROR.ConflictError);
     }
   }
 
@@ -84,7 +94,7 @@ export class AdminsService {
           roundsOfHashing,
         );
       }
-      return this.prisma.admin.update({
+      return await this.prisma.admin.update({
         where: { uid },
         data: updateAdminDto,
       });

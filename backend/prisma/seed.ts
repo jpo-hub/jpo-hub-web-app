@@ -232,6 +232,51 @@ async function main() {
     },
   });
 
+  await prisma.candidat_Filiere.upsert({
+    where: {
+      candidatId_filiereId: {
+        candidatId: candidat.uid,
+        filiereId: iaData.uid,
+      },
+    },
+    update: {},
+    create: {
+      candidatId: candidat.uid,
+      filiereId: iaData.uid,
+      score: 7,
+    },
+  });
+
+  await prisma.candidat_Filiere.upsert({
+    where: {
+      candidatId_filiereId: {
+        candidatId: candidat.uid,
+        filiereId: iaData.uid,
+      },
+    },
+    update: {},
+    create: {
+      candidatId: candidat.uid,
+      filiereId: iaData.uid,
+      score: 7,
+    },
+  });
+
+  await prisma.candidat_Filiere.upsert({
+    where: {
+      candidatId_filiereId: {
+        candidatId: candidat.uid,
+        filiereId: cybersecurite.uid,
+      },
+    },
+    update: {},
+    create: {
+      candidatId: candidat.uid,
+      filiereId: cybersecurite.uid,
+      score: 2,
+    },
+  });
+
   await prisma.atelier_Candidat.upsert({
     where: {
       atelierId_candidatId: {
@@ -241,28 +286,6 @@ async function main() {
     },
     update: {},
     create: { atelierId: atelier1.uid, candidatId: candidat.uid },
-  });
-
-  await prisma.atelier_Candidat.upsert({
-    where: {
-      atelierId_candidatId: {
-        atelierId: atelier2.uid,
-        candidatId: candidat.uid,
-      },
-    },
-    update: {},
-    create: { atelierId: atelier2.uid, candidatId: candidat.uid },
-  });
-
-  await prisma.atelier_Candidat.upsert({
-    where: {
-      atelierId_candidatId: {
-        atelierId: atelier3.uid,
-        candidatId: candidat.uid,
-      },
-    },
-    update: {},
-    create: { atelierId: atelier3.uid, candidatId: candidat.uid },
   });
 
   const candidat2 = await prisma.candidat.upsert({

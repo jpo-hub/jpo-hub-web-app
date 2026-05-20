@@ -171,7 +171,7 @@ export class CandidatsService {
       if (error instanceof BadRequestException) throw error;
 
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        throw new BadRequestException(ERROR.InvalidInputFormat);
+        throw new BadRequestException(ERROR.ResourceNotFound);
       }
 
       throw new InternalServerErrorException(ERROR.ConflictError);
