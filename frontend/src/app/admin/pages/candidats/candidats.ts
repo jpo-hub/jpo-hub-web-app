@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, computed, inject, OnInit, PLATFORM_ID, signal} from '@angular/core';
-import {isPlatformBrowser} from '@angular/common';
+import {isPlatformBrowser, TitleCasePipe, UpperCasePipe} from '@angular/common';
 import {CandidatModel} from '../../../core/models/candidat.model';
 import {Candidat} from '../../services/candidat';
 import {LucideAngularModule} from 'lucide-angular';
@@ -13,6 +13,8 @@ import {ButtonPrimary} from '../../../shared/components/button-primary/button-pr
     ReactiveFormsModule,
     FormsModule,
     ButtonPrimary,
+    UpperCasePipe,
+    TitleCasePipe,
   ],
   templateUrl: './candidats.html',
   styleUrl: './candidats.scss',

@@ -53,8 +53,8 @@
             <tbody>
               @for (candidat of filteredCandidats(); track candidat.uid) {
                 <tr>
-                  <td>{{ candidat.lastname }}</td>
-                  <td>{{ candidat.firstname }}</td>
+                  <td>{{ candidat.lastname | uppercase }}</td>
+                  <td>{{ candidat.firstname | titlecase }}</td>
                   <td class="email-cell">{{ candidat.email }}</td>
                   <td>{{ candidat.ageRange }}</td>
                   <td>
