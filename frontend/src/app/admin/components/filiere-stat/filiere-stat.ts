@@ -1,26 +1,25 @@
 import { Component, computed, inject } from '@angular/core';
 import { StatsService } from '../../services/stats';
-import { Stats as StatsModel } from '../../../core/models/stats.model';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { CommonModule } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
+import { LucideAngularModule } from 'lucide-angular';
 
 @Component({
   selector: 'app-filiere-stat',
-  standalone: true,
-  imports: [CommonModule],
+  imports: [DecimalPipe, LucideAngularModule],
   templateUrl: './filiere-stat.html',
   styleUrl: './filiere-stat.scss',
 })
 export class FiliereStat {
   private statsService = inject(StatsService);
 
-  rawStats = toSignal(this.statsService.getStats(), {
-    initialValue: { filieres: {} } as StatsModel
-  });
+  rawStats = toSignal(this.statsService.getStats());
+
+  isLoaded = computed(() => this.rawStats() !== undefined);
 
   filieres = computed(() => {
     const data = this.rawStats();
-    if (!data.filieres) return [];
+    if (!data?.filieres) return [];
 
     return Object.entries(data.filieres).map(([name, count]) => ({
       name,

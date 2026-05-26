@@ -45,3 +45,25 @@
     }
   }
 }
+
+.empty-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px;
+  text-align: center;
+  color: var(--color-text-gray);
+
+  &__title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #374151;
+  }
+
+  &__subtitle {
+    font-size: 0.8rem;
+  }
+}

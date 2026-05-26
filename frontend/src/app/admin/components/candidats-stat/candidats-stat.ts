@@ -1,13 +1,14 @@
-import { Component, effect, inject} from '@angular/core';
+import { Component, computed, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {Candidat} from '../../services/candidat';
-import {CandidatModel} from '../../../core/models/candidat.model';
 import {CandidatsInfoDashboard} from '../candidats-info-dashboard/candidats-info-dashboard';
+import {LucideAngularModule} from 'lucide-angular';
 
 @Component({
   selector: 'app-candidats-stat',
   imports: [
     CandidatsInfoDashboard,
+    LucideAngularModule,
   ],
   templateUrl: './candidats-stat.html',
   styleUrl: './candidats-stat.scss',
@@ -15,7 +16,7 @@ import {CandidatsInfoDashboard} from '../candidats-info-dashboard/candidats-info
 export class CandidatsStat {
   private candidatService = inject(Candidat);
 
-  candidats = toSignal(this.candidatService.getCandidatsOrderByDate(), { initialValue: [] as CandidatModel[] });
+  candidats = toSignal(this.candidatService.getCandidatsOrderByDate());
 
-  isLoaded = effect(() => this.candidats().length > 0);
+  isLoaded = computed(() => this.candidats() !== undefined);
 }
