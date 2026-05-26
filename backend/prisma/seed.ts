@@ -422,7 +422,7 @@ async function main() {
       firstname: 'Kantin',
       lastname: 'Fagniart',
       password: password,
-      role: 'ADMIN',
+      role: 'superadmin',
     },
   });
 

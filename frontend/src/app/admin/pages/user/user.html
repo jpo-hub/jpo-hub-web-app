@@ -1,1 +1,151 @@
-<p>user works!</p>
+<section>
+  <div class="quiz-container">
+    <div class="quiz-title">
+      <h2>Administrateurs</h2>
+      <span>Recherchez, filtrez et gérez tous les administrateurs</span>
+    </div>
+
+    <div class="quiz-content">
+      <div class="quiz-content__filters">
+        <div class="quiz-recherche-bar">
+          <input
+            type="text"
+            placeholder="Rechercher un administrateur..."
+            [ngModel]="searchTerm()"
+            (ngModelChange)="searchTerm.set($event)"
+          />
+        </div>
+
+        <div>
+          <select
+            [ngModel]="roleFilter()"
+            (ngModelChange)="roleFilter.set($event)"
+          >
+            <option value="all">Tous les rôles</option>
+            <option value="admin">Admin</option>
+            <option value="superadmin">Super Admin</option>
+          </select>
+        </div>
+
+        @if (isSuperAdmin()) {
+          <button class="primary" (click)="openCreateModal()">
+            Créer
+          </button>
+        }
+      </div>
+
+      @if (filteredAdmins().length === 0) {
+        <div class="empty-state">
+          <p>Aucun administrateur trouvé.</p>
+        </div>
+      } @else {
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Rôle</th>
+                @if (isSuperAdmin()) {
+                  <th>Actions</th>
+                }
+              </tr>
+            </thead>
+            <tbody>
+              @for (admin of filteredAdmins(); track admin.uid) {
+                <tr>
+                  <td>{{ admin.lastname | uppercase }}</td>
+                  <td>{{ admin.firstname | titlecase }}</td>
+                  <td class="email-cell">{{ admin.email }}</td>
+                  <td>
+                    <span class="badge" [class.badge--superadmin]="admin.role === 'superadmin'">
+                      {{ admin.role }}
+                    </span>
+                  </td>
+                  @if (isSuperAdmin()) {
+                    <td>
+                      <button class="secondary" (click)="modalDeleteAdmin(admin)">
+                        <lucide-icon name="trash" size="13"></lucide-icon>
+                      </button>
+                    </td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
+  </div>
+
+  @if (modalDeleted()) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <span>Êtes-vous sûr de vouloir supprimer cet administrateur ?</span>
+          <div class="modal-header-close">
+            <lucide-icon name="x" size="24" (click)="closeModal()"></lucide-icon>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <app-button-primary
+            label="Supprimer"
+            (click)="deleteAdmin()"
+          />
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (modalCreate()) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <span>Créer un administrateur</span>
+          <div class="modal-header-close">
+            <lucide-icon name="x" size="24" (click)="closeModal()"></lucide-icon>
+          </div>
+        </div>
+
+        <form [formGroup]="createForm" (ngSubmit)="submitCreate()" class="modal-form">
+          <div class="form-row">
+            <div class="form-field">
+              <label for="firstname">Prénom</label>
+              <input id="firstname" type="text" formControlName="firstname" placeholder="Prénom" />
+            </div>
+            <div class="form-field">
+              <label for="lastname">Nom</label>
+              <input id="lastname" type="text" formControlName="lastname" placeholder="Nom" />
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="email">Email</label>
+            <input id="email" type="email" formControlName="email" placeholder="email@exemple.com" />
+          </div>
+
+          <div class="form-field">
+            <label for="password">Mot de passe</label>
+            <input id="password" type="password" formControlName="password" placeholder="••••••••" />
+          </div>
+
+          <div class="form-field">
+            <label for="role">Rôle</label>
+            <select id="role" formControlName="role">
+              <option value="admin">Admin</option>
+              <option value="superadmin">Super Admin</option>
+            </select>
+          </div>
+
+          <div class="modal-footer">
+            <app-button-primary
+              label="Créer"
+              [attr.disabled]="createForm.invalid ? true : null"
+            />
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</section>
