@@ -9,6 +9,7 @@ import { QuestionsModule } from './module/questions/questions.module';
 import { AnswersModule } from './module/answers/answers.module';
 import { AdminsModule } from './module/admins/admins.module';
 import { AuthModule } from './module/auth/auth.module';
+import { StatsModule } from './module/stats/stats.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { AuthModule } from './module/auth/auth.module';
     QuestionsModule,
     AnswersModule,
     ConfigModule.forRoot({ isGlobal: true }),
+    StatsModule,
   ],
   controllers: [],
   providers: [],

@@ -1,0 +1,34 @@
+<div class="chart-title">
+  <h2>
+    Nouveaux Candidats
+  </h2>
+  <div class="chart-title__subtitle">
+    3 derniers
+  </div>
+</div>
+<div class="candidats-container">
+  @if (isLoaded()) {
+    @for (candidat of candidats()!; track candidat.uid) {
+      <app-candidats-info-dashboard
+        [uid]="candidat.uid"
+        [firstname]="candidat.firstname"
+        [lastname]="candidat.lastname"
+        [email]="candidat.email"
+        [ageRange]="candidat.ageRange"
+        [appointment]="candidat.appointment"
+        [ateliers]="candidat.ateliers"
+      ></app-candidats-info-dashboard>
+    } @empty {
+      <div class="empty-state">
+        <lucide-icon name="users" size="32"></lucide-icon>
+        <span class="empty-state__title">Aucun candidat pour le moment</span>
+        <span class="empty-state__subtitle">Les candidats apparaîtront dès qu'une inscription sera effectuée.</span>
+      </div>
+    }
+  } @else {
+    <div class="empty-state">
+      <lucide-icon name="loader-circle" size="32"></lucide-icon>
+      <span class="empty-state__title">Chargement des candidats...</span>
+    </div>
+  }
+</div>

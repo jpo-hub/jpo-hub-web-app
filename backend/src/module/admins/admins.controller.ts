@@ -21,6 +21,8 @@ export class AdminsController {
   constructor(private readonly adminsService: AdminsService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiCreatedResponse({ type: Admin })
   create(@Body() createAdminDto: CreateAdminDto) {
     return this.adminsService.create(createAdminDto);

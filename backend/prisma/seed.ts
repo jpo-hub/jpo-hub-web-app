@@ -232,6 +232,51 @@ async function main() {
     },
   });
 
+  await prisma.candidat_Filiere.upsert({
+    where: {
+      candidatId_filiereId: {
+        candidatId: candidat.uid,
+        filiereId: iaData.uid,
+      },
+    },
+    update: {},
+    create: {
+      candidatId: candidat.uid,
+      filiereId: iaData.uid,
+      score: 7,
+    },
+  });
+
+  await prisma.candidat_Filiere.upsert({
+    where: {
+      candidatId_filiereId: {
+        candidatId: candidat.uid,
+        filiereId: iaData.uid,
+      },
+    },
+    update: {},
+    create: {
+      candidatId: candidat.uid,
+      filiereId: iaData.uid,
+      score: 7,
+    },
+  });
+
+  await prisma.candidat_Filiere.upsert({
+    where: {
+      candidatId_filiereId: {
+        candidatId: candidat.uid,
+        filiereId: cybersecurite.uid,
+      },
+    },
+    update: {},
+    create: {
+      candidatId: candidat.uid,
+      filiereId: cybersecurite.uid,
+      score: 2,
+    },
+  });
+
   await prisma.atelier_Candidat.upsert({
     where: {
       atelierId_candidatId: {
@@ -243,26 +288,28 @@ async function main() {
     create: { atelierId: atelier1.uid, candidatId: candidat.uid },
   });
 
-  await prisma.atelier_Candidat.upsert({
-    where: {
-      atelierId_candidatId: {
-        atelierId: atelier2.uid,
-        candidatId: candidat.uid,
-      },
-    },
+  const candidat2 = await prisma.candidat.upsert({
+    where: { email: 'firas.bouchira@ynov.com' },
     update: {},
-    create: { atelierId: atelier2.uid, candidatId: candidat.uid },
+    create: {
+      email: 'firas.bouchira@ynov.com',
+      firstname: 'firas',
+      appointment: false,
+      consentement: true,
+      lastname: 'bouchira',
+      ageRange: '26-35',
+    },
   });
 
   await prisma.atelier_Candidat.upsert({
     where: {
       atelierId_candidatId: {
-        atelierId: atelier3.uid,
-        candidatId: candidat.uid,
+        atelierId: atelier2.uid,
+        candidatId: candidat2.uid,
       },
     },
     update: {},
-    create: { atelierId: atelier3.uid, candidatId: candidat.uid },
+    create: { atelierId: atelier2.uid, candidatId: candidat2.uid },
   });
 
   console.log('✅ Candidat + liens seeded');
@@ -276,6 +323,7 @@ async function main() {
     create: {
       label:
         "Quelle est la commande pour lister les conteneurs Docker en cours d'exécution ?",
+      draft: false,
       multiple: true,
     },
   });
@@ -289,6 +337,7 @@ async function main() {
     create: {
       label:
         'Quelle commande permet de voir toutes les images Docker locales ?',
+      draft: false,
       multiple: false,
     },
   });
@@ -302,6 +351,7 @@ async function main() {
     create: {
       label:
         "Quelle commande permet de lancer un conteneur Docker à partir d'une image ?",
+      draft: false,
       multiple: false,
     },
   });
@@ -315,6 +365,7 @@ async function main() {
     create: {
       label:
         "Quelle commande permet d'arrêter un conteneur Docker en cours d'exécution ?",
+      draft: false,
       multiple: false,
     },
   });
@@ -326,6 +377,7 @@ async function main() {
     update: {},
     create: {
       label: 'Quelle commande permet de supprimer un conteneur Docker ?',
+      draft: false,
       multiple: false,
     },
   });
@@ -337,6 +389,7 @@ async function main() {
     update: {},
     create: {
       label: 'À quoi sert un Dockerfile ?',
+      draft: false,
       multiple: true,
     },
   });
@@ -350,6 +403,7 @@ async function main() {
     create: {
       label:
         'Quelle est la différence entre une image Docker et un conteneur Docker ?',
+      draft: false,
       multiple: true,
     },
   });
@@ -358,17 +412,30 @@ async function main() {
 
   const password = await bcrypt.hash('securepassword123', roundsOfHashing);
 
-  await prisma.admin.upsert({
+  const admin = await prisma.admin.upsert({
     where: { email: 'kantin.fagniart@ynov.com' },
-    update: {},
+    update: {
+      password: password,
+    },
     create: {
       email: 'kantin.fagniart@ynov.com',
       firstname: 'Kantin',
       lastname: 'Fagniart',
       password: password,
-      role: 'ADMIN',
+      role: 'superadmin',
     },
   });
+
+  console.log('✅ Questions seeded', admin);
+
+  await prisma.globalStats.create({
+    data: {
+      candidats: 0,
+      appointment: 0,
+    },
+  });
+
+  console.log('✅ GlobalStats initialisé');
 }
 
 main()

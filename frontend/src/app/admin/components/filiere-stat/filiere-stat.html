@@ -1,0 +1,50 @@
+<div class="donut-container">
+  <div class="chart-title">
+    <h2>Filières</h2>
+  </div>
+
+  @if (isLoaded()) {
+    @if (total() > 0) {
+      <div class="donut-content">
+        <div class="svg-wrapper">
+          <svg width="100%" height="100%" viewBox="0 0 42 42" class="donut">
+            <circle cx="21" cy="21" r="15.9155" fill="transparent" stroke="#f3f4f6" stroke-width="8"></circle>
+
+            @for (segment of donutSegments(); track segment.name) {
+              <circle
+                cx="21" cy="21" r="15.9155"
+                fill="transparent"
+                [attr.stroke]="segment.color"
+                stroke-width="9"
+                [attr.stroke-dasharray]="segment.strokeDasharray"
+                [attr.stroke-dashoffset]="segment.strokeDashoffset"
+                class="donut-segment"
+              ></circle>
+            }
+          </svg>
+        </div>
+
+        <div class="legend">
+          @for (f of donutSegments(); track f.name) {
+            <div class="legend-item">
+              <span class="dot" [style.background-color]="f.color"></span>
+              <span class="label">{{ f.name }}</span>
+              <span class="value">{{ f.percentage | number:'1.0-0' }}%</span>
+            </div>
+          }
+        </div>
+      </div>
+    } @else {
+      <div class="empty-state">
+        <lucide-icon name="chart-pie" size="32"></lucide-icon>
+        <span class="empty-state__title">Aucune filière pour le moment</span>
+        <span class="empty-state__subtitle">Les statistiques apparaîtront dès qu'une inscription sera effectuée.</span>
+      </div>
+    }
+  } @else {
+    <div class="empty-state">
+      <lucide-icon name="loader-circle" size="32"></lucide-icon>
+      <span class="empty-state__title">Chargement des filières...</span>
+    </div>
+  }
+</div>

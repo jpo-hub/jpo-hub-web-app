@@ -1,4 +1,8 @@
+import {Atelier} from './atelier.model';
+
 export class CandidatModel {
+  uid?: string;
+  codeCandidat?: number;
   firstname!: string;
   lastname!: string;
   email!: string;
@@ -6,4 +10,6 @@ export class CandidatModel {
   consentement!: boolean;
   filieres!: Record<string, number>;
   appointment!: boolean;
+  ateliers?: Atelier[];
+  createdAt?: string;
 }

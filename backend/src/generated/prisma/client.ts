@@ -87,3 +87,18 @@ export type Atelier_Candidat = Prisma.Atelier_CandidatModel
  * 
  */
 export type Admin = Prisma.AdminModel
+/**
+ * Model Stats
+ * 
+ */
+export type Stats = Prisma.StatsModel
+/**
+ * Model GlobalStats
+ * 
+ */
+export type GlobalStats = Prisma.GlobalStatsModel
+/**
+ * Model StatsSnapshot
+ * 
+ */
+export type StatsSnapshot = Prisma.StatsSnapshotModel

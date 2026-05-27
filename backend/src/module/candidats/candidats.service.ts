@@ -1,12 +1,12 @@
 import {
-  Injectable,
-  NotFoundException,
   BadRequestException,
   ConflictException,
+  Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
-import { Prisma, Candidat } from '../../generated/prisma/client';
+import { Candidat, Prisma } from '../../generated/prisma/client';
 import { CreateCandidatDto } from './dto/create-candidat.dto';
 import { randomUUID } from 'crypto';
 import { ERROR } from '../../common/constants/error.constants';
@@ -16,7 +16,7 @@ import { ERROR } from '../../common/constants/error.constants';
  */
 type CandidatDetailsDto = Candidat & {
   filieres: Record<string, number>;
-  ateliers?: Array<{ uid: string; title: string; date: Date }>;
+  ateliers?: Array<{ uid: string; label: string; createAt: Date }>;
 };
 
 /**
@@ -69,8 +69,8 @@ export class CandidatsService {
       }, {}),
       ateliers: ateliers.map((ac) => ({
         uid: ac.atelier.uid,
-        title: ac.atelier.label,
-        date: ac.atelier.createAt,
+        label: ac.atelier.label,
+        createAt: ac.atelier.createAt,
       })),
     };
   }
@@ -171,7 +171,7 @@ export class CandidatsService {
       if (error instanceof BadRequestException) throw error;
 
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        throw new BadRequestException(ERROR.InvalidInputFormat);
+        throw new BadRequestException(ERROR.ResourceNotFound);
       }
 
       throw new InternalServerErrorException(ERROR.ConflictError);
@@ -265,6 +265,18 @@ export class CandidatsService {
               score: Number(score),
             },
           });
+
+          await tx.stats.upsert({
+            where: { filiereId: filiere.uid },
+            update: {
+              selectionCount: { increment: 1 },
+            },
+            create: {
+              filiereId: filiere.uid,
+              selectionCount: 1,
+            },
+          });
+
           processedLabels.add(trimmedLabel);
         }
 
@@ -279,6 +291,10 @@ export class CandidatsService {
             });
           }
         }
+
+        await tx.globalStats.updateMany({
+          data: { candidats: { increment: 1 } },
+        });
 
         return this.enrichCandidatDetails(candidat, tx);
       });

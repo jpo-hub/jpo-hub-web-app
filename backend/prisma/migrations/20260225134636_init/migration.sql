@@ -19,6 +19,7 @@ CREATE TABLE "Response" (
 CREATE TABLE "Question" (
     "uid" TEXT NOT NULL,
     "label" TEXT NOT NULL,
+    "draft" BOOLEAN NOT NULL DEFAULT true,
     "multiple" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "Question_pkey" PRIMARY KEY ("uid")
@@ -89,8 +90,39 @@ CREATE TABLE "Admin" (
     "lastname" TEXT NOT NULL,
     "role" TEXT NOT NULL,
     "email" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Admin_pkey" PRIMARY KEY ("uid")
+);
+
+-- CreateTable
+CREATE TABLE "Stats" (
+    "uid" TEXT NOT NULL,
+    "filiereId" TEXT NOT NULL,
+    "selectionCount" INTEGER NOT NULL DEFAULT 0,
+
+    CONSTRAINT "Stats_pkey" PRIMARY KEY ("uid")
+);
+
+-- CreateTable
+CREATE TABLE "GlobalStats" (
+    "uid" TEXT NOT NULL,
+    "candidats" INTEGER NOT NULL,
+    "appointment" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "GlobalStats_pkey" PRIMARY KEY ("uid")
+);
+
+-- CreateTable
+CREATE TABLE "StatsSnapshot" (
+    "uid" TEXT NOT NULL,
+    "label" TEXT NOT NULL,
+    "data" JSONB NOT NULL,
+    "timestamp" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "StatsSnapshot_pkey" PRIMARY KEY ("uid")
 );
 
 -- CreateIndex
@@ -123,6 +155,9 @@ CREATE UNIQUE INDEX "Atelier_Candidat_atelierId_candidatId_key" ON "Atelier_Cand
 -- CreateIndex
 CREATE UNIQUE INDEX "Admin_email_key" ON "Admin"("email");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "Stats_filiereId_key" ON "Stats"("filiereId");
+
 -- AddForeignKey
 ALTER TABLE "Response" ADD CONSTRAINT "Response_questionId_fkey" FOREIGN KEY ("questionId") REFERENCES "Question"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
 
@@ -149,3 +184,6 @@ ALTER TABLE "Atelier_Candidat" ADD CONSTRAINT "Atelier_Candidat_atelierId_fkey" 
 
 -- AddForeignKey
 ALTER TABLE "Atelier_Candidat" ADD CONSTRAINT "Atelier_Candidat_candidatId_fkey" FOREIGN KEY ("candidatId") REFERENCES "Candidat"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Stats" ADD CONSTRAINT "Stats_filiereId_fkey" FOREIGN KEY ("filiereId") REFERENCES "Filiere"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;

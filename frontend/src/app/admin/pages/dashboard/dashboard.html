@@ -1,0 +1,43 @@
+<section>
+  <div class="stats-grid">
+    <app-stat-card
+      [value]="stats().candidats"
+      [stat]="deltas().candidats"
+      title="Total Candidats"
+      icon="users">
+    </app-stat-card>
+
+    <app-stat-card
+      [value]="stats().appointment"
+      [stat]="deltas().appointment"
+      title="RDV Confirmés"
+      icon="calendar-check-2">
+    </app-stat-card>
+
+    <app-stat-card
+      [value]="stats().ateliersActifs"
+      [stat]="deltas().ateliersActifs"
+      title="Ateliers Actifs"
+      icon="folder-code">
+    </app-stat-card>
+
+    <app-stat-card
+      [value]="calculateConversion()"
+      [stat]="deltas().conversion"
+      title="Taux Conversion"
+      icon="trending-up">
+    </app-stat-card>
+  </div>
+
+  <div class="charts">
+    <div class="candidat-container">
+      <app-candidats-stat/>
+    </div>
+    <div class="filiere-container">
+      <app-filiere-stat/>
+    </div>
+  </div>
+  <div class="table-ateliers">
+    <app-ateliers-top-stats/>
+  </div>
+</section>

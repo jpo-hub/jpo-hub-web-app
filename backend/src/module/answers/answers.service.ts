@@ -420,7 +420,9 @@ export class AnswersService {
 
       return this.toResponseDto(response);
     } catch (error) {
-      if (error instanceof NotFoundException) throw error;
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
 
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         switch (error.code) {
@@ -432,7 +434,6 @@ export class AnswersService {
             throw new BadRequestException(ERROR.InvalidInputFormat);
         }
       }
-
       throw new InternalServerErrorException(ERROR.ConflictError);
     }
   }

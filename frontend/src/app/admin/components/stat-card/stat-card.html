@@ -1,0 +1,18 @@
+<div class="stat-card">
+  <div class="stat-card__content">
+    <p class="title">{{ title }}</p>
+    <p class="value">{{ value }}</p>
+    @if (stat !== undefined) {
+      <span
+        [class.score_positive]="stat > 0"
+        [class.score_negative]="stat < 0"
+        [class.score_neutral]="stat === 0"
+      >
+        {{ stat > 0 ? '+' : '' }}{{ stat }}% vs dernière JPO
+      </span>
+    }
+  </div>
+  <div class="stat-card__icon">
+    <lucide-icon [name]="icon"></lucide-icon>
+  </div>
+</div>

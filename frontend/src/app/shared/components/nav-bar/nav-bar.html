@@ -1,14 +1,26 @@
 <nav class="nav-bar">
-  <div class="nav-bar-content">
+  <div [class]="isAdminRoute() ? 'nav-bar-content-admin' : 'nav-bar-content'">
     <div>
       <img src="assets/images/logo_ynov_campus_sophia.png" alt="logo ynov sophia" class="logo">
     </div>
     <div class="btn-container">
-      @for (btn of customLink; track btn.link) {
-        <app-btn-nav-bar [label]="btn.label" [link]="btn.link" [icon]="btn.icon" [exact]="btn.exact">
-        </app-btn-nav-bar>
+      @if (isAdminRoute()) {
+        @for (btn of adminLinks; track btn.link) {
+          <app-btn-nav-bar [label]="btn.label" [link]="btn.link" [icon]="btn.icon" [exact]="btn.exact">
+          </app-btn-nav-bar>
+        }
+      } @else {
+        @for (btn of customLink; track btn.link) {
+          <app-btn-nav-bar [label]="btn.label" [link]="btn.link" [icon]="btn.icon" [exact]="btn.exact">
+          </app-btn-nav-bar>
+        }
       }
     </div>
+    @if (isAdminRoute()) {
+      <div class="btn-container">
+        <button class="btn-deco" (click)="logout()">Déconnexion</button>
+      </div>
+    }
   </div>
 
 </nav>

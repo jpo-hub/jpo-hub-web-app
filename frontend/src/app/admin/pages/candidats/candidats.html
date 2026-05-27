@@ -1,0 +1,128 @@
+<section>
+  <div class="quiz-container">
+    <div class="quiz-title">
+      <h2>Candidats</h2>
+      <span>Recherchez, filtrez et gérez tous les candidats de la JPO</span>
+    </div>
+
+    <div class="quiz-content">
+      <div class="quiz-content__filters">
+        <div class="quiz-recherche-bar">
+          <input
+            type="text"
+            placeholder="Rechercher un candidat..."
+            [ngModel]="searchTerm()"
+            (ngModelChange)="searchTerm.set($event)"
+          />
+        </div>
+
+        <div>
+          <select
+            [ngModel]="consentementFilter()"
+            (ngModelChange)="consentementFilter.set($event)"
+          >
+            <option value="all">Tous</option>
+            <option value="consent">Avec consentement</option>
+            <option value="anonymous">Anonymes</option>
+          </select>
+        </div>
+      </div>
+
+      @if (filteredCandidats().length === 0) {
+        <div class="empty-state">
+          <p>Aucun candidat trouvé.</p>
+        </div>
+      } @else {
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Âge</th>
+                <th>Filières</th>
+                <th>
+                  RDV
+                </th>
+                <th>Ateliers</th>
+                <th>Inscription</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (candidat of filteredCandidats(); track candidat.uid) {
+                <tr>
+                  <td>{{ candidat.lastname | uppercase }}</td>
+                  <td>{{ candidat.firstname | titlecase }}</td>
+                  <td class="email-cell">{{ candidat.email }}</td>
+                  <td>{{ candidat.ageRange }}</td>
+                  <td>
+                    @if (getFilieres(candidat).length > 0) {
+                      <div class="tags">
+                        @for (f of getFilieres(candidat); track f) {
+                          <span class="tag">{{ f }}</span>
+                        }
+                      </div>
+                    } @else {
+                      <span class="empty-cell">—</span>
+                    }
+                  </td>
+                  <td>
+                    <button
+                      class="toggle-btn"
+                      [class.active]="candidat.appointment"
+                      (click)="toggleAppointment(candidat)"
+                      [attr.aria-label]="candidat.appointment ? 'Désactiver le rendez-vous' : 'Activer le rendez-vous'"
+                      [attr.aria-pressed]="candidat.appointment"
+                    >
+                      <span class="toggle-track">
+                        <span class="toggle-thumb"></span>
+                      </span>
+                    </button>
+                  </td>
+                  <td>
+                    @if (candidat.ateliers && candidat.ateliers.length > 0) {
+                      <div class="tags">
+                        @for (a of candidat.ateliers; track a.uid) {
+                          <span class="tag">{{ a.label }}</span>
+                        }
+                      </div>
+                    } @else {
+                      <span class="empty-cell">—</span>
+                    }
+                  </td>
+                  <td class="date-cell">{{ formatDate(candidat.createdAt) }}</td>
+                  <td>
+                    <button class="secondary" (click)="modalDeleteCandidat(candidat)">
+                      <lucide-icon name="trash" size="13"></lucide-icon>
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
+  </div>
+
+  @if (modalDeleted()) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <span>Êtes-vous sûr de vouloir supprimer ce candidat ?</span>
+          <div class="modal-header-close">
+            <lucide-icon name="x" size="24" (click)="closeModal()"></lucide-icon>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <app-button-primary
+            label="Supprimer"
+            (click)="deleteCandidat()"
+          />
+        </div>
+      </div>
+    </div>
+  }
+</section>

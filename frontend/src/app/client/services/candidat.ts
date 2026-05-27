@@ -42,6 +42,8 @@ export class Candidat {
   public submitScore(score: Record<string, number>) {
     const uid = this.storageService.getCandidatUid();
     const body = { filieres: score };
+    
+    console.log('body', body)
 
     return this.http.post(`${this.apiUrl}/answers/traitement/${uid}`, body).pipe(
       tap(res => {

@@ -1,0 +1,130 @@
+<section>
+  <div class="quiz-container">
+    <div class="quiz-title">
+      <h2>Atelier</h2>
+      <span>Recherchez, filtrez et gérez tous les ateliers de la JPO</span>
+    </div>
+
+    <div class="quiz-content">
+      <div class="quiz-content__filters">
+        <div class="quiz-recherche-bar">
+          <input
+            type="text"
+            placeholder="Rechercher un atelier..."
+            [ngModel]="searchTerm()"
+            (ngModelChange)="searchTerm.set($event)"
+          />
+        </div>
+
+        <div>
+          <select
+            [ngModel]="statusFilter()"
+            (ngModelChange)="statusFilter.set($event)"
+          >
+            <option value="all">Tous</option>
+            <option value="published">Publiées</option>
+            <option value="draft">Brouillons</option>
+          </select>
+        </div>
+
+        <div>
+          <button class="primary" (click)="createAtelier()">Créer</button>
+        </div>
+      </div>
+      @if (filteredAteliers().length === 0) {
+        <div class="empty-state">
+          <p>Aucun atelier trouvé.</p>
+        </div>
+      } @else {
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Label</th>
+                <th>Statut</th>
+                <th class="th-actions">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (atelier of filteredAteliers(); track atelier.uid) {
+                <tr>
+                  <td>{{ atelier.label }}</td>
+                  <td>
+                    @if (atelier.draft) {
+                      <span class="badge draft">Brouillon</span>
+                    } @else {
+                      <span class="badge published">Publiée</span>
+                    }
+                  </td>
+                  <td class="actions-cell">
+                    <button class="secondary" (click)="modalUpdateAtelier(atelier)" aria-label="Modifier">
+                      <lucide-icon name="squarePen" size="13"></lucide-icon>
+                    </button>
+                    <button class="secondary" (click)="modalDeleteAtelier(atelier)" aria-label="Supprimer">
+                      <lucide-icon name="trash" size="13"></lucide-icon>
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
+  </div>
+  @if (modalCreated()) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <span>
+              Créer un atelier
+            </span>
+          <div class="modal-header-close">
+            <lucide-icon name="x" size="24" (click)="closeModal()"></lucide-icon>
+          </div>
+        </div>
+        <app-modal-create-atelier
+          (closeModal)="closeModal()"
+          (refreshQuestions)="loadAteliers()"
+        />
+      </div>
+    </div>
+  }
+  @if (modalUpdate() && selectedAtelier()) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <span>Modifier l'atelier</span>
+          <div class="modal-header-close">
+            <lucide-icon name="x" size="24" (click)="closeModal()"></lucide-icon>
+          </div>
+        </div>
+        <app-modal-update-atelier
+          [atelier]="selectedAtelier()!"
+          (closeModal)="closeModal()"
+          (refreshQuestions)="loadAteliers()"
+        />
+      </div>
+    </div>
+  }
+  @if (modalDeleted()) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <span>
+              Etes vous sur de vouloir supprimer cette atelier ?
+            </span>
+          <div class="modal-header-close">
+            <lucide-icon name="x" size="24" (click)="closeModal()"></lucide-icon>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <app-button-primary
+            label="Supprimer"
+            (click)="deleteAtelier()"
+          />
+        </div>
+      </div>
+    </div>
+  }
+</section>

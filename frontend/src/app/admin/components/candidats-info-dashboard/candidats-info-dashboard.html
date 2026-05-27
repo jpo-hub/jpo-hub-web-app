@@ -1,0 +1,30 @@
+<div class="candidat-info">
+  <div class="candidat-info__header">
+    <span class="candidat-info__header-name">{{ firstname | titlecase }} {{ lastname | uppercase }}</span>
+    <span>Tranche d'âge : {{ ageRange }}</span>
+  </div>
+  <div class="candidat-info__content">
+    <span class="candidat-info__content-email">{{ email }}</span>
+    <span class="candidat-info__content-rdv">
+          RDV :
+      @if (appointment) {
+        <span class="status-wrapper">
+          <lucide-icon name="check" [size]="16"></lucide-icon> Confirmé
+        </span>
+      } @else {
+        <span class="status-wrapper">
+          <lucide-icon name="clock" [size]="16"></lucide-icon> En attente
+        </span>
+      }
+    </span>
+  </div>
+  <div>
+    <div class="ateliers-list">
+      @for (atelier of ateliers; track atelier.uid) {
+        <span class="atelier-tag">{{ atelier.label }}</span>
+      } @empty {
+        <span class="no-atelier">Aucun ateliers</span>
+      }
+    </div>
+  </div>
+</div>

@@ -1,12 +1,21 @@
+:root {
+  --nav-width: 10rem;
+}
+
 main {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
   width: 100%;
+  min-height: 100vh;
+}
 
-  .main-container {
-    width: 100%;
-    position: relative;
-  }
+.main-container {
+  width: 100%;
+  position: relative;
+  min-height: 100vh;
+}
+
+.main-container--with-nav {
+  padding-left: var(--nav-width);
 }

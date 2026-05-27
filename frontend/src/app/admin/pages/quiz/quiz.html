@@ -1,0 +1,143 @@
+<section>
+  <div class="quiz-container">
+    <div class="quiz-title">
+      <h2>Quiz</h2>
+      <span>Recherchez, filtrez et gérez toutes les questions et réponses de la JPO</span>
+    </div>
+
+    <div class="quiz-content">
+      <div class="quiz-content__filters">
+        <div class="quiz-recherche-bar">
+          <input
+            type="text"
+            placeholder="Rechercher une question..."
+            [ngModel]="searchTerm()"
+            (ngModelChange)="searchTerm.set($event)"
+          />
+        </div>
+
+        <div>
+          <select
+            [ngModel]="statusFilter()"
+            (ngModelChange)="statusFilter.set($event)"
+          >
+            <option value="all">Toutes</option>
+            <option value="published">Publiées</option>
+            <option value="draft">Brouillons</option>
+          </select>
+        </div>
+
+        <div>
+          <button class="primary" (click)="createQuestion()">Créer</button>
+        </div>
+      </div>
+      @if (filteredQuestions().length === 0) {
+        <div class="empty-state">
+          <p>Aucune question trouvée.</p>
+        </div>
+      } @else {
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Question</th>
+                <th>Statut</th>
+                <th>Type</th>
+                <th class="th-actions">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (question of filteredQuestions(); track question.uid) {
+                <tr>
+                  <td>{{ question.label }}</td>
+                  <td>
+                    @if (question.draft) {
+                      <span class="badge draft">Brouillon</span>
+                    } @else {
+                      <span class="badge published">Publiée</span>
+                    }
+                  </td>
+                  <td>
+                    @if (question.multiple) {
+                      <span class="badge multiple">Plusieurs réponses</span>
+                    } @else {
+                      <span class="empty-cell">—</span>
+                    }
+                  </td>
+                  <td class="actions-cell">
+                    <button class="secondary" (click)="modalUpdateQuestion(question)" aria-label="Modifier">
+                      <lucide-icon name="squarePen" size="13"></lucide-icon>
+                    </button>
+                    <button class="secondary" (click)="modalDeleteQuestion(question)" aria-label="Supprimer">
+                      <lucide-icon name="trash" size="13"></lucide-icon>
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
+  </div>
+
+  @if (modalCreated()) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <span>
+              Créer une question
+            </span>
+          <div class="modal-header-close">
+            <lucide-icon name="x" size="24" (click)="closeModal()"></lucide-icon>
+          </div>
+        </div>
+        <app-modal-create
+          (closeModal)="closeModal()"
+          (refreshQuestions)="loadQuestions()"
+        />
+      </div>
+    </div>
+  }
+  @if (modalDeleted()) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <span>
+              Etes vous sur de vouloir supprimer cette question ?
+            </span>
+          <div class="modal-header-close">
+            <lucide-icon name="x" size="24" (click)="closeModal()"></lucide-icon>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <app-button-primary
+            label="Supprimer"
+            (click)="deleteQuestion()"
+          />
+        </div>
+      </div>
+    </div>
+  }
+  @if (modalUpdate()) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <span>
+              Modifier la question
+            </span>
+          <div class="modal-header-close">
+            <lucide-icon name="x" size="24" (click)="closeModal()"></lucide-icon>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <app-modal-update
+            [question]="selectedQuestion()"
+            (closeModal)="closeModal()"
+            (refreshQuestions)="loadQuestions()"
+          />
+        </div>
+      </div>
+    </div>
+  }
+</section>

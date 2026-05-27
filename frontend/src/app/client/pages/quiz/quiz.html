@@ -64,15 +64,18 @@
         }
       </div>
 
+
       <div class="quiz-navigation">
         @if (currentQuestion() < totalQuestions() - 1) {
           <app-button-primary
             label="Question suivante"
+            [disabled]="!hasAnswerSelected()"
             (click)="nextQuestion()">
           </app-button-primary>
         } @else {
           <app-button-primary
             label="Terminer le quiz"
+            [disabled]="!hasAnswerSelected()"
             (click)="finishQuiz()">
           </app-button-primary>
         }
