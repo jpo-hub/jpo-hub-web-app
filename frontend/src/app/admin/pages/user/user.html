@@ -111,23 +111,55 @@
         <form [formGroup]="createForm" (ngSubmit)="submitCreate()" class="modal-form">
           <div class="form-row">
             <div class="form-field">
-              <label for="firstname">Prénom</label>
-              <input id="firstname" type="text" formControlName="firstname" placeholder="Prénom" />
+              <app-input-form label="Prénom *" formControlName="firstname"/>
+              @if (createForm.get('firstname')?.touched && createForm.get('firstname')?.hasError('required')) {
+                <span class="error">Le prénom est requis</span>
+              }
             </div>
             <div class="form-field">
-              <label for="lastname">Nom</label>
-              <input id="lastname" type="text" formControlName="lastname" placeholder="Nom" />
+              <app-input-form label="Nom *" formControlName="lastname"/>
+              @if (createForm.get('lastname')?.touched && createForm.get('lastname')?.hasError('required')) {
+                <span class="error">Le nom est requis</span>
+              }
             </div>
           </div>
 
           <div class="form-field">
-            <label for="email">Email</label>
-            <input id="email" type="email" formControlName="email" placeholder="email@exemple.com" />
+            <app-input-form label="Email *" formControlName="email"/>
+            @if (createForm.get('email')?.touched) {
+              @if (createForm.get('email')?.hasError('required')) {
+                <span class="error">L'email est requis</span>
+              } @else if (createForm.get('email')?.hasError('email')) {
+                <span class="error">L'email n'est pas valide</span>
+              }
+            }
           </div>
 
           <div class="form-field">
-            <label for="password">Mot de passe</label>
-            <input id="password" type="password" formControlName="password" placeholder="••••••••" />
+            <app-input-form label="Mot de passe *" type="password" formControlName="password"/>
+            @if (createForm.get('password')?.touched && createForm.get('password')?.hasError('required')) {
+              <span class="error">Le mot de passe est requis</span>
+            }
+            @if (createForm.get('password')?.value || createForm.get('password')?.touched) {
+              <ul class="password-criteria" aria-label="Critères du mot de passe">
+                <li [class.valid]="passwordHasMinLength()">
+                  <lucide-icon [name]="passwordHasMinLength() ? 'check' : 'x'" size="12"/>
+                  6 caractères minimum
+                </li>
+                <li [class.valid]="passwordHasUppercase()">
+                  <lucide-icon [name]="passwordHasUppercase() ? 'check' : 'x'" size="12"/>
+                  1 majuscule
+                </li>
+                <li [class.valid]="passwordHasDigit()">
+                  <lucide-icon [name]="passwordHasDigit() ? 'check' : 'x'" size="12"/>
+                  1 chiffre
+                </li>
+                <li [class.valid]="passwordHasSpecialChar()">
+                  <lucide-icon [name]="passwordHasSpecialChar() ? 'check' : 'x'" size="12"/>
+                  1 caractère spécial (!&#64;#$%…)
+                </li>
+              </ul>
+            }
           </div>
 
           <div class="form-field">
@@ -141,7 +173,7 @@
           <div class="modal-footer">
             <app-button-primary
               label="Créer"
-              [attr.disabled]="createForm.invalid ? true : null"
+              [disabled]="createForm.invalid"
             />
           </div>
         </form>

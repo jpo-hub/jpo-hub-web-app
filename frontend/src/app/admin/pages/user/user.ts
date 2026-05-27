@@ -5,6 +5,7 @@ import { AdminService } from '../../services/admin';
 import { LucideAngularModule } from 'lucide-angular';
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ButtonPrimary } from '../../../shared/components/button-primary/button-primary';
+import { InputForm } from '../../../shared/components/input-form/input-form';
 import { Auth } from '../../services/auth';
 
 @Component({
@@ -14,6 +15,7 @@ import { Auth } from '../../services/auth';
     ReactiveFormsModule,
     FormsModule,
     ButtonPrimary,
+    InputForm,
     UpperCasePipe,
     TitleCasePipe,
   ],
@@ -42,7 +44,7 @@ export class User implements OnInit {
     firstname: ['', Validators.required],
     lastname: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', Validators.required],
+    password: ['', [Validators.required, Validators.minLength(6), Validators.pattern(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()\-_=+\[\]{};':"\\|,.<>/?`~])/)]],
     role: ['admin' as 'admin' | 'superadmin', Validators.required],
   });
 
@@ -129,6 +131,23 @@ export class User implements OnInit {
         this.closeModal();
       }
     });
+  }
+
+  passwordHasMinLength(): boolean {
+    const v = this.createForm.get('password')?.value ?? '';
+    return v.length >= 6;
+  }
+
+  passwordHasUppercase(): boolean {
+    return /[A-Z]/.test(this.createForm.get('password')?.value ?? '');
+  }
+
+  passwordHasDigit(): boolean {
+    return /[0-9]/.test(this.createForm.get('password')?.value ?? '');
+  }
+
+  passwordHasSpecialChar(): boolean {
+    return /[!@#$%^&*()\-_=+\[\]{};':"\\|,.<>/?`~]/.test(this.createForm.get('password')?.value ?? '');
   }
 
   closeModal() {
