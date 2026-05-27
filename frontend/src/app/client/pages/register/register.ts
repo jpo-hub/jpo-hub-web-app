@@ -45,7 +45,7 @@ export class Register implements OnInit {
     firstname: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
     ageRange: new FormControl(''),
-    consentement: new FormControl(false),
+    consentement: new FormControl(false, [Validators.requiredTrue]),
     filieres: new FormArray([])
   });
 
