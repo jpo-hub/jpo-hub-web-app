@@ -12,9 +12,12 @@ import {adminGuard} from './core/guards/admin-guard';
 import {AteliersAdmin} from './admin/pages/ateliers/ateliers';
 import {Candidats} from './admin/pages/candidats/candidats';
 import {User} from './admin/pages/user/user';
+import {Ateliers} from './client/pages/ateliers/ateliers';
 
 export const routes: Routes = [
   { path: '', component: Home },
+  
+  { path: 'ateliers', component: Ateliers },
 
   { path: 'quiz', component: Quiz, canActivate: [quizGuard] },
   { path: 'quiz/register', component: Register },
