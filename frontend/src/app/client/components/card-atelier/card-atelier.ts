@@ -29,6 +29,10 @@ export class CardAtelier {
 
   imageError = false;
 
+  get shortDescription(): string {
+    return this.description.length > 250 ? this.description.slice(0, 250) + '…' : this.description;
+  }
+
   handleImageError(event: Event) {
     const imgElement = event.target as HTMLImageElement;
     if (imgElement) {

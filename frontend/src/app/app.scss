@@ -19,3 +19,10 @@ main {
 .main-container--with-nav {
   padding-left: var(--nav-width);
 }
+
+@media (max-width: 768px) {
+  .main-container--with-nav {
+    padding-left: 0;
+    padding-top: var(--nav-height);
+  }
+}

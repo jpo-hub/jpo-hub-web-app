@@ -1,6 +1,6 @@
 .results-container {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -11,6 +11,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
+    max-width: 700px;
   }
 
   .ateliers-grid {
@@ -20,11 +22,27 @@
     justify-content: center;
     width: 100%;
 
+    .ateliers-grid__container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    padding: 3rem 2rem;
 
     .ateliers-grid__container {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-evenly;
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 2rem 1rem;
+
+    .ateliers-grid__container {
+      grid-template-columns: 1fr !important;
     }
   }
 }

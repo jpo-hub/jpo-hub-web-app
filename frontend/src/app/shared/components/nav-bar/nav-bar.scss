@@ -10,6 +10,7 @@
   align-items: center;
   box-shadow: var(--drop-shadow);
   flex-direction: column;
+  background-color: var(--color-background);
 
   .nav-bar-content,
   .nav-bar-content-admin {
@@ -48,6 +49,33 @@
         color: var(--color-error);
         transition: color 0.2s ease;
       }
+    }
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    height: var(--nav-height);
+    flex-direction: row;
+
+    .nav-bar-content,
+    .nav-bar-content-admin {
+      flex-direction: row;
+      height: 100%;
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 1rem;
+    }
+
+    .logo {
+      width: 2.5rem;
+    }
+
+    .btn-container {
+      flex-direction: row;
+      width: auto;
+      padding: 0;
+      gap: 0.25rem;
     }
   }
 }
