@@ -1,1 +1,23 @@
-<p>ateliers works!</p>
+<section>
+  <div class="container-atelier">
+    <div class="container-atelier-header">
+      <h1>Découvre tous les ateliers</h1>
+      <span>
+      Explore notre sélection d'ateliers pratiques et découvrez les innovations dans chacune de nos filières.
+    </span>
+    </div>
+    <div class="ateliers-grid">
+      <div>
+        
+      </div>
+      <div class="ateliers-grid__container">
+        @for (atelier of ateliers(); track atelier.uid) {
+          <app-card-atelier [label]="atelier.label" [imageUrl]="atelier.imageUrl" [description]="atelier.description"
+                            [dockerfilelink]="atelier.dockerfilelink"></app-card-atelier>
+        } @empty {
+          <p>Aucun atelier trouvé pour votre profil.</p>
+        }
+      </div>
+    </div>
+  </div>
+</section>

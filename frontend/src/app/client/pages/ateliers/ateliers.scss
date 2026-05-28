@@ -1,0 +1,41 @@
+section {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  margin-top: 5rem;
+  gap: 5rem;
+
+  .container-atelier {
+    display: flex;
+    flex-direction: column;
+
+    .container-atelier-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      h1 {
+        font-size: 3rem;
+      }
+
+      span {
+        color: var(--color-text-gray);
+      }
+    }
+
+    .ateliers-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      justify-content: center;
+      width: 100%;
+
+
+      .ateliers-grid__container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+      }
+    }
+  }
+}
