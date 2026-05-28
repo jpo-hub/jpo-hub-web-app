@@ -3,12 +3,12 @@
     <div class="container-atelier-header">
       <h1>Découvre tous les ateliers</h1>
       <span>
-      Explore notre sélection d'ateliers pratiques et découvrez les innovations dans chacune de nos filières.
-    </span>
+        Explore notre sélection d'ateliers pratiques et découvrez les innovations dans chacune de nos filières.
+      </span>
     </div>
     <div class="ateliers-grid">
       <div>
-        
+
       </div>
       <div class="ateliers-grid__container">
         @for (atelier of ateliers(); track atelier.uid) {
@@ -18,6 +18,15 @@
           <p>Aucun atelier trouvé pour votre profil.</p>
         }
       </div>
+    </div>
+    <div class="footer">
+      <div class="container-atelier-footer">
+        <h1>Tu ne sais pas par où commencer ?</h1>
+        <span>
+        Réponds à notre quiz de personnalité pour trouver les ateliers et projets qui te correspondent le mieux.
+      </span>
+      </div>
+      <app-button-primary label="Commencer le quiz" link="/quiz"/>
     </div>
   </div>
 </section>
