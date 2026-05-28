@@ -14,4 +14,5 @@ export class StatCard {
   @Input() value!: number;
   @Input() icon!: string;
   @Input() stat!: number;
+  @Input() suffix = '';
 }

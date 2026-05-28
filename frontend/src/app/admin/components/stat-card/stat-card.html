@@ -1,7 +1,7 @@
 <div class="stat-card">
   <div class="stat-card__content">
     <p class="title">{{ title }}</p>
-    <p class="value">{{ value }}</p>
+    <p class="value">{{ value }} {{ suffix }}</p>
     @if (stat !== undefined) {
       <span
         [class.score_positive]="stat > 0"
