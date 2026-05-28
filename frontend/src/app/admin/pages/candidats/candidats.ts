@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, computed, inject, OnInit, PLATFORM_ID, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, effect, inject, OnInit, PLATFORM_ID, signal} from '@angular/core';
 import {isPlatformBrowser, TitleCasePipe, UpperCasePipe} from '@angular/common';
 import {CandidatModel} from '../../../core/models/candidat.model';
 import {Candidat} from '../../services/candidat';
@@ -39,6 +39,7 @@ export class Candidats implements OnInit {
 
   loadCandidats() {
     this.candidatService.getCandidats().subscribe(data => {
+      console.log(data);
       this.candidats.set(data);
     });
   }
@@ -52,7 +53,8 @@ export class Candidats implements OnInit {
         !term ||
         c.firstname?.toLowerCase().includes(term) ||
         c.lastname?.toLowerCase().includes(term) ||
-        c.email?.toLowerCase().includes(term);
+        c.email?.toLowerCase().includes(term) ||
+        c.codeCandidat?.toString().includes(term);
 
       const matchesFilter =
         filter === 'all' ||

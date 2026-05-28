@@ -46,6 +46,7 @@
                   RDV
                 </th>
                 <th>Ateliers</th>
+                <th>Code</th>
                 <th>Inscription</th>
                 <th>Actions</th>
               </tr>
@@ -92,6 +93,7 @@
                       <span class="empty-cell">—</span>
                     }
                   </td>
+                  <td>{{ candidat.codeCandidat ?? '—' }}</td>
                   <td class="date-cell">{{ formatDate(candidat.createdAt) }}</td>
                   <td>
                     <button class="secondary" (click)="modalDeleteCandidat(candidat)">
