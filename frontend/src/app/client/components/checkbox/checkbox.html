@@ -1,5 +1,8 @@
 <button
   class="quiz-answer-button"
+  type="button"
+  role="checkbox"
+  [attr.aria-checked]="checked()"
   (click)="toggle()"
   [class.selected]="checked()">
   {{ label() }}

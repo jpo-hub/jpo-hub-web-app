@@ -1,8 +1,8 @@
-<section class="quiz-page">
+<section class="quiz-page" aria-label="Quiz de personnalité">
   @if (questions().length > 0) {
 
     <div class="quiz-page__header">
-      <span>
+      <span aria-live="polite" aria-atomic="true">
         Quiz - Question {{ currentQuestion() + 1 }} / {{ totalQuestions() }}
       </span>
 
@@ -18,11 +18,11 @@
 
     <div class="quiz-page__content">
 
-      <div class="quiz-page__question">
+      <div class="quiz-page__question" aria-live="polite" aria-atomic="true">
         {{ currentQuestionData().label }}
       </div>
 
-      <div class="quiz-page__answers">
+      <div class="quiz-page__answers" role="group" [attr.aria-label]="currentQuestionData().label">
 
         @if (currentQuestionData().multiple) {
 

@@ -1,9 +1,14 @@
 @if (isVisible) {
-  <div class="modal-overlay" (click)="onCloseModal()">
-    <div class="modal-content" (click)="$event.stopPropagation()">
+  <div class="modal-overlay" role="presentation" (click)="onCloseModal()">
+    <div
+      class="modal-content"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+      (click)="$event.stopPropagation()">
       <section>
         <div class="header-modal">
-          <h1>Participation à l'atelier</h1>
+          <h1 id="modal-title">Participation à l'atelier</h1>
         </div>
 
         @if (codeParticipation) {
