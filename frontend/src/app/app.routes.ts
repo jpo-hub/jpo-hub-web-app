@@ -16,7 +16,7 @@ import {Ateliers} from './client/pages/ateliers/ateliers';
 
 export const routes: Routes = [
   { path: '', component: Home },
-  
+
   { path: 'ateliers', component: Ateliers },
 
   { path: 'quiz', component: Quiz, canActivate: [quizGuard] },

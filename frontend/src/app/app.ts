@@ -30,6 +30,7 @@ export class App {
 
     const validRoutes = [
       '/',
+      '/ateliers',
       '/quiz',
       '/admin/dashboard',
       '/admin/quiz',
