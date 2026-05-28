@@ -3,6 +3,8 @@ import {ButtonPrimary} from '../../../shared/components/button-primary/button-pr
 import {ModalService} from '../../services/modal';
 import {FormState} from '../../../core/services/form-state';
 import {StorageService} from '../../../core/services/storage-service';
+import {Router} from '@angular/router';
+import {ToastService} from '../../../core/services/toast';
 
 @Component({
   selector: 'app-card-atelier',
@@ -22,6 +24,8 @@ export class CardAtelier {
   private modalService = inject(ModalService);
   private formState = inject(FormState);
   private storageService = inject(StorageService);
+  private router = inject(Router);
+  private toastService = inject(ToastService);
 
   imageError = false;
 
@@ -34,7 +38,9 @@ export class CardAtelier {
 
   onParticiper() {
     this.modalService.open(this.label);
-    this.formState.removeCompleted();
-    this.storageService.clearCandidatData()
+    if (this.storageService.getCandidatCode()) {
+      this.formState.removeCompleted();
+      this.storageService.clearCandidatData();
+    }
   }
 }

@@ -12,7 +12,7 @@
     <app-modal-participation
       [isVisible]="modalService.isVisible()"
       [labelAtelier]="modalService.selectedAtelier()?.label || ''"
-      [codeParticipation]="modalService.selectedAtelier()?.code || 0"
+      [codeParticipation]="modalService.selectedAtelier()?.code || ''"
       [onClose]="modalService.close.bind(modalService)"
     >
     </app-modal-participation>

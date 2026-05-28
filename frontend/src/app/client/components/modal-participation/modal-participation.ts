@@ -1,4 +1,4 @@
-import { Component, inject, Input, numberAttribute} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {ButtonPrimary} from '../../../shared/components/button-primary/button-primary';
 import {Router} from '@angular/router';
 
@@ -11,7 +11,7 @@ import {Router} from '@angular/router';
   styleUrl: './modal-participation.scss',
 })
 export class ModalParticipation {
-  @Input({transform: numberAttribute}) codeParticipation!: number;
+  @Input() codeParticipation!: string;
   @Input() labelAtelier!: string;
   @Input() isVisible!: boolean;
   @Input() onClose!: () => void;

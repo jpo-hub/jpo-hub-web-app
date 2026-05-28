@@ -10,8 +10,8 @@ export class ModalService {
 
 
   open(label: string) {
-    const code = this.storageService.getCandidatCode() ?? 'AUCUN_CODE';
-    this.selectedAtelier.set({ label, code });
+    const code = this.storageService.getCandidatCode();
+    this.selectedAtelier.set({ label, code: code ?? '' });
     this.isVisible.set(true);
   }
 
