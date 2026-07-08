@@ -4,6 +4,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { jwtSecret } from '../auth.module';
 import { AdminsService } from '../../admins/admins.service';
 import { ERROR } from '../../../common/constants/error.constants';
+import { auditContext } from '../../../common/audit/audit-context';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'admin-jwt') {
@@ -19,6 +20,12 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'admin-jwt') {
 
     if (!admin) {
       throw new UnauthorizedException(ERROR.UnauthorizedAccess);
+    }
+
+    // Rend l'admin identifiable par le journal d'audit PostgreSQL
+    const store = auditContext.getStore();
+    if (store) {
+      store.email = admin.email;
     }
 
     return admin;

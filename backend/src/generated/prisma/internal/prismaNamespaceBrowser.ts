@@ -63,7 +63,8 @@ export const ModelName = {
   Admin: 'Admin',
   Stats: 'Stats',
   GlobalStats: 'GlobalStats',
-  StatsSnapshot: 'StatsSnapshot'
+  StatsSnapshot: 'StatsSnapshot',
+  audit_log: 'audit_log'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -217,6 +218,21 @@ export const StatsSnapshotScalarFieldEnum = {
 export type StatsSnapshotScalarFieldEnum = (typeof StatsSnapshotScalarFieldEnum)[keyof typeof StatsSnapshotScalarFieldEnum]
 
 
+export const Audit_logScalarFieldEnum = {
+  uid: 'uid',
+  table_name: 'table_name',
+  operation: 'operation',
+  record_uid: 'record_uid',
+  old_data: 'old_data',
+  new_data: 'new_data',
+  db_user: 'db_user',
+  app_user: 'app_user',
+  logged_at: 'logged_at'
+} as const
+
+export type Audit_logScalarFieldEnum = (typeof Audit_logScalarFieldEnum)[keyof typeof Audit_logScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -230,6 +246,14 @@ export const JsonNullValueInput = {
 } as const
 
 export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: 'DbNull',
+  JsonNull: 'JsonNull'
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -247,4 +271,12 @@ export const JsonNullValueFilter = {
 } as const
 
 export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

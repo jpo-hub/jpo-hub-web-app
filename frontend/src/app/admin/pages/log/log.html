@@ -1,0 +1,162 @@
+<section>
+  <div class="quiz-container">
+    <div class="quiz-title">
+      <h2>Journal de log</h2>
+      <span>Consultez l'historique des opérations sensibles tracées par la base de données</span>
+    </div>
+
+    <div class="quiz-content">
+      <div class="quiz-content__filters">
+        <div class="quiz-recherche-bar">
+          <input
+            type="text"
+            placeholder="Rechercher dans le journal..."
+            aria-label="Rechercher dans le journal"
+            [ngModel]="searchTerm()"
+            (ngModelChange)="searchTerm.set($event)"
+          />
+        </div>
+
+        <div>
+          <select
+            aria-label="Filtrer par opération"
+            [ngModel]="operationFilter()"
+            (ngModelChange)="operationFilter.set($event)"
+          >
+            <option value="all">Toutes les opérations</option>
+            <option value="INSERT">Création</option>
+            <option value="UPDATE">Modification</option>
+            <option value="DELETE">Suppression</option>
+          </select>
+        </div>
+
+        <div>
+          <select
+            aria-label="Filtrer par table"
+            [ngModel]="tableFilter()"
+            (ngModelChange)="tableFilter.set($event)"
+          >
+            <option value="all">Toutes les tables</option>
+            @for (table of tables(); track table) {
+              <option [value]="table">{{ table }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      @if (filteredLogs().length === 0) {
+        <div class="empty-state">
+          <p>Aucune entrée dans le journal.</p>
+        </div>
+      } @else {
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Table</th>
+                <th>Opération</th>
+                <th>Enregistrement</th>
+                <th>Utilisateur</th>
+                <th>Détails</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (log of filteredLogs(); track log.uid) {
+                <tr>
+                  <td class="date-cell">{{ formatDate(log.logged_at) }}</td>
+                  <td>{{ log.table_name }}</td>
+                  <td>
+                    <span
+                      class="badge"
+                      [class.badge--insert]="log.operation === 'INSERT'"
+                      [class.badge--update]="log.operation === 'UPDATE'"
+                      [class.badge--delete]="log.operation === 'DELETE'"
+                    >
+                      {{ operationLabel(log.operation) }}
+                    </span>
+                  </td>
+                  <td class="uid-cell">{{ log.record_uid }}</td>
+                  <td>
+                    @if (log.app_user) {
+                      <span class="email-cell">{{ log.app_user }}</span>
+                    } @else {
+                      <span class="public-cell">public</span>
+                    }
+                  </td>
+                  <td>
+                    <button class="secondary" (click)="openDetails(log)" aria-label="Voir le détail de l'entrée">
+                      <lucide-icon name="eye" size="13"></lucide-icon>
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
+  </div>
+
+  @if (selectedLog(); as log) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <span>Détail de l'opération</span>
+          <div class="modal-header-close">
+            <lucide-icon name="x" size="24" (click)="closeModal()"></lucide-icon>
+          </div>
+        </div>
+
+        <div class="modal-detail">
+          <div class="detail-grid">
+            <div class="detail-item">
+              <span class="detail-label">Date</span>
+              <span>{{ formatDate(log.logged_at) }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Table</span>
+              <span>{{ log.table_name }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Opération</span>
+              <span
+                class="badge"
+                [class.badge--insert]="log.operation === 'INSERT'"
+                [class.badge--update]="log.operation === 'UPDATE'"
+                [class.badge--delete]="log.operation === 'DELETE'"
+              >
+                {{ operationLabel(log.operation) }}
+              </span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Utilisateur</span>
+              @if (log.app_user) {
+                <span>{{ log.app_user }}</span>
+              } @else {
+                <span class="public-cell">public (aucun admin authentifié)</span>
+              }
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Compte BDD</span>
+              <span>{{ log.db_user }}</span>
+            </div>
+          </div>
+
+          @if (log.old_data) {
+            <div class="json-block">
+              <span class="detail-label">Données avant</span>
+              <pre>{{ formatJson(log.old_data) }}</pre>
+            </div>
+          }
+          @if (log.new_data) {
+            <div class="json-block">
+              <span class="detail-label">Données après</span>
+              <pre>{{ formatJson(log.new_data) }}</pre>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  }
+</section>

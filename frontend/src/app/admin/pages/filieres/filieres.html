@@ -1,0 +1,137 @@
+<section>
+  <div class="quiz-container">
+    <div class="quiz-title">
+      <h2>Filières</h2>
+      <span>Recherchez, créez et gérez les filières proposées aux candidats</span>
+    </div>
+
+    <div class="quiz-content">
+      <div class="quiz-content__filters">
+        <div class="quiz-recherche-bar">
+          <input
+            type="text"
+            placeholder="Rechercher une filière..."
+            aria-label="Rechercher une filière"
+            [ngModel]="searchTerm()"
+            (ngModelChange)="searchTerm.set($event)"
+          />
+        </div>
+
+        <button class="primary" (click)="openCreateModal()">
+          Créer
+        </button>
+      </div>
+
+      @if (filteredFilieres().length === 0) {
+        <div class="empty-state">
+          <p>Aucune filière trouvée.</p>
+        </div>
+      } @else {
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Label</th>
+                <th class="actions-col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (filiere of filteredFilieres(); track filiere.uid) {
+                <tr>
+                  <td>{{ filiere.label | titlecase }}</td>
+                  <td class="actions-col">
+                    <div class="actions">
+                      <button class="secondary" (click)="openUpdateModal(filiere)" aria-label="Renommer la filière">
+                        <lucide-icon name="pencil" size="13"></lucide-icon>
+                      </button>
+                      <button class="secondary" (click)="modalDeleteFiliere(filiere)" aria-label="Supprimer la filière">
+                        <lucide-icon name="trash" size="13"></lucide-icon>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
+  </div>
+
+  @if (modalDeleted()) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <span>Êtes-vous sûr de vouloir supprimer cette filière ?</span>
+          <div class="modal-header-close">
+            <lucide-icon name="x" size="24" (click)="closeModal()"></lucide-icon>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <app-button-primary
+            label="Supprimer"
+            (click)="deleteFiliere()"
+          />
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (modalCreate()) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <span>Créer une filière</span>
+          <div class="modal-header-close">
+            <lucide-icon name="x" size="24" (click)="closeModal()"></lucide-icon>
+          </div>
+        </div>
+
+        <form [formGroup]="createForm" (ngSubmit)="submitCreate()" class="modal-form">
+          <div class="form-field">
+            <app-input-form label="Label *" formControlName="label"/>
+            @if (createForm.get('label')?.touched && createForm.get('label')?.hasError('required')) {
+              <span class="error">Le label est requis</span>
+            }
+          </div>
+
+          <div class="modal-footer">
+            <app-button-primary
+              label="Créer"
+              [disabled]="createForm.invalid"
+            />
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+
+  @if (modalUpdate()) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <span>Renommer la filière</span>
+          <div class="modal-header-close">
+            <lucide-icon name="x" size="24" (click)="closeModal()"></lucide-icon>
+          </div>
+        </div>
+
+        <form [formGroup]="updateForm" (ngSubmit)="submitUpdate()" class="modal-form">
+          <div class="form-field">
+            <app-input-form label="Label *" formControlName="label"/>
+            @if (updateForm.get('label')?.touched && updateForm.get('label')?.hasError('required')) {
+              <span class="error">Le label est requis</span>
+            }
+          </div>
+
+          <div class="modal-footer">
+            <app-button-primary
+              label="Enregistrer"
+              [disabled]="updateForm.invalid"
+            />
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</section>

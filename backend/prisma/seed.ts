@@ -426,7 +426,7 @@ async function main() {
     },
   });
 
-  console.log('✅ Questions seeded', admin);
+  console.log('✅ admin user seeded', admin);
 
   await prisma.globalStats.create({
     data: {

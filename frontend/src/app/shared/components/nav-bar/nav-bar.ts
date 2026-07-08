@@ -25,6 +25,7 @@ export class NavBar {
     {label: 'Dashboard', link: '/admin/dashboard', icon: 'layout-dashboard', exact: true},
     {label: 'Gestion Quiz', link: '/admin/quiz', icon: 'list-todo', exact: false},
     {label: 'Ateliers', link: '/admin/ateliers', icon: 'folder-code', exact: false},
+    {label: 'Filières', link: '/admin/filieres', icon: 'graduation-cap', exact: true},
     {label: 'Candidats', link: '/admin/candidats', icon: 'file-user', exact: true},
     {label: 'Utilisateur', link: '/admin/users', icon: 'circle-user-round', exact: true},
     {label: 'Journal de log', link: '/admin/log', icon: 'file-text', exact: true},

@@ -2,9 +2,12 @@ import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+import { auditContextMiddleware } from './common/audit/audit-context';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.use(auditContextMiddleware);
 
   app.enableCors({
     origin: 'http://localhost:4200',

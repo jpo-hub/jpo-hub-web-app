@@ -35,8 +35,10 @@ export class App {
       '/admin/dashboard',
       '/admin/quiz',
       '/admin/ateliers',
+      '/admin/filieres',
       '/admin/candidats',
-      '/admin/users'
+      '/admin/users',
+      '/admin/log'
     ];
 
     const isValidRoute = validRoutes.some(route =>
