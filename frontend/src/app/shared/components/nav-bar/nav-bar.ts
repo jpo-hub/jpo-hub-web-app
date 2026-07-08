@@ -13,7 +13,7 @@ import {NavigationEnd, Router} from '@angular/router';
   styleUrl: './nav-bar.scss',
 })
 export class NavBar {
-  private router = inject(Router);
+  private readonly router = inject(Router);
 
   customLink = [
     {label: 'Accueil', link: '/', icon: 'house', exact: true},
@@ -35,7 +35,7 @@ export class NavBar {
     this.router.navigate(['/admin/login']);
   }
 
-  private url = toSignal(
+  private readonly url = toSignal(
     this.router.events.pipe(
       filter((event) => event instanceof NavigationEnd),
       map((event: NavigationEnd) => event.urlAfterRedirects)

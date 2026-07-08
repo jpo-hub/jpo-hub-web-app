@@ -14,10 +14,10 @@ import {filter, map} from 'rxjs/operators';
   styleUrl: './app.scss'
 })
 export class App {
-  modalService = inject(ModalService);
-  private router = inject(Router);
+  readonly modalService = inject(ModalService);
+  readonly router = inject(Router);
 
-  private currentUrl = toSignal(
+  private readonly currentUrl = toSignal(
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       map((event: NavigationEnd) => event.urlAfterRedirects)
@@ -25,7 +25,7 @@ export class App {
     { initialValue: this.router.url }
   );
 
-  showNavBar = computed(() => {
+  readonly showNavBar = computed(() => {
     const url = this.currentUrl();
 
     const validRoutes = [

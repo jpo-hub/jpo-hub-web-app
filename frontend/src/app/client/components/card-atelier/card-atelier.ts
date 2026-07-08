@@ -21,11 +21,11 @@ export class CardAtelier {
   @Input() imageUrl!: string;
   @Input() dockerfilelink!: string;
 
-  private modalService = inject(ModalService);
-  private formState = inject(FormState);
-  private storageService = inject(StorageService);
-  private router = inject(Router);
-  private toastService = inject(ToastService);
+  private readonly modalService = inject(ModalService);
+  private readonly formState = inject(FormState);
+  private readonly storageService = inject(StorageService);
+  private readonly router = inject(Router);
+  private readonly toastService = inject(ToastService);
 
   imageError = false;
 
