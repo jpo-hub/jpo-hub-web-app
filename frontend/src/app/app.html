@@ -1,7 +1,23 @@
 <main>
-  <app-nav-bar/>
-  <div class="main-container">
-    <app-toast/>
-    <router-outlet/>
+  
+  @if (showNavBar()) {
+    <app-nav-bar></app-nav-bar>
+  }
+
+  <div
+    class="main-container"
+    [class.main-container--with-nav]="showNavBar()"
+  >
+    <app-toast></app-toast>
+
+    <app-modal-participation
+      [isVisible]="modalService.isVisible()"
+      [labelAtelier]="modalService.selectedAtelier()?.label || ''"
+      [codeParticipation]="modalService.selectedAtelier()?.code || ''"
+      [onClose]="modalService.close.bind(modalService)"
+    >
+    </app-modal-participation>
+
+    <router-outlet></router-outlet>
   </div>
 </main>

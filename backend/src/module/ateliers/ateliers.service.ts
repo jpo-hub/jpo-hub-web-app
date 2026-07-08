@@ -313,11 +313,39 @@ export class AteliersService {
         throw new BadRequestException(ERROR.MissingFields);
       }
 
-      const { publicUrl } = await this.uploadImageToS3({
-        uid: 'atelier',
-        file,
-        folder: 'ateliers',
-      });
+      const ateliersExisting = await this.findAllAteliers();
+
+      const labelExists = ateliersExisting.some(
+        (a) => a.label.toLowerCase() === createAtelierDto.label.toLowerCase(),
+      );
+      if (labelExists) {
+        throw new BadRequestException(ERROR.AlreadyExists);
+      }
+
+      const filiereEntries = createAtelierDto.filieres
+        ? Object.entries(createAtelierDto.filieres)
+        : null;
+
+      // Run S3 upload and filiere lookup in parallel
+      const [{ publicUrl }, filiereCreateData] = await Promise.all([
+        this.uploadImageToS3({ uid: 'atelier', file, folder: 'ateliers' }),
+        filiereEntries
+          ? this.prisma.filiere
+              .findMany({
+                where: {
+                  label: { in: filiereEntries.map(([label]) => label) },
+                },
+                select: { uid: true, label: true },
+              })
+              .then((filieres) => {
+                const map = new Map(filieres.map((f) => [f.label, f.uid]));
+                return filiereEntries.map(([label, score]) => ({
+                  score,
+                  filiereId: map.get(label)!,
+                }));
+              })
+          : Promise.resolve(null),
+      ]);
 
       const newAtelier = await this.prisma.atelier.create({
         data: {
@@ -326,6 +354,9 @@ export class AteliersService {
           draft: createAtelierDto.draft,
           dockerfilelink: createAtelierDto.dockerfilelink,
           imageUrl: publicUrl,
+          Atelier_Filiere: filiereCreateData
+            ? { create: filiereCreateData }
+            : undefined,
         },
         include: {
           Atelier_Filiere: {
@@ -334,11 +365,7 @@ export class AteliersService {
         },
       });
 
-      return {
-        ...newAtelier,
-        filiere: {},
-        candidats: [],
-      };
+      return this.toApiAtelier(newAtelier);
     } catch (error) {
       if (error instanceof BadRequestException) throw error;
 
@@ -359,12 +386,6 @@ export class AteliersService {
    * Récupère une liste paginée d'ateliers.
    *
    * @async
-   * @param {Object} [params={}] - Paramètres de pagination et filtrage.
-   * @param {number} [params.skip] - Nombre d'éléments à ignorer (offset).
-   * @param {number} [params.take] - Nombre d'éléments à récupérer (limit).
-   * @param {Prisma.AtelierWhereUniqueInput} [params.cursor] - Curseur pour la pagination.
-   * @param {Prisma.AtelierWhereInput} [params.where] - Filtres de recherche.
-   * @param {Prisma.AtelierOrderByWithRelationInput} [params.orderBy] - Tri des résultats.
    * @returns {Promise<AtelierDetailsDto[]>} Liste des ateliers enrichis.
    * @throws {BadRequestException} Si les paramètres sont invalides.
    * @throws {InternalServerErrorException} En cas d'erreur inattendue.
@@ -372,24 +393,31 @@ export class AteliersService {
    * @example
    * const ateliers = await ateliersService.findAll({ take: 10 });
    */
-  async findAll(
-    params: {
-      skip?: number;
-      take?: number;
-      cursor?: Prisma.AtelierWhereUniqueInput;
-      where?: Prisma.AtelierWhereInput;
-      orderBy?: Prisma.AtelierOrderByWithRelationInput;
-    } = {},
-  ): Promise<AtelierDetailsDto[]> {
+  async findAll(): Promise<AtelierDetailsDto[]> {
     try {
-      const { skip, take, cursor, where, orderBy } = params;
-
       const ateliers = await this.prisma.atelier.findMany({
-        skip,
-        take,
-        cursor,
-        where,
-        orderBy,
+        include: {
+          Atelier_Filiere: {
+            include: { filiere: { select: { label: true } } },
+          },
+          Atelier_Candidat: { select: { candidatId: true } },
+        },
+        where: { draft: false },
+      });
+
+      return ateliers.map((atelier) => this.toApiAtelier(atelier));
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        throw new BadRequestException(ERROR.InvalidInputFormat);
+      }
+
+      throw new InternalServerErrorException(ERROR.ConflictError);
+    }
+  }
+
+  async findAllAteliers(): Promise<AtelierDetailsDto[]> {
+    try {
+      const ateliers = await this.prisma.atelier.findMany({
         include: {
           Atelier_Filiere: {
             include: { filiere: { select: { label: true } } },
@@ -546,7 +574,6 @@ export class AteliersService {
    * Supprime un atelier et son image S3 associée.
    *
    * @async
-   * @param {string} id - L'UID de l'atelier à supprimer.
    * @returns {Promise<Atelier>} L'atelier supprimé.
    * @throws {BadRequestException} Si l'UID est vide.
    * @throws {NotFoundException} Si l'atelier n'existe pas.
@@ -561,23 +588,18 @@ export class AteliersService {
    * @example
    * const deleted = await ateliersService.remove('atelier-123');
    * console.log(`Atelier "${deleted.label}" supprimé`);
+   * @param uid
    */
-  async remove(id: string): Promise<Atelier> {
-    this.assertNonEmptyString(id, 'uid');
-
-    let existing: { imageUrl: string | null };
-    try {
-      existing = await this.prisma.atelier.findUniqueOrThrow({
-        where: { uid: id },
-        select: { imageUrl: true },
-      });
-    } catch {
-      throw new NotFoundException(ERROR.ResourceNotFound);
-    }
+  async remove(uid: string): Promise<Atelier> {
+    const atelier = await this.findOne(uid);
 
     let deleted: Atelier;
     try {
-      deleted = await this.prisma.atelier.delete({ where: { uid: id } });
+      deleted = await this.prisma.$transaction(async (tx) => {
+        await tx.atelier_Filiere.deleteMany({ where: { atelierId: uid } });
+        await tx.atelier_Candidat.deleteMany({ where: { atelierId: uid } });
+        return tx.atelier.delete({ where: { uid: uid } });
+      });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         switch (error.code) {
@@ -593,7 +615,7 @@ export class AteliersService {
       throw new InternalServerErrorException(ERROR.ConflictError);
     }
 
-    await this.deleteS3ObjectIfOwnedByUs(existing.imageUrl);
+    await this.deleteS3ObjectIfOwnedByUs(atelier.imageUrl);
     return deleted;
   }
 }

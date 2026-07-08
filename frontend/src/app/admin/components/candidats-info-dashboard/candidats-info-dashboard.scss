@@ -1,0 +1,42 @@
+.candidat-info {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: .5rem;
+
+  .candidat-info__header,
+  .candidat-info__content {
+    display: flex;
+    justify-content: space-between;
+
+    .candidat-info__header-name {
+      font-weight: bold;
+      font-size: 1.25rem;
+    }
+
+    .candidat-info__content-email {
+      color: var(--color-text-gray);
+      font-size: 0.875rem;
+    }
+
+    .candidat-info__content-rdv {
+      color: var(--color-text-gray);
+      font-size: 0.875rem;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+
+      .status-wrapper {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+
+        .status {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+        }
+      }
+    }
+  }
+}

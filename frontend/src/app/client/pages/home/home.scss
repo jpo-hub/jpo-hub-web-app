@@ -17,4 +17,26 @@
       text-align: center;
     }
   }
+
+  @media (max-width: 1024px) {
+    .content-home {
+      margin: 2rem 4rem;
+
+      .title {
+        font-size: 5rem;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .content-home {
+      margin: 2rem 1.5rem;
+      font-size: 16px;
+      text-align: center;
+
+      .title {
+        font-size: 3rem;
+      }
+    }
+  }
 }

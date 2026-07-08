@@ -15,6 +15,8 @@ model Filiere {
 
   Reponse_Filiere Reponse_Filiere[]
   Atelier_Filiere Atelier_Filiere[]
+
+  filiereStats Stats?
 }
 
 model Response {
@@ -30,6 +32,7 @@ model Response {
 model Question {
   uid      String     @id @default(uuid())
   label    String     @unique
+  draft    Boolean    @default(true)
   multiple Boolean    @default(false)
   Response Response[]
 }
@@ -110,8 +113,34 @@ model Atelier_Candidat {
 
 model Admin {
   uid       String @id @default(uuid())
-  fristname String
+  firstname String
+  password  String
   lastname  String
   role      String
   email     String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Stats {
+  uid            String @id @default(uuid())
+  filiereId      String @unique
+  selectionCount Int    @default(0)
+
+  filiere Filiere @relation(fields: [filiereId], references: [uid])
+}
+
+model GlobalStats {
+  uid         String   @id @default(uuid())
+  candidats   Int
+  appointment Int
+  createdAt   DateTime @default(now())
+}
+
+model StatsSnapshot {
+  uid       String   @id @default(uuid())
+  label     String
+  data      Json
+  timestamp DateTime @default(now())
 }

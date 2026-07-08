@@ -6,7 +6,7 @@ import {CheckboxForm} from '../../../shared/components/checkbox-form/checkbox-fo
 import {Chips} from '../../../shared/components/chips/chips';
 import {Filieres} from '../../../core/services/filieres';
 import {toSignal} from '@angular/core/rxjs-interop';
-import {Candidat} from '../../service/candidat';
+import {Candidat} from '../../services/candidat';
 import {firstValueFrom} from 'rxjs';
 import {CandidatModel} from '../../../core/models/candidat.model';
 import {HttpErrorResponse} from '@angular/common/http';
@@ -45,7 +45,7 @@ export class Register implements OnInit {
     firstname: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
     ageRange: new FormControl(''),
-    consentement: new FormControl(false),
+    consentement: new FormControl(false, [Validators.requiredTrue]),
     filieres: new FormArray([])
   });
 

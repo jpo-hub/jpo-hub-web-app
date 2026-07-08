@@ -33,6 +33,9 @@
             "styles": [
               "src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/app/admin"]
+            },
             "server": "src/main.server.ts",
             "outputMode": "server",
             "ssr": {

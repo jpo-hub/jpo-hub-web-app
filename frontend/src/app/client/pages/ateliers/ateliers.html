@@ -1,0 +1,29 @@
+<section aria-label="Liste des ateliers">
+  <div class="container-atelier">
+    <div class="container-atelier-header">
+      <h1>Découvre tous les ateliers</h1>
+      <span>
+        Explore notre sélection d'ateliers pratiques et découvrez les innovations dans chacune de nos filières.
+      </span>
+    </div>
+    <div class="ateliers-grid">
+      <div class="ateliers-grid__container" role="list" aria-label="Ateliers disponibles">
+        @for (atelier of ateliers(); track atelier.uid) {
+          <app-card-atelier [label]="atelier.label" [imageUrl]="atelier.imageUrl" [description]="atelier.description"
+                            [dockerfilelink]="atelier.dockerfilelink"></app-card-atelier>
+        } @empty {
+          <p>Aucun atelier trouvé.</p>
+        }
+      </div>
+    </div>
+    <div class="footer">
+      <div class="container-atelier-footer">
+        <h1>Tu ne sais pas par où commencer ?</h1>
+        <span>
+        Réponds à notre quiz de personnalité pour trouver les ateliers et projets qui te correspondent le mieux.
+      </span>
+      </div>
+      <app-button-primary label="Commencer le quiz" link="/quiz"/>
+    </div>
+  </div>
+</section>

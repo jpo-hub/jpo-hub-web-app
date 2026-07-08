@@ -2,11 +2,11 @@ section {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  min-height: 100vh;
   gap: 5rem;
 
   .container-form {
-    width: 40rem;
+    width: min(40rem, 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -91,6 +91,20 @@ section {
           margin-top: 1rem;
         }
       }
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 2rem 1.5rem;
+    align-items: flex-start;
+
+    .container-form {
+      width: 100%;
+    }
+
+    .form-group-global {
+      flex-direction: column !important;
+      gap: 0 !important;
     }
   }
 }

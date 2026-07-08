@@ -1,13 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, type TransformFnParams } from 'class-transformer';
-import {
-  IsArray,
-  IsBoolean,
-  IsObject,
-  IsOptional,
-  IsString,
-  IsUUID,
-} from 'class-validator';
+import { IsBoolean, IsObject, IsOptional, IsString } from 'class-validator';
 
 export class CreateAtelierDto {
   @ApiProperty()
@@ -18,19 +11,11 @@ export class CreateAtelierDto {
   @IsString()
   readonly description: string;
 
-  @ApiProperty({
-    type: 'string',
-    format: 'binary',
-    description: 'The article media (file)',
-    required: false,
-  })
-  imageUrl?: unknown;
-
   @ApiProperty({ default: false })
-  @Transform(
-    ({ value }: TransformFnParams): boolean =>
-      value === true || value === 'true',
-  )
+  @Transform(({ obj, key }: TransformFnParams): boolean => {
+    const raw = (obj as Record<string, unknown>)[key];
+    return raw === true || raw === 'true';
+  })
   @IsBoolean()
   readonly draft: boolean;
 
@@ -43,6 +28,16 @@ export class CreateAtelierDto {
     description: "Mapping { 'LabelFiliere': score }",
   })
   @IsOptional()
+  @Transform(({ value }: TransformFnParams) => {
+    if (typeof value === 'string') {
+      try {
+        return JSON.parse(value) as Record<string, number>;
+      } catch {
+        return value as unknown as Record<string, number>;
+      }
+    }
+    return value as Record<string, number>;
+  })
   @IsObject()
   filieres?: Record<string, number>;
 }

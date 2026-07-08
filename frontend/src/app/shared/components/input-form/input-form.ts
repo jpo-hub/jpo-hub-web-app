@@ -19,8 +19,8 @@ export class InputForm implements ControlValueAccessor {
   @Input() label: string = '';
   @Input() type: string = 'text';
   @Input() placeholder: string = '';
+  @Input() value: string = '';
 
-  value: string = '';
   onChange: (value: string) => void = () => {};
   onTouched: () => void = () => {};
 

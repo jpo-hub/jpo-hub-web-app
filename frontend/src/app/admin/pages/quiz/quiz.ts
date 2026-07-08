@@ -1,0 +1,90 @@
+import {CommonModule, isPlatformBrowser} from '@angular/common';
+import {Component, computed, inject, OnInit, PLATFORM_ID, signal} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+
+import {QuizService} from '../../services/quiz';
+import {Question} from '../../../core/models/question.model';
+import {ModalCreate} from '../../components/modal-create/modal-create';
+import {LucideAngularModule} from 'lucide-angular';
+import {ButtonPrimary} from '../../../shared/components/button-primary/button-primary';
+import {ModalUpdate} from '../../components/modal-update/modal-update';
+
+@Component({
+  selector: 'app-quiz',
+  standalone: true,
+  imports: [CommonModule, FormsModule, ModalCreate, LucideAngularModule, ButtonPrimary, ModalUpdate],
+  templateUrl: './quiz.html',
+  styleUrl: './quiz.scss',
+})
+export class Quiz implements OnInit {
+  private quizService = inject(QuizService);
+  private platformId = inject(PLATFORM_ID);
+
+  questions = signal<Question[]>([]);
+
+  searchTerm = signal('');
+  statusFilter = signal<'all' | 'published' | 'draft'>('all');
+
+  ngOnInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.loadQuestions();
+    }
+  }
+
+  filteredQuestions = computed(() => {
+    const term = this.searchTerm().toLowerCase().trim();
+    const status = this.statusFilter();
+
+    return this.questions().filter((q) => {
+      const matchesSearch = !term || q.label?.toLowerCase().includes(term);
+      const matchesStatus =
+        status === 'all' ||
+        (status === 'draft' && q.draft) ||
+        (status === 'published' && !q.draft);
+
+      return matchesSearch && matchesStatus;
+    });
+  });
+
+  modalCreated = signal(false);
+  modalDeleted = signal(false);
+  modalUpdate = signal(false);
+
+  createQuestion() {
+    this.modalCreated.set(true);
+  }
+
+  selectedQuestion = signal<Question | null>(null);
+  modalDeleteQuestion(question: Question) {
+    this.selectedQuestion.set(question);
+    this.modalDeleted.set(true);
+  }
+  deleteQuestion() {
+    const question = this.selectedQuestion();
+    if (!question) return;
+
+    this.quizService.removeQuestion(question.uid).subscribe({
+      next: () => {
+        this.closeModal();
+      }
+    })
+  }
+
+  modalUpdateQuestion(question: Question) {
+    this.selectedQuestion.set(question);
+    this.modalUpdate.set(true);
+  }
+
+  closeModal() {
+    this.modalCreated.set(false);
+    this.modalDeleted.set(false);
+    this.modalUpdate.set(false);
+    this.loadQuestions();
+  }
+
+  loadQuestions() {
+    this.quizService.getQuestions().subscribe(data => {
+      this.questions.set(data);
+    })
+  }
+}

@@ -1,4 +1,4 @@
-<div class="card-atelier">
+<div class="card-atelier" role="listitem">
   <div class="img-wrapper">
     <img [src]="imageUrl"
          [alt]="label"
@@ -8,10 +8,10 @@
 
   <div class="content">
     <h2>{{ label }}</h2>
-    <p>{{ description }}</p>
+    <p>{{ shortDescription }}</p>
   </div>
 
   <div class="card-footer">
-    <app-button-primary label="Participer"/>
+    <app-button-primary label="Participer" (click)="onParticiper()"/>
   </div>
 </div>

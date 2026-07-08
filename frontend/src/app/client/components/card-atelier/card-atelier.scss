@@ -2,9 +2,8 @@
   display: flex;
   flex-direction: column;
 
-  // TAILLE FIXE - Toutes les cartes feront exactement ces dimensions
-  width: 350px;
-  height: 500px;
+  width: 100%;
+  height: 100%;
 
   background-color: #ffffff;
   border-radius: 12px;
@@ -53,11 +52,6 @@
       margin: 0;
       color: #666;
       font-size: 0.9rem;
-      // Coupe la description si elle dépasse (4 lignes max)
-      display: -webkit-box;
-      -webkit-line-clamp: 4;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
     }
   }
 

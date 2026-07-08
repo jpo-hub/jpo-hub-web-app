@@ -9,7 +9,7 @@
   border: 1px solid transparent;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   font-size: 14px;
-  z-index: 1000;
+  z-index: 10000;
   overflow: hidden;
   animation: toast-fade-in 0.3s ease forwards, toast-fade-out 0.4s ease forwards;
   animation-delay: 0s, 4.6s;

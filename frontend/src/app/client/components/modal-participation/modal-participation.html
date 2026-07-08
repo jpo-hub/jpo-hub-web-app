@@ -1,0 +1,32 @@
+@if (isVisible) {
+  <div class="modal-overlay" role="presentation" (click)="onCloseModal()">
+    <div
+      class="modal-content"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+      (click)="$event.stopPropagation()">
+      <section>
+        <div class="header-modal">
+          <h1 id="modal-title">Participation à l'atelier</h1>
+        </div>
+
+        @if (codeParticipation) {
+          <div class="code-container">
+            <span>Voici votre code de participation : </span>
+            <span>{{ codeParticipation }}</span>
+          </div>
+          <div class="info-container">
+            <p>Présente ce code à l’équipe de l’atelier <strong>{{ labelAtelier }}</strong> afin de valider ta participation.</p>
+          </div>
+        } @else {
+          <div class="info-container">
+            <p>Rends-toi à l’atelier <strong>{{ labelAtelier }}</strong> pour participer.</p>
+          </div>
+        }
+
+        <app-button-primary label="Fermer" (click)="onCloseModal()"/>
+      </section>
+    </div>
+  </div>
+}

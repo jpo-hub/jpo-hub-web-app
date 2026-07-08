@@ -1,0 +1,58 @@
+:host {
+  flex: 1;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  textarea {
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid var(--color-border);
+    outline: none;
+    background: none;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+
+    display: block;
+    overflow: hidden;
+    resize: none;
+    min-height: 48px;
+    line-height: 1.4;
+
+    &:focus {
+      border-color: var(--color-primary);
+    }
+
+    &:focus + label {
+      top: -10px;
+      color: var(--color-primary);
+    }
+
+    &:-webkit-autofill {
+      background-color: transparent !important;
+      -webkit-box-shadow: 0 0 0 1000px var(--color-background) inset !important;
+      -webkit-text-fill-color: var(--color-text-black) !important;
+    }
+  }
+
+  label {
+    position: absolute;
+    padding: 3px 7px;
+    top: 15px;
+    left: 10px;
+    font-size: 14px;
+    transition: all .3s;
+    color: var(--color-text-gray);
+    background-color: var(--color-background);
+    pointer-events: none;
+  }
+
+  &.has-value label {
+    top: -10px;
+    color: var(--color-text-dark);
+  }
+}

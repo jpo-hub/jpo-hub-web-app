@@ -6,22 +6,23 @@ import {
   Param,
   Patch,
   Post,
-  Query,
+  UseGuards,
 } from '@nestjs/common';
 import {
+  ApiBearerAuth,
   ApiBody,
   ApiOperation,
   ApiParam,
-  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { QuestionsService } from './questions.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
-import { Question as QuestionModel } from '../../generated/prisma/models/Question';
+import { QuestionModel } from '../../generated/prisma/models/Question';
 import { SwaggerResponses } from '../../common/constants/swagger.constants';
 import { QuestionEntity } from './entities/question.entity';
+import { JwtAuthGuard } from '../auth/strategy/jwt-auth.guard';
 
 @ApiTags('Questions')
 @Controller('questions')
@@ -37,6 +38,8 @@ export class QuestionsController {
   @ApiResponse(SwaggerResponses.Created('Question', QuestionEntity))
   @ApiResponse(SwaggerResponses.NotFound('Question'))
   @ApiResponse(SwaggerResponses.ErrorServer)
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   create(@Body() createQuestionDto: CreateQuestionDto): Promise<QuestionModel> {
     return this.questionsService.create(createQuestionDto);
   }
@@ -44,34 +47,25 @@ export class QuestionsController {
   @Get()
   @ApiOperation({
     summary: 'Récupérer toutes les questions',
-    description: 'Retourne la liste paginée des questions',
-  })
-  @ApiQuery({
-    name: 'page',
-    required: false,
-    description: 'Numéro de page (défaut: 1)',
-    example: 1,
-  })
-  @ApiQuery({
-    name: 'limit',
-    required: false,
-    description: "Nombre d'éléments par page (défaut: 10)",
-    example: 10,
+    description: 'Retourne la liste des questions',
   })
   @ApiResponse(SwaggerResponses.Found('Questions', [QuestionEntity]))
   @ApiResponse(SwaggerResponses.ErrorServer)
-  findAll(
-    @Query('page') page?: string,
-    @Query('limit') limit?: string,
-  ): Promise<QuestionModel[]> {
-    const pageNum = page ? parseInt(page, 10) : 1;
-    const limitNum = limit ? parseInt(limit, 10) : 10;
-    const skip = (pageNum - 1) * limitNum;
+  findAll(): Promise<QuestionModel[]> {
+    return this.questionsService.findAll();
+  }
 
-    return this.questionsService.findAll({
-      skip,
-      take: limitNum,
-    });
+  @Get('all')
+  @ApiOperation({
+    summary: 'Récupérer toutes les questions',
+    description: 'Retourne la liste des questions Draft ou non',
+  })
+  @ApiResponse(SwaggerResponses.Found('Questions', [QuestionEntity]))
+  @ApiResponse(SwaggerResponses.ErrorServer)
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  findAllQuestions(): Promise<QuestionModel[]> {
+    return this.questionsService.findAllQuestions();
   }
 
   @Get(':uid')
@@ -97,6 +91,8 @@ export class QuestionsController {
   @ApiResponse(SwaggerResponses.Updated('Question', QuestionEntity))
   @ApiResponse(SwaggerResponses.NotFound('Question'))
   @ApiResponse(SwaggerResponses.ErrorServer)
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   update(
     @Param('uid') uid: string,
     @Body() updateQuestionDto: UpdateQuestionDto,
@@ -113,6 +109,8 @@ export class QuestionsController {
   @ApiResponse(SwaggerResponses.Deleted('Question'))
   @ApiResponse(SwaggerResponses.NotFound('Question'))
   @ApiResponse(SwaggerResponses.ErrorServer)
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   remove(@Param('uid') uid: string) {
     return this.questionsService.remove(uid);
   }

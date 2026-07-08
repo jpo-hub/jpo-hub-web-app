@@ -1,37 +1,38 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
-  UseInterceptors,
-  UploadedFile,
-  ParseFilePipe,
   FileTypeValidator,
+  Get,
   MaxFileSizeValidator,
-  Query,
+  Param,
+  ParseFilePipe,
+  Patch,
+  Post,
+  UploadedFile,
+  UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
+import type { AtelierDetailsDto } from './ateliers.service';
 import { AteliersService } from './ateliers.service';
 import { CreateAtelierDto } from './dto/create-atelier.dto';
 import { UpdateAtelierDto } from './dto/update-atelier.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiParam,
+  ApiBearerAuth,
   ApiBody,
-  ApiQuery,
   ApiConsumes,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
 } from '@nestjs/swagger';
 import type { Express } from 'express';
 import { memoryStorage } from 'multer';
 import { AtelierModel } from '../../generated/prisma/models/Atelier';
-import type { AtelierDetailsDto } from './ateliers.service';
 import { SwaggerResponses } from '../../common/constants/swagger.constants';
 import { AtelierEntity } from './entities/atelier.entity';
+import { JwtAuthGuard } from '../auth/strategy/jwt-auth.guard';
 
 @ApiTags('Ateliers')
 @Controller('ateliers')
@@ -42,7 +43,7 @@ export class AteliersController {
   @ApiOperation({
     summary: 'Créer un atelier',
     description:
-      'Crée un nouvel atelier avec une image obligatoire (JPEG, max 5MB)',
+      'Crée un nouvel atelier avec une image obligatoire (JPEG, PNG, WEBP, max 5MB)',
   })
   @ApiConsumes('multipart/form-data')
   @ApiBody({ type: CreateAtelierDto })
@@ -50,13 +51,15 @@ export class AteliersController {
   @ApiResponse(SwaggerResponses.NotFound('Ressource'))
   @ApiResponse(SwaggerResponses.ErrorServer)
   @UseInterceptors(FileInterceptor('imageUrl', { storage: memoryStorage() }))
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   async create(
     @Body() createAtelierDto: CreateAtelierDto,
     @UploadedFile(
       new ParseFilePipe({
         validators: [
           new MaxFileSizeValidator({ maxSize: 5_000_000 }),
-          new FileTypeValidator({ fileType: 'image/jpeg' }),
+          new FileTypeValidator({ fileType: 'image/(jpeg|png|webp)' }),
         ],
       }),
     )
@@ -70,32 +73,23 @@ export class AteliersController {
     summary: 'Récupérer tous les ateliers',
     description: 'Retourne la liste paginée des ateliers avec leurs candidats',
   })
-  @ApiQuery({
-    name: 'page',
-    required: false,
-    description: 'Numéro de page (défaut: 1)',
-    example: 1,
-  })
-  @ApiQuery({
-    name: 'limit',
-    required: false,
-    description: "Nombre d'éléments par page (défaut: 10)",
-    example: 10,
+  @ApiResponse(SwaggerResponses.Found('Ateliers', [AtelierEntity]))
+  @ApiResponse(SwaggerResponses.ErrorServer)
+  async findAll(): Promise<AtelierDetailsDto[]> {
+    return await this.ateliersService.findAll();
+  }
+
+  @Get('all')
+  @ApiOperation({
+    summary: 'Récupérer tous les ateliers',
+    description: 'Retourne la liste paginée des ateliers avec leurs candidats',
   })
   @ApiResponse(SwaggerResponses.Found('Ateliers', [AtelierEntity]))
   @ApiResponse(SwaggerResponses.ErrorServer)
-  async findAll(
-    @Query('page') page?: string,
-    @Query('limit') limit?: string,
-  ): Promise<AtelierDetailsDto[]> {
-    const pageNum = page ? parseInt(page, 10) : 1;
-    const limitNum = limit ? parseInt(limit, 10) : 10;
-    const skip = (pageNum - 1) * limitNum;
-
-    return await this.ateliersService.findAll({
-      skip,
-      take: limitNum,
-    });
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  async findAllAteliers(): Promise<AtelierDetailsDto[]> {
+    return await this.ateliersService.findAllAteliers();
   }
 
   @Get(':uid')
@@ -124,6 +118,8 @@ export class AteliersController {
   @ApiResponse(SwaggerResponses.NotFound('Atelier'))
   @ApiResponse(SwaggerResponses.ErrorServer)
   @UseInterceptors(FileInterceptor('imageUrl', { storage: memoryStorage() }))
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   async update(
     @Param('uid') uid: string,
     @Body() updateAtelierDto: UpdateAtelierDto,
@@ -150,6 +146,8 @@ export class AteliersController {
   @ApiResponse(SwaggerResponses.Deleted('Atelier'))
   @ApiResponse(SwaggerResponses.NotFound('Atelier'))
   @ApiResponse(SwaggerResponses.ErrorServer)
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   async remove(@Param('uid') uid: string): Promise<AtelierModel> {
     return await this.ateliersService.remove(uid);
   }

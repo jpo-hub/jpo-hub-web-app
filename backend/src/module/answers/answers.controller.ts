@@ -6,9 +6,10 @@ import {
   Get,
   Param,
   Patch,
-  Post,
+  Post, UseGuards,
 } from '@nestjs/common';
 import {
+  ApiBearerAuth,
   ApiBody,
   ApiOperation,
   ApiParam,
@@ -22,6 +23,7 @@ import { SwaggerResponses } from '../../common/constants/swagger.constants';
 import { ERROR } from '../../common/constants/error.constants';
 import { AnswerEntity } from './entities/answer.entity';
 import { TraitementAnswerDto } from './dto/traitement-answer.dto';
+import { JwtAuthGuard } from '../auth/strategy/jwt-auth.guard';
 
 @ApiTags('Answers')
 @Controller('answers')
@@ -62,6 +64,8 @@ export class AnswersController {
   @ApiResponse(SwaggerResponses.Created('Réponse', AnswerEntity))
   @ApiResponse(SwaggerResponses.NotFound('Question'))
   @ApiResponse(SwaggerResponses.ErrorServer)
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   create(@Body() createAnswerDto: CreateAnswerDto): Promise<ResponseDto> {
     return this.answersService.create(createAnswerDto);
   }
@@ -101,6 +105,8 @@ export class AnswersController {
   @ApiResponse(SwaggerResponses.Updated('Réponse', AnswerEntity))
   @ApiResponse(SwaggerResponses.NotFound('Réponse'))
   @ApiResponse(SwaggerResponses.ErrorServer)
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   update(
     @Param('uid') uid: string,
     @Body() updateAnswerDto: UpdateAnswerDto,
@@ -117,6 +123,8 @@ export class AnswersController {
   @ApiResponse(SwaggerResponses.Deleted('Réponse'))
   @ApiResponse(SwaggerResponses.NotFound('Réponse'))
   @ApiResponse(SwaggerResponses.ErrorServer)
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   remove(@Param('uid') uid: string): Promise<ResponseDto> {
     return this.answersService.remove(uid);
   }

@@ -10,6 +10,7 @@ import {ErrorHandler} from '../../core/services/error-handler';
 
 interface CandidatResponse {
   uid: string;
+  codeCandidat: number;
 }
 
 @Injectable({
@@ -31,6 +32,9 @@ export class Candidat {
         if (response.uid) {
           this.storageService.setCandidatUid(response.uid);
         }
+        if (response.codeCandidat) {
+          this.storageService.setCandidatCode(response.codeCandidat.toString());
+        }
       })
     );
   }
@@ -38,6 +42,8 @@ export class Candidat {
   public submitScore(score: Record<string, number>) {
     const uid = this.storageService.getCandidatUid();
     const body = { filieres: score };
+    
+    console.log('body', body)
 
     return this.http.post(`${this.apiUrl}/answers/traitement/${uid}`, body).pipe(
       tap(res => {

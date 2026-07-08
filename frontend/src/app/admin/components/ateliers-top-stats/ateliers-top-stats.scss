@@ -1,0 +1,130 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.chart-title {
+  flex-shrink: 0;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-border);
+
+  .chart-title__subtitle {
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    border-radius: 8px;
+    color: var(--color-text-gray);
+    background-color: var(--color-background-badge);
+    text-align: center;
+  }
+}
+
+.ateliers-container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.atelier-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+  min-height: 0;
+  padding: 0 1rem;
+
+  &:not(:first-child) {
+    border-top: 1px solid var(--color-border);
+  }
+}
+
+.atelier-row__left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.atelier-row__rank {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #444;
+  flex: 0 0 auto;
+}
+
+.atelier-row__icon {
+  width: 20px;
+  height: 20px;
+}
+
+.atelier-row__rank.is-gold {
+  color: #ffd000;
+}
+
+.atelier-row__rank.is-silver {
+  color: #8e8e8e;
+}
+
+.atelier-row__rank.is-bronze {
+  color: #c95700;
+}
+
+.atelier-row__content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.atelier-row__label {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.atelier-row__count {
+  color: var(--color-text-gray);
+  font-weight: lighter;
+  font-size: 0.95rem;
+}
+
+.atelier-row__right {
+  flex: 0 0 auto;
+}
+
+.atelier-row__position {
+  font-weight: 700;
+  opacity: 0.85;
+}
+
+.empty-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px;
+  text-align: center;
+  color: var(--color-text-gray);
+
+  &__title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #374151;
+  }
+
+  &__subtitle {
+    font-size: 0.8rem;
+  }
+}
