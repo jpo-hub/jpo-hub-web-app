@@ -1,8 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import {
-  ConflictException,
-  NotFoundException,
-} from '@nestjs/common';
+import { ConflictException, NotFoundException } from '@nestjs/common';
 import { Prisma } from '../../generated/prisma/client';
 import { FilieresService } from './filieres.service';
 import { PrismaService } from '../../prisma/prisma.service';

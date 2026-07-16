@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
@@ -7,7 +8,9 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategy/jwt.strategy';
 import { AdminsModule } from '../admins/admins.module';
 
-export const jwtSecret = 'zjP9h6ZI5LoSKCRj';
+// Secret injecté par l'environnement (.env en dev, docker-compose en prod).
+// Le fallback ne sert qu'à ne pas casser un poste de dev sans .env.
+export const jwtSecret = process.env.JWT_SECRET ?? 'dev-only-secret-change-me';
 
 @Module({
   controllers: [AuthController],

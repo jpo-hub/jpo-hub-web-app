@@ -1,9 +1,10 @@
 <div class="form-group" [class.has-value]="value">
   <input
+    [id]="inputId"
     [type]="type"
     [value]="value"
     (input)="onInput($event)"
     (blur)="onTouched()"
   >
-  <label>{{ label }}</label>
+  <label [for]="inputId">{{ label }}</label>
 </div>

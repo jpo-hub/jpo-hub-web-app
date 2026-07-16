@@ -1,8 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import {
-  ConflictException,
-  NotFoundException,
-} from '@nestjs/common';
+import { ConflictException, NotFoundException } from '@nestjs/common';
 import { Prisma } from '../../generated/prisma/client';
 import { AnswersService } from './answers.service';
 import { PrismaService } from '../../prisma/prisma.service';
@@ -52,10 +49,7 @@ describe('AnswersService', () => {
     };
 
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        AnswersService,
-        { provide: PrismaService, useValue: prisma },
-      ],
+      providers: [AnswersService, { provide: PrismaService, useValue: prisma }],
     }).compile();
 
     service = module.get(AnswersService);
@@ -87,7 +81,9 @@ describe('AnswersService', () => {
     it('should throw NotFoundException when response does not exist', async () => {
       prisma.response.findUnique.mockResolvedValue(null);
 
-      await expect(service.findOne('unknown')).rejects.toThrow(NotFoundException);
+      await expect(service.findOne('unknown')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
@@ -109,7 +105,9 @@ describe('AnswersService', () => {
     it('should throw NotFoundException when response does not exist', async () => {
       prisma.response.findUnique.mockResolvedValue(null);
 
-      await expect(service.remove('unknown')).rejects.toThrow(NotFoundException);
+      await expect(service.remove('unknown')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
@@ -135,9 +133,9 @@ describe('AnswersService', () => {
         }),
       );
 
-      await expect(service.update('resp-1', { label: 'Duplicate' })).rejects.toThrow(
-        ConflictException,
-      );
+      await expect(
+        service.update('resp-1', { label: 'Duplicate' }),
+      ).rejects.toThrow(ConflictException);
     });
   });
 });

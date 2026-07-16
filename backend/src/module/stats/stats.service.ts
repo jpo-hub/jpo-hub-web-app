@@ -8,6 +8,7 @@ import { StatEntity } from './entities/stat.entity';
 import { ERROR } from '../../common/constants/error.constants';
 import { tagAuditUser } from '../../common/audit/audit-context';
 import { StatSnapshotEntity } from './entities/statSnapshot.entity';
+import { Prisma } from '../../generated/prisma/client';
 
 @Injectable()
 export class StatsService {
@@ -106,10 +107,14 @@ export class StatsService {
         await tagAuditUser(tx);
         const currentStats = await this.findAll();
 
+        const serializedStats: Prisma.InputJsonValue = JSON.parse(
+          JSON.stringify(currentStats),
+        ) as Prisma.InputJsonValue;
+
         const snapshot = await tx.statsSnapshot.create({
           data: {
             label,
-            data: JSON.parse(JSON.stringify(currentStats)),
+            data: serializedStats,
           },
         });
 

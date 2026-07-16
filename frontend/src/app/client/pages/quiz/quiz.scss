@@ -59,12 +59,12 @@
       }
     }
 
-    .quiz-page-__answers {
+    .quiz-page__answers {
       display: flex;
       flex-direction: column;
       justify-content: center;
       width: 100%;
-      gap: 15px;
+      gap: 25px;
     }
 
     .quiz-page__answers-radio {

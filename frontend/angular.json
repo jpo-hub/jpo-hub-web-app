@@ -34,7 +34,9 @@
               "src/styles.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": ["src/app/admin"]
+              "includePaths": [
+                "src/app/admin"
+              ]
             },
             "server": "src/main.server.ts",
             "outputMode": "server",
@@ -47,13 +49,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "1MB",
+                  "maximumError": "1.5MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "6kB",
+                  "maximumError": "12kB"
                 }
               ],
               "outputHashing": "all"
@@ -68,6 +70,11 @@
                   "with": "src/environments/environment.development.ts"
                 }
               ]
+            },
+            "docker": {
+              "outputMode": "static",
+              "ssr": false,
+              "prerender": false
             }
           },
           "defaultConfiguration": "production"

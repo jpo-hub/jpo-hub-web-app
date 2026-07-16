@@ -1,30 +1,19 @@
 a {
   width: 8rem;
 
-  button {
+  div {
     width: 100%;
     height: 2.35rem;
     border-radius: 0.5rem;
     border: none;
     background-color: transparent;
     color: var(--color-text-black);
-    font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: .5rem;
+    padding-left: .5rem;
 
-    .btn-content {
-      display: flex;
-      align-items: center;
-      gap: .5rem;
-      margin-left: .5rem;
-    }
-
-    div {
-      width: 100%;
-    }
     .border-select {
       height: 100%;
       width: 0.50rem;
@@ -38,8 +27,9 @@ a {
   }
 
   &.active {
-    button {
+    div {
       background-color: var(--color-background-active);
+      font-weight: 600;
       .border-select {
         background-color: var(--color-primary-access);
       }
@@ -49,7 +39,7 @@ a {
   @media (max-width: 768px) {
     width: auto;
 
-    button {
+    div {
       width: auto;
       padding: 0 0.5rem;
 

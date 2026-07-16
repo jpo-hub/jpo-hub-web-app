@@ -44,7 +44,11 @@
 
 .radio-text {
   font-size: 0.9rem;
-  color: var(--color-border);
+  color: var(--color-text-gray);
   user-select: none;
   transition: color 0.2s ease;
+}
+
+.radio-label.selected .radio-text {
+  color: var(--color-secondary);
 }

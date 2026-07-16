@@ -96,7 +96,10 @@ export class AteliersService {
    */
   private assertNonEmptyString(value: string, fieldName: string): void {
     if (!value || typeof value !== 'string' || value.trim().length === 0) {
-      throw new BadRequestException(ERROR.MissingFields);
+      throw new BadRequestException({
+        ...ERROR.MissingFields,
+        message: `${fieldName}: ${ERROR.MissingFields.message}`,
+      });
     }
   }
 
