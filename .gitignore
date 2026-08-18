@@ -41,3 +41,5 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 *.lnk
+# Secrets d'environnement
+.env

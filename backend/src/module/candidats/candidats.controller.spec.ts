@@ -49,10 +49,10 @@ describe('CandidatsController', () => {
   });
 
   describe('findAll', () => {
-    it('should calculate skip from page and limit', () => {
+    it('should calculate skip from page and limit', async () => {
       service.candidats.mockResolvedValue([]);
 
-      controller.findAll('3', '5', 'asc');
+      await controller.findAll('3', '5', 'asc');
 
       expect(service.candidats).toHaveBeenCalledWith({
         skip: 10,
@@ -61,10 +61,10 @@ describe('CandidatsController', () => {
       });
     });
 
-    it('should default to page 1, limit 10, no orderBy', () => {
+    it('should default to page 1, limit 10, no orderBy', async () => {
       service.candidats.mockResolvedValue([]);
 
-      controller.findAll();
+      await controller.findAll();
 
       expect(service.candidats).toHaveBeenCalledWith({
         skip: 0,
@@ -73,10 +73,10 @@ describe('CandidatsController', () => {
       });
     });
 
-    it('should pass orderBy desc', () => {
+    it('should pass orderBy desc', async () => {
       service.candidats.mockResolvedValue([]);
 
-      controller.findAll('1', '10', 'desc');
+      await controller.findAll('1', '10', 'desc');
 
       expect(service.candidats).toHaveBeenCalledWith({
         skip: 0,

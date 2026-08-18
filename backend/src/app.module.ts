@@ -10,6 +10,7 @@ import { AnswersModule } from './module/answers/answers.module';
 import { AdminsModule } from './module/admins/admins.module';
 import { AuthModule } from './module/auth/auth.module';
 import { StatsModule } from './module/stats/stats.module';
+import { AuditModule } from './module/audit/audit.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { StatsModule } from './module/stats/stats.module';
     AnswersModule,
     ConfigModule.forRoot({ isGlobal: true }),
     StatsModule,
+    AuditModule,
   ],
   controllers: [],
   providers: [],

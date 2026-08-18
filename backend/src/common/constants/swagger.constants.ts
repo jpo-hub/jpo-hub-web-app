@@ -1,3 +1,5 @@
+import { Type } from '@nestjs/common';
+
 export const SwaggerResponses = {
   ErrorServer: {
     status: 500,
@@ -17,17 +19,29 @@ export const SwaggerResponses = {
     description:
       message || `Impossible de trouver la ressource ${entity} spécifiée.`,
   }),
-  Found: (entity: string, type: any, message?: string) => ({
+  Found: (
+    entity: string,
+    type: Type<unknown> | [Type<unknown>],
+    message?: string,
+  ) => ({
     status: 200,
     description: message || `${entity} trouvé avec succès.`,
     type,
   }),
-  Created: (entity: string, type?: any, message?: string) => ({
+  Created: (
+    entity: string,
+    type: Type<unknown> | [Type<unknown>],
+    message?: string,
+  ) => ({
     status: 201,
     description: message || `${entity} crée avec succès.`,
     type,
   }),
-  Updated: (entity: string, type: any, message?: string) => ({
+  Updated: (
+    entity: string,
+    type: Type<unknown> | [Type<unknown>],
+    message?: string,
+  ) => ({
     status: 200,
     description: message || `${entity} modifié avec succès.`,
     type,

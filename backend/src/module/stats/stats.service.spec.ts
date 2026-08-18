@@ -22,10 +22,7 @@ describe('StatsService', () => {
     };
 
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        StatsService,
-        { provide: PrismaService, useValue: prisma },
-      ],
+      providers: [StatsService, { provide: PrismaService, useValue: prisma }],
     }).compile();
 
     service = module.get(StatsService);
@@ -52,7 +49,9 @@ describe('StatsService', () => {
     it('should throw NotFoundException when no snapshot exists', async () => {
       prisma.statsSnapshot.findFirst.mockResolvedValue(null);
 
-      await expect(service.findLastSnapshot()).rejects.toThrow(NotFoundException);
+      await expect(service.findLastSnapshot()).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 

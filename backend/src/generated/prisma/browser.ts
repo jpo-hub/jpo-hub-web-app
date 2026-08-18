@@ -82,3 +82,8 @@ export type GlobalStats = Prisma.GlobalStatsModel
  * 
  */
 export type StatsSnapshot = Prisma.StatsSnapshotModel
+/**
+ * Model audit_log
+ * 
+ */
+export type audit_log = Prisma.audit_logModel

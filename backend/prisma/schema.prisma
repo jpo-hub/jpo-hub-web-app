@@ -144,3 +144,20 @@ model StatsSnapshot {
   data      Json
   timestamp DateTime @default(now())
 }
+
+// Journal d'audit alimenté exclusivement par les triggers PostgreSQL
+// (cf. migration add_triggers_audit_and_checks) — lecture seule côté application
+model audit_log {
+  uid        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  table_name String
+  operation  String
+  record_uid String
+  old_data   Json?
+  new_data   Json?
+  db_user    String   @default(dbgenerated("CURRENT_USER"))
+  app_user   String?
+  logged_at  DateTime @default(now()) @db.Timestamptz(6)
+
+  @@index([table_name, operation])
+  @@index([logged_at])
+}

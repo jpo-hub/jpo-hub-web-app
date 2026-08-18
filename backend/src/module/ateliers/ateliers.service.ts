@@ -16,6 +16,7 @@ import {
 import { PrismaService } from '../../prisma/prisma.service';
 import { Atelier, Prisma } from '../../generated/prisma/client';
 import { ERROR } from '../../common/constants/error.constants';
+import { tagAuditUser } from '../../common/audit/audit-context';
 
 /**
  * DTO enrichi d'un atelier avec ses filières et candidats.
@@ -95,7 +96,10 @@ export class AteliersService {
    */
   private assertNonEmptyString(value: string, fieldName: string): void {
     if (!value || typeof value !== 'string' || value.trim().length === 0) {
-      throw new BadRequestException(ERROR.MissingFields);
+      throw new BadRequestException({
+        ...ERROR.MissingFields,
+        message: `${fieldName}: ${ERROR.MissingFields.message}`,
+      });
     }
   }
 
@@ -596,6 +600,7 @@ export class AteliersService {
     let deleted: Atelier;
     try {
       deleted = await this.prisma.$transaction(async (tx) => {
+        await tagAuditUser(tx);
         await tx.atelier_Filiere.deleteMany({ where: { atelierId: uid } });
         await tx.atelier_Candidat.deleteMany({ where: { atelierId: uid } });
         return tx.atelier.delete({ where: { uid: uid } });

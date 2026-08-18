@@ -63,7 +63,9 @@ describe('CandidatsService', () => {
         { filiere: { label: 'Informatique' }, score: 5 },
       ]);
       prisma.atelier_Candidat.findMany.mockResolvedValue([
-        { atelier: { uid: 'atel-1', label: 'Atelier IA', createAt: new Date() } },
+        {
+          atelier: { uid: 'atel-1', label: 'Atelier IA', createAt: new Date() },
+        },
       ]);
 
       const result = await service.candidat({ uid: 'abc-123' });

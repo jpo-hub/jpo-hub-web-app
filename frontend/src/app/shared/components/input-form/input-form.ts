@@ -1,6 +1,7 @@
-
 import { Component, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+
+let nextInputFormId = 0;
 
 @Component({
   selector: 'app-input-form',
@@ -20,6 +21,8 @@ export class InputForm implements ControlValueAccessor {
   @Input() type: string = 'text';
   @Input() placeholder: string = '';
   @Input() value: string = '';
+
+  readonly inputId = `input-form-${nextInputFormId++}`;
 
   onChange: (value: string) => void = () => {};
   onTouched: () => void = () => {};

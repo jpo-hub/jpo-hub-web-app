@@ -396,7 +396,8 @@ export const ModelName = {
   Admin: 'Admin',
   Stats: 'Stats',
   GlobalStats: 'GlobalStats',
-  StatsSnapshot: 'StatsSnapshot'
+  StatsSnapshot: 'StatsSnapshot',
+  audit_log: 'audit_log'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -412,7 +413,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "filiere" | "response" | "question" | "reponse_Filiere" | "candidat" | "candidat_Filiere" | "atelier" | "atelier_Filiere" | "atelier_Candidat" | "admin" | "stats" | "globalStats" | "statsSnapshot"
+    modelProps: "filiere" | "response" | "question" | "reponse_Filiere" | "candidat" | "candidat_Filiere" | "atelier" | "atelier_Filiere" | "atelier_Candidat" | "admin" | "stats" | "globalStats" | "statsSnapshot" | "audit_log"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1378,6 +1379,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    audit_log: {
+      payload: Prisma.$audit_logPayload<ExtArgs>
+      fields: Prisma.audit_logFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.audit_logFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$audit_logPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.audit_logFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$audit_logPayload>
+        }
+        findFirst: {
+          args: Prisma.audit_logFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$audit_logPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.audit_logFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$audit_logPayload>
+        }
+        findMany: {
+          args: Prisma.audit_logFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$audit_logPayload>[]
+        }
+        create: {
+          args: Prisma.audit_logCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$audit_logPayload>
+        }
+        createMany: {
+          args: Prisma.audit_logCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.audit_logCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$audit_logPayload>[]
+        }
+        delete: {
+          args: Prisma.audit_logDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$audit_logPayload>
+        }
+        update: {
+          args: Prisma.audit_logUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$audit_logPayload>
+        }
+        deleteMany: {
+          args: Prisma.audit_logDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.audit_logUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.audit_logUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$audit_logPayload>[]
+        }
+        upsert: {
+          args: Prisma.audit_logUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$audit_logPayload>
+        }
+        aggregate: {
+          args: Prisma.Audit_logAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAudit_log>
+        }
+        groupBy: {
+          args: Prisma.audit_logGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Audit_logGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.audit_logCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Audit_logCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1552,6 +1627,21 @@ export const StatsSnapshotScalarFieldEnum = {
 export type StatsSnapshotScalarFieldEnum = (typeof StatsSnapshotScalarFieldEnum)[keyof typeof StatsSnapshotScalarFieldEnum]
 
 
+export const Audit_logScalarFieldEnum = {
+  uid: 'uid',
+  table_name: 'table_name',
+  operation: 'operation',
+  record_uid: 'record_uid',
+  old_data: 'old_data',
+  new_data: 'new_data',
+  db_user: 'db_user',
+  app_user: 'app_user',
+  logged_at: 'logged_at'
+} as const
+
+export type Audit_logScalarFieldEnum = (typeof Audit_logScalarFieldEnum)[keyof typeof Audit_logScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1565,6 +1655,14 @@ export const JsonNullValueInput = {
 } as const
 
 export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -1582,6 +1680,14 @@ export const JsonNullValueFilter = {
 } as const
 
 export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
 
@@ -1774,6 +1880,7 @@ export type GlobalOmitConfig = {
   stats?: Prisma.StatsOmit
   globalStats?: Prisma.GlobalStatsOmit
   statsSnapshot?: Prisma.StatsSnapshotOmit
+  audit_log?: Prisma.audit_logOmit
 }
 
 /* Types for Logging */

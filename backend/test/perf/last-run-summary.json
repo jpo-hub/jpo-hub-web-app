@@ -1,0 +1,251 @@
+{
+    "metrics": {
+        "http_req_duration{step:inscription}": {
+            "avg": 23.94590256410254,
+            "min": 10.327,
+            "med": 23.5565,
+            "max": 43.928,
+            "p(90)": 29.426299999999998,
+            "p(95)": 31.890649999999997,
+            "thresholds": {
+                "p(95)<800": false
+            }
+        },
+        "vus_max": {
+            "max": 60,
+            "value": 60,
+            "min": 60
+        },
+        "http_req_sending": {
+            "avg": 0.03216820512820519,
+            "min": 0.003,
+            "med": 0.029,
+            "max": 0.307,
+            "p(90)": 0.048,
+            "p(95)": 0.058
+        },
+        "checks": {
+            "passes": 3120,
+            "fails": 0,
+            "thresholds": {
+                "rate>0.99": false
+            },
+            "value": 1
+        },
+        "http_req_blocked": {
+            "p(95)": 0.018,
+            "avg": 0.023744615384615614,
+            "min": 0.001,
+            "med": 0.008,
+            "max": 5.457,
+            "p(90)": 0.013100000000000042
+        },
+        "group_duration": {
+            "avg": 17.804987122435875,
+            "min": 3.474334,
+            "med": 18.1566665,
+            "max": 44.177375,
+            "p(90)": 26.8094831,
+            "p(95)": 29.07066215
+        },
+        "iteration_duration": {
+            "p(90)": 10230.4760044,
+            "p(95)": 10736.503439799999,
+            "avg": 8566.352201282049,
+            "min": 5547.147334,
+            "med": 8632.955937499999,
+            "max": 11780.490583
+        },
+        "http_req_failed": {
+            "passes": 0,
+            "fails": 1950,
+            "thresholds": {
+                "rate<0.01": false
+            },
+            "value": 0
+        },
+        "http_req_connecting": {
+            "p(90)": 0,
+            "p(95)": 0,
+            "avg": 0.009901538461538462,
+            "min": 0,
+            "med": 0,
+            "max": 0.478
+        },
+        "http_req_duration{expected_response:true}": {
+            "med": 14.8925,
+            "max": 43.928,
+            "p(90)": 25.714900000000004,
+            "p(95)": 28.061349999999994,
+            "avg": 13.957341025641016,
+            "min": 0.856
+        },
+        "http_req_receiving": {
+            "min": 0.017,
+            "med": 0.088,
+            "max": 0.567,
+            "p(90)": 0.12610000000000005,
+            "p(95)": 0.141,
+            "avg": 0.09075846153846133
+        },
+        "http_req_duration": {
+            "med": 14.8925,
+            "max": 43.928,
+            "p(90)": 25.714900000000004,
+            "p(95)": 28.061349999999994,
+            "avg": 13.957341025641016,
+            "min": 0.856,
+            "thresholds": {
+                "p(95)<500": false,
+                "p(99)<1500": false
+            }
+        },
+        "http_reqs": {
+            "count": 1950,
+            "rate": 13.543863123857856
+        },
+        "vus": {
+            "value": 1,
+            "min": 0,
+            "max": 60
+        },
+        "http_req_duration{step:soumission}": {
+            "max": 42.638,
+            "p(90)": 27.962000000000003,
+            "p(95)": 29.830849999999995,
+            "avg": 22.751184615384627,
+            "min": 7.788,
+            "med": 22.6645,
+            "thresholds": {
+                "p(95)<800": false
+            }
+        },
+        "iterations": {
+            "count": 390,
+            "rate": 2.708772624771571
+        },
+        "data_sent": {
+            "count": 309106,
+            "rate": 2146.9176178272855
+        },
+        "http_req_waiting": {
+            "p(95)": 27.94539999999999,
+            "avg": 13.834414358974351,
+            "min": 0.799,
+            "med": 14.7715,
+            "max": 43.813,
+            "p(90)": 25.6131
+        },
+        "http_req_tls_handshaking": {
+            "med": 0,
+            "max": 0,
+            "p(90)": 0,
+            "p(95)": 0,
+            "avg": 0,
+            "min": 0
+        },
+        "data_received": {
+            "count": 1844372,
+            "rate": 12810.216367936391
+        }
+    },
+    "setup_data": {
+        "runId": "mrj6jzcd"
+    },
+    "root_group": {
+        "path": "",
+        "id": "d41d8cd98f00b204e9800998ecf8427e",
+        "groups": {
+            "01 - Consultation du quiz": {
+                "name": "01 - Consultation du quiz",
+                "path": "::01 - Consultation du quiz",
+                "id": "26799757c8357f8f3d76761076e572bb",
+                "groups": {},
+                "checks": {
+                        "filières récupérées (200)": {
+                            "path": "::01 - Consultation du quiz::filières récupérées (200)",
+                            "id": "aeb0ae3c7d5f9d013d352584c38b6965",
+                            "passes": 390,
+                            "fails": 0,
+                            "name": "filières récupérées (200)"
+                        },
+                        "au moins une filière": {
+                            "fails": 0,
+                            "name": "au moins une filière",
+                            "path": "::01 - Consultation du quiz::au moins une filière",
+                            "id": "715388ad5ea8f7b2c630922e5cd8348b",
+                            "passes": 390
+                        },
+                        "questions récupérées (200)": {
+                            "id": "88a2a14278fbf358a1e6ad5dce8f242c",
+                            "passes": 390,
+                            "fails": 0,
+                            "name": "questions récupérées (200)",
+                            "path": "::01 - Consultation du quiz::questions récupérées (200)"
+                        }
+                    }
+            },
+            "02 - Inscription du candidat": {
+                "name": "02 - Inscription du candidat",
+                "path": "::02 - Inscription du candidat",
+                "id": "ee4bebfe4e01e85e78a5e368c484a36d",
+                "groups": {},
+                "checks": {
+                        "candidat créé (201)": {
+                            "name": "candidat créé (201)",
+                            "path": "::02 - Inscription du candidat::candidat créé (201)",
+                            "id": "3e2a609e99ace353769f29cc6d8ed9fd",
+                            "passes": 390,
+                            "fails": 0
+                        },
+                        "uid retourné": {
+                            "path": "::02 - Inscription du candidat::uid retourné",
+                            "id": "b0fbc29d708d722137c9fa15b2b69538",
+                            "passes": 390,
+                            "fails": 0,
+                            "name": "uid retourné"
+                        },
+                        "email normalisé en minuscules": {
+                            "name": "email normalisé en minuscules",
+                            "path": "::02 - Inscription du candidat::email normalisé en minuscules",
+                            "id": "f06efb4b49379e02d95f1dc740bc018a",
+                            "passes": 390,
+                            "fails": 0
+                        }
+                    }
+            },
+            "03 - Soumission des réponses": {
+                "name": "03 - Soumission des réponses",
+                "path": "::03 - Soumission des réponses",
+                "id": "af23b167d08d1269bfd6ebd6bd10d51f",
+                "groups": {},
+                "checks": {
+                        "scores enregistrés (201)": {
+                            "name": "scores enregistrés (201)",
+                            "path": "::03 - Soumission des réponses::scores enregistrés (201)",
+                            "id": "2b95c56b75948af435ce52fc8c707c13",
+                            "passes": 390,
+                            "fails": 0
+                        }
+                    }
+            },
+            "04 - Consultation des résultats": {
+                "name": "04 - Consultation des résultats",
+                "path": "::04 - Consultation des résultats",
+                "id": "a226d709e5ea22cad1b0e1c3ca6d3a54",
+                "groups": {},
+                "checks": {
+                        "résultats calculés (200)": {
+                            "name": "résultats calculés (200)",
+                            "path": "::04 - Consultation des résultats::résultats calculés (200)",
+                            "id": "72acd54b5255e914ddba666633530907",
+                            "passes": 390,
+                            "fails": 0
+                        }
+                    }
+            }
+        },
+        "checks": {},
+        "name": ""
+    }
+}

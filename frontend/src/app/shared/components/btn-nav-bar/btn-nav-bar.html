@@ -1,9 +1,10 @@
-<a [routerLink]="link" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: exact }">
-  <button>
-    <div class="btn-content">
-      <lucide-icon [name]="icon"></lucide-icon>
-      <span>{{ label }}</span>
-    </div>
-    <span class="border-select"></span>
-  </button>
+<a [routerLink]="link"
+   routerLinkActive="active"
+   [routerLinkActiveOptions]="{ exact: exact }"
+   class="nav-btn">
+  <div class="btn-content">
+    <lucide-icon [name]="icon" aria-hidden="true"></lucide-icon>
+    <span>{{ label }}</span>
+  </div>
+  <span class="border-select"></span>
 </a>

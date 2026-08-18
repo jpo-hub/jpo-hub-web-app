@@ -10,6 +10,7 @@ import { Candidat, Prisma } from '../../generated/prisma/client';
 import { CreateCandidatDto } from './dto/create-candidat.dto';
 import { randomUUID } from 'crypto';
 import { ERROR } from '../../common/constants/error.constants';
+import { tagAuditUser } from '../../common/audit/audit-context';
 
 /**
  * DTO enrichi d'un candidat avec ses filières et ateliers.
@@ -224,6 +225,7 @@ export class CandidatsService {
       const anonymize = !isConsentGiven;
 
       return await this.prisma.$transaction(async (tx) => {
+        await tagAuditUser(tx);
         const allFilieres = await tx.filiere.findMany();
 
         const candidatData: Prisma.CandidatCreateInput = {
@@ -379,6 +381,7 @@ export class CandidatsService {
         );
 
       return await this.prisma.$transaction(async (tx) => {
+        await tagAuditUser(tx);
         const anonymize =
           updateData.consentement !== undefined &&
           updateData.consentement === false;
@@ -498,6 +501,7 @@ export class CandidatsService {
       }
 
       return await this.prisma.$transaction(async (tx) => {
+        await tagAuditUser(tx);
         await tx.candidat_Filiere.deleteMany({
           where: { candidatId: candidat.uid },
         });

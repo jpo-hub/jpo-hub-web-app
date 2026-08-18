@@ -27,6 +27,7 @@ export class AdminsService {
 
       return await this.prisma.admin.create({
         data: createAdminDto,
+        omit: { password: true },
       });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -46,7 +47,7 @@ export class AdminsService {
 
   async findAll() {
     try {
-      return await this.prisma.admin.findMany();
+      return await this.prisma.admin.findMany({ omit: { password: true } });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         switch (error.code) {
@@ -63,7 +64,10 @@ export class AdminsService {
 
   async findOne(uid: string) {
     try {
-      const admin = await this.prisma.admin.findUnique({ where: { uid } });
+      const admin = await this.prisma.admin.findUnique({
+        where: { uid },
+        omit: { password: true },
+      });
 
       if (!admin) {
         throw new NotFoundException(ERROR.ResourceNotFound);
@@ -97,6 +101,7 @@ export class AdminsService {
       return await this.prisma.admin.update({
         where: { uid },
         data: updateAdminDto,
+        omit: { password: true },
       });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -116,7 +121,10 @@ export class AdminsService {
 
   async remove(uid: string) {
     try {
-      return await this.prisma.admin.delete({ where: { uid } });
+      return await this.prisma.admin.delete({
+        where: { uid },
+        omit: { password: true },
+      });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         switch (error.code) {

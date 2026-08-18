@@ -55,7 +55,9 @@ describe('AdminsController', () => {
     it('should propagate NotFoundException', async () => {
       service.findOne.mockRejectedValue(new NotFoundException());
 
-      await expect(controller.findOne('unknown')).rejects.toThrow(NotFoundException);
+      await expect(controller.findOne('unknown')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 

@@ -2,9 +2,16 @@ import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+import { auditContextMiddleware } from './common/audit/audit-context';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // Toutes les routes API sous /api : permet au reverse proxy nginx de
+  // distinguer le front (statique) de l'API sur une même origine
+  app.setGlobalPrefix('api');
+
+  app.use(auditContextMiddleware);
 
   app.enableCors({
     origin: 'http://localhost:4200',
@@ -28,7 +35,7 @@ async function bootstrap() {
   );
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document, {
+  SwaggerModule.setup('api/docs', app, document, {
     swaggerOptions: {
       supportedSubmitMethods: ['get', 'post', 'put', 'patch', 'delete'],
     },
@@ -38,4 +45,7 @@ async function bootstrap() {
 
   await app.listen(3000);
 }
-bootstrap();
+bootstrap().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

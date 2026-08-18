@@ -7,9 +7,18 @@ describe('ScoringService', () => {
   let service: ScoringService;
   let prisma: any;
 
-  const mockCandidatRow = { uid: 'cand-1', email: 'test@test.com', firstname: 'John' };
+  const mockCandidatRow = {
+    uid: 'cand-1',
+    email: 'test@test.com',
+    firstname: 'John',
+  };
 
-  const makeAtelier = (uid: string, label: string, filiereLabel: string, score: number) => ({
+  const makeAtelier = (
+    uid: string,
+    label: string,
+    filiereLabel: string,
+    score: number,
+  ) => ({
     uid,
     label,
     imageUrl: null,
@@ -31,10 +40,7 @@ describe('ScoringService', () => {
     };
 
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        ScoringService,
-        { provide: PrismaService, useValue: prisma },
-      ],
+      providers: [ScoringService, { provide: PrismaService, useValue: prisma }],
     }).compile();
 
     service = module.get(ScoringService);

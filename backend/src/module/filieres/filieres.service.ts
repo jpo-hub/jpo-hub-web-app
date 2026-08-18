@@ -164,15 +164,8 @@ export class FilieresService {
    * @throws {BadRequestException} Si la suppression échoue.
    * @throws {InternalServerErrorException} En cas d'erreur inattendue.
    *
-   * @description
-   * La suppression échouera si la filière est référencée par :
-   * - Des associations `Candidat_Filiere`
-   * - Des associations `Atelier_Filiere`
-   * - Des associations `Reponse_Filiere`
-   *
    * @example
    * const deleted = await filieresService.remove('fil-123');
-   * console.log(`Filière "${deleted.label}" supprimée`);
    */
   async remove(uid: string): Promise<Filiere> {
     try {

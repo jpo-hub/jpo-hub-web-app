@@ -1,8 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import {
-  ConflictException,
-  NotFoundException,
-} from '@nestjs/common';
+import { ConflictException, NotFoundException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { Prisma } from '../../generated/prisma/client';
 import { AdminsService } from './admins.service';
@@ -33,10 +30,7 @@ describe('AdminsService', () => {
     };
 
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        AdminsService,
-        { provide: PrismaService, useValue: prisma },
-      ],
+      providers: [AdminsService, { provide: PrismaService, useValue: prisma }],
     }).compile();
 
     service = module.get(AdminsService);
@@ -47,7 +41,10 @@ describe('AdminsService', () => {
       mockBcrypt.hash.mockResolvedValue('hashed-pw' as never);
       prisma.admin.create.mockResolvedValue(mockAdmin);
 
-      await service.create({ email: 'admin@test.com', password: 'plain-pw' } as any);
+      await service.create({
+        email: 'admin@test.com',
+        password: 'plain-pw',
+      } as any);
 
       expect(mockBcrypt.hash).toHaveBeenCalledWith('plain-pw', 10);
       const createdData = prisma.admin.create.mock.calls[0][0].data;
@@ -77,6 +74,7 @@ describe('AdminsService', () => {
 
       expect(prisma.admin.findUnique).toHaveBeenCalledWith({
         where: { uid: 'admin-1' },
+        omit: { password: true },
       });
       expect(result).toEqual(mockAdmin);
     });
@@ -84,14 +82,19 @@ describe('AdminsService', () => {
     it('should throw NotFoundException when admin does not exist', async () => {
       prisma.admin.findUnique.mockResolvedValue(null);
 
-      await expect(service.findOne('unknown')).rejects.toThrow(NotFoundException);
+      await expect(service.findOne('unknown')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
   describe('update()', () => {
     it('should hash new password when provided', async () => {
       mockBcrypt.hash.mockResolvedValue('new-hashed-pw' as never);
-      prisma.admin.update.mockResolvedValue({ ...mockAdmin, password: 'new-hashed-pw' });
+      prisma.admin.update.mockResolvedValue({
+        ...mockAdmin,
+        password: 'new-hashed-pw',
+      });
 
       await service.update('admin-1', { password: 'new-plain-pw' } as any);
 
@@ -118,6 +121,7 @@ describe('AdminsService', () => {
 
       expect(prisma.admin.delete).toHaveBeenCalledWith({
         where: { uid: 'admin-1' },
+        omit: { password: true },
       });
       expect(result).toEqual(mockAdmin);
     });

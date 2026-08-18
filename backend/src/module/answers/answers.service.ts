@@ -10,6 +10,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { CreateAnswerDto } from './dto/create-answer.dto';
 import { UpdateAnswerDto } from './dto/update-answer.dto';
 import { ERROR } from '../../common/constants/error.constants';
+import { tagAuditUser } from '../../common/audit/audit-context';
 import { TraitementAnswerDto } from './dto/traitement-answer.dto';
 
 /**
@@ -90,6 +91,7 @@ export class AnswersService {
   async traitementAnswer(CandidatUID: string, data: TraitementAnswerDto) {
     try {
       return await this.prisma.$transaction(async (tx) => {
+        await tagAuditUser(tx);
         const candidat = await tx.candidat.findUnique({
           where: { uid: CandidatUID },
           include: {

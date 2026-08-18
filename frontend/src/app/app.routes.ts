@@ -12,6 +12,8 @@ import {adminGuard} from './core/guards/admin-guard';
 import {AteliersAdmin} from './admin/pages/ateliers/ateliers';
 import {Candidats} from './admin/pages/candidats/candidats';
 import {User} from './admin/pages/user/user';
+import {Log} from './admin/pages/log/log';
+import {FilieresAdmin} from './admin/pages/filieres/filieres';
 import {Ateliers} from './client/pages/ateliers/ateliers';
 
 export const routes: Routes = [
@@ -27,8 +29,10 @@ export const routes: Routes = [
   { path: 'admin/dashboard', component: Dashboard , canActivate: [adminGuard]},
   { path: 'admin/quiz', component: QuizAdmin , canActivate: [adminGuard]},
   { path: 'admin/ateliers', component: AteliersAdmin , canActivate: [adminGuard]},
+  { path: 'admin/filieres', component: FilieresAdmin , canActivate: [adminGuard]},
   { path: 'admin/candidats', component: Candidats , canActivate: [adminGuard]},
   { path: 'admin/users', component: User , canActivate: [adminGuard]},
+  { path: 'admin/log', component: Log , canActivate: [adminGuard]},
 
 
   { path: '**', component: NotFound }
